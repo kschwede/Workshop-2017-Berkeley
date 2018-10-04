@@ -14,42 +14,38 @@
 \bibitem[BMS08]{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds}
 {\sc M.~Blickle, M.~Musta{\c{t}}{\v{a}}, and K.~E. Smith}: \emph{Discreteness
   and rationality of {$F$}-thresholds}, Michigan Math. J. \textbf{57} (2008),
-  43--61, Special volume in honor of Melvin Hochster. {\sf\scriptsize 2492440
-  (2010c:13003)}
+  43--61, Special volume in honor of Melvin Hochster.
 
 \bibitem[BMS09]{BlickleMustataSmithFThresholdsOfHypersurfaces}
 {\sc M.~Blickle, M.~Musta{\c{t}}{\u{a}}, and K.~E. Smith}:
   \emph{{$F$}-thresholds of hypersurfaces}, Trans. Amer. Math. Soc.
-  \textbf{361} (2009), no.~12, 6549--6565. {\sf\scriptsize 2538604
-  (2011a:13006)}
+  \textbf{361} (2009), no.~12, 6549--6565.
 
-\bibitem[BS12]{BlickleSchwedeSurveyPMinusE}
+\bibitem[BS13]{BlickleSchwedeSurveyPMinusE}
 {\sc M.~Blickle and K.~Schwede}: \emph{$p^{-1}$-linear maps in algebra and
-  geometry}, arXiv:1205.4577, to appear in a volume published by Springer.
+  geometry}, Commutative Algebra, Springer, 2013, pp.~123--205.
 
 \bibitem[BSTZ10]{BlickleSchwedeTakagiZhang}
 {\sc M.~Blickle, K.~Schwede, S.~Takagi, and W.~Zhang}: \emph{Discreteness and
   rationality of {$F$}-jumping numbers on singular varieties}, Math. Ann.
-  \textbf{347} (2010), no.~4, 917--949. {\sf\scriptsize 2658149}
+  \textbf{347} (2010), no.~4, 917--949.
 
-\bibitem[BST11]{BlickleSchwedeTuckerTestAlterations}
+\bibitem[BST15]{BlickleSchwedeTuckerTestAlterations}
 {\sc M.~Blickle, K.~Schwede, and K.~Tucker}: \emph{{$F$}-singularities via
-  alterations}, arXiv:1107.3807.
+  alterations}, Amer.\ J.\ Math. \textbf{137} (2015), no.~1, 61--109.
 
 \bibitem[BK05]{BrionKumarFrobeniusSplitting}
 {\sc M.~Brion and S.~Kumar}: \emph{Frobenius splitting methods in geometry and
   representation theory}, Progress in Mathematics, vol. 231, Birkh\"auser
-  Boston Inc., Boston, MA, 2005. {\sf\scriptsize MR2107324 (2005k:14104)}
+  Boston Inc., Boston, MA, 2005.
 
 \bibitem[EH08]{EnescuHochsterTheFrobeniusStructureOfLocalCohomology}
 {\sc F.~Enescu and M.~Hochster}: \emph{The {F}robenius structure of local
   cohomology}, Algebra Number Theory \textbf{2} (2008), no.~7, 721--754.
-  {\sf\scriptsize MR2460693 (2009i:13009)}
 
 \bibitem[Fed83]{FedderFPureRat}
 {\sc R.~Fedder}: \emph{{$F$}-purity and rational singularity}, Trans. Amer.
-  Math. Soc. \textbf{278} (1983), no.~2, 461--480. {\sf\scriptsize MR701505
-  (84h:13031)}
+  Math. Soc. \textbf{278} (1983), no.~2, 461--480.
 
 \bibitem[Gab04]{Gabber.tStruc}
 {\sc O.~Gabber}: \emph{Notes on some {$t$}-structures}, Geometric aspects of
@@ -57,14 +53,13 @@
   pp.~711--734.
 
 \bibitem[HW02]{HaraWatanabeFRegFPure}
-{\sc N.~Hara and K.-I. Watanabe}: \emph{F-regular and {F}-pure rings vs. log
-  terminal and log canonical singularities}, J. Algebraic Geom. \textbf{11}
-  (2002), no.~2, 363--392. {\sf\scriptsize MR1874118 (2002k:13009)}
+{\sc N.~Hara and K.-I. Watanabe}: \emph{{$F$}-regular and {$F$}-pure rings vs.\
+  log terminal and log canonical singularities}, J. Algebraic Geom. \textbf{11}
+  (2002), no.~2, 363--392.
 
 \bibitem[HS77]{HartshorneSpeiserLocalCohomologyInCharacteristicP}
 {\sc R.~Hartshorne and R.~Speiser}: \emph{Local cohomological dimension in
   characteristic {$p$}}, Ann. of Math. (2) \textbf{105} (1977), no.~1, 45--79.
-  {\sf\scriptsize MR0441962 (56 \#353)}
 
 \bibitem[Her14]{HernandezFPureThresholdOfBinomial}
 {\sc D.~J. Hern\'andez}: \emph{{$F$}-pure thresholds of binomial
@@ -92,17 +87,16 @@
 
 \bibitem[Hoc07]{HochsterFoundations}
 {\sc M.~Hochster}: \emph{Foundations of tight closure theory}, lecture notes
-  from a course taught on the University of Michigan Fall 2007 (2007).
+  from a course taught at the University of Michigan Fall 2007 (2007).
 
 \bibitem[HH90]{HochsterHunekeTC1}
 {\sc M.~Hochster and C.~Huneke}: \emph{Tight closure, invariant theory, and the
   {B}rian\c con-{S}koda theorem}, J. Amer. Math. Soc. \textbf{3} (1990), no.~1,
-  31--116. {\sf\scriptsize MR1017784 (91g:13010)}
+  31--116.
 
 \bibitem[Kat08]{KatzmanParameterTestIdealOfCMRings}
 {\sc M.~Katzman}: \emph{Parameter-test-ideals of {C}ohen-{M}acaulay rings},
-  Compos. Math. \textbf{144} (2008), no.~4, 933--948. {\sf\scriptsize MR2441251
-  (2009d:13030)}
+  Compos. Math. \textbf{144} (2008), no.~4, 933--948.
 
 \bibitem[Kat10]{KatzmanFrobeniusMapsOnInjectiveHulls}
 {\sc M.~Katzman}: \emph{Frobenius maps on injective hulls and their
@@ -112,7 +106,7 @@
 \bibitem[KLZ09]{KatzmanLyubeznikZhangOnDiscretenessAndRationality}
 {\sc M.~Katzman, G.~Lyubeznik, and W.~Zhang}: \emph{On the discreteness and
   rationality of {$F$}-jumping coefficients}, J. Algebra \textbf{322} (2009),
-  no.~9, 3238--3247. {\sf\scriptsize 2567418 (2011c:13005)}
+  no.~9, 3238--3247.
 
 \bibitem[KS12]{KatzmanSchwedeAlgorithm}
 {\sc M.~Katzman and K.~Schwede}: \emph{An algorithm for computing compatibly
@@ -127,28 +121,22 @@
 \bibitem[KM09]{KumarMehtaFiniteness}
 {\sc S.~Kumar and V.~B. Mehta}: \emph{Finiteness of the number of compatibly
   split subvarieties}, Int. Math. Res. Not. IMRN (2009), no.~19, 3595--3597.
-  {\sf\scriptsize 2539185 (2010j:13012)}
 
 \bibitem[Kun69]{KunzCharacterizationsOfRegularLocalRings}
 {\sc E.~Kunz}: \emph{Characterizations of regular local rings for
   characteristic {$p$}}, Amer. J. Math. \textbf{91} (1969), 772--784.
-  {\sf\scriptsize MR0252389 (40 \#5609)}
 
 \bibitem[Lyu97]{LyubeznikFModulesApplicationsToLocalCohomology}
 {\sc G.~Lyubeznik}: \emph{{$F$}-modules: applications to local cohomology and
   {$D$}-modules in characteristic {$p>0$}}, J. Reine Angew. Math. \textbf{491}
-  (1997), 65--130. {\sf\scriptsize MR1476089 (99c:13005)}
+  (1997), 65--130.
 
 \bibitem[Rai]{PushForward}
-{\sc C.~Raicu}: \emph{Pushforward.m2}.
+{\sc C.~Raicu}: \emph{{P}ush{F}orward.m2}.
 
 \bibitem[Sch09]{SchwedeFAdjunction}
 {\sc K.~Schwede}: \emph{{$F$}-adjunction}, Algebra Number Theory \textbf{3}
-  (2009), no.~8, 907--950. {\sf\scriptsize 2587408 (2011b:14006)}
-
-\bibitem[ST10]{SchwedeTuckerTestIdealFiniteMaps}
-{\sc K.~Schwede and K.~Tucker}: \emph{On the behavior of test ideals under
-  finite morphisms}, arXiv:1003.4333, to appear in J. Algebraic Geom.
+  (2009), no.~8, 907--950.
 
 \bibitem[ST12]{SchwedeTuckerTestIdealSurvey}
 {\sc K.~Schwede and K.~Tucker}: \emph{A survey of test ideals}, Progress in
@@ -156,15 +144,18 @@
   L.~C. Klinger, S.~M. Sather-Wagstaff, and J.~C. Vassilev, eds.), Walter de
   Gruyter GmbH \& Co. KG, Berlin, 2012, pp.~39--99.
 
-\bibitem[ST14]{SchwedeTuckerTestIdealsOfNonPrincipal}
+\bibitem[ST14a]{SchwedeTuckerTestIdealFiniteMaps}
+{\sc K.~Schwede and K.~Tucker}: \emph{On the behavior of test ideals under
+  finite morphisms}, J.\ Algebraic Geom. \textbf{23} (2014), no.~3, 399--443.
+
+\bibitem[ST14b]{SchwedeTuckerTestIdealsOfNonPrincipal}
 {\sc K.~Schwede and K.~Tucker}: \emph{Test ideals of non-principal ideals:
-  Computations, jumping numbers, alterations and division theorems}, Journal de
-  Mathématiques Pures et Appliquées \textbf{102} (2014), no.~5, 891 -- 929.
+  Computations, jumping numbers, alterations and division theorems}, J. Math.
+  Pures Appl. \textbf{102} (2014), no.~5, 891 -- 929.
 
 \bibitem[Sha07]{SharpGradedAnnihilatorsOfModulesOverTheFrobeniusSkewPolynomialRing}
 {\sc R.~Y. Sharp}: \emph{Graded annihilators of modules over the {F}robenius
   skew polynomial ring, and tight closure}, Trans. Amer. Math. Soc.
-  \textbf{359} (2007), no.~9, 4237--4258 (electronic). {\sf\scriptsize
-  MR2309183 (2008b:13006)}
+  \textbf{359} (2007), no.~9, 4237--4258 (electronic).
 
 \end{thebibliography}

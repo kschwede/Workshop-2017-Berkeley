@@ -1059,19 +1059,23 @@ J \supseteq \phi(J^{1/p^e}) \supseteq \phi^2(J^{1/p^{2e}}) \supseteq \cdots
 stabilize as well (in fact, the analogous result even holds for modules).
 
 
-\section{Ideals compatible with given $p^{-e}$-linear map}\label{Section: compatible ideals}
+\section{Ideals compatible with a given $p^{-e}$-linear map}\label{Section: compatible ideals}
 
-Throughout this section let $R$ denote a polynomial $\mathbb{K}[x_1, \dots, x_n]$. In this section we address the following question:
-given a $R$-linear map $\phi: R^{1/p^e} \rightarrow R$, what are all ideals $I\subseteq R$ such that $\phi(I^{1/p^e})=I$?
+Throughout this section, let $R$ denote a polynomial $\mathbb{K}[x_1, \dots, x_n]$.
+In this section we address the following question:
+given a $R$-linear map $\phi: R^{1/p^e} \rightarrow R$, what are the ideals $I\subseteq R$ such that $\phi(I^{1/p^e})\subseteq I$?
 We call these ideals $\phi$-compatible.
 
 Recall that  $\Hom_R( R^{1/p^e}, R)$  is a principal $R^{1/p^e}$-module generated
 the \emph{trace map} $T\in \Hom_R(R^{1/p^e}, R)$, constructed as follows (cf. \cite[Lemma 1.6]{FedderFPureRat} and \cite[Example 1.3.1]{BrionKumarFrobeniusSplitting}).
-Recall that, if $B$ is a $\mathbb{K}$-basis for $\mathbb{K}^{1/p^e}$ (with $1\in B$),
+If $B$ is a $\mathbb{K}$-basis for $\mathbb{K}^{1/p^e}$, with $1\in B$, then 
 $R^{1/p^e}$ is a free $R$-module with basis
-$$\left\{ b x_1^{\alpha_1/p^e} \dots x_n^{\alpha_n/p^e} \,|\, 0\leq \alpha_1, \dots, \alpha_n < p^e \right\} ;$$
+$$\left\{ b\,  x_1^{\alpha_1/p^e} \cdots x_n^{\alpha_n/p^e} \,|\, 0\leq \alpha_1, \dots, \alpha_n < p^e, b\in B \right\} ;$$
 the trace map $T$ is the projection onto the free summand
 $R x_1^{(p^e-1)/p^e} \cdots x_n^{(p^e-1)/p^e}\cong R$.
+%
+\pedro{This paragraph is a bit redundant; we could just refer to Section~\ref{ss: math behind}}
+%
 
 We can now write our given $\phi$ as multiplication by some $u^{1/p^e}$ followed by $T$ and it is not hard to see that
 an ideal $I\subseteq R$ is $\phi$-compatible if and only if $u I \subseteq I^{[p^e]}$.
@@ -1084,7 +1088,7 @@ In general, there are finitely many $\phi$-compatible prime ideals not containin
 
 \end{theorem}
 
-The method \emph{compatibleIdeals} produces the finite set of $\phi$-compatible prime ideals in the second statement of Theorem \ref{Theorem: finitely many compatible primes}.
+The method \texttt{compatibleIdeals} produces the finite set of $\phi$-compatible prime ideals in the second claim of Theorem \ref{Theorem: finitely many compatible primes}.
 
 \medskip
 {\small
@@ -1097,22 +1101,21 @@ o3 : List
 \end{MyVerbatim}
 }\medskip
 
-The defining condition $u I = I^{[p]}$ for $\phi$-compatible ideals allows us to
-think of these in a dual form: write $\mathfrak{m}=(x_1, \dots, x_n)R$,
+The defining condition $u I \subseteq I^{[p^e]}$ for $\phi$-compatible ideals allows us to
+think of these in a dual form: write $\mathfrak{m}=(x_1, \dots, x_n)$,
 $E=E_{R_\mathfrak{m}}(R_{\mathfrak{m}}/\mathfrak{m})=H^n_{\mathfrak{m}} (R)$, and let
-$\Theta: E \rightarrow E$ be the $p^e$-linear map\footnote{I.e., $\Theta$ is additivive and $\Theta (r a)= r^{p^e} \Theta (a)$ for all $a\in E$ and $r\in R$.}
+$\Theta: E \rightarrow E$ be the $p^e$-linear map\footnote{That is, $\Theta$ is additivive and $\Theta (r a)= r^{p^e} \Theta (a)$ for all $a\in E$ and $r\in R$.}
 induced from the Frobenius map on $R$.
-If $\psi=u \Theta$, then $\psi \Ann_E I \subseteq \Ann_E I$ if and only if $u I = I^{[p]}$!
+If $\psi=u \Theta$, then $\psi \Ann_E I \subseteq \Ann_E I$ if and only if $u I \subseteq  I^{[p^e]}$.
 Thus finding all $R$-submodules of $E$ compatible with $\psi=u \Theta$ also amounts to finding all
-$\phi=T \circ u^{1/p^e}$-compatible ideals.
+$\phi$-compatible ideals, where $\phi=T \circ u^{1/p^e}$.
 
 \begin{example}
-
 We return to Example \ref{Example: parameter test ideal}.
 In (cf.~\cite[\S 9]{KatzmanParameterTestIdealOfCMRings}) it is shown that
 there is a surjection $\Ann_E I \rightarrow H^2_{\mathfrak{m}} (R/I)$
-which is compatible with with the induced $p^1$-linear map on $H^2_{\mathfrak{m}} (R/I)$
-and the $p^1$-linear map $u \Theta$ on $\Ann_E I$ where $u$ is computed as follows.
+which is compatible  with the induced $p^1$-linear map on $H^2_{\mathfrak{m}} (R/I)$
+and the $p^1$-linear map $u \Theta$ on $\Ann_E I$, where $u$ is computed as follows.
 
 \medskip
 {\small
@@ -1129,9 +1132,9 @@ o5 = true
 \end{MyVerbatim}
 }\medskip
 
-In \cite{KatzmanParameterTestIdealOfCMRings} it is shown that as that $R/I$ is Cohen-Macaulay $u$
+In \cite{KatzmanParameterTestIdealOfCMRings} it is shown that as $R/I$ is Cohen-Macaulay, $u$
 can be taken as the generator of the cyclic module $(I^{[p]}:I) \cap (\Omega^{[p]}:\Omega)/I^{[p]}$
-where $\Omega \subseteq R$ is an ideal whose image in $I$ is a canonical module of $R/I$.
+where $\Omega \subseteq R$ is an ideal whose image in $R/I$ is a canonical module of that ring.
 
 
 \medskip
@@ -1156,7 +1159,7 @@ o10 : R
 }
 \medskip
 
-Now we can compute all annihilators of $R$-submodules of $E$ stable under the $p^1$-linear map $uT$
+Now we can compute all annihilators of $R$-submodules of $E$ stable under the $p^1$-linear map $uT$.
 
 \medskip
 {\small
@@ -1183,7 +1186,7 @@ ideal (b, a, e)
 }
 \medskip
 
-and all annihilators of $R$-submodules of $H^2_{\mathfrak{m}} (R/I)$ stable under the $p^1$-linear map induced from the Frobenius map on $R/I$.
+We can also compute  all annihilators of $R$-submodules of $H^2_{\mathfrak{m}} (R/I)$ stable under the $p^1$-linear map induced from the Frobenius map on $R/I$.
 
 \medskip
 {\small
@@ -1211,7 +1214,7 @@ ideal (e, b, a)
 
 \section{Future plans}
 
-In \cite{KatzmanZhangAlgorithm} the algorithms behind the method in Section \ref{Section: compatible ideals} were extended
+In \cite{KatzmanZhangAlgorithm}, the algorithms behind the methods in Section \ref{Section: compatible ideals} were extended
 to compute prime annihilators of submodules of Artinian modules compatible with a given $p^{e}$-linear map.
 This would require, among other things, a faster implementation of our method for finding Frobenius roots of submodules of free modules.
 
