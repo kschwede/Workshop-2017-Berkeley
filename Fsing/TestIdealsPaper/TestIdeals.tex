@@ -195,7 +195,7 @@ Given an ideal $I\subseteq R$ and an integer $e\geq 0$, we define the \emph{$p^e
 Frobenius roots always exist in polynomial and power series rings, and in $F$-finite regular rings
 (cf.~\cite[\S 2]{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds} and \cite[\S 5]{KatzmanParameterTestIdealOfCMRings}).
 Below is an example of a computation of a Frobenius root in a polynomial ring.
-In Section~\ref{ss: math behind} we describe the main ideas behind such computations.
+In \autoref{ss: math behind} we describe the main ideas behind such computations.
 
 \medskip
 {\small
@@ -336,7 +336,7 @@ o7 : Ideal of R
 }
 \medskip
 
-The generalized Frobenius powers of an ideal are test ideals (see Section~\ref{Section: Test Ideals}) of sufficiently general linear combinations of generators of that ideal.
+The generalized Frobenius powers of an ideal are test ideals (see \autoref{Section: Test Ideals}) of sufficiently general linear combinations of generators of that ideal.
 Thus, the ideals computed above are test ideals of generic quintics in two variables in characteristic $p=3$, and these computations suggest that $\frac35-\frac1{5p^3}$ is a higher $F$-jumping exponent of such quintics, which is indeed the case for any $p\equiv 3 \bmod 5$ (see \cite{hernandez+etal.frobenius_examples}).
 To illustrate, compare the computations above with the following.
 
@@ -430,14 +430,14 @@ o10 : Matrix R  <--- R
 \end{MyVerbatim}
 }\medskip
 
-The calculation above shows that $R/I$ is not $F$-injective (cf. Section \ref{Section: F-singularities}).
+The calculation above shows that $R/I$ is not $F$-injective (cf. \autoref{Section: F-singularities}).
 Moreover, it shows that $H^2_{\mathfrak{m}} (R/I)\cong \Ann_{E^2} A^t$,
 where $E$ is the injective hull of $R_{\mathfrak{m}}/ {\mathfrak{m}} R_{\mathfrak{m}}$,
 and the Frobenius map on  $H^2_{\mathfrak{m}} (R/I)$ induced from Frobenius on $R$
 is given by $U^t \Theta$, where $\Theta$ is the induced Frobenius on $E$.
 The submodule of nilpotent elements in  $H^2_{\mathfrak{m}} (R/I)$ is
 given by $\Ann_{E^2} B^t$, where $B$ is the smallest submodule of $R^2$ containing $\Image A + \Image U$ such that $U  B \subseteq B^{[p]}$.
-The method \texttt{ascendModule} can be used to calculate  $B$ (see a detailed description of the similar method \texttt{ascendIdeal} in Section \ref{Section: Test Ideals}).
+The method \texttt{ascendModule} can be used to calculate  $B$ (see a detailed description of the similar method \texttt{ascendIdeal} in \autoref{Section: Test Ideals}).
 
 \medskip
 {\small
@@ -1093,7 +1093,7 @@ In general, there are finitely many $\phi$-compatible prime ideals not containin
 
 \end{theorem}
 
-The method \texttt{compatibleIdeals} produces the finite set of $\phi$-compatible prime ideals in the second claim of Theorem \ref{Theorem: finitely many compatible primes}.
+The method \texttt{compatibleIdeals} produces the finite set of $\phi$-compatible prime ideals in the second claim of \autoref{Theorem: finitely many compatible primes}.
 
 \medskip
 {\small
@@ -1116,7 +1116,7 @@ Thus finding all $R$-submodules of $E$ compatible with $\psi=u \Theta$ also amou
 $\phi$-compatible ideals, where $\phi=T \circ u^{1/p^e}$.
 
 \begin{example}
-We return to Example \ref{Example: parameter test ideal}.
+We return to \autoref{Example: parameter test ideal}.
 In (cf.~\cite[\S 9]{KatzmanParameterTestIdealOfCMRings}) it is shown that
 there is a surjection $\Ann_E I \rightarrow H^2_{\mathfrak{m}} (R/I)$
 which is compatible  with the induced $p^1$-linear map on $H^2_{\mathfrak{m}} (R/I)$
@@ -1219,7 +1219,7 @@ ideal (e, b, a)
 
 \section{Future plans}
 
-In \cite{KatzmanZhangAlgorithm}, the algorithms behind the methods in Section \ref{Section: compatible ideals} were extended
+In \cite{KatzmanZhangAlgorithm}, the algorithms behind the methods in \autoref{Section: compatible ideals} were extended
 to compute prime annihilators of submodules of Artinian modules compatible with a given $p^{e}$-linear map.
 This would require, among other things, a faster implementation of our method for finding Frobenius roots of submodules of free modules.
 
