@@ -779,18 +779,19 @@ In this section, we explain how to compute parameter test modules, parameter tes
 
 \subsection{Parameter test modules}
 %
-\pedro{Are we assuming here that $R$ is a quotient of a polynomial ring?}
+%\pedro{Are we assuming here that $R$ is a quotient of a polynomial ring?}
 %
-Given an $F$-finite reduced ring $R$, the Frobenius map $R \hookrightarrow R^{1/p^e}$ is dual to $T : \omega_{R^{1/p^e}} \to \omega_R$.  As in \autoref{subsec.DualToFrobeniusOnQuotientRings}, we can represent the canonical module $\omega_R \subseteq R$ as an ideal, we can write $R = S/I$, and so we can find an element $u \in S^{1/p^e}$ representing the map $T:\omega_{R^{1/p^e}} \to \omega_R$; see \autoref{subsec.DualToFrobeniusOnQuotientRings} or \cite{KatzmanParameterTestIdealOfCMRings}.
+Given an reduced ring $R$ of finite type over a perfect field $k$, the Frobenius map $R \hookrightarrow R^{1/p^e}$ is dual to $T : \omega_{R^{1/p^e}} \to \omega_R$.  As in \autoref{subsec.DualToFrobeniusOnQuotientRings}, we can represent the canonical module $\omega_R \subseteq R$ as an ideal, we can write $R = S/I$, and so we can find an element $u \in S^{1/p^e}$ representing the map $T:\omega_{R^{1/p^e}} \to \omega_R$; see \autoref{subsec.DualToFrobeniusOnQuotientRings} or \cite{KatzmanParameterTestIdealOfCMRings}.
 
 \begin{definition}
    The \emph{parameter test submodule} is the smallest submodule $M \subseteq \omega_R$ (and hence ideal of $R$, since $M \subseteq \omega_R \subseteq R$) that agrees generically with $\omega_R$ and that satisfies
    %
-   \pedro{What is the quantifier for $e$ here?}
+   %\pedro{What is the quantifier for $e$ here?}
    %
 \[
-T (M^{1/p^e}) \subseteq M.
+T (M^{1/p^e}) \subseteq M
 \]
+for some $e > 0$ (or equivalently for all $e > 0$).
 \end{definition}
 
 
@@ -930,9 +931,13 @@ If such a $\Phi_e$ exists, it can be identified to a generator of the module $(I
 \tau(R) = {\tt ascendIdeal(e, u, I_0)},
 \]
 where \texttt{ascendIdeal} is the method explained above, in \autoref{eq.AscendIdealExplanation}.
-The $e$ here means all Frobenius roots are taken as multiples of $e$.
+The $e$ here means all Frobenius roots are taken as multiples of $e$.  In other words, we first compute ${\tt I_0 +  (u \cdot I_0)^{1/p^{[e]}}}$.  Then we compute 
+\[
+{\tt I_0 +  (u\cdot I_0)^{1/p^{[e]}} + (u^{p^e + 1} \cdot I_0)^{1/p^{[2e]}} }
+\]
+etc.
 %
-\pedro{I am not sure what this last sentence is saying}
+%\pedro{I am not sure what this last sentence is saying}
 %
 
 Here is an example (a $\bZ/3\bZ$-quotient, where $3 | (7-1)$), where exactly this logic occurs.
@@ -1067,14 +1072,14 @@ given a $R$-linear map $\phi: R^{1/p^e} \rightarrow R$, what are the ideals $I\s
 We call these ideals $\phi$-compatible.
 
 Recall that  $\Hom_R( R^{1/p^e}, R)$  is a principal $R^{1/p^e}$-module generated
-the \emph{trace map} $T\in \Hom_R(R^{1/p^e}, R)$, constructed as follows (cf. \cite[Lemma 1.6]{FedderFPureRat} and \cite[Example 1.3.1]{BrionKumarFrobeniusSplitting}).
-If $B$ is a $\mathbb{K}$-basis for $\mathbb{K}^{1/p^e}$, with $1\in B$, then 
-$R^{1/p^e}$ is a free $R$-module with basis
-$$\left\{ b\,  x_1^{\alpha_1/p^e} \cdots x_n^{\alpha_n/p^e} \,|\, 0\leq \alpha_1, \dots, \alpha_n < p^e, b\in B \right\} ;$$
-the trace map $T$ is the projection onto the free summand
-$R x_1^{(p^e-1)/p^e} \cdots x_n^{(p^e-1)/p^e}\cong R$.
+the \emph{trace map} $T\in \Hom_R(R^{1/p^e}, R)$, constructed as in \autoref{ss: math behind}, (cf. \cite[Lemma 1.6]{FedderFPureRat} and \cite[Example 1.3.1]{BrionKumarFrobeniusSplitting}).
+%If $B$ is a $\mathbb{K}$-basis for $\mathbb{K}^{1/p^e}$, with $1\in B$, then
+%$R^{1/p^e}$ is a free $R$-module with basis
+%$$\left\{ b\,  x_1^{\alpha_1/p^e} \cdots x_n^{\alpha_n/p^e} \,|\, 0\leq \alpha_1, \dots, \alpha_n < p^e, b\in B \right\} ;$$
+%the trace map $T$ is the projection onto the free summand
+%$R x_1^{(p^e-1)/p^e} \cdots x_n^{(p^e-1)/p^e}\cong R$.
 %
-\pedro{This paragraph is a bit redundant; we could just refer to Section~\ref{ss: math behind}}
+%\pedro{This paragraph is a bit redundant; we could just refer to Section~\ref{ss: math behind}}
 %
 
 We can now write our given $\phi$ as multiplication by some $u^{1/p^e}$ followed by $T$ and it is not hard to see that
