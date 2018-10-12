@@ -735,6 +735,68 @@ algorithm computes the non $F$-pure locus, by applying \texttt{frobeniusRoot}
 to $I^{[p]} :I$. If the non $F$-pure locus is the whole ring, the algorithm
 returns \texttt{true}.
 
+\subsection{Computing the level of a polynomial}
+Another interesting invariant that can be calculated using this package
+is the so--called \emph{level} of a polynomial; more precisely:
+
+\begin{definition}
+Let $K$ be an $F$--finite field of prime characteristic $p,$ and let
+$f\in R=K[x_1,\ldots, x_d].$ We define the \emph{level of} $f$ as the
+smallest possible integer $e$ where the descending chain
+\[
+R=(f^{p^0-1})^{[1/p^0]}\supseteq (f^{p-1})^{[1/p]}\supseteq
+(f^{p^2-1})^{[1/p^2]}\supseteq\ldots\supseteq (f^{p^{i-1}-1})^{[1/p^{i-1}]}
+\supseteq (f^{p^i-1})^{[1/p^i]}\supseteq\ldots
+\]
+stabilizes.
+\end{definition}
+This invariant was introduced in \cite{AlvarezBlickleLyubeznik2005}. One interesting particular
+case is when $K=\mathbb{F}_p$ and $f$ is the defining homogeneous polynomial of a hyperelliptic curve
+of genus $g;$ when $g=1,$ it was proved in
+\cite{BoixDeStefaniVanzo2015} that the corresponding elliptic curve defined by $f$
+is ordinary if and only if its level is $1,$ (equivalently, if and only if
+$(R/(f))_{(x,y,z)}$ is $F$--pure \cite{TakTak08}) and supersingular if and only if its level is $2.$ When
+the genus is at least $2,$ level $2$ is a necessary (but not sufficient) condition for the curve
+for being ordinary \cite{BlancoBoixFordhamYilmaz2018}; in this case, one also
+has that, if the curve is supersingular, then its level has to be at least $3,$ so the level can
+always distinguish these two properties in any genus. We illustrate these results by means
+of the following examples.
+
+\medskip
+{\small
+\begin{MyVerbatim}
+i1 : R = ZZ/2[x,y,z];
+i2 : f = x^3+y^2*z+y*z^2;
+i3 : frobeniusPower( 1/2, ideal f )
+o3 = ideal (x, y , z )
+o3 : Ideal of R
+i4 : u=f^3;
+i5 : frobeniusPower( 1/4, ideal u )
+o6 = ideal (x, y , z )
+o6 : Ideal of R
+\end{MyVerbatim}
+}\medskip
+
+This shows that this elliptic curve has level $2,$ hence it is supersingular. The next example
+shows a non--ordinary hyperelliptic curve of genus $2$ with level $2.$
+
+\medskip
+{\small
+\begin{MyVerbatim}
+i1 : R = ZZ/11[x,y,z];
+i2 : f = y^2*z^3-x^5-2*z^5;
+i3 : frobeniusPower( 1/11, ideal f )
+             2        3
+o3 = ideal (z , x*z, x )
+o3 : Ideal of R
+i4 : u=f^{121-1};
+i5 : frobeniusPower( 1/121, ideal u )
+             2        3
+o6 = ideal (z , x*z, x )
+o6 : Ideal of R
+\end{MyVerbatim}
+}\medskip
+
 \subsection{$F$-rationality}
 
 \begin{definition}
