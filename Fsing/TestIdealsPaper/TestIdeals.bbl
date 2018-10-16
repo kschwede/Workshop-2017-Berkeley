@@ -9,7 +9,17 @@
   \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
 }
 \providecommand{\href}[2]{#2}
-\begin{thebibliography}{HTW18b}
+\begin{thebibliography}{BCBFY18}
+
+\bibitem[{\`A}MBL05]{AlvarezBlickleLyubeznik2005}
+{\sc J.~{\`A}lvarez~Montaner, M.~Blickle, and G.~Lyubeznik}: \emph{Generators
+  of {$D$}-modules in positive characteristic}, Math. Res. Lett. \textbf{12}
+  (2005), no.~4, 459--473. {\sf\scriptsize 2155224}
+
+\bibitem[BCBFY18]{BlancoBoixFordhamYilmaz2018}
+{\sc I.~Blanco-Chac\'on, A.~F. Boix, S.~Fordham, and E.~S. Yilmaz}:
+  \emph{Differential operators and hyperelliptic curves over finite fields},
+  Finite Fields Appl. \textbf{51} (2018), 351--370. {\sf\scriptsize 3781411}
 
 \bibitem[BMS08]{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds}
 {\sc M.~Blickle, M.~Musta{\c{t}}{\v{a}}, and K.~E. Smith}: \emph{Discreteness
@@ -33,6 +43,12 @@
 \bibitem[BST15]{BlickleSchwedeTuckerTestAlterations}
 {\sc M.~Blickle, K.~Schwede, and K.~Tucker}: \emph{{$F$}-singularities via
   alterations}, Amer.\ J.\ Math. \textbf{137} (2015), no.~1, 61--109.
+
+\bibitem[BDSV15]{BoixDeStefaniVanzo2015}
+{\sc A.~F. Boix, A.~De~Stefani, and D.~Vanzo}: \emph{An algorithm for
+  constructing certain differential operators in positive characteristic},
+  Matematiche (Catania) \textbf{70} (2015), no.~1, 239--271. {\sf\scriptsize
+  3351468}
 
 \bibitem[BK05]{BrionKumarFrobeniusSplitting}
 {\sc M.~Brion and S.~Kumar}: \emph{Frobenius splitting methods in geometry and
