@@ -9,18 +9,18 @@
 %%\usepackage{tikz}
 \usepackage{tikz}
 
-\usepackage[inline]{asymptote}
-\begin{asydef}
-settings.outformat="png";
-settings.render=8;
-import graph3;
-import contour3;
-currentlight=light(gray(0.8),ambient=gray(0.1),specular=gray(0.7),
-                     specularfactor=3,viewport=true,dir(42,48));
-pen bpen=rgb(0.75, 0.7, 0.1);
-material m=material(diffusepen=0.7bpen
-,ambientpen=bpen,emissivepen=0.3*bpen,specularpen=0.999white,shininess=1.0);
-\end{asydef}
+%\usepackage[inline]{asymptote}
+%\begin{asydef}
+%settings.outformat="png";
+%settings.render=8;
+%import graph3;
+%import contour3;
+%currentlight=light(gray(0.8),ambient=gray(0.1),specular=gray(0.7),
+                     %specularfactor=3,viewport=true,dir(42,48));
+%pen bpen=rgb(0.75, 0.7, 0.1);
+%material m=material(diffusepen=0.7bpen
+%,ambientpen=bpen,emissivepen=0.3*bpen,specularpen=0.999white,shininess=1.0);
+%\end{asydef}
 
 
 % This file is a solution template for:
@@ -163,7 +163,7 @@ material m=material(diffusepen=0.7bpen
 \subtitle
 {The {\tt TestIdeals} package for Macaulay2}
 
-\author[BHKKMRSSTW] % (optional, use only with lots of authors)
+\author[BoHeKaKaMaRoScSmTeWi] % (optional, use only with lots of authors)
 {Alberto F. Boix, Daniel Hern\'andez, Zhibek Kadyrsizova, Mordechai Katzman, Sara Malec, Marcus Robinson, Karl Schwede\inst{1}, Daniel Smolkin, Pedro Teixeira, Emily Witt}
 % - Give the names in the same order as the appear in the paper.
 % - Use the \inst{?} command only if the authors have different
@@ -248,7 +248,7 @@ material m=material(diffusepen=0.7bpen
 
 \begin{frame}[t]{History}
 \begin{itemize}
-\item<1-> Consider rings $R$ of characteristic $p > 0$.  
+\item<1-> Consider rings $R$ of characteristic $p > 0$.
 \item<2-> No resolution of singularities (in general).
 \item<3-> Kunz proved:
 \vskip 3pt
@@ -259,13 +259,155 @@ $R$ is regular if and only if Frobenius is flat.
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t]{History}
+\begin{frame}[t]{History, part 2}
 \begin{itemize}
-\item<1->
+\item<1->  Because we are working with computers, domain finite type over $\bF_q$.
+\item<2->  Kunz says Frobenius is flat if and only if $R^{1/p^e}$ is locally free over $R$.
+\item<3->  We can weaken being locally free.
+\begin{definition}[Hochster-Roberts, Mehta-Ramanathan]
+  $R$ is $F$-pure if and only if $R \to R^{1/p^e}$ splits.
+\end{definition}
+\item<4->  $F$-pure is analogous to log canonical singularities.
+\begin{itemize}
+  \item<5->  $F$-pure implies SLC.
+  \item<6->  SLC in char 0 conjecturally implies $F$-pure for many $p$.
 \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Fedder}
+  Checking $F$-purity can be pretty easy.
+  \begin{itemize}
+    \item<2->  Fedder's Criterion.  $R = S/I$, $S$ is polynomial.
+    \begin{theorem}[Fedder]
+      $R$ is $F$-pure at $\mathfrak{m}$ if and only if $I^{[p]} : I \not\subseteq \mathfrak{m}^{[p]}$.
+    \end{theorem}
+   \item<3->  If $I = (f)$, then  $I^{[p]} : I = (f^{p-1})$.
+   \item<4->  For example.
+   {}
+   \begin{verbatim}
+i5 : S = ZZ/7[x,y,z];
+i6 : f = x^3 + y^3 + z^3;
+i8 : isSubset(ideal(f^6), ideal(x^7, y^7, z^7))
+o8 = false
+   \end{verbatim}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Macaulay2}
+  We have written a package {\tt TestIdeals.m2} that computes whether a ring (or pair) is:
+  \begin{itemize}
+    \item<2->  $F$-pure
+    \begin{itemize}
+      \item<3->  Analog of SLC.
+    \end{itemize}
+    \item<4->  $F$-regular
+    \begin{itemize}
+      \item<5->  Analog of KLT.
+    \end{itemize}
+    \item<6->  $F$-rational
+    \begin{itemize}
+      \item<7->  Analog of rational.
+    \end{itemize}
+    \item<7->  $F$-injective
+    \begin{itemize}
+      \item<8->  Analog of Du Bois.
+    \end{itemize}
+    \item<8->  Test ideals
+    \begin{itemize}
+      \item<9->  Analogs of multiplier ideals
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{Fedder, part 2}
+  \begin{itemize}
+  \item<1->Fedder's criterion works because maps
+  \[
+  \phi_R : R^{1/p^e} \to R
+  \]
+  come from maps
+  \[
+  \phi_S : S^{1/p^e} \to S
+  \]
+  such that $\phi_S(I^{1/p^e}) \subseteq I$.
+\item<2->  In fact,
+\[
+I^{[p^e]} : I \cong \{ \phi \in \Hom_S(S^{1/p^e}, S) \;|\; \phi(I^{1/p^e}) \subseteq I \}.
+\]
+\item<3->  Translates questions on $R$ into questions in polynomial ring $S$.
+\item<4->  Note $\{\phi_R \neq 0\} \leftrightarrow \{\Delta\geq 0\;\; \text{$\mathbb{Q}$-log boundary} \}$.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Frobenius trace}
+  One more big tool.
+  \begin{itemize}
+    \item<2->  There exists $\Phi : S^{1/p^e} \to S$.
+    \item<3->  $\Phi(x_1^{p^e - 1 \over p^e} \cdots x_1^{p^e - 1 \over p^e}) = 1$
+    \item<4->  Other monomials to 0.
+    \item<5->  $\Phi$ generates $\Hom_S(S^{1/p^e}, S)$.
+    \item<6->  $\Phi$ is Grothendieck dual to Frobenius.
+    \item<7->  $\Phi(J^{1/p^e}) \subseteq I$ if and only if
+    \[
+      I^{[p^e]} \subseteq J.
+    \]
+    \begin{theorem}[Fedder restated]
+      $\Phi((I^{[p^e]} : I)^{1/p^e})$ defines locus where $R = S/I$ is not $F$-pure.
+    \end{theorem}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Implementation}
+  We compute some Macaulay2 examples.  $\Phi(J)$ is called the \memph{Frobenius root of $J$}.
+  \begin{verbatim}
+i12 : I =ideal(x^3 + y^3 + z^3);
+i13 : frobeniusRoot(1, I^7 : I)
+o13 = ideal 1
+i14 : isFPure(S/I)
+o14 = true
+i15 : J = ideal(x^4+y^4+z^4);
+i16 : frobeniusRoot(1, J^7 : J)
+              2             2        2
+o16 = ideal (z , y*z, x*z, y , x*y, x )
+i19 : isFPure(S/J)
+o19 = false
+  \end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{More examples}
+  \begin{verbatim}
+i20 : T = ZZ/5[a,b,c,d,e];
+i21 : B = ZZ/5[x,y];
+i22 : f = map(B, T, {x^4, x^3*y, x^2*y^2, x*y^3, y^4})
+                4   3    2 2     3   4
+o22 = map(B,T,{x , x y, x y , x*y , y })
+o22 : RingMap B <--- T
+i23 : I = ker f
+              2                               2                    2
+o23 = ideal (d  - c*e, c*d - b*e, b*d - a*e, c  - a*e, b*c - a*d, b  - a*c)
+o23 : Ideal of T
+i24 : isFPure(T/I)
+o24 = true
+  \end{verbatim}
+\end{frame}
+
+\begin{frame}[t]{$F$-regularity and test ideals}
+  \begin{itemize}
+    \item<1->  Analog of KLT.
+    \begin{definition}
+      $R$ is \memph{strongly $F$-regular} if for every (interesting\footnote{In Jacobian ideal is good enough}) $c \in R$, there is some $e$ and $\phi : R^{1/p^e} \to R$ so that $\phi(c^{1/p^e}) = 1$.
+    \end{definition}
+    \item<2->  If translated by Fedder's methods,
+    \begin{theorem}
+      $R = S/I$ is strongly $F$-regular if and only if
+      \[
+      I + \Phi( (c(I^{[p^e]} : I))^{1/p^e} ) = S.
+      \]
+    \end{theorem}
+  \end{itemize}
 \end{frame}
 
 
 \end{document}
-
-

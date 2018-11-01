@@ -1,2 +1,2 @@
-\select@language {english}
+\babel@toc {english}{}
 \beamer@sectionintoc {1}{Basics}{2}{0}{1}
