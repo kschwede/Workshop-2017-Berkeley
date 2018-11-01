@@ -1,0 +1,271 @@
+% $Header: /cvsroot/latex-beamer/latex-beamer/solutions/conference-talks/conference-ornate-20min.en.tex,v 1.7 2007/01/28 20:48:23 tantau Exp $
+
+\documentclass[xcolor=dvipsnames]{beamer}
+\usepackage{color}
+\usepackage{bbding}
+\usepackage{amsmath}
+%%\usepackage{marvosym}
+%%\usepackage{graphicx}
+%%\usepackage{tikz}
+\usepackage{tikz}
+
+\usepackage[inline]{asymptote}
+\begin{asydef}
+settings.outformat="png";
+settings.render=8;
+import graph3;
+import contour3;
+currentlight=light(gray(0.8),ambient=gray(0.1),specular=gray(0.7),
+                     specularfactor=3,viewport=true,dir(42,48));
+pen bpen=rgb(0.75, 0.7, 0.1);
+material m=material(diffusepen=0.7bpen
+,ambientpen=bpen,emissivepen=0.3*bpen,specularpen=0.999white,shininess=1.0);
+\end{asydef}
+
+
+% This file is a solution template for:
+
+% - Talk at a conference/colloquium.
+% - Talk length is about 20min.
+% - Style is ornate.
+
+
+
+% Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+%
+% In principle, this file can be redistributed and/or modified under
+% the terms of the GNU Public License, version 2.
+%
+% However, this file is supposed to be a template to be modified
+% for your own needs. For this reason, if you use this file as a
+% template and not specifically distribute it as part of a another
+% package/program, I grant the extra permission to freely copy and
+% modify this file as you see fit and even to delete this copyright
+% notice.
+\newcommand{\memph}[1]{{\color{Red}\emph{#1}}}
+
+\mode<presentation>
+{
+  \usetheme{Warsaw}
+ \usecolortheme[named=Red]{structure}
+ \setbeamertemplate{headline}{}
+%\usecolortheme{seahorse}
+  % or ...
+
+  \setbeamercovered{transparent}
+  % or whatever (possibly just delete it)
+}
+
+
+\usepackage[english]{babel}
+% or whatever
+
+\usepackage[latin1]{inputenc}
+% or whatever
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+% Or whatever. Note that the encoding and the font should match. If T1
+% does not look nice, try deleting the line with the fontenc.
+\input xy
+\xyoption{all}
+\usepackage{upgreek}
+\newcommand{\mytau}{{\uptau}}
+\DeclareFontFamily{OMS}{rsfs}{\skewchar\font'60}
+\DeclareFontShape{OMS}{rsfs}{m}{n}{<-5>rsfs5 <5-7>rsfs7 <7->rsfs10 }{}
+\DeclareSymbolFont{rsfs}{OMS}{rsfs}{m}{n}
+\DeclareSymbolFontAlphabet{\scr}{rsfs}
+\newcommand{\fra}{\mathfrak{a}}
+\newcommand{\cf}{{\itshape cf.} }
+\newcommand{\mustata}{Musta{\c{t}}{\u{a}}}
+\newcommand{\tm}{test multiplier}
+\newcommand{\stm}{sharp test multiplier}
+\newcommand{\ste}{sharp test element}
+\newcommand{\sfp}{sharply $F$-pure}
+\newcommand{\sfpty}{sharp $F$-purity}
+\newcommand{\sfc}{sharp Frobenius closure}
+\newcommand{\Fr}[2]{{#2}^{1/p^{#1}}}
+%\newcommand{\Fr}[2]{{#2}^{1 \over p^{#1}} }
+\newcommand{\Frp}[2]{F^{#1}_*\left({#2}\right)}
+\newcommand{\stwo}{$\text{S}_2$}
+\newcommand{\gone}{$\text{G}_1$}
+\renewcommand{\O}{\mbox{$\mathcal{O}$}}
+\newcommand{\bm}{\mathfrak{m}}
+\newcommand{\fram}{\mathfrak{m}}
+\newcommand{\myR}{{\bf R}}
+\newcommand{\bH}{\mathbb{H}}
+\newcommand{\ba}{\mathfrak{a}}
+\newcommand{\bb}{\mathfrak{b}}
+\newcommand{\bQ}{\mathbb{Q}}
+\newcommand{\bZ}{\mathbb{Z}}
+\newcommand{\bC}{\mathbb{C}}
+\newcommand{\bP}{\mathbb{P}}
+\newcommand{\bR}{\mathbb{R}}
+\newcommand{\bF}{\mathbb{F}}
+\newcommand{\bA}{\mathbb{A}}
+\newcommand{\tld}{\widetilde }
+\newcommand{\sH}{\scr{H}}
+\newcommand{\sF}{\scr{F}}
+\newcommand{\sG}{\scr{G}}
+\newcommand{\sL}{\scr{L}}
+\newcommand{\tensor}{\otimes}
+\newcommand{\blank}{\underline{\hskip 10pt}}
+\newcommand{\mJ}{\mathcal{J}}
+\newcommand{\sI}{\scr{I}}
+\newcommand{\sR}{\scr{R}}
+\DeclareMathOperator{\Div}{{div}}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\sHom}{{\sH}om}
+\DeclareMathOperator{\Ann}{{Ann}}
+\DeclareMathOperator{\Spec}{{Spec}}
+\DeclareMathOperator{\Supp}{{Supp}}
+\DeclareMathOperator{\exc}{{exc}}
+\DeclareMathOperator{\Frac}{{Frac}}
+\DeclareMathOperator{\Image}{{Image}}
+\DeclareMathOperator{\coeff}{{coeff}}
+\renewcommand{\mod}{\textnormal{\mod}\;}
+\newcommand{\mybb}{\memph{$($\PencilRightDown$)$}}
+
+
+
+%\newcommand{\mJ}{\mathcal{J}}
+
+%\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{consequence}[theorem]{Consequence}
+
+%\newtheorem{corollary}[theorem]{Corollary}
+%\newtheorem{conjecture}[theorem]{Conjecture}
+%\newtheorem{excercise}[theorem]{Exercise}
+\theoremstyle{remark}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{myexample}[theorem]{Example}
+%\newtheorem{definition}[theorem]{Definition}
+
+
+\newenvironment{packedItemize}{
+\begin{itemize}
+  \setlength{\topsep}{0pt}
+  \setlength{\itemsep}{1pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+  \setlength{\partopsep}{0pt}
+}{\end{itemize}}
+
+
+%\title% (optional, use only with long paper titles)
+%{A Geometric Characterization of (generalizations of) $F$-Ideals}
+
+\subtitle
+{The {\tt TestIdeals} package for Macaulay2}
+
+\author[BHKKMRSSTW] % (optional, use only with lots of authors)
+{Alberto F. Boix, Daniel Hern\'andez, Zhibek Kadyrsizova, Mordechai Katzman, Sara Malec, Marcus Robinson, Karl Schwede\inst{1}, Daniel Smolkin, Pedro Teixeira, Emily Witt}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+
+\institute[AMS Sectional Meeting, University of Arkansas] % (optional, but mostly needed)
+{
+  \inst{1}%
+  Department of Mathematics\\
+  University of Utah}
+
+\date[2018] % (optional, should be abbreviation of conference name)
+{AMS Sectional Meeting, University of Arkansas\\2018}
+% - Either use conference name or its abbreviation.
+% - Not really informative to the audience, more for people (including
+%   yourself) who are reading the slides online
+
+%\subject{Theoretical Computer Science}
+% This is only inserted into the PDF information catalog. Can be left
+% out.
+
+
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \pgfdeclareimage[height=0.5cm]{university-logo}{university-logo-filename}
+% \logo{\pgfuseimage{university-logo}}
+
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%\AtBeginSubsection[]
+%{
+%  \begin{frame}<beamer>{Outline}
+%    \tableofcontents[currentsection,currentsubsection]
+%  \end{frame}
+%}
+%\AtBeginSection[]
+%{
+%  \begin{frame}<beamer>{Outline}
+%    \tableofcontents[currentsection,currentsubsection]
+%  \end{frame}
+%}
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command:
+
+%\beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+
+
+% Structuring a talk is a difficult task and the following structure
+% may not be suitable. Here are some rules that apply for this
+% solution:
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% - A conference audience is likely to know very little of what you
+%   are going to talk about. So *simplify*!
+% - In a 20min talk, getting the main ideas across is hard
+%   enough. Leave out details, even if it means being less precise than
+%   you think necessary.
+% - If you omit details that are vital to the proof/implementation,
+%   just say so once. Everybody will be happy with that.
+
+\section{Basics}
+%%%%%%-----------------------------
+
+\begin{frame}[t]{History}
+\begin{itemize}
+\item<1-> Consider rings $R$ of characteristic $p > 0$.  
+\item<2-> No resolution of singularities (in general).
+\item<3-> Kunz proved:
+\vskip 3pt
+\begin{theorem}[Kunz]
+$R$ is regular if and only if Frobenius is flat.
+\end{theorem}
+\item<4->  We can measure singularities with Frobenius!
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{History}
+\begin{itemize}
+\item<1->
+\end{itemize}
+\end{frame}
+
+
+\end{document}
+
+
