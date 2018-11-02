@@ -406,8 +406,43 @@ o24 = true
       I + \Phi( (c(I^{[p^e]} : I))^{1/p^e} ) = S.
       \]
     \end{theorem}
+    \item<3->  $R$ is KLT if and only if $(R, c^{\epsilon})$ is SLC.
   \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]{$F$-regularity checking}
+  \begin{verbatim}
+i3 : S = ZZ/7[x,y,z];
+i4 : R = S/ideal(x^2-y*z)
+i5 : isFRegular(R);
+o5 = true
+i20 : A = ZZ/7[x,y,z]/(y^2*z - x*(x-z)*(x+z));
+i21 : C = ZZ/7[a,b,c,d,e,f];
+i22 : g = map(A, C, {x^2, x*y, x*z, y^2, y*z, z^2})
+i23 : I = ker g;
+i26 : isFRegular(C/I);
+o26 = false
+  \end{verbatim}
+\begin{itemize}
+    \item<2->  We can only show that $\bQ$-Gorenstein rings are not $F$-regular.
+    \item<3->  The {\tt QGorensteinIndex=>infinity} option can prove a non-$\bQ$-Gorenstein ring is $F$-regular.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{$F$-regularity of pairs}
+    \begin{verbatim}
+i3 : S = ZZ/7[x,y,z];
+i4 : R = S/ideal(x^2-y*z)
+i6 : h = y;
+i7 : isFRegular(1/2, y)
+o7 = false
+i8 : isFRegular(1/3, y)
+o8 = true
+    \end{verbatim}
+    \begin{itemize}
+\item<2->The pair $(R, h^{1/2})$ is not $F$-regular but $(R, h^{1/3})$ is.
+\item<3->The {\tt FThresholds} package can even compute $F$-pure thresholds.
+\end{itemize}
+\end{frame}
 
 \end{document}
