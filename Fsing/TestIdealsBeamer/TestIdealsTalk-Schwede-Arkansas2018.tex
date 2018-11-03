@@ -125,6 +125,7 @@
 \DeclareMathOperator{\coeff}{{coeff}}
 \renewcommand{\mod}{\textnormal{\mod}\;}
 \newcommand{\mybb}{\memph{$($\PencilRightDown$)$}}
+\newcommand{\mydot}{\bullet}
 
 
 
@@ -265,7 +266,7 @@ $R$ is regular if and only if Frobenius is flat.
 \item<2->  Kunz says Frobenius is flat if and only if $R^{1/p^e}$ is locally free over $R$.
 \item<3->  We can weaken being locally free.
 \begin{definition}[Hochster-Roberts, Mehta-Ramanathan]
-  $R$ is $F$-pure if and only if $R \to R^{1/p^e}$ splits.
+  $R$ is \memph{$F$-pure} if and only if $R \to R^{1/p^e}$ splits.
 \end{definition}
 \item<4->  $F$-pure is analogous to log canonical singularities.
 \begin{itemize}
@@ -443,6 +444,156 @@ o8 = true
 \item<2->The pair $(R, h^{1/2})$ is not $F$-regular but $(R, h^{1/3})$ is.
 \item<3->The {\tt FThresholds} package can even compute $F$-pure thresholds.
 \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{$F$-rationality}
+    \begin{itemize}
+        \item<1->  Analog of rational singularities.
+        \item<2->  Implies (pseudo-)rational singularities in a fixed characteristic.
+        \begin{itemize}
+            \item<3->  $\mathcal{O}_X \simeq R \pi_* \O_Y$
+        \end{itemize}
+        \item<4->  Here's our definition:
+        \begin{definition}
+            $R$ has $F$-rational singularities if it is
+            \begin{itemize}
+                \item<5->  Cohen-Macaulay
+                \item<6->  $c^{1/p^e} \cdot \omega_{R^{1/p^e}}) \xrightarrow{F^e-\mathrm{dual}} \omega_R$ surjects.
+            \end{itemize}
+        \end{definition}
+        \item<7->  Recent work (Ma - $\bullet$) implies that
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Implementation}
+    The tricky part is writing the map:
+    \[
+    F-\mathrm{dual}: \omega_{R^{1/p^e}} \to \omega_R.
+    \]
+    \begin{itemize}
+        \item<2->  Trick (Katzman) is to embed $\omega_R$ as an ideal in $R$.
+        \item<3->  Extend $F-\mathrm{dual}$ to $\phi_R : R^{1/p^e} \to R$.
+        \item<4->  Extend further to $\phi_S : S^{1/p^e} \to S$.  ($R = S/I$)
+        \item<5->  Represent $\phi_S \in I^{[p^e]} : I$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{$F$-rational examples}
+    Here is an example of an $F$-rational (but not $F$-regular) ring.
+    \begin{verbatim}
+i8 : S = ZZ/3[a,b,c,d,t]; m = 4; n = 3;
+i11 :  M = matrix{ {a^2 + t^m, b, d},
+                   {c, a^2, b^n-d} };
+              2       3
+o11 : Matrix S  <--- S
+i12 :  I = minors(2, M);
+i13 : R = S/I;
+i14 : isFRational(R)
+o14 = true
+\end{verbatim}
+Appeared in work of Anurag Singh (deform $F$-regularity)
+\end{frame}
+
+\begin{frame}[t]{Characteristic zero applications}
+    Characteristic $p > 0$ conclusions imply results in characteristic zero.
+    \begin{theorem}[Ma-{$\bullet$}]
+        Suppose $R$ is a ring of mixed characteristic finite type over $\bZ$.  Suppose $p \in \bZ$ is a regular element and $Q \subseteq R$ is a prime not containing any nonzero prime of $\bZ$ so that $(p) + Q \neq R$.
+        \vskip 9pt
+        If $R/pR$ is $F$-rational, then $R_Q = R_Q \otimes \bQ$ has rational singularities.
+    \end{theorem}
+    \begin{itemize}
+    \item<2->Analogous statement for log terminal/$F$-regular singularities, if the $\bQ$-Gorenstein not divisible by $p$.
+    \item<3->Not known for log canonical/$F$-pure singularities (need mixed char inversion of adjunction).
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{$F$-injective}
+    We can also study $F$-injective singularities (analog of Du~Bois).
+    \begin{itemize}
+        \item<2->  $R$ is \memph{$F$-injective} if
+        \[
+        H^{-i} \omega_{R^{1/p}}^{\mydot} \to H^{-i} \omega_{R}^{\mydot}
+        \]
+        surjects for all $i$.
+        \item<3->  If $R$ is CM, this just means
+        \[
+            \omega_{R^{1/p^e}}) \xrightarrow{F^e-\mathrm{dual}} \omega_R
+        \]
+        surjects.
+        \item<4->  Example
+        \begin{verbatim}
+i10 : R = ZZ/[x,y,z]/ideal(x^3+y^3+z^3);
+i11 : isFInjective(R)
+o11 = true
+        \end{verbatim}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Test ideals}
+    We can compute test ideals too.  Including of pairs.
+    \begin{itemize}
+        \item<2-> In a $\bQ$-Gorenstein ring.
+        \item<3-> $\tau(R, f^t)$ equals sum of images of maps
+        \[
+        \phi : (cf^{\lceil t(p^e - 1)\rceil} R)^{1/p^e} \to R.
+        \]
+        $c$ as before.
+        \item<4->  We use it to check $F$-regularity.
+        \begin{itemize}
+            \item<5->  $(R, f^t)$ is $F$-regular if and only if $\tau(R, f^t) = R$.
+        \end{itemize}
+        \item<6->  Trick is stabilize image sums above.
+        \item<7->  Can compute parameter test modules and parameter test ideals too.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Example}
+\begin{verbatim}
+i2 : R = ZZ/5[x,y];
+i3 : f = y^2-x^3;
+        3    2
+o3 = - x  + y
+i4 : testIdeal(4/5, f);
+o4 = ideal (y, x)
+i5 : testIdeal(4/5-1/10000, f)
+o5 = ideal 1
+\end{verbatim}
+\begin{itemize}
+\item<2->We can compute $\tau(R, f^{t-\epsilon})$, which is used to compute jumping numbers and $F$-pure thresholds.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{$F$-pure thresholds}
+    We conclude with a discussion of the {\tt FThresholds} package.
+    \begin{itemize}
+        \item<2->  If $R$ is $F$-regular, $F$-pure threshold (FPT) is the smallest $t \geq 0$ where $\tau(R, f^t) \neq R$.
+        \item<3->  We do a binary-style search to a certain depth.
+        \item<4->  However, if $f$ is a special form, we have other algorithms.
+        \item<5->  We also guess + check.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Example FPT}
+\begin{verbatim}
+i2 : R = ZZ/5[x,y,z]
+i3 : f = x^5 - y^6 + x^3*z^5 + 2*z^8
+      3 5     8    6    5
+o3 = x z  + 2z  - y  + x
+i4 : fpt(f)
+     1
+o4 = -
+     5
+\end{verbatim}
+FPT of the cusp (in a nonstandard form).
+\begin{verbatim}
+i1 : R = ZZ/7[x,y]
+i4 : fpt((x+y)^3 - y^2)
+     5
+o4 = -
+     6
+\end{verbatim}
 \end{frame}
 
 \end{document}
