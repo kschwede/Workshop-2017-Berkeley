@@ -247,7 +247,7 @@
 \section{Basics}
 %%%%%%-----------------------------
 
-\begin{frame}[t]{History}
+\begin{frame}[c]{History}
 \begin{itemize}
 \item<1-> Consider rings $R$ of characteristic $p > 0$.
 \item<2-> No resolution of singularities (in general).
@@ -257,10 +257,11 @@
 $R$ is regular if and only if Frobenius is flat.
 \end{theorem}
 \item<4->  We can measure singularities with Frobenius!
+\item<5->  How flat is Frobenius?
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t]{History, part 2}
+\begin{frame}[c]{History, part 2}
 \begin{itemize}
 \item<1->  Because we are working with computers, domain finite type over $\bF_q$.
 \item<2->  Kunz says Frobenius is flat if and only if $R^{1/p^e}$ is locally free over $R$.
@@ -283,7 +284,7 @@ $R$ is regular if and only if Frobenius is flat.
     \begin{theorem}[Fedder]
       $R$ is $F$-pure at $\mathfrak{m}$ if and only if $I^{[p]} : I \not\subseteq \mathfrak{m}^{[p]}$.
     \end{theorem}
-   \item<3->  If $I = (f)$, then  $I^{[p]} : I = (f^{p-1})$.
+   \item<3->  If $I = (f)$, then  $I^{[p]} : I = (f^{p-1})$.  (\memph{BOARD})
    \item<4->  For example.
    {}
    \begin{verbatim}
@@ -295,7 +296,7 @@ o8 = false
   \end{itemize}
 \end{frame}
 
-\begin{frame}[t]{Macaulay2}
+\begin{frame}[c]{Macaulay2}
   We have written a package {\tt TestIdeals.m2} that computes whether a ring (or pair) is:
   \begin{itemize}
     \item<2->  $F$-pure
@@ -318,11 +319,16 @@ o8 = false
     \begin{itemize}
       \item<9->  Analogs of multiplier ideals
     \end{itemize}
+    \item<10->  $F$-pure thresholds (with {\tt FThresholds.m2}).
+    \begin{itemize}
+      \item<11->  Analogs of log canonical thresholds.
+    \end{itemize}
+    
   \end{itemize}
 \end{frame}
 
 
-\begin{frame}[t]{Fedder, part 2}
+\begin{frame}[c]{Fedder, part 2}
   \begin{itemize}
   \item<1->Fedder's criterion works because maps
   \[
@@ -338,15 +344,15 @@ o8 = false
 I^{[p^e]} : I \cong \{ \phi \in \Hom_S(S^{1/p^e}, S) \;|\; \phi(I^{1/p^e}) \subseteq I \}.
 \]
 \item<3->  Translates questions on $R$ into questions in polynomial ring $S$.
-\item<4->  Note $\{\phi_R \neq 0\} \leftrightarrow \{\Delta\geq 0\;\; \text{$\mathbb{Q}$-log boundary} \}$.
+\item<4->  Note $\{\phi_R \neq 0\} \leftrightarrow \{\Delta\geq 0\;\; \text{$\mathbb{Q}$-log boundary} \}$.  (\memph{BOARD})
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t]{Frobenius trace}
+\begin{frame}[c]{Frobenius trace}
   One more big tool.
   \begin{itemize}
     \item<2->  There exists $\Phi : S^{1/p^e} \to S$.
-    \item<3->  $\Phi(x_1^{p^e - 1 \over p^e} \cdots x_1^{p^e - 1 \over p^e}) = 1$
+    \item<3->  $\Phi\Big(x_1^{p^e - 1 \over p^e} \cdots x_1^{p^e - 1 \over p^e}\Big) = 1$
     \item<4->  Other monomials to 0.
     \item<5->  $\Phi$ generates $\Hom_S(S^{1/p^e}, S)$.
     \item<6->  $\Phi$ is Grothendieck dual to Frobenius.
@@ -355,7 +361,10 @@ I^{[p^e]} : I \cong \{ \phi \in \Hom_S(S^{1/p^e}, S) \;|\; \phi(I^{1/p^e}) \subs
       I^{[p^e]} \subseteq J.
     \]
     \begin{theorem}[Fedder restated]
-      $\Phi((I^{[p^e]} : I)^{1/p^e})$ defines locus where $R = S/I$ is not $F$-pure.
+      \[
+      \Phi((I^{[p^e]} : I)^{1/p^e}) \equiv_I \Image(\Hom_R(R^{1/p^e}, R) \xrightarrow{@1} R)
+      \] 
+      defines locus where $R = S/I$ is not $F$-pure.
     \end{theorem}
   \end{itemize}
 \end{frame}
@@ -394,7 +403,7 @@ o24 = true
   \end{verbatim}
 \end{frame}
 
-\begin{frame}[t]{$F$-regularity and test ideals}
+\begin{frame}[c]{$F$-regularity and test ideals}
   \begin{itemize}
     \item<1->  Analog of KLT.
     \begin{definition}
@@ -446,7 +455,7 @@ o8 = true
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t]{$F$-rationality}
+\begin{frame}[c]{$F$-rationality}
     \begin{itemize}
         \item<1->  Analog of rational singularities.
         \item<2->  Implies (pseudo-)rational singularities in a fixed characteristic.
@@ -455,17 +464,17 @@ o8 = true
         \end{itemize}
         \item<4->  Here's our definition:
         \begin{definition}
-            $R$ has $F$-rational singularities if it is
+            $R$ has \memph{$F$-rational singularities} if it is
             \begin{itemize}
                 \item<5->  Cohen-Macaulay
-                \item<6->  $c^{1/p^e} \cdot \omega_{R^{1/p^e}}) \xrightarrow{F^e-\mathrm{dual}} \omega_R$ surjects.
+                \item<6->  $(c^{1/p^e} \cdot \omega_{R^{1/p^e}}) \xrightarrow{F^e-\mathrm{dual}} \omega_R$ surjects.
             \end{itemize}
         \end{definition}
-        \item<7->  Recent work (Ma - $\bullet$) implies that
+%        \item<7->  Recent work (Ma - $\bullet$) implies that
     \end{itemize}
 \end{frame}
 
-\begin{frame}[t]{Implementation}
+\begin{frame}[c]{Implementation}
     The tricky part is writing the map:
     \[
     F-\mathrm{dual}: \omega_{R^{1/p^e}} \to \omega_R.
@@ -494,7 +503,7 @@ o14 = true
 Appeared in work of Anurag Singh (deform $F$-regularity)
 \end{frame}
 
-\begin{frame}[t]{Characteristic zero applications}
+\begin{frame}[c]{Characteristic zero applications}
     Characteristic $p > 0$ conclusions imply results in characteristic zero.
     \begin{theorem}[Ma-{$\bullet$}]
         Suppose $R$ is a ring of mixed characteristic finite type over $\bZ$.  Suppose $p \in \bZ$ is a regular element and $Q \subseteq R$ is a prime not containing any nonzero prime of $\bZ$ so that $(p) + Q \neq R$.
@@ -509,18 +518,21 @@ Appeared in work of Anurag Singh (deform $F$-regularity)
 
 \begin{frame}[fragile]{$F$-injective}
     We can also study $F$-injective singularities (analog of Du~Bois).
-    \begin{itemize}
-        \item<2->  $R$ is \memph{$F$-injective} if
+    
+        \begin{definition}
+        $R$ is \memph{$F$-injective} if
         \[
         H^{-i} \omega_{R^{1/p}}^{\mydot} \to H^{-i} \omega_{R}^{\mydot}
         \]
         surjects for all $i$.
-        \item<3->  If $R$ is CM, this just means
+        \end{definition}
+        \begin{itemize}
+        \item<2->  If $R$ is CM, this just means
         \[
-            \omega_{R^{1/p^e}}) \xrightarrow{F^e-\mathrm{dual}} \omega_R
+            (\omega_{R^{1/p^e}}) \xrightarrow{F^e-\mathrm{dual}} \omega_R
         \]
         surjects.
-        \item<4->  Example
+        \item<3->  Example
         \begin{verbatim}
 i10 : R = ZZ/[x,y,z]/ideal(x^3+y^3+z^3);
 i11 : isFInjective(R)
@@ -529,7 +541,7 @@ o11 = true
     \end{itemize}
 \end{frame}
 
-\begin{frame}[t]{Test ideals}
+\begin{frame}[c]{Test ideals}
     We can compute test ideals too.  Including of pairs.
     \begin{itemize}
         \item<2-> In a $\bQ$-Gorenstein ring.
@@ -561,6 +573,7 @@ o5 = ideal 1
 \end{verbatim}
 \begin{itemize}
 \item<2->We can compute $\tau(R, f^{t-\epsilon})$, which is used to compute jumping numbers and $F$-pure thresholds.
+\item<3->Needs {\tt HSLGModule} function.
 \end{itemize}
 \end{frame}
 
@@ -594,6 +607,14 @@ i4 : fpt((x+y)^3 - y^2)
 o4 = -
      6
 \end{verbatim}
+\end{frame}
+
+\begin{frame}[c]{Thanks!}
+You can go to:
+\begin{center}
+{\tt http://www.math.utah.edu/{\textasciitilde}schwede/M2.html}
+\end{center}
+to try it yourself!
 \end{frame}
 
 \end{document}
