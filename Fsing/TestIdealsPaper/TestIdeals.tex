@@ -1100,11 +1100,11 @@ of the following examples.
 i1 : R = ZZ/2[x,y,z];
 i2 : f = x^3+y^2*z+y*z^2;
 i3 : frobeniusPower( 1/2, ideal f )
-o3 = ideal (x, y , z )
+o3 = ideal (x, y, z)
 o3 : Ideal of R
 i4 : u=f^3;
 i5 : frobeniusPower( 1/4, ideal u )
-o6 = ideal (x, y , z )
+o6 = ideal (x, y, z)
 o6 : Ideal of R
 i7 : ((HSLGModule(1, f))#3) + 1
 o7 : 2
@@ -1112,7 +1112,7 @@ o7 : 2
 }\medskip
 
 This shows that this elliptic curve has level $2,$ hence it is supersingular. The next example
-shows a non--ordinary hyperelliptic curve of genus $2$ with level $2.$
+shows a non-ordinary hyperelliptic curve of genus $2$ with level $2$.
 
 \medskip
 {\small
@@ -1120,10 +1120,9 @@ shows a non--ordinary hyperelliptic curve of genus $2$ with level $2.$
 i1 : R = ZZ/11[x,y,z];
 i2 : f = y^2*z^3-x^5-2*z^5;
 i3 : frobeniusPower( 1/11, ideal f )
-             2        3
-o3 = ideal (z , x*z, x )
+o3 = ideal 1
 o3 : Ideal of R
-i4 : u=f^{121-1};
+i4 : u = f^(121-1);
 i5 : frobeniusPower( 1/121, ideal u )
              2        3
 o6 = ideal (z , x*z, x )
