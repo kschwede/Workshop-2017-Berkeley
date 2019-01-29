@@ -286,14 +286,14 @@ i2 : f = x^3 + y^3 + z^3;
 i3 : u = f^(5-1);
 i4 : frobeniusRoot( 1, ideal u )
 o4 = ideal (z, y, x)
-o4 : Ideal of R
+o4 : Ideal of S
 
 i5 : S = ZZ/7[x,y,z];
 i6 : f = x^3 + y^3 + z^3;
 i7 : u = f^(7-1)
 i8 : frobeniusRoot( 1, ideal u )
 o8 = ideal 1
-o8 : Ideal of R
+o8 : Ideal of S
 \end{MyVerbatim}
 }\medskip
 
@@ -816,7 +816,7 @@ o4 : Ideal of R
 The output of \texttt{testModule} is a list, consisting of three items:
 \begin{enumerate}[(1)]
 \item The test module itself, given as an ideal of $R$.
-\item The canonical module that contains the test module, given as an ideal of $R$.
+\item The canonical module that contains the test module, given as an ideal of $R$.  (Note the representation of the canonical module as an ideal is not unique, it is only unique up to isomorphism, hence it is important to return this module as well).
 \item The element $u$ described above (not displayed above, since it takes a lot of space).
 \end{enumerate}
 
@@ -1030,7 +1030,7 @@ stabilize for $e \gg 0$.
 The function \texttt{HSLGModule} computes the stable submodule in this chain, called the \emph{HSLG module}, and returns a list containing the following items:
 \begin{enumerate}[(1)]
    \item The HSLG module;
-   \item The canonical module;
+   \item The canonical module, embedded (non-uniquely) as an ideal;
    \item The element $u$ representing the map on the canonical module (see
    \autoref{subsec.DualToFrobeniusOnQuotientRings});
    \item The value of $e > 0$ at which the descending images in \eqref{eq: descending images} stabilize.  This is sometimes also called the HSLG-number of the canonical module as a Cartier module.
@@ -1119,11 +1119,10 @@ shows a non-ordinary hyperelliptic curve of genus $2$ with level $2$.
 \begin{MyVerbatim}
 i1 : R = ZZ/11[x,y,z];
 i2 : f = y^2*z^3-x^5-2*z^5;
-i3 : frobeniusPower( 1/11, ideal f )
+i3 : frobeniusPower( 10/11, ideal f )
 o3 = ideal 1
 o3 : Ideal of R
-i4 : u = f^(121-1);
-i5 : frobeniusPower( 1/121, ideal u )
+i5 : frobeniusPower( 120/121, ideal f )
              2        3
 o6 = ideal (z , x*z, x )
 o6 : Ideal of R

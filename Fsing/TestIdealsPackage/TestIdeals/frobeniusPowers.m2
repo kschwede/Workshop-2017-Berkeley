@@ -117,11 +117,11 @@ frobeniusPowerHelper = { FrobeniusPowerStrategy => Naive, FrobeniusRootStrategy 
     if o.FrobeniusPowerStrategy == Safe then 
     (
 	E := adicExpansion( p, rem );
-	J * product( #E, m -> frobeniusRoot( e-m, I^( E#m ), FrobeniusRootStrategy => o.FrobeniusRootStrategy ) );  
+	J * product( #E, m -> frobeniusRoot( e-m, E#m, I, FrobeniusRootStrategy => o.FrobeniusRootStrategy ) );  
         --step-by-step computation of generalized Frobenius power of I^[rem/p^e]
         --using the base p expansion of rem/p^e < 1
     )
-    else J * frobeniusRoot( e, frobeniusPower( rem, I ), FrobeniusRootStrategy => o.FrobeniusRootStrategy )  --Skoda to compute I^[N/p^e] from I^[rem/p^e] 
+    else J * frobeniusRoot( e, frobeniusPower(rem, I), FrobeniusRootStrategy => o.FrobeniusRootStrategy )  --Skoda to compute I^[N/p^e] from I^[rem/p^e] 
 )
 
 --Computes the generalized Frobenius power I^[t] for a rational number t 
