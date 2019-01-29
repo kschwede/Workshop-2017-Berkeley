@@ -1119,10 +1119,11 @@ shows a non-ordinary hyperelliptic curve of genus $2$ with level $2$.
 \begin{MyVerbatim}
 i1 : R = ZZ/11[x,y,z];
 i2 : f = y^2*z^3-x^5-2*z^5;
-i3 : frobeniusPower( 10/11, ideal f )
-o3 = ideal 1
+i3 : frobeniusPower( 1/11, ideal f^10 )
+             2        3
+o6 = ideal (z , x*z, x )
 o3 : Ideal of R
-i5 : frobeniusPower( 120/121, ideal f )
+i5 : frobeniusPower( 1/121, ideal f^120 )
              2        3
 o6 = ideal (z , x*z, x )
 o6 : Ideal of R
