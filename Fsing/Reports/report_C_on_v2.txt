@@ -32,6 +32,10 @@ Sentences introducing examples, such as "Consider for instance the test ideal
 of the cone over an elliptic curve", are English sentences, and hence all of
 them should end with a period.
 
+--------------------------------------
+[Pedro] Working on it...
+--------------------------------------
+
 The "Outputs" section of the documentation for 'ascendIdeal' states simply that
 the output is an ideal -- it should also state which ideal it is, i.e., that it
 is "the smallest ideal containing a given ideal which is compatible with a

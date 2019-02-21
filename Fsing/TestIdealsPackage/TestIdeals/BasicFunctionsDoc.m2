@@ -89,7 +89,7 @@ doc ///
             list of size $e$ in which the $i$th element is the coefficient of
             $p^{-i-1}$ in the unique nonterminating base $p$ expansion of $x$.
             For example, the non-terminating base $2$ expansion of $1/2$ is
-            $1/2 = 0/2 + 1/4 + 1/8 + 1/16 + \cdots$, and so
+            $1/2 = 0/2 + 1/4 + 1/8 + 1/16 + \cdots$, and so {\tt adicExpansion(2,4,1/2)} returns the digits $0$, $1$, $1$, and $1$.
         Example
             adicExpansion(2,4,1/2)
     SeeAlso

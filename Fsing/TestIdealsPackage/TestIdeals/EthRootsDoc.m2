@@ -1,3 +1,9 @@
+--***********************************************
+--***********************************************
+--Documentation for EthRoots.m2
+--***********************************************
+--***********************************************
+
 doc ///
     Key
         ascendIdeal
@@ -88,8 +94,7 @@ doc ///
         :Matrix
     Description
         Text
-            Given n by n matrix U and submodule A of a free module R^n, ascendModule finds the smallest submodule V of R^n containing A
-            and which satisfies U^(1+p+...+p^(e-1)) V\subset V^{[p^e]}
+            Given an $n \times n$ matrix $U$ and a submodule $A$ of a free module $R^n$, {\tt ascendModule} finds the smallest submodule $V$ of $R^n$ containing $A$ and which satisfies $U^{1+p+\cdots+p^{e-1}} V\subset V^{[p^e]}$.
         Example
             R=ZZ/2[a,b,c,d];
             A= matrix {{b*c, a, 0}, {a^2* d, d^2 , c + d}}
@@ -162,13 +167,13 @@ doc ///
             In a polynomial ring $R=k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the Frobenius root $I^{[1/p^e]}$ of an ideal $I$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(J,e)} ).  This function computes it.  Alternately it can be viewed as the image under the trace Cartier map of the ideal $I$.
             Similarly, if the image of $A$ is in $R^k$, the Frobenius root is the smallest submodule $V$ of $R^k$ such that $A\subseteq V^{[p^e]}$.
 
-            There are many ways to call {\tt frobeniusRoot}. The simplest way is to call {\tt frobeniusRoot(e,I)}. For instance,
+            There are many ways to call {\tt frobeniusRoot}. The simplest way is to call {\tt frobeniusRoot(e,I)}. 
         Example
             R = ZZ/5[x,y,z];
             I = ideal(x^50*z^95, y^100+z^27);
             frobeniusRoot(2, I)
         Text
-            This computes $I^{[1/p^e]}$, i.e. the $p^e$-th root of $I$. Often, one wants to compute the frobeniusRoot of some product of ideals. This is best accomplished by calling the following version of frobeniusRoot:
+            This computes $I^{[1/p^e]}$, i.e. the $p^e$-th root of $I$. Often, one wants to compute the frobeniusRoot of some product of ideals. This is best accomplished by calling the following version of frobeniusRoot.
         Example
             R =  ZZ/5[x,y,z];
             I1 = ideal(x^10, y^10, z^10);
@@ -184,7 +189,7 @@ doc ///
             I=ideal(a^(2*p)*x^p+y*z^p+x^p*y^p)
             frobeniusRoot(1,I)
         Text
-            frobeniusRoot works over finite fields.
+            {\tt frobeniusRoot} works over finite fields.
         Example
             R=ZZ/2[a,b,c,d]
             U= matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3 }}
