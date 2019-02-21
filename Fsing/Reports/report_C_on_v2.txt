@@ -24,6 +24,9 @@ Do not use variable names in headlines such as
 because the headline can appear in isolation, where no one knows what f and t
 are intended to be.  The headline can be vague!
 
+--------------------------------------
+[Pedro] Done.
+--------------------------------------
 
 Sentences introducing examples, such as "Consider for instance the test ideal
 of the cone over an elliptic curve", are English sentences, and hence all of

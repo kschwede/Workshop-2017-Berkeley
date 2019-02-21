@@ -9,7 +9,7 @@ doc ///
         fastExponentiation
         (fastExponentiation, ZZ, RingElement)
     Headline
-        computes powers of elements in rings of positive characteristic quickly
+        compute a power of an element in a ring of positive characteristic quickly
     Usage
         fastExponentiation(n,f)
     Inputs
@@ -42,7 +42,7 @@ doc ///
         frobenius
         [frobenius, FrobeniusRootStrategy]
     Headline
-        computes Frobenius powers of ideals and matrices
+        compute a Frobenius power of an ideal or a matrix
     Usage
         frobenius(e,I)
         frobenius^e(I)
@@ -109,7 +109,7 @@ doc ///
         [frobeniusPower, FrobeniusPowerStrategy]
         [frobeniusPower, FrobeniusRootStrategy]
     Headline
-        computes the (generalized) Frobenius power of an ideal
+        compute a (generalized) Frobenius power of an ideal
     Usage
         frobeniusPower(n,I)
      	frobeniusPower(t,I)

@@ -12,7 +12,7 @@ doc ///
         (HSLGModule, ZZ, List, List, Ideal)
         [HSLGModule, FrobeniusRootStrategy]
     Headline
-        computes the submodule of the canonical module stable under the image of the trace of Frobenius
+        compute the submodule of the canonical module stable under the image of the trace of Frobenius
     Usage
         HSLGModule(R)
         HSLGModule(R, canonicalIdeal)
@@ -194,7 +194,7 @@ doc ///
         AssumeNormal
         AssumeReduced
     Headline
-        make assumptions about your ring
+        make assumptions about a ring
     Description
         Text
             These are options used in various functions to make assumptions about your ring.

@@ -11,7 +11,7 @@ doc ///
         (adicDigit, ZZ, ZZ, QQ)
         (adicDigit, ZZ, ZZ, List)
     Headline
-        digit of the non-terminating expansion of a number in [0,1] in a given base
+        compute a digit of the non-terminating expansion of a number in the unit interval in a given base
     Usage
         d=adicDigit(p,e,x)
         D=adicDigit(p,e,L)
@@ -205,7 +205,7 @@ doc ///
         (decomposeFraction, ZZ, Number)
         [decomposeFraction, NoZeroC]
     Headline
-        decompose a rational number into a/(p^b(p^c-1))
+        decompose a rational number
     Usage
         L = decomposeFraction(p,t)
     Inputs

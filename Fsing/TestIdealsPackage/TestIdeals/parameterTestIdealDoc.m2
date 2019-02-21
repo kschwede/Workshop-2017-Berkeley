@@ -4,7 +4,7 @@ doc ///
         (canonicalIdeal, Ring)
         [canonicalIdeal, Attempts]
     Headline
-        given a ring, produces an ideal isomorphic to the canonical module
+        produce an ideal isomorphic to the canonical module of a ring
     Usage
         canonicalIdeal(R)
     Inputs
@@ -35,7 +35,7 @@ doc ///
     Key
         frobeniusTraceOnCanonicalModule
     Headline
-        finds the u, which in a polynomial ring, determines the Frobenius trace on the canonical module of a quotient of that ring
+        find an element of a polynomial ring that determines the Frobenius trace on the canonical module of a quotient of that ring
     Usage
         frobeniusTraceOnCanonicalModule(canIdeal, defIdeal)
     Inputs
@@ -48,7 +48,7 @@ doc ///
     Description
         Text
             Given $R = S/I$, where $S$ is a polynomial ring, there is a map from the canonical module of $R$ back to itself, dual to the Frobenius: $\omega_R^{1/p^e} \to \omega_R$.
-            By embedding $\omega_R$ as an ideal $J$ of $R$, one can interpret this map as a $p^e$-inverse linear map on $S$.  But every $p$ inverse linear map on $S$ is a premultiple of the dual to Frobenius on $S$, by some element $u$.  This function finds the $u$.
+            By embedding $\omega_R$ as an ideal $J$ of $R$, one can interpret this map as a $p^e$-inverse linear map on $S$.  But every $p$ inverse linear map on $S$ is a premultiple of the dual to Frobenius on $S$, by some element $u$.  This function finds such $u$.
         Text
             However, because Macaulay2 does not always properly identify an ideal as principal (even though it is), sometimes we cannot find this single $u$ and instead find a list of $u$s, a linear combination of which is the desired $u$.
         Text
@@ -76,7 +76,7 @@ doc ///
         [testModule, AssumeDomain]
         [testModule, FrobeniusRootStrategy]
     Headline
-        finds the parameter test module of a reduced ring
+        find the parameter test module of a reduced ring
     Usage
         testModule(R)
         testModule(R, canIdeal)
@@ -151,7 +151,7 @@ doc ///
         (parameterTestIdeal, Ring)
         [parameterTestIdeal, FrobeniusRootStrategy]
     Headline
-        computes the parameter test ideal of a Cohen-Macaulay ring
+        compute the parameter test ideal of a Cohen-Macaulay ring
     Usage
         parameterTestIdeal(R)
     Inputs
@@ -187,7 +187,7 @@ doc ///
         (isCohenMacaulay, Ring)
         [isCohenMacaulay, IsLocal]
     Headline
-        determines if a ring is Cohen-Macaulay
+        whether a ring is Cohen-Macaulay
     Usage
         isCohenMacaulay(R)
     Inputs

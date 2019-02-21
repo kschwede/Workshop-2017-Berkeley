@@ -4,7 +4,7 @@ doc ///
         (QGorensteinGenerator, ZZ, Ring)
         (QGorensteinGenerator, Ring)
     Headline
-        finds an element representing the Frobenius trace map of a Q-Gorenstein ring
+        find an element representing the Frobenius trace map of a Q-Gorenstein ring
     Usage
         QGorensteinGenerator(e, R)
         QGorensteinGenerator(R)
@@ -40,7 +40,7 @@ doc ///
         (testElement, Ring)
         [testElement, AssumeDomain]
     Headline
-        finds a test element of a ring
+        find a test element of a ring
     Usage
         testElement(R)
     Inputs
@@ -113,7 +113,7 @@ doc ///
         [testIdeal, MaxCartierIndex]
         [testIdeal, QGorensteinIndex]
     Headline
-        computes the test ideal of f^t in a Q-Gorenstein ring
+        computes a test ideal in a Q-Gorenstein ring
     Usage
         testIdeal(t, f)
         testIdeal(t, f, R)

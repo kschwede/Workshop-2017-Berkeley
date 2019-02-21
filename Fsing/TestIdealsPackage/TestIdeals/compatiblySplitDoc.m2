@@ -4,7 +4,7 @@ doc ///
         (compatibleIdeals, RingElement)
         [compatibleIdeals, FrobeniusRootStrategy]
     Headline
-        finds all ideals compatibly compatible with a Frobenius near-splitting ideals
+        find all prime ideals compatible with a Frobenius near-splitting 
     Usage
         compatibleIdeals (u)
     Inputs
@@ -16,7 +16,7 @@ doc ///
         :List
     Description
         Text
-            The given an element $u$ in a polynomial ring $R$ over a prime field defines a
+            The given element $u$ in a polynomial ring $R$ over a prime field defines a
 	    $p^{-e}$ linear map $\phi$: this is obtained by multiplying $e$-th Frobenius trace on a polynomial ring by the polynomial $u$.
 	    An ideal $I$ is $\phi$-compatible if $\phi(I)\subseteq I$ or, equivalently, $u I \subseteq I^{[p]}$.
 	    This function returns a list of all prime ideals $P$ such that:

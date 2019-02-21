@@ -1,16 +1,3 @@
--------------------------------------------------------
----------- List of functions to document---------------
------------(as of 2016-07-18 --------------------------
--------------------------------------------------------
--- frobeniusRoot
--- minimalCompatible
--- Mstar
--------------------------------------------------------
--------------------------------------------------------
--------------------------------------------------------
-
-
-
 doc ///
     Key
         ascendIdeal
@@ -20,7 +7,7 @@ doc ///
         [ascendIdeal, AscentCount]
         [ascendIdeal, FrobeniusRootStrategy]
     Headline
-        finds the smallest ideal containing a given ideal which is compatible with a given $p^{-e}$-linear map
+        find the smallest ideal containing a given ideal which is compatible with a given Cartier linear map
     Usage
         ascendIdeal(e, h, J)
         ascendIdeal(e, a, h, J)
@@ -90,7 +77,7 @@ doc ///
         ascendModule
         (ascendModule,ZZ, Matrix, Matrix)
     Headline
-        finds the smallest submodule of free module containing a given submodule which is compatible with a given $p^{-e}$-linear map
+        find the smallest submodule of free module containing a given submodule which is compatible with a given Cartier linear map
     Usage
         ascendModule(e, A, U)
     Inputs
@@ -141,7 +128,7 @@ doc ///
         (frobeniusRoot, ZZ, Matrix)
         [frobeniusRoot, FrobeniusRootStrategy]
     Headline
-        computes I^[1/p^e] in a polynomial ring over a finite field
+        compute a Frobenius root of an ideal in a polynomial ring over a finite field
     Usage
         frobeniusRoot(e, I)
         frobeniusRoot(e, exponentList, idealList)
@@ -212,57 +199,6 @@ doc ///
         frobenius
         frobeniusPower
 ///
-
----*
----- not exported
---doc ///
---    Key
---        minimalCompatible
---    Headline
---        computes minimal compatible ideals and submodules.
---    Usage
---        J = minimalCompatible(e, f, I)
---        J = minimalCompatible(a, e, f, I)
---        M = minimalCompatible(e, A, U)
---    Inputs
---        e:ZZ
---        f:RingElement
---        a:ZZ
---        I:Ideal
---        A:Matrix
---        U:Matrix
---    Outputs
---        J:Ideal
---        M:Matrix
---    Description
---        Text
---            minimalCompatible is a method for:
---            (1) finding the smallest ideal $J$ which satisfies $uJ\subset J^{[p^e]}$ and $I \subset J$ for a given ideal $I$ and a given ring element $u$, and
---            (2) finding the smallest submodule $V$ of a free module which satisfies $UV\subset V^{[p^e]}$ and image$(A)\subset V$ for given matrices $A$ and $U$.
---
---///
---*-
-
----*
--- not exported
---doc ///
---    Key
---        mEthRoot
---    Headline
---        computes p^eth roots of matrices
---    Usage
---        mEthRoot(e, A)
---    Inputs
---        e: ZZ
---        A: Matrix
---    Outputs
---        :Matrix
---///
---*-
-
-
-
-
 
 doc ///
     Key
