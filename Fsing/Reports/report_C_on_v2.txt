@@ -1,0 +1,202 @@
+technical referee report on:
+
+181019-Schwede
+v2
+The TestIdeals package for Macaulay2
+
+=============================================================================
+
+The package installed and was checked without error.
+
+The article is 20 pages long, so is on the large side.
+
+The package has 4810 lines of code, so is large.
+
+=============================================================================
+
+comments on the documentation:
+
+
+Do not use variable names in headlines such as
+
+   testIdeal -- computes the test ideal of f^t in a Q-Gorenstein ring
+
+because the headline can appear in isolation, where no one knows what f and t
+are intended to be.  The headline can be vague!
+
+
+Sentences introducing examples, such as "Consider for instance the test ideal
+of the cone over an elliptic curve", are English sentences, and hence all of
+them should end with a period.
+
+The "Outputs" section of the documentation for 'ascendIdeal' states simply that
+the output is an ideal -- it should also state which ideal it is, i.e., that it
+is "the smallest ideal containing a given ideal which is compatible with a
+...".  The same problem occurs in other documentation nodes: frobeniusRoot,
+isFInjective, etc.
+
+
+The documentation for ascendIdeal incorrectly state that the second argument A
+is a submodule of a free module, but in fact, it is a matrix.  Submodules work
+well in Macaulay2, so it would be good to make the code conform to the
+documentation, rather than the other way around.
+   
+Remove the SeeAlso section from
+
+    doc ///
+	Key
+	    AscentCount
+	Headline
+	    an option for ascendIdeal
+	SeeAlso
+	    [ascendIdeal, AscentCount]
+    ///
+
+, because Macaulay2 automatically provides a link to the appropriate node for
+you.  Similarly for decomposeFraction, CanonicalStrategy,
+FrobeniusPowerStrategy, etc.  By contrast, the documentation nodes for
+MonomialBasis, Substitution, etc., need a see-also link to
+FrobeniusRootStrategy, for M2 has no way to deduce the connection.
+
+The output would be more compact if the example code here:
+
+    R=ZZ/2[x_{21},x_{31},x_{32},x_{41},x_{42},x_{43}];
+
+omitted the braces.
+
+
+This is mysterious:
+
+     forces the returned c to not be zero
+
+, because the value returned by the function is called L in the
+documentation, and is a list, not a number.  One doesn't discover that c is
+your name for the third element of the list until later.
+Better than returning a list here:
+
+     returns a list {a,b,c} of integers, with b and c nonnegative, such that t = a/(pb(pc-1)).
+
+would be to return a sequence, for then you could write
+
+      (a,b,c) = decomposeFraction(p,t)
+
+, labeling them in time for the reader.  There are other functions with the
+same inconvenient behavior and documentation, including HSLGModule.  They could
+all be improved.
+
+
+
+Better than
+
+       If our number is of the form ...
+
+would be
+
+       If t is of the form ...
+
+or
+
+       If the number t is of the form ...
+
+Avoid personal pronouns.
+
+
+
+Change
+
+       finds the u, which in a polynomial ring,
+
+to
+
+       finds the ring element, which in a polynomial ring,
+
+, because "u" is not an English word and you are writing English prose.  Search
+for other constructions of this type.
+
+
+Surely functions such as "HSLGModule" could be given better names, not
+involving obscure acronyms.  And why compound the obscurity by writing example
+code such as 
+
+     HSLList = HSLGModule(R);
+
+?
+
+
+In
+
+	If you pass the IsLocal parameter, this will 
+
+surely you intended to say instead
+
+	If you pass the "true" as the value of the IsLocal parameter, this will 
+
+
+
+
+=============================================================================
+
+comments on the code:
+
+
+Change
+
+     ascendIdeal(ZZ, BasicList, BasicList, Ideal) := o->(ek, akList,  hkList, Jk) -> (
+
+to
+
+     ascendIdeal(ZZ, List, List, Ideal) := o->(ek, akList,  hkList, Jk) -> (
+
+, because you don't want strange types of mathematical objects to be accepted
+as one of those parameters.
+
+
+The authors may have fun implementing the notation f^[n] for Frobenius powers
+and roots by attaching a method for ' RingElement ^ Array '.  On the other
+hand, a future conflict may arise if someone creates another package that
+attaches a different method for that, and users are tempted to use both
+packages.
+
+
+This multiplicity of usage forms:
+
+	Usage:
+	    HSLGModule(R)
+	    HSLGModule(R, canonicalIdeal)
+	    HSLGModule(canonicalIdeal)
+	    HSLGModule(R, canonicalIdeal, uList)
+	    HSLGModule(t, f)
+	    HSLGModule(t, f, canonicalIdeal, uList)
+	    HSLGModule(expList, eltList)
+	    HSLGModule(expList, eltList, canonicalIdeal, uList)
+	    HSLGModule(e, expList, eltList, canIdeal)
+
+suggests that the use of named optional arguments would simplify the code and
+the documentation considerably!  Pass the canonical ideal, if desired, as the
+value of an optional argument.  Maybe even make *all* of the arguments optional
+(with "null" as the default value).  This seems to be a recurring problem.
+
+
+
+
+
+
+
+
+
+=============================================================================
+
+comments on the paper:
+
+The authors may wish to cite Macaulay2 in the bibliography.
+
+The Macaulay2 example output involving exponents would look better if the
+baselineskip were reduced and the extra blank lines in the output were
+restored, for that would put the exponents nearer the corresponding variables.
+
+In "finding the summands in (2)" the traditional word would be "terms", not
+"summands".  And actually, it would be better to say "finding the terms in the
+right hand side of (2)", since (2) is an equation.
+
+
+=============================================================================
