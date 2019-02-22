@@ -66,11 +66,8 @@ HSLGModule(Number, RingElement, Ideal, List) := o -> (tt, ff, canIdeal, u1) -> (
     J1 := sub(canIdeal, S1);
     pp := char S1;
     tt = tt*1/1;
-    fractionDivided := decomposeFraction(pp, tt);
+    (aa, bb, cc) := decomposeFraction(pp, tt);
         -- fraction divided writes tt = (a/(p^b(p^c-1))
-    aa := fractionDivided#0;
-    bb := fractionDivided#1;
-    cc := fractionDivided#2;
     if (bb > 0) then (
         error "HSLGModule: Cannot compute the HSLG module associated to something with p in denominator.";
     );
@@ -114,9 +111,9 @@ HSLGModule(List, List, Ideal, List) := o -> (tList, fList, canIdeal, u1) -> (
     J1 := sub(canIdeal, S1);
     pp := char S1;
     tList = apply(tList, tt -> tt*1/1);
-    fractionDividedList2 := apply(tList, tt -> decomposeFraction(pp, tt));
+    fractionDividedList := apply(tList, tt -> decomposeFraction(pp, tt, NoZeroC => true));
         -- fraction divided writes tt = (a/(p^b(p^c-1))
-    fractionDividedList := apply(fractionDividedList2, myList -> ( if (myList#2 == 0) then {(pp-1)*(myList#0), myList#1, 1} else myList ) );
+--    fractionDividedList := apply(fractionDividedList2, myList -> ( if (myList#2 == 0) then {(pp-1)*(myList#0), myList#1, 1} else myList ) );
 --    aaList := apply(fractionDividedList, zz->zz#0);
     bbList := apply(fractionDividedList, zz->zz#1);
     ccList := apply(fractionDividedList, zz->zz#2);

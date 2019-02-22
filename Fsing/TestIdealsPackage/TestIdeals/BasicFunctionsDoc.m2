@@ -216,7 +216,7 @@ doc ///
         NoZeroC => Boolean
             forces the returned c to not be zero
     Outputs
-        L:List
+        L:Sequence
     Description
         Text
             Given a rational number $t$ and a prime $p$, {\tt decomposeFraction(p,t)}

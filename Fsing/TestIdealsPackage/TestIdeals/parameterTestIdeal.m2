@@ -120,14 +120,11 @@ testModule(Number, RingElement, Ideal, List) := o -> (tt, ff, canIdeal, u1) -> (
 
 
     C1 := testElement(R1, AssumeDomain => o.AssumeDomain);
-    fractionDivided := decomposeFraction(pp, tt);
+    (aa, bb, cc) := decomposeFraction(pp, tt);
 
     -- fraction divided writes tt = (a/(p^b(p^c-1))
     -- the point is that
     -- tau(\omega, f^t) = (tau( omega, f^{a/(p^c-1)}) * u1^{(p^b-1)/(p-1)} )^{[1/p^b]}
-    aa := fractionDivided#0;
-    bb := fractionDivided#1;
-    cc := fractionDivided#2;
     --we need to managed the case when ttt = aa/(pp^cc - 1) is huge, we handle this as folows.
     -- tau(\omega, ff^ttt) = \tau(\omega, ff^{ttt - floor(ttt)} ) * ff^{floor(ttt)}
     -- we do this because we never want to actually compute ff^{floor(ttt)}

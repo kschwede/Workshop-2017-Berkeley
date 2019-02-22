@@ -65,14 +65,14 @@ multiplicativeOrder( ZZ, ZZ ) := ZZ => ( a, b ) ->
 
 --===================================================================================
 
-decomposeFraction = method( TypicalValue => List, Options => { NoZeroC => false } );
+decomposeFraction = method( TypicalValue => Sequence, Options => { NoZeroC => false } );
 
 -- This function takes in a fraction t and a prime p and spits out a list
 -- {a,b,c}, where t = a/(p^b*(p^c-1))
 -- if c = 0, then this means that t = a/p^b
 --alternately, if NoZeroC => true, then we will always write t = a/p^b(p^c - 1)
 --even if it means increasing a.
-decomposeFraction( ZZ, Number ) := List => o -> ( p, t ) ->
+decomposeFraction( ZZ, Number ) := Sequence => o -> ( p, t ) ->
 (
     t = t/1;
     if not isPrime( p ) then error "decomposeFraction: first argument must be a prime number.";
@@ -93,7 +93,7 @@ decomposeFraction( ZZ, Number ) := List => o -> ( p, t ) ->
         a = a*(p-1);
         c = 1;
     );
-    {a,b,c}
+    (a,b,c)
 )
 
 --decomposeFraction( ZZ, ZZ ) := List => o -> (p, t) -> decomposeFraction(p, t/1, o)

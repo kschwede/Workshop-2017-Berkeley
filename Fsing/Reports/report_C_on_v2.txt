@@ -106,6 +106,12 @@ would be to return a sequence, for then you could write
 same inconvenient behavior and documentation, including HSLGModule.  They could
 all be improved.
 
+--------------------------------------
+[Pedro] decomposeFraction now returns a sequence. The code in TestIdeals
+has been updated; still need to check uses of this function in FThresholds.
+Documentation has not been updated yet. 
+--------------------------------------
+
 *****************************************************************************
 
 Better than
@@ -124,9 +130,9 @@ Avoid personal pronouns.
 
 --------------------------------------
 [Pedro] Done. Fixed also a couple other occurences of "our" or "your".
-However, there are *many* "you"s throghout the documentation
+However, there are *many* "you"s throughout the documentation
 ("if you pass this...", "if you do that...").
-Maybe we should avoid them as well, but that will be more substancial work. 
+Maybe we should avoid them as well, but that will be more substantial work. 
 --------------------------------------
 
 *****************************************************************************

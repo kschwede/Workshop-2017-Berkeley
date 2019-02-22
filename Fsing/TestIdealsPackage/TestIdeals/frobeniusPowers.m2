@@ -132,7 +132,7 @@ frobeniusPower( QQ, Ideal ) := Ideal => o -> ( t, I ) ->
     p := char ring I;
     if p == 0 then 
         error "frobeniusPower: expected an ideal in a ring of positive characteristic.";
-    ( a, b, c ) := toSequence decomposeFraction( p, t ); --write t = a/(p^b*(p^c-1))
+    ( a, b, c ) := decomposeFraction( p, t ); --write t = a/(p^b*(p^c-1))
     if c == 0 then frobeniusPowerHelper( b, a, I, o )  --if c = 0, call simpler function
         else 
 	(
