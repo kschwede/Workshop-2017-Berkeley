@@ -1,3 +1,9 @@
+--***********************************************
+--***********************************************
+--Documentation for testIdeals.m2
+--***********************************************
+--***********************************************
+
 doc ///
     Key
         QGorensteinGenerator
@@ -22,7 +28,7 @@ doc ///
             By Fedder's criterion, this element $u$ represents the generator of the $R^{1/p^e}$-module $Hom(R^{1/p^e}, R)$.
             For example if $I = (f)$ is principal, then $u = f^{p^e-1}$ works.
         Text
-            This function produces the element $f$ described above.  If the user does not specify an integer e, it assumes e = 1.
+            This function produces the element $f$ described above.  If the user does not specify an integer $e$, it assumes $e = 1$.
         Example
             S = ZZ/3[x,y,z];
             f = x^2*y - z^2;
@@ -113,7 +119,7 @@ doc ///
         [testIdeal, MaxCartierIndex]
         [testIdeal, QGorensteinIndex]
     Headline
-        computes a test ideal in a Q-Gorenstein ring
+        compute a test ideal in a Q-Gorenstein ring
     Usage
         testIdeal(t, f)
         testIdeal(t, f, R)

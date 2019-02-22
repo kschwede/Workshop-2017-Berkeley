@@ -164,7 +164,7 @@ doc ///
         :Ideal
     Description
         Text
-            In a polynomial ring $R=k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the Frobenius root $I^{[1/p^e]}$ of an ideal $I$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(J,e)} ).  This function computes it.  Alternately it can be viewed as the image under the trace Cartier map of the ideal $I$.
+            In a polynomial ring $R=k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the Frobenius root $I^{[1/p^e]}$ of an ideal $I$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(p^e,J)} ).  This function computes it.  Alternately it can be viewed as the image under the trace Cartier map of the ideal $I$.
             Similarly, if the image of $A$ is in $R^k$, the Frobenius root is the smallest submodule $V$ of $R^k$ such that $A\subseteq V^{[p^e]}$.
 
             There are many ways to call {\tt frobeniusRoot}. The simplest way is to call {\tt frobeniusRoot(e,I)}. 
@@ -173,29 +173,29 @@ doc ///
             I = ideal(x^50*z^95, y^100+z^27);
             frobeniusRoot(2, I)
         Text
-            This computes $I^{[1/p^e]}$, i.e. the $p^e$-th root of $I$. Often, one wants to compute the frobeniusRoot of some product of ideals. This is best accomplished by calling the following version of frobeniusRoot.
+            This computes $I^{[1/p^e]}$, i.e., the $p^e$-th root of $I$. Often, one wants to compute the frobeniusRoot of some product of ideals. This is best accomplished by calling the following version of frobeniusRoot.
         Example
             R =  ZZ/5[x,y,z];
-            I1 = ideal(x^10, y^10, z^10);
-            I2 = ideal(x^20*y^100, x + z^100);
-            I3 = ideal(x^50*y^50*z^50);
-            frobeniusRoot(1, {4,5,6}, {I1, I2, I3})
+            I1 = ideal( x^10, y^10, z^10 );
+            I2 = ideal( x^20*y^100, x + z^100 );
+            I3 = ideal( x^50*y^50*z^50 );
+            frobeniusRoot( 1, {4,5,6}, {I1, I2, I3} )
         Text
-            The above example computes the ideal {\tt (I1^4 I2^5 I3^6)^{[1/p]}}. For legacy reasons, you can specify the last ideal in your list using {\tt frobeniusRoot(e,exponentList,idealList,I)}. This last ideal is just raised to the first power.
+            The above example computes the ideal {\tt (I1^4 I2^5 I3^6)^{[1/p]}}. For legacy reasons, the last ideal in the list can be specified separately, using {\tt frobeniusRoot(e,exponentList,idealList,I)}. The last ideal $I$ is just raised to the first power.
+        Text
+            The function {\tt frobeniusRoot} works over arbitrary finite fields.
         Example
-            p=3
-            F = GF(p^2,Variable=>a)
-            R=F[x,y,z]
-            I=ideal(a^(2*p)*x^p+y*z^p+x^p*y^p)
+            p = 3
+            F = GF( p^2, Variable => a )
+            R = F[x,y,z]
+            I = ideal( a^(2*p)*x^p+y*z^p+x^p*y^p )
             frobeniusRoot(1,I)
         Text
-            {\tt frobeniusRoot} works over finite fields.
+            For the matrix $A$ below, {\tt frobeniusRoot(1,A)} computes the smallest $V\subseteq R^2$ such that the image of $A$ is in $V^{[2]}$.
         Example
-            R=ZZ/2[a,b,c,d]
-            U= matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3 }}
-            V=frobeniusRoot(1,U)
-        Text
-            frobeniusRoot computes the smallest $V\subseteq R^2$ such that the image of $U$ is in $V^{[2]}$;
+            R = ZZ/2[a,b,c,d]
+            A = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3 }}
+            V = frobeniusRoot(1,A)
         Text
             You can also call {\tt frobeniusRoot(e,a,f)}. This computes the $e$th root of the principal ideal $(f^a)$. Calling {\tt frobeniusRoot(e,m,I)} computes the $e$th root of the ideal $I^m$, and calling {\tt frobeniusRoot(e,a,f,I)} computes the eth root of the product $f^a I$. Finally, you can also compute the $p^e$-th root of a matrix $A$ by calling {\tt frobeniusRoot(e,A)}.
         Text

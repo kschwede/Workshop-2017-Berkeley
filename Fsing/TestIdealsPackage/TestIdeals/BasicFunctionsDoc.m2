@@ -226,7 +226,7 @@ doc ///
             decomposeFraction( 3, 4/45 )
             4/45 == 64/( 3^2 * ( 3^4 -1 ) )
         Text
-            If our number is of the form $a/p^b$ then there is no valid value of $c$ and the
+            If the number $t$ is of the form $a/p^b$, then there is no valid value of $c$ and the
             function returns $c = 0$. Setting the option {\tt NoZeroC => true}
             forces the third entry of the output list to be nonzero, even if
             that means increasing the first entry.

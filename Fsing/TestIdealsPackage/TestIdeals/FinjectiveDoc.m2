@@ -1,3 +1,9 @@
+--***********************************************
+--***********************************************
+--Documentation for Finjective.m2
+--***********************************************
+--***********************************************
+
 doc ///
     Key
         HSLGModule
@@ -146,7 +152,7 @@ doc ///
             isFInjective(R)
             isFPure(R)
         Text
-            Now we do a similar computation this time with an ordinary elliptic curve.
+            Now we do a similar computation, this time with an ordinary elliptic curve.
         Example
             S = ZZ/3[xs, ys, zs, xt, yt, zt];
             EP1 = ZZ/3[x,y,z,s,t]/ideal(y^2*z-x^3+x*y*z); --ordinary elliptic curve
@@ -197,7 +203,7 @@ doc ///
         make assumptions about a ring
     Description
         Text
-            These are options used in various functions to make assumptions about your ring.
+            These are options used in various functions to make assumptions about a ring.
 ///
 
 

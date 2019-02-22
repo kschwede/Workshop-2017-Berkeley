@@ -1,3 +1,9 @@
+--***********************************************
+--***********************************************
+--Documentation for parameterTestIdeal.m2
+--***********************************************
+--***********************************************
+
 doc ///
     Key
         canonicalIdeal
@@ -23,7 +29,7 @@ doc ///
             R = S/(ker f);
             canonicalIdeal(R)
         Text
-            Here's an example in a non-domain.
+            Here is an example in a non-domain.
         Example
             R = ZZ/13[x,y,z]/ideal(x*y, x*z, y*z);
             canonicalIdeal(R)
@@ -118,7 +124,7 @@ doc ///
             paraTestMod = testModule(R)
             (paraTestMod#0) : (paraTestMod#1)
         Text
-            This function can be used to compute parameter test ideals in Cohen-Macaulay rings
+            This function can be used to compute parameter test ideals in Cohen-Macaulay rings.
         Example
             S=ZZ/2[X_1..X_5];
             E=matrix {{X_1,X_2,X_2,X_5},{X_4,X_4,X_3,X_1}};
@@ -198,7 +204,7 @@ doc ///
         :Boolean
     Description
         Text
-            Determines if a ring is Cohen-Macaulay.  If you pass the {\tt IsLocal parameter}, this will simply call the @TO isCM@ function in the {\tt Depth} package, which checks whether the ring is Cohen-Macaulay at the origin.  This function checks the Cohen-Macaulay property globally and sometimes is much faster than the local computation.
+            Determines if a ring is Cohen-Macaulay.  If you set {\tt IsLocal => true}, this will simply call the @TO isCM@ function in the {\tt Depth} package, which checks whether the ring is Cohen-Macaulay at the origin.  This function checks the Cohen-Macaulay property globally and sometimes is much faster than the local computation.
         Example
             T = ZZ/5[x,y];
             S = ZZ/5[a,b,c,d];
@@ -250,7 +256,7 @@ doc ///
         :Boolean
     Description
         Text
-            Determines if a ring is F-rational.  If you pass it {\tt IsLocal=>true}, it will only check if the ring is F-rational at the origin (this can be slower).  If you pass it {\tt AssumeCM=>true}, it will not verify that the ring is Cohen-Macaulay.
+            Determines if a ring is F-rational.  If you pass it {\tt IsLocal => true}, it will only check if the ring is F-rational at the origin (this can be slower).  If you pass it {\tt AssumeCM => true}, it will not verify that the ring is Cohen-Macaulay.
         Example
             T = ZZ/5[x,y];
             S = ZZ/5[a,b,c,d];

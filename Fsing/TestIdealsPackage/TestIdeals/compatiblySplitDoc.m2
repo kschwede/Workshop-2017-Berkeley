@@ -44,13 +44,13 @@ doc ///
         Example
             R = ZZ/3[u,v];
             u = u^2*v^2;
-            compatibleIdeals(u)
+            compatibleIdeals u
         Text
             Here is a more substantial example.
         Example
-            R=ZZ/2[x_{21},x_{31},x_{32},x_{41},x_{42},x_{43}];
-            u=x_{41}*(x_{31}*x_{42}-x_{41}*x_{32})*(x_{41}-x_{21}*x_{42}-x_{31}*x_{43}+x_{21}*x_{32}*x_{43});
-            C=compatibleIdeals (u);
+            R = ZZ/2[x_21,x_31,x_32,x_41,x_42,x_43];
+            u = x_41*(x_31*x_42-x_41*x_32)*(x_41-x_21*x_42-x_31*x_43+x_21*x_32*x_43);
+            C = compatibleIdeals u;
             apply(C, print);
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.

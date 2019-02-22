@@ -131,7 +131,7 @@ doc ///
 	        {\tt frobeniusPower(t,I)} computes the generalized Frobenius power
             $I^{[t]}$, as introduced by Hernandez, Teixeira, and Witt.
             If the exponent is a power of the characteristic, this is just the
-            usual Frobenius power:
+            usual Frobenius power.
         Example
             R = ZZ/5[x,y];
             I = ideal(x,y);

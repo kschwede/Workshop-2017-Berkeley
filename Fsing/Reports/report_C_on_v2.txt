@@ -16,6 +16,7 @@ The package has 4810 lines of code, so is large.
 
 comments on the documentation:
 
+*****************************************************************************
 
 Do not use variable names in headlines such as
 
@@ -28,13 +29,17 @@ are intended to be.  The headline can be vague!
 [Pedro] Done.
 --------------------------------------
 
+*****************************************************************************
+
 Sentences introducing examples, such as "Consider for instance the test ideal
 of the cone over an elliptic curve", are English sentences, and hence all of
 them should end with a period.
 
 --------------------------------------
-[Pedro] Working on it...
+[Pedro] Done.
 --------------------------------------
+
+*****************************************************************************
 
 The "Outputs" section of the documentation for 'ascendIdeal' states simply that
 the output is an ideal -- it should also state which ideal it is, i.e., that it
@@ -42,12 +47,15 @@ is "the smallest ideal containing a given ideal which is compatible with a
 ...".  The same problem occurs in other documentation nodes: frobeniusRoot,
 isFInjective, etc.
 
+*****************************************************************************
 
 The documentation for ascendIdeal incorrectly state that the second argument A
 is a submodule of a free module, but in fact, it is a matrix.  Submodules work
 well in Macaulay2, so it would be good to make the code conform to the
 documentation, rather than the other way around.
-   
+
+*****************************************************************************
+
 Remove the SeeAlso section from
 
     doc ///
@@ -65,12 +73,19 @@ FrobeniusPowerStrategy, etc.  By contrast, the documentation nodes for
 MonomialBasis, Substitution, etc., need a see-also link to
 FrobeniusRootStrategy, for M2 has no way to deduce the connection.
 
+*****************************************************************************
+
 The output would be more compact if the example code here:
 
     R=ZZ/2[x_{21},x_{31},x_{32},x_{41},x_{42},x_{43}];
 
 omitted the braces.
 
+--------------------------------------
+[Pedro] Done.
+--------------------------------------
+
+*****************************************************************************
 
 This is mysterious:
 
@@ -91,7 +106,7 @@ would be to return a sequence, for then you could write
 same inconvenient behavior and documentation, including HSLGModule.  They could
 all be improved.
 
-
+*****************************************************************************
 
 Better than
 
@@ -107,7 +122,14 @@ or
 
 Avoid personal pronouns.
 
+--------------------------------------
+[Pedro] Done. Fixed also a couple other occurences of "our" or "your".
+However, there are *many* "you"s throghout the documentation
+("if you pass this...", "if you do that...").
+Maybe we should avoid them as well, but that will be more substancial work. 
+--------------------------------------
 
+*****************************************************************************
 
 Change
 
@@ -120,6 +142,11 @@ to
 , because "u" is not an English word and you are writing English prose.  Search
 for other constructions of this type.
 
+--------------------------------------
+[Pedro] Rephrased this one, but have not yet looked for others.
+--------------------------------------
+
+*****************************************************************************
 
 Surely functions such as "HSLGModule" could be given better names, not
 involving obscure acronyms.  And why compound the obscurity by writing example
@@ -129,6 +156,7 @@ code such as
 
 ?
 
+*****************************************************************************
 
 In
 
@@ -138,8 +166,11 @@ surely you intended to say instead
 
 	If you pass the "true" as the value of the IsLocal parameter, this will 
 
+--------------------------------------
+[Pedro] Fixed.
+--------------------------------------
 
-
+*****************************************************************************
 
 =============================================================================
 
@@ -182,14 +213,6 @@ suggests that the use of named optional arguments would simplify the code and
 the documentation considerably!  Pass the canonical ideal, if desired, as the
 value of an optional argument.  Maybe even make *all* of the arguments optional
 (with "null" as the default value).  This seems to be a recurring problem.
-
-
-
-
-
-
-
-
 
 =============================================================================
 
