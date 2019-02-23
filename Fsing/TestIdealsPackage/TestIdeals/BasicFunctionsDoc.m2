@@ -207,7 +207,7 @@ doc ///
     Headline
         decompose a rational number
     Usage
-        L = decomposeFraction(p,t)
+        (a,b,c) = decomposeFraction(p,t)
     Inputs
         p:ZZ
             a prime
@@ -216,24 +216,24 @@ doc ///
         NoZeroC => Boolean
             forces the returned c to not be zero
     Outputs
-        L:Sequence
+        :Sequence
     Description
         Text
             Given a rational number $t$ and a prime $p$, {\tt decomposeFraction(p,t)}
-            returns a list {\tt \{a,b,c\}} of integers, with $b$ and $c$ nonnegative,
+            returns a sequence {\tt (a,b,c)} of integers, with $b$ and $c$ nonnegative,
             such that $t = a/(p^b(p^c-1))$.
         Example
-            decomposeFraction( 3, 4/45 )
-            4/45 == 64/( 3^2 * ( 3^4 -1 ) )
+            (a,b,c) = decomposeFraction( 3, 4/45 )
+            4/45 == a/( 3^b * ( 3^c - 1 ) )
         Text
             If the number $t$ is of the form $a/p^b$, then there is no valid value of $c$ and the
             function returns $c = 0$. Setting the option {\tt NoZeroC => true}
             forces the third entry of the output list to be nonzero, even if
             that means increasing the first entry.
         Example
-            decomposeFraction( 3, 4/27)
-            decomposeFraction( 3, 4/27, NoZeroC => true )
-            4/27 == 8/( 3^3 * ( 3 - 1 ) )
+            decomposeFraction( 3, 4/27 )
+            (a,b,c) = decomposeFraction( 3, 4/27, NoZeroC => true )
+            4/27 == a/( 3^b * ( 3^c - 1 ) )
 ///
 
 

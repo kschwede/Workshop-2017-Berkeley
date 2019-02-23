@@ -805,8 +805,7 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
         if isProper baseTau#0 then 
 	    error "compareFPT: The ambient ring must be F-regular."; 
 	    --the ambient isn't even F-regular
-        decomposedExponent := decomposeFraction( pp, t, NoZeroC => true );
-        (a1,b1,c1) := toSequence decomposedExponent;
+        (a1,b1,c1) := decomposeFraction( pp, t, NoZeroC => true );
         if a1 > (pp^c1-1) then
 	(
             a1quot := floor( (a1-1)/(pp^c1-1) );
@@ -850,8 +849,7 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
     --at this point we know that this is not the FPT
 
     --now we have to run the sigma computation
-    decomposedExponent := decomposeFraction( pp, t, NoZeroC => true );
-    (a1,b1,c1) := toSequence decomposedExponent;
+    (a1,b1,c1) := decomposeFraction( pp, t, NoZeroC => true );
     if a1 > (pp^c1-1) then
     (
         a1quot := floor( (a1-1)/(pp^c1-1) );
@@ -879,7 +877,7 @@ isInForbiddenInterval = method( TypicalValue => Boolean )
 isInForbiddenInterval ( ZZ, QQ ) := Boolean => ( p, t ) ->  
 (
     if t < 0 or t > 1 then return true;
-    (a,b,c) := toSequence decomposeFraction( p, t );
+    (a,b,c) := decomposeFraction( p, t );
     valid := true;
     e := 1;
     while valid and e <= b+c do
@@ -1001,8 +999,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
     if h1 != 0_S1 then 
     (
         baseTau := testModule(0/1, 1_R1, ideal 1_R1, {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
-        decomposedExponent := decomposeFraction( pp, t, NoZeroC => true );
-        (a1,b1,c1) := toSequence decomposedExponent;
+        (a1,b1,c1) := decomposeFraction( pp, t, NoZeroC => true );
         if a1 > (pp^c1-1) then
 	(
             a1quot := floor( (a1-1)/(pp^c1 - 1));
@@ -1041,10 +1038,7 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
     computedTau = (testModule(tList, fList, ideal(sub(1, S1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>true))#0;
 
     --now we have to run the sigma computation
-    decomposedExponent := decomposeFraction(pp, t, NoZeroC => true);
-    a1 := decomposedExponent#0;
-    b1 := decomposedExponent#1;
-    c1 := decomposedExponent#2;
+    (a1,b1,c1) := decomposeFraction( pp, t, NoZeroC => true );
     if (a1 > (pp^c1-1)) then(
         a1quot := floor( (a1-1)/(pp^c1 - 1));
         a1rem := a1 - (pp^c1-1)*a1quot;
