@@ -69,7 +69,7 @@ Authors => {
      },
      {Name => "Pedro Teixeira",
      Email => "pteixeir@knox.edu",
-     HomePage => "http://www.knox.edu/academics/faculty/teixeira-pedro.html"
+     HomePage => "https://www.knox.edu/academics/majors-and-minors/mathematics/faculty/teixeira-pedro"
      },
      {Name=> "Emily Witt",
      Email => "witt@ku.edu",

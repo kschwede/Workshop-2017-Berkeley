@@ -13,8 +13,8 @@ doc ///
     Headline
         compute a digit of the non-terminating expansion of a number in the unit interval in a given base
     Usage
-        d=adicDigit(p,e,x)
-        D=adicDigit(p,e,L)
+        d = adicDigit(p,e,x)
+        D = adicDigit(p,e,L)
     Inputs
         p:ZZ
             greater than 1; the desired base
@@ -23,7 +23,7 @@ doc ///
         x:QQ
             in the interval [0,1]; the number whose digit is to be computed
         L:List
-            a list of rational numbers in the interval [0,1]
+            a list of rational numbers in the interval [0,1] whose digits are to be computed
     Outputs
         d:ZZ
             the $e$-th digit of the base $p$ expansion of $x$
@@ -31,7 +31,7 @@ doc ///
             consisting of the $e$-th digits of the base $p$ expansion of the elements of $L$
     Description
         Text
-            The command {\tt adicDigit(p,e,0)} returns 0.  If $x\in (0,1]$,
+            The command {\tt adicDigit(p,e,0)} returns 0.  If $x$ is a rational number in the interval $(0,1]$,
             then {\tt adicDigit(p,e,x)} returns the coefficient of $p^{-e}$ in
             the non-terminating base $p$ expansion of $x$.
         Example
@@ -63,26 +63,26 @@ doc ///
         p:ZZ
 	    greater than 1; the desired base
         N:ZZ
-	    positive, whose base $p$ expansion is to be computed
+	    positive; the number whose base $p$ expansion is to be computed
         e:ZZ
 	    positive, which specifies how many digits are to be computed
         x:QQ
-	    in the interval [0,1], whose base $p$ expansion is to be computed
+	    in the interval [0,1]; the number whose base $p$ expansion is to be computed
     Outputs
         L1:List
             consisting of all digits of the terminating base $p$ expansion of $N$
         L2:List
-            consisting of the first $e$ digits of the {\em non}-terminating base
+            consisting of the first $e$ digits of the {\em non-terminating} base
             $p$ expansion of $x$
     Description
         Text
-            {\tt adicExpansion(p,0)} returns $\{ 0 \}$.
+            {\tt adicExpansion(p,0)} returns $\{0\}$.
             If $N$ is nonzero, then {\tt adicExpansion(p,N)} returns a list in
-            which the $i$th element is the coefficient of $p^i$ in the base $p$
+            which the $i$th element is the coefficient of $p^{i}$ in the base $p$
             expansion of $N$.
         Example
-            5==1*2^0+0*2^1+1*2^2
-            adicExpansion(2,5)
+            38 == 3*5^0 + 2*5^1 + 1*5^2
+            adicExpansion(5,38)
         Text
             {\tt adicExpansion(p,e,0)} returns a list with $e$ elements, all of which
             are zero. If $x$ is nonzero, then {\tt adicExpansion(p,e,x)} returns a
@@ -106,8 +106,8 @@ doc ///
     Headline
         truncation of a non-terminating adic expansion
     Usage
-        t=adicTruncation(p, e, r)
-        T=adicTruncation(p, e, L)
+        t = adicTruncation(p,e,r)
+        T = adicTruncation(p,e,L)
     Inputs
         p:ZZ
             greater than 1; the desired base
@@ -116,28 +116,25 @@ doc ///
         r:QQ
             nonnegative; the number whose truncation is to be computed
         L:List
-            containing nonnegative rational numbers to compute the truncation of
+            containing nonnegative rational numbers whose truncations are to be computed
     Outputs
         t:QQ
-            the {\tt e}-th truncation of x (base {\tt p})
+            the $e$th truncation of $r$ (base $p$)
         T:List
-            containing the {\tt e}-th truncations (base {\tt p})
-            of the elements of {\tt L}
+            containing the $e$th truncations (base $p$) of the elements of $L$
     Description
         Text
-            This function computes the $e$-th truncation of the $p$-adic expansion of
-            a rational number.
+            This function computes the $e$th truncation of the unique non-terminating $p$-adic expansion of a positive rational number $r$.
         Example
             adicTruncation(5, 2, 1/100)
             adicTruncation(5, 4, 1/100)
             adicTruncation(5, 5, 1/1000)
         Text
-            If you pass it zero, it returns zero.
+            If $r = 0$, {\tt adicTruncation} returns zero.
         Example
             adicTruncation(4,2,0)
         Text
-            You can also pass it a list of numbers, in which case it returns the
-            list of the truncations.
+            If a list $L$ of nonnegative rational numbers is passed, {\tt adicTruncation(p,e,L)} returns a list containing the $e$th truncations (base $p$) of those numbers.
         Example
             adicTruncation(5, 5, {1/100, 1/1000})
     SeeAlso
