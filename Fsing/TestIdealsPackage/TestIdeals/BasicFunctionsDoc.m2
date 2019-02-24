@@ -146,18 +146,19 @@ doc ///
 doc ///
     Key
         floorLog
-        (floorLog, ZZ, ZZ)
+        (floorLog, Number, Number)
     Headline
         floor of a logarithm
     Usage
      	floorLog(b,x)
     Inputs
-        b:ZZ
+        b:Number
             greater than 1; the base of the logarithm
-        x:ZZ
+        x:Number
 	    positive
     Outputs
         :ZZ
+	    the floor of {\tt log_b(x)}
     Description
         Text
             {\tt floorLog(b,x)} computes {\tt floor(log_b(x))}, correcting occasional
@@ -179,10 +180,10 @@ doc ///
         a:ZZ
             the number whose multiplicative order is to be computed
         b:ZZ
-            prime to $a$; the modulus
+            prime to {\tt a}; the modulus
     Outputs
         :ZZ
-            the multiplicative order of $a$ mod $b$.
+            the multiplicative order of {\tt a} mod {\tt b}
     Description
         Text
             {\tt multiplicativeOrder(a,b)} computes the multiplicative order
@@ -211,13 +212,14 @@ doc ///
         t:QQ
             the fraction to be decomposed
         NoZeroC => Boolean
-            forces the returned c to not be zero
+            forces the returned {\tt c} to not be zero
     Outputs
         :Sequence
+	    containing integers {\tt a}, {\tt b}, and {\tt c}, with {\tt b} and {\tt c} nonnegative, such that {\tt t = a/(p^b(p^c-1))}
     Description
         Text
             Given a rational number $t$ and a prime $p$, {\tt decomposeFraction(p,t)}
-            returns a sequence {\tt (a,b,c)} of integers, with $b$ and $c$ nonnegative,
+            returns a sequence ($a$,$b$,$c$) of integers, with $b$ and $c$ nonnegative,
             such that $t = a/(p^b(p^c-1))$.
         Example
             (a,b,c) = decomposeFraction( 3, 4/45 )

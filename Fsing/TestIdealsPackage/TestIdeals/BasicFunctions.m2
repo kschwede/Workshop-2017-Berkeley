@@ -30,7 +30,7 @@ fracPart = x -> x - floor(x)
 --Computes floor(log_b x), correcting problems due to rounding.
 floorLog = method( TypicalValue => ZZ )
 
-floorLog ( ZZ, ZZ ) := ZZ => ( b, x ) ->
+floorLog ( Number, Number ) := ZZ => ( b, x ) ->
 (
     if b <= 1 then error "floorLog: expected the first argument to be greater than 1";
     if x <= 0 then error "floorLog: expected the second argument to be positive";
@@ -51,14 +51,15 @@ multiplicativeOrder = method( TypicalValue => ZZ )
 multiplicativeOrder( ZZ, ZZ ) := ZZ => ( a, b ) ->
 (
     if gcd( a, b ) != 1 then error "multiplicativeOrder: Expected numbers to be relatively prime.";
-    if b==1 then return 1;
+    if b == 1 then return 1;
     maxOrder := lcm(apply(toList apply(factor b, i-> factor ((i#0-1)*((i#0)^(i#1-1)))), tt -> value tt));
     primeFactorList := sort unique apply( subsets( flatten apply(toList factor maxOrder, myPower -> apply(myPower#1, tt->myPower#0))), tt -> product tt);
 --    potentialOrderList := sort unique flatten  apply(flatten apply(toList apply(toList factor b, tt -> cyclicOrdPGroup(tt#0, tt#1)), tt -> toList tt), myPower -> subsets apply(myPower#1, tt->myPower#0));
     i := 0;
-    while (i < #primeFactorList) do (
-        if (powermod(a, primeFactorList#i, b) == 1) then return primeFactorList#i;
-        i = i + 1;
+    while i < #primeFactorList do 
+    (
+        if powermod(a, primeFactorList#i, b) == 1 then return primeFactorList#i;
+        i = i + 1
     );
     error "Something went wrong, multiplicativeOrder failed to find the multiplicative order";
 )
@@ -75,23 +76,23 @@ decomposeFraction = method( TypicalValue => Sequence, Options => { NoZeroC => fa
 decomposeFraction( ZZ, Number ) := Sequence => o -> ( p, t ) ->
 (
     t = t/1;
-    if not isPrime( p ) then error "decomposeFraction: first argument must be a prime number.";
+    if not isPrime p then error "decomposeFraction: first argument must be a prime number.";
     a := numerator t; -- finding a is easy, for now
-    den := denominator(t);
+    den := denominator t;
     b := 1;
     while den % p^b == 0 do b = b+1;
     b = b-1;
     temp := denominator( t*p^b );
     local c;
-    if (temp == 1) then c = 0 else
+    if temp == 1 then c = 0 else
     (
         c = multiplicativeOrder( p, temp );
-        a = lift( a*(p^c-1)/temp, ZZ ); -- fix a
+        a = lift( a*(p^c-1)/temp, ZZ ) -- fix a
     );
     if o.NoZeroC and c == 0 then
     (
         a = a*(p-1);
-        c = 1;
+        c = 1
     );
     (a,b,c)
 )
