@@ -138,8 +138,7 @@ Avoid personal pronouns.
 --------------------------------------
 [Pedro] Done. Fixed also a couple other occurences of "our" or "your".
 However, there are *many* "you"s throughout the documentation
-("if you pass this...", "if you do that...").
-Maybe we should avoid them as well, but that will be more substantial work. 
+("if you pass this...", "if you do that..."). I've been slowly working on this. 
 --------------------------------------
 
 *****************************************************************************
@@ -201,6 +200,9 @@ to
 , because you don't want strange types of mathematical objects to be accepted
 as one of those parameters.
 
+--------------------------------------
+[Pedro] Done.
+--------------------------------------
 
 The authors may have fun implementing the notation f^[n] for Frobenius powers
 and roots by attaching a method for ' RingElement ^ Array '.  On the other
@@ -208,6 +210,9 @@ hand, a future conflict may arise if someone creates another package that
 attaches a different method for that, and users are tempted to use both
 packages.
 
+--------------------------------------
+[Pedro] That would be neat, but it's already being used by M2.
+--------------------------------------
 
 This multiplicity of usage forms:
 

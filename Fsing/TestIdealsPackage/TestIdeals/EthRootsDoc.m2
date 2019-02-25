@@ -9,7 +9,7 @@ doc ///
         ascendIdeal
         (ascendIdeal, ZZ, RingElement, Ideal)
         (ascendIdeal, ZZ, ZZ, RingElement, Ideal)
-        (ascendIdeal, ZZ, BasicList, BasicList, Ideal)
+        (ascendIdeal, ZZ, List, List, Ideal)
         [ascendIdeal, AscentCount]
         [ascendIdeal, FrobeniusRootStrategy]
     Headline
@@ -27,9 +27,9 @@ doc ///
             the Frobenius root to take at each step of the ascent
         a:ZZ
             the power to raise h to at each step of the ascent
-        expList:BasicList
+        expList:List
             a list of powers to raise the h's to at each step of the ascent
-        hList:BasicList
+        hList:List
             a list of elements to multiply by at each step of the ascent
         AscentCount => ZZ
             tell the function to return how many times it took before the ascent of the ideal stabilized

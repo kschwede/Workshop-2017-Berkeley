@@ -9,31 +9,7 @@
 --*************************************************
 --*************************************************
 
--------------------------------------------------------
----------- List of functions in this file -------------
------------------(as of 2017-05-17)--------------------
--------------------------------------------------------
--- frobeniusRoot
--- getFieldGenRoot 
--- frobeniusRootMonStrat 
--- frobeniusRootSubStrat 
--- frobeniusRootRingElements
--- frobeniusRootRingElements 
--- ascendIdeal 
--- getExponents
--- mEthRootOfOneElement
--- mEthRoot 
--- Mstar 
--------------------------------------------------------
--------------------------------------------------------
--------------------------------------------------------
-
---if  ((not (class Fsing === Package)) and (not (class TestIdeals === Package))) then (
---    needs "BasicFunctions.m2" -- maybe this should be removed
---                          -- when we publish this package
---)                          
-
-frobeniusRoot = method(Options => {FrobeniusRootStrategy => Substitution});
+frobeniusRoot = method(Options => {FrobeniusRootStrategy => Substitution})
 --frobeniusRoot takes two strategy options: Substitution and MonomialBasis
 --The second strategy seems to generally be faster for computing I^[1/p^e] when e = 1, especially for polynomials of
 --high degree, but slower for larger e. 
@@ -41,39 +17,44 @@ frobeniusRoot = method(Options => {FrobeniusRootStrategy => Substitution});
 -- generator of the ideal in the monomial strategy. Though I see it's also called for the 
 -- substitution strategy...
 
-frobeniusRoot ( ZZ, Ideal ) := Ideal => opts -> (e,I) -> (
-    if (not e >= 0) then (error "frobeniusRoot: Expected first argument to be a nonnegative integer.");
+frobeniusRoot ( ZZ, Ideal ) := Ideal => opts -> ( e, I ) -> 
+(
+    if e < 0 then error "frobeniusRoot: Expected first argument to be a nonnegative integer";
     R := ring I;
-    if (class R =!= PolynomialRing) then (error "frobeniusRoot: Expected an ideal in a PolynomialRing.");
+    if class R =!= PolynomialRing then error "frobeniusRoot: Expected an ideal in a PolynomialRing";
     p := char R;
-    k := coefficientRing(R);
-    if ((k =!= ZZ/p) and (class(k) =!= GaloisField)) then (error "frobeniusRoot: Expected the coefficient field to be ZZ/p or a GaloisField.");
+    k := coefficientRing R;
+    if k =!= ZZ/p and class k =!= GaloisField then error "frobeniusRoot: Expected the coefficient field to be ZZ/p or a GaloisField";
 
     q := k#order;
     --Gets the cardinality of the base field.
     G := I_*;
     --Produces a list of the generators of I.
-    if #G == 0 then ideal(0_R) 
-    else if opts.FrobeniusRootStrategy == MonomialBasis then (
-	    L := sum( apply( G, f -> frobeniusRootMonStrat(e,p,q,k,f,R) ) );
-    	L = first entries mingens L;
-	    ideal(L)
+    if #G == 0 then ideal 0_R 
+    else 
+        if opts.FrobeniusRootStrategy == MonomialBasis then 
+        (
+	    L := sum apply( G, f -> frobeniusRootMonStrat(e,p,q,k,f,R) );
+    	    L = first entries mingens L;
+	    ideal L
 	)
-    else frobeniusRootSubStrat(e,p,q,k,I,R)  
+        else frobeniusRootSubStrat(e,p,q,k,I,R)  
 )
 
 -----------------------------------------------------------------------------
 
-frobeniusRoot ( ZZ, MonomialIdeal ) := Ideal => opts -> (e,I) -> (
-     R := ring I;
-     p := char R;
-     G := I_*;
-     if #G == 0 then ideal( 0_R ) else ideal( apply( G, f -> R_((exponents(f))#0//p^e )))
+frobeniusRoot ( ZZ, MonomialIdeal ) := Ideal => opts -> ( e, I ) -> 
+(
+    R := ring I;
+    p := char R;
+    G := I_*;
+    if #G == 0 then ideal 0_R else ideal apply( G, f -> R_( (exponents f)#0 // p^e ))
 )
 
 ------------------------------------------------------------------------------
 
-frobeniusRoot(ZZ, List, List) := opts -> (e, exponentList, idealList) -> (
+frobeniusRoot(ZZ, List, List) := opts -> ( e, exponentList, idealList ) -> 
+(
     --idealList is a list of ideals and/or ring elements. 
     --exponentList is a list of exponents we're taking these ideals/elemetns to
 
@@ -85,28 +66,26 @@ frobeniusRoot(ZZ, List, List) := opts -> (e, exponentList, idealList) -> (
 --        );
 --    );
     I := null;
-    if e == 0 then (
-        I = idealList#0^(exponentList#0);
-        for j from 1 to length(idealList) - 1 do I = I*(idealList#j)^(exponentList#j);
-        return I;
+    if e == 0 then 
+    (
+        I = idealList#0^( exponentList#0 );
+        apply( 1..(length(idealList) - 1), j-> I = I * ( idealList#j )^( exponentList#j ) );
+        return I
     );
 
-    R := ring(idealList#0);
-    p := char(R);
-    minGensList := apply(idealList, jj -> (if (class jj === Ideal) then #(first entries mingens (jj)) else 1 ));
+    R := ring idealList#0;
+    p := char R;
+    minGensList := apply( idealList, jj -> if class jj === Ideal then #(first entries mingens jj) else 1 );
 
     -- find max n such that a - (n-1)p > m*p. This is the number of copies of $I$ we can
     -- move outside the pth root. 
 
-    nsList := apply(exponentList, minGensList, (aa, mm) -> (
-       max(0, floor(aa/p - mm + 1)) 
-    ));
+    nsList := apply( exponentList, minGensList, ( aa, mm ) -> max( 0, floor( aa/p - mm + 1 ) ) ); 
     I = R;
-    for j from 0 to length(idealList) - 1 do I = I*(idealList#j)^(exponentList#j - nsList#j * p);
-    I = frobeniusRoot(1, I, opts );
-    frobeniusRoot(e - 1, append(nsList, 1), append(idealList, I), opts )
-);
-
+    apply( length idealList, j -> I = I * ( idealList#j )^( exponentList#j - nsList#j * p ) );
+    I = frobeniusRoot( 1, I, opts );
+    frobeniusRoot( e - 1, append( nsList, 1 ), append( idealList, I ), opts )
+)
 
 -----------------------------------------------------------------------------
 
@@ -291,8 +270,6 @@ ascendIdeal = method(Options => {FrobeniusRootStrategy => Substitution, AscentCo
 ascendIdeal(ZZ, RingElement, Ideal) := o->(ek, hk, Jk) -> 
     ascendIdeal(ek, {1}, {hk}, Jk, o)
 
-
-
 --Works like above ascendIdeal but tries to minimize the exponents elements are taken to
 -- what's ak?  Karl: ak is the numerator of the exponent t = ak/(p^ek - 1)
 
@@ -300,9 +277,8 @@ ascendIdeal(ZZ, ZZ, RingElement, Ideal) := o->( ek, ak, hk, Jk) ->
     ascendIdeal(ek, {ak}, {hk}, Jk, o)
 
 
-
 --handles lists of hk to powers...
-ascendIdeal(ZZ, BasicList, BasicList, Ideal) := o->(ek, akList,  hkList, Jk) -> (
+ascendIdeal(ZZ, List, List, Ideal) := o->(ek, akList,  hkList, Jk) -> (
     Rk := ring Jk;
     Ik := ideal Rk;
     Sk := ambient Rk;
@@ -313,7 +289,8 @@ ascendIdeal(ZZ, BasicList, BasicList, Ideal) := o->(ek, akList,  hkList, Jk) -> 
     i1 := 0;
      --we want to make the largest ideal that is phi-stable, following Moty Katzman's idea
      --we do the following
-    while (isSubset(IN+Ik, IP+Ik) == false) do(
+    while not isSubset(IN+Ik, IP+Ik) do
+    (
         i1 = i1 + 1; 
         --print "Step";
         IP = IN;
@@ -321,14 +298,9 @@ ascendIdeal(ZZ, BasicList, BasicList, Ideal) := o->(ek, akList,  hkList, Jk) -> 
     );
 
     --trim the output
-    if (o.AscentCount == false) then 
-		trim (IP*Rk)
-	else {trim (IP*Rk), i1}
+    if not o.AscentCount then trim (IP*Rk) else { trim (IP*Rk), i1 }
 )
---		
 
-
---MKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMK
 -----------------------------------------------------------------------------
 --- Extend the Frobenius p^e th roots and star operations to submodules of
 --- free modules (over polynomial rings with *prime* coeeficient field)
@@ -338,7 +310,6 @@ ascendIdeal(ZZ, BasicList, BasicList, Ideal) := o->(ek, akList,  hkList, Jk) -> 
 --- Journal of Symbolic computation, 2014
 
 -----------------------------------------------------------------------------
-
 
 getExponents = method();
 getExponents(Matrix):= (f)-> (
