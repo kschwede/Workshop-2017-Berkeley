@@ -200,7 +200,8 @@ doc ///
 doc ///
     Key
         decomposeFraction
-        (decomposeFraction, ZZ, Number)
+        (decomposeFraction, ZZ, QQ)
+        (decomposeFraction, ZZ, ZZ)
         [decomposeFraction, NoZeroC]
     Headline
         decompose a rational number

@@ -116,22 +116,22 @@ doc ///
     Inputs
         R:Ring
         FrobeniusRootStrategy => Symbol
-            choose the strategy for internal frobeniusRoot calls
+            selects the strategy for internal {\tt frobeniusRoot} calls
         IsLocal => Boolean
-            specify whether to check F-injectivity only at the origin
+            stipulates whether to check F-injectivity only at the origin
         AssumeCM => Boolean
-            assume the ring is Cohen-Macaulay
+            assumes the ring is Cohen-Macaulay
         AssumeNormal => Boolean
-            assume the ring is normal
+            assumes the ring is normal
         AssumeReduced => Boolean
-            assume the ring is reduced
+            assumes the ring is reduced
         CanonicalStrategy => Boolean
-            specify what strategy to use when computing the Frobenius action on top local cohomology
+            specifies what strategy to use when computing the Frobenius action on top local cohomology
     Outputs
         :Boolean
     Description
         Text
-            This determines whether a ring of finite type over a prime field is F-injective or not.  Over a more general field this checks the F-injectivity of the relative Frobenius.
+            This function determines whether a ring of finite type over a prime field is F-injective.  Over a more general field, it checks the F-injectivity of the relative Frobenius.
             We begin with an example of an F-injective ring that is not F-pure (taken from the work of Anurag Singh).
         Example
              S = ZZ/3[a,b,c,d,t];
@@ -143,7 +143,7 @@ doc ///
              isFInjective(R)
              isFPure(R)
         Text
-            Next let's form the cone over $P^1 \times E$ where $E$ is an elliptic curve.  We begin with a supersingular elliptic curve.  This should be F-injective and only if it is F-pure.
+            Next, let us form the cone over $P^1 \times E$ where $E$ is an elliptic curve.  We begin with a supersingular elliptic curve.  This should be F-injective if and only if it is F-pure.
         Example
             S = ZZ/3[xs, ys, zs, xt, yt, zt];
             EP1 = ZZ/3[x,y,z,s,t]/ideal(x^3+y^2*z-x*z^2); --supersingular elliptic curve
@@ -161,32 +161,32 @@ doc ///
             isFInjective(R)
             isFPure(R)
         Text
-            If {\tt CanonicalStrategy=>Katzman} which is the default behavior, then the Frobenius action on the top local cohomology (bottom $Ext$) is computed via the method of Katzman.  If it is set to anything else, it is simply brute forced in Macaulay2 using the fuctoriality of Ext.  {\tt CanonicalStrategy=>Katzman} typically is much faster.
+            If {\tt CanonicalStrategy} is set to {\tt Katzman}, which is the default behavior, then the Frobenius action on the top local cohomology (bottom Ext) is computed via the method of Katzman.  If it is set to anything else, it is simply brute forced in Macaulay2 using the fuctoriality of Ext.  {\tt CanonicalStrategy => Katzman} typically is much faster.
         Example
             R = ZZ/5[x,y,z]/ideal(y^2*z + x*y*z-x^3)
             time isFInjective(R)
-            time isFInjective(R, CanonicalStrategy=>null)
+            time isFInjective(R, CanonicalStrategy => null)
         Text
-            If you set the option {\tt IsLocal => true} (default {\tt false}) it will only check F-injectivity at the origin.  Otherwise it will check it everywhere.  Note checking at the origin can be slower than checking it everywhere.  Consider the example of the following non-F-injective ring.
+            If the option {\tt IsLocal} (default value {\tt false}) is set to {\tt true}, {\tt isFInjective} will only check F-injectivity at the origin.  Otherwise it will check F-injectivity globally.  Note that checking F-injectivity at the origin can be slower than checking it globally.  Consider the following example of a non-F-injective ring.
         Example
             R = ZZ/7[x,y,z]/ideal( (x-1)^5 + (y+1)^5 + z^5 );
             isFInjective(R)
-            isFInjective(R, IsLocal=>true)
+            isFInjective(R, IsLocal => true)
         Text
-            If {\tt AssumeCM=>true} then the function only checks the Frobenius action on top cohomology (which is typically much faster).  The default value is {\tt false}.  Note, that it can give an incorrect answer if the non-injective Frobenius occurs in a lower degree.  Consider the example of the cone over a supersingular elliptic curve times $P^1$.
+            If the option {\tt AssumeCM} (default value {\tt false}) is set to {\tt true}, then the function only checks the Frobenius action on top cohomology (which is typically much faster). Note that it can give an incorrect answer if the non-injective Frobenius occurs in a lower degree.  Consider the example of the cone over a supersingular elliptic curve times $P^1$.
         Example
             S = ZZ/3[xs, ys, zs, xt, yt, zt];
             EP1 = ZZ/3[x,y,z,s,t]/ideal(x^3+y^2*z-x*z^2);
             f = map(EP1, S, {x*s, y*s, z*s, x*t, y*t, z*t});
             R = S/(ker f);
             time isFInjective(R)
-            time isFInjective(R, AssumeCM=>true)
+            time isFInjective(R, AssumeCM => true)
         Text
-            If {\tt AssumedReduced=>true} (default {\tt true}) then the bottom local cohomology is avoided (this means the Frobenius action on the top potentially nonzero Ext is not computed).
+            If the option {\tt AssumedReduced} is set to {\tt true} (its default behavior), then the bottom local cohomology is avoided (this means the Frobenius action on the top potentially nonzero Ext is not computed).
         Text
-            If {\tt AssumeNormal=>true} (default {\tt false}) then we need not compute the bottom two local cohomology modules (or rather their duals).
+            If the option {\tt AssumeNormal} (default value {\tt false}) is set to {\tt true}, then we need not compute the bottom two local cohomology modules (or rather their duals).
         Text
-            The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
+            The value of the option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
         isFPure
         testModule

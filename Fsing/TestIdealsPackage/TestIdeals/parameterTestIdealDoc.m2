@@ -16,9 +16,10 @@ doc ///
     Inputs
         R:Ring
         Attempts => ZZ
-            how many times the function should try to embed the canonical module as an ideal before giving up
+            specify how many times the function should try to embed the canonical module as an ideal before giving up
     Outputs
         :Ideal
+	    isomorphic to the canonical module of {\tt R}
     Description
         Text
             Given a ring $R$, typically a domain, this produces an ideal isomorphic to the canonical module of $R$.  This will not always produce the same ideal, especially in a non-domain.  It uses the function {\tt embedAsIdeal} from {\tt Divisor.m2}.
@@ -34,7 +35,7 @@ doc ///
             R = ZZ/13[x,y,z]/ideal(x*y, x*z, y*z);
             canonicalIdeal(R)
         Text
-            The option {\tt Attempts} is passed to an internal function which embeds the canonical module as an ideal.  This tells it how many times to try before giving up.
+            The option {\tt Attempts} is passed to {\tt embedAsIdeal}, and tells it how many times to try before giving up.
 ///
 
 doc ///
@@ -199,12 +200,12 @@ doc ///
     Inputs
         R:Ring
         IsLocal => Boolean
-            instead call the isCM function from the Depth package which checks if the ring is Cohen-Macaulay only at the origin.
+	    stipulates whether to check if the ring is Cohen-Macaulay only at the origin 
     Outputs
         :Boolean
     Description
         Text
-            Determines if a ring is Cohen-Macaulay.  If you set {\tt IsLocal => true}, this will simply call the @TO isCM@ function in the {\tt Depth} package, which checks whether the ring is Cohen-Macaulay at the origin.  This function checks the Cohen-Macaulay property globally and sometimes is much faster than the local computation.
+            The function {\tt isCohenMacaulay} determines if a ring is Cohen-Macaulay.  If the option {\tt IsLocal} (which defaults to {\tt false}) is set to {\tt true}, {\tt isCohenMacaulay} will simply call the @TO isCM@ function in the {\tt Depth} package, which checks whether the ring is Cohen-Macaulay at the origin; otherwise, {\tt isCohenMacaulay} checks the Cohen-Macaulay property globally, which sometimes is much faster than the local computation.
         Example
             T = ZZ/5[x,y];
             S = ZZ/5[a,b,c,d];
@@ -215,9 +216,9 @@ doc ///
             R = QQ[x,y,u,v]/(ideal(x*u, x*v, y*u, y*v));
             isCohenMacaulay(R)
         Text
-            The function works as follows.  It considers $R$ as a quotient of an ambient polynomial ring, $R = S/I$.  It takes a resolution of $I$.  If the resolution has length equal to dim $R$ - dim $S$, then it is Cohen-Macaulay.  If the resolution has a different length, and $I$ is homogeneous, then it is not Cohen-Macaulay.  Finally, if the resolution has a different length and I is not homogeneous, the function looks at the $Ext$ groups which compute the depth.
+            The function works as follows.  It considers $R$ as a quotient of an ambient polynomial ring, $R = S/I$.  It takes a resolution of $I$.  If the resolution has length equal to dim $R$ - dim $S$, then $R$ is Cohen-Macaulay.  If the resolution has a different length, and $I$ is homogeneous, then $R$ is not Cohen-Macaulay.  Finally, if the resolution has a different length and $I$ is not homogeneous, the function looks at the $Ext$ groups which compute the depth.
     Caveat
-        Warning, this function assumes that Spec $R$ is connected.  In particular, if you pass it a non-equidimensional Cohen-Macaulay ring (for example, if Spec $R$ has two connected components of different dimensions), this function will return false.
+        This function assumes that Spec $R$ is connected.  In particular, if you pass it a non-equidimensional Cohen-Macaulay ring (for example, if Spec $R$ has two connected components of different dimensions), this function will return {\tt false}.
 ///
 
 doc ///
