@@ -75,9 +75,13 @@ Remove the SeeAlso section from
 
 , because Macaulay2 automatically provides a link to the appropriate node for
 you.  Similarly for decomposeFraction, CanonicalStrategy,
-FrobeniusPowerStrategy, etc.  By contrast, the documentation nodes for
+FrobeniusPowerStrategy, etc. By contrast, the documentation nodes for
 MonomialBasis, Substitution, etc., need a see-also link to
 FrobeniusRootStrategy, for M2 has no way to deduce the connection.
+
+--------------------------------------
+[Pedro] Done.
+--------------------------------------
 
 *****************************************************************************
 

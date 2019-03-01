@@ -204,6 +204,4 @@ doc ///
     Description
         Text
             Valid options are {\tt Naive} and {\tt Safe}.
-    SeeAlso
-        frobeniusPower
 ///

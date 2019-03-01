@@ -57,10 +57,10 @@ doc ///
         Text
             Specifically, this function returns a list of the following entries.  {\tt HSLGmodule, canonicalModule, u, HSLCount} where {\tt canonicalModule} is the canonical module of the ring (expressed as an ideal), {\tt HSLGmodule} is a submodule of that canonical module, {\tt u} is an element of the ambient polynomial ring representing the trace of Frobenius on the canonical module and {\tt HSLCount} is how many times the trace of Frobenius was computed before the image stabilized.
         Example
-            R = ZZ/7[x,y,z]/ideal(x^5+y^5+z^5);
+            R = ZZ/7[x,y,z]/ideal( x^5+y^5+z^5 );
             HSLList = HSLGModule(R);
             HSLList#1 --the ambient canonical module
-            HSLList#0 --the HSLGsubmodule
+            HSLList#0 --the HSLG submodule
             HSLList#2 --the element representing trace of Frobenius
             HSLList#3 --how many times it took until the image stabilized
         Text
@@ -212,8 +212,6 @@ doc ///
         CanonicalStrategy
     Headline
         an option for isFInjective
-    SeeAlso
-        isFInjective
 ///
 
 doc ///
@@ -223,4 +221,5 @@ doc ///
         a valid value for the option CanonicalStrategy
     SeeAlso
         isFInjective
+	CanonicalStrategy
 ///

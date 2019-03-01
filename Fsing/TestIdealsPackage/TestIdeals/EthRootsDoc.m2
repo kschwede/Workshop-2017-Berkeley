@@ -62,13 +62,13 @@ doc ///
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
         Text
-            By default (when {\tt AscentCount => true}), {\tt ascendIdeal} just returns the stable (ascended) ideal.  If instead you set {\tt AscentCount=>true} then it returns a list.  The first value is the stable ideal.  The second is how many steps it took to reach that ideal.
+            By default (when {\tt AscentCount => true}), {\tt ascendIdeal} just returns the stable (ascended) ideal.  If instead you set {\tt AscentCount => true} then it returns a list.  The first value is the stable ideal.  The second is how many steps it took to reach that ideal.
         Example
             R = ZZ/5[x,y,z];
             J = ideal(x^12,y^15,z^21);
             f = y^2+x^3-z^5;
             ascendIdeal(1, f^4, J)
-            ascendIdeal(1, f^4, J, AscentCount=>true)
+            ascendIdeal(1, f^4, J, AscentCount => true)
         Text
             This method is described in M. Katzman's "Parameter-test-ideals of Cohen–Macaulay rings" (Compositio Mathematica 144 (4), 933-948) under the name "star-closure".
             It is a key tool in computing test ideals and test modules.
@@ -115,8 +115,6 @@ doc ///
         AscentCount
     Headline
         an option for ascendIdeal
-    SeeAlso
-        [ascendIdeal, AscentCount]
 ///
 
 
@@ -220,6 +218,8 @@ doc ///
         Substitution
     Headline
         a valid value for the FrobeniusRootStrategy option
+    SeeAlso
+	FrobeniusRootStrategy
 ///
 
 doc ///
@@ -227,4 +227,6 @@ doc ///
         MonomialBasis
     Headline
         a valid value for the FrobeniusRootStrategy option
+    SeeAlso
+	FrobeniusRootStrategy
 ///

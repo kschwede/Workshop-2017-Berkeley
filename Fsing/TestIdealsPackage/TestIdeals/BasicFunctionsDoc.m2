@@ -245,6 +245,4 @@ doc ///
     Description
         Text
             Valid values are {\tt true} or {\tt false}.
-    SeeAlso
-        decomposeFraction
 ///
