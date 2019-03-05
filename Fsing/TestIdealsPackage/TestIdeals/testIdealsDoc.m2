@@ -51,21 +51,22 @@ doc ///
         testElement(R)
     Inputs
         R: Ring
-            the ring to find a test element in
+            a quotient of a polynomial ring
         AssumeDomain => Boolean
-            assume the ring is a domain
+            assumes the ring is a domain
     Outputs
         :RingElement
+	    a test element of {\tt R}
     Description
         Text
-            Given $R = S/I$ where $S$ is a polynomial ring, this finds an element of $S$ that restricts to a test element of $R$.  This does this by finding a minor of the Jacobian whose determinant is not in any minimal prime of the defining ideal of $R$.  This funtion considers random minors until one is found, instead of computing all minors.  Thus, repeated calls will not always produce the same answer.
+            Given $R = S/I$, where $S$ is a polynomial ring, the function {\tt testElement} finds an element of the ambient ring $S$ that represents a test element of $R$. This is done by finding a minor of the Jacobian of $I$ that does not lie in any minimal prime of $I$. This function considers random minors until one is found, instead of computing all minors. Thus, repeated calls will not always produce the same answer.
         Example
             R = ZZ/5[x,y,z]/(x^3+y^3+z^3);
             testElement(R)
             testElement(R)
             testElement(R)
         Text
-            If {\tt AssumeDomain => true} then testElement does not to compute the minimal primes of the ring.  This can result in a substantial speedup in some cases.  The default value is {\tt false}.
+            If the option {\tt AssumeDomain} (default value {\tt false}) is set to {\tt true}, then {\tt testElement} does not compute the minimal primes of $I$. This can result in a substantial speedup in some cases.
 ///
 
 doc ///

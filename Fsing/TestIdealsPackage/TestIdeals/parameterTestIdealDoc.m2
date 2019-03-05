@@ -163,13 +163,15 @@ doc ///
         parameterTestIdeal(R)
     Inputs
         R:Ring
-        FrobeniusRootStrategy=>Symbol
-            choose the strategy for internal frobeniusRoot calls
+	    a Cohen-Macaulay ring
+        FrobeniusRootStrategy => Symbol
+            specifies the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Ideal
+	    the parameter test ideal of {\tt R}
     Description
         Text
-            This computes the parameter test ideal of a Cohen-Macaulay ring.  Technically, it computes $\tau(\omega) : \omega$ where $\omega$ is a canonical module and $\tau(\omega)$ it the (parameter) testModule as computed by @TO testModule@.  For example, the following example is F-rational and so has trivial parameter test ideal.
+            This function computes the parameter test ideal of a Cohen-Macaulay ring $R$. Technically, it computes $\tau(\omega) : \omega$ where $\omega$ is a canonical module of $R$, and $\tau(\omega)$ is the (parameter) test module, as computed by @TO testModule@. For example, the ring $R$ in the following example is $F$-rational, and so its parameter test ideal is the unit ideal.
         Example
             T = ZZ/5[x,y];
             S = ZZ/5[a,b,c,d];
@@ -177,7 +179,7 @@ doc ///
             R = S/(ker g);
             parameterTestIdeal(R)
         Text
-            Consider now a non-F-rational Gorenstein ring where the @TO testIdeal@ and parameterTestIdeal coincide.
+            Consider now a non-$F$-rational Gorenstein ring, whose test ideal and parameter test ideal coincide.
         Example
             R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
             parameterTestIdeal(R)
