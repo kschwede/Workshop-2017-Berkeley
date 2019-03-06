@@ -19,12 +19,12 @@ doc ///
             in positive characteristic
     Outputs
         :RingElement
-            the $n$-th power of $f$
+            the {\tt n}-th power of {\tt f}
     Description
         Text
-            In prime characteristic $p > 0$, raising a sum $a+b$ to the $p$-th power
+            In prime characteristic $p > 0$, raising a sum $a+b$ to the $p$th power
             is more quickly done by simply computing $a^p$ and $b^p$ and adding them.
-            The basic strategy is to break up the exponent into its base $p$
+            The basic strategy behind {\tt fastExponentiation} is to break up the exponent into its base $p$
             expansion, and then use the exponent rules. For example,
             $(x+y)^{3p^2+5p+2} = ((x+y)^3)^{p^2}((x+y)^5)^p(x+y)^2$.
         Example
@@ -57,11 +57,13 @@ doc ///
             in a ring of positive characteristic $p > 0$
         M:Matrix
             with entries in a ring of positive characteristic $p > 0$
-        FrobeniusRootStrategy => Boolean
-            choose the strategy for internal frobeniusRoot calls
+        FrobeniusRootStrategy => Symbol
+            chooses the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Ideal
+	    the {\tt p^e}-th Frobenius power of {\tt I} (with {\tt e = 1}, if {\tt e} is not specified)
 	:Matrix
+	    the {\tt p^e}-th Frobenius power of {\tt M} (with {\tt e = 1}, if {\tt e} is not specified)
     Description
         Text
             Given an ideal $I$ in a ring of characteristic $p > 0$ and a nonnegative
@@ -85,7 +87,7 @@ doc ///
             frobenius(-2,I)
             frobeniusRoot(2,I)
         Text
-            If $M$ is a matrix with entries in a ring of positive characteristic
+            If $M$ is a matrix with entries in a ring of characteristic
             $p > 0$ and $e$ is a nonnegative integer, then {\tt frobenius(e,M)} or
             {\tt frobenius^e(M)} outputs a matrix whose entries are
             the $p^e$-th powers of the entries of $M$.
@@ -121,11 +123,12 @@ doc ///
         I:Ideal
             in a ring of characteristic $p > 0$
         FrobeniusPowerStrategy => Symbol
-            control the strategy for frobeniusPower
+            selects the strategy for {\tt frobeniusPower}
         FrobeniusRootStrategy => Symbol
-            choose the strategy for internal frobeniusRoot calls
+            chooses the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Ideal
+	    the {\tt n}-th or {\tt t}-th Frobenius power of {\tt I}
     Description
         Text
 	        {\tt frobeniusPower(t,I)} computes the generalized Frobenius power
@@ -167,10 +170,10 @@ doc ///
             I = ideal(x^50,y^30);
             t = 6/19;
             expon = e -> ceiling( p^e*t )/p^e; -- a sequence converging to t from above
-            scan( 5, i -> print frobeniusPower(expon(i),I) )
+            print \ apply( 6, i -> frobeniusPower( expon(i), I ) );
             frobeniusPower(t,I)
         Text
-            The option {\tt FrobneiusPowerStrategy} controls the strategy for computing the generalized Frobenius power $I^{[t]}$. The two valid options are {\tt Safe} and {\tt Naive}, and the default strategy is {\tt Naive}.
+            The option {\tt FrobeniusPowerStrategy} controls the strategy for computing the generalized Frobenius power $I^{[t]}$. The two valid options are {\tt Safe} and {\tt Naive}, and the default strategy is {\tt Naive}.
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso

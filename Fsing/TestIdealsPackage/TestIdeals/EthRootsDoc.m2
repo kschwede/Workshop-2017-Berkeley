@@ -78,7 +78,6 @@ doc ///
         testModule
 ///
 
-
 doc ///
     Key
         ascendModule
@@ -106,18 +105,12 @@ doc ///
             under the name "star-closure".
 ///
 
-
-
-
-
-
 doc ///
     Key
         AscentCount
     Headline
         an option for ascendIdeal
 ///
-
 
 doc ///
     Key
@@ -132,35 +125,37 @@ doc ///
         (frobeniusRoot, ZZ, Matrix)
         [frobeniusRoot, FrobeniusRootStrategy]
     Headline
-        compute a Frobenius root of an ideal in a polynomial ring over a finite field
+        compute a Frobenius root
     Usage
         frobeniusRoot(e, I)
-        frobeniusRoot(e, exponentList, idealList)
-        frobeniusRoot (e, a, f, I)
-        frobeniusRoot (e, a, f)
-        frobeniusRoot (e, m, I)
-        frobeniusRoot(e, exponentList, idealList, I)
+        frobeniusRoot(e, a, f, I)
+        frobeniusRoot(e, a, f)
+        frobeniusRoot(e, m, I)
+        frobeniusRoot(e, expList, idealList)
+        frobeniusRoot(e, expList, idealList, I)
         frobeniusRoot(e, A)
     Inputs
         e:ZZ
-            the order of the Frobenius root. E.g., to find the $p^2$-th root of an ideal, set {\tt e = 2}
+            the order of the Frobenius root
         I:Ideal
-            an ideal in a polynomial ring over a finite field
-        idealList:List
-            a list of ideals whose product you want to take the root of
-        exponentList:List
-            a list of exponents which you are raising idealList to. E.g., to find the root of {\tt I^2J^3}, set {\tt idealList = \{I, J\}} and {\tt exponentList = \{2, 3\}}
+            an ideal in a polynomial ring over a finite field of characteristic {\tt p}
         a:ZZ
-            the exponent you are raising {\tt f} to
+            the exponent to which {\tt f} will be raised, before taking the Frobenius root
         f:RingElement
-            a polynomial
+            a polynomial over a finite field of characteristic {\tt p}
+        idealList:List
+            containing ideals {\tt I_1,\ldots,I_n}
+        expList:List
+            containing exponents {\tt a_1,\ldots,a_n} to which the ideals in {\tt idealList} will be raised 
         m:ZZ
-            the exponent you are raising {\tt I} to
+            the exponent to which {\tt I} will be raised, before taking the Frobenius root
         A:Matrix
+	    with entries in a polynomial ring over a finite field of characteristic {\tt p}
         FrobeniusRootStrategy => Symbol
-            control the strategy for this function
+            controls the strategy for this function
     Outputs
         :Ideal
+	    the {\tt p^e}-th Frobenius root of {\tt I} (or {\tt f^aI}, {\tt (f^a)}, {\tt I^m}, {\tt I_1^{a_1}\cdots I_n^{a_n}}, {\tt II_1^{a_1}\cdots I_n^{a_n}}, {\tt A}, depending on the arguments passed)
     Description
         Text
             In a polynomial ring $R=k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the Frobenius root $I^{[1/p^e]}$ of an ideal $I$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(p^e,J)} ).  This function computes it.  Alternately it can be viewed as the image under the trace Cartier map of the ideal $I$.
@@ -180,7 +175,7 @@ doc ///
             I3 = ideal( x^50*y^50*z^50 );
             frobeniusRoot( 1, {4,5,6}, {I1, I2, I3} )
         Text
-            The above example computes the ideal {\tt (I1^4 I2^5 I3^6)^{[1/p]}}. For legacy reasons, the last ideal in the list can be specified separately, using {\tt frobeniusRoot(e,exponentList,idealList,I)}. The last ideal $I$ is just raised to the first power.
+            The above example computes the ideal {\tt (I1^4 I2^5 I3^6)^{[1/p]}}. For legacy reasons, the last ideal in the list can be specified separately, using {\tt frobeniusRoot(e,expList,idealList,I)}. The last ideal $I$ is just raised to the first power.
         Text
             The function {\tt frobeniusRoot} works over arbitrary finite fields.
         Example

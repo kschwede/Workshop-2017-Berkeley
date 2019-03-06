@@ -41,7 +41,7 @@ doc ///
 	    and let $T: E \rightarrow E$ be the natural Frobenius map. Then $uT$ is a Frobenius map on $E$, and the primes $P$ computed by this function are precisely those for which
 	    $uT$ restricts to a nonzero Frobenius map of the annihlator of $P$ on $E$.
 
-            We begin with a simple example (which is split with the coordinate axes in A^2).
+            We begin with a simple example (which is split with the coordinate axes in $\mathbb{A}^2$).
         Example
             R = ZZ/3[s,t];
             u = s^2*t^2;
