@@ -113,7 +113,6 @@ frobeniusRoot ( ZZ, Matrix ) := opts -> (e, A) -> mEthRoot (e,A)  --- MK
 
 -----------------------------------------------------------------------------
 
-
 --frobeniusRoot = method( Options => { FrobeniusRootStrategy => Substitution } )
 
 --frobeniusRoot ( ZZ, Ideal ) := o -> ( n, I ) -> 
@@ -265,7 +264,7 @@ frobeniusRootRingElements( ZZ, ZZ, RingElement ) := o->( e, a, f ) ->
 
 --this is a new ascendIdeal written by Karl.  It ascends but does it in a possibly non-polynomial ring.
 --the point is the ascending might be faster if we don't care about it mod a certain ideal.  
-ascendIdeal = method(Options => {FrobeniusRootStrategy => Substitution, AscentCount=>false});
+ascendIdeal = method( Options => { FrobeniusRootStrategy => Substitution, AscentCount => false } )
 
 ascendIdeal(ZZ, RingElement, Ideal) := o->(ek, hk, Jk) -> 
     ascendIdeal(ek, {1}, {hk}, Jk, o)

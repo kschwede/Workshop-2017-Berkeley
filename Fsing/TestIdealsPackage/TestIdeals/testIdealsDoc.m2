@@ -59,7 +59,7 @@ doc ///
 	    a test element of {\tt R}
     Description
         Text
-            Given $R = S/I$, where $S$ is a polynomial ring, the function {\tt testElement} finds an element of the ambient ring $S$ that represents a test element of $R$. This is done by finding a minor of the Jacobian of $I$ that does not lie in any minimal prime of $I$. This function considers random minors until one is found, instead of computing all minors. Thus, repeated calls will not always produce the same answer.
+            Given $R = S/I$, where $S$ is a polynomial ring, the function {\tt testElement} finds an element of the ambient ring $S$ whose image in $R$ is a test element of $R$. This is done by finding a minor of the jacobian of $I$ that does not lie in any minimal prime of $I$. This function considers random minors until one is found, instead of computing all minors. Thus, repeated calls will not always produce the same answer.
         Example
             R = ZZ/5[x,y,z]/(x^3+y^3+z^3);
             testElement(R)

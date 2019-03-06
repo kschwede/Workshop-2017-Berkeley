@@ -12,38 +12,39 @@ doc ///
     Headline
         find all prime ideals compatible with a Frobenius near-splitting 
     Usage
-        compatibleIdeals (u)
+        compatibleIdeals(u)
     Inputs
         u:RingElement
-            the element determining the Frobenius splitting
+            in a polynomial ring over the prime field $\mathbb{Z}/p$; the element determining the Frobenius splitting
         FrobeniusRootStrategy => Symbol
-            choose the strategy for internal frobeniusRoot calls
+            stipulates the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :List
+	    containing all prime ideals $P$ of the ring of $u$ such that $u P \subseteq P^{[p]}$ and $u$ is not in $P^{[p]}$
+
     Description
         Text
-            The given element $u$ in a polynomial ring $R$ over a prime field defines a
-	    $p^{-e}$ linear map $\phi$: this is obtained by multiplying $e$-th Frobenius trace on a polynomial ring by the polynomial $u$.
+            The given element $u$ in a polynomial ring $R$ over the prime field $\mathbb{Z}/p$ defines a
+	    $p^{-e}$-linear map $\phi$; this map is obtained by multiplying the $e$th Frobenius trace on the polynomial ring by the polynomial $u$.
 	    An ideal $I$ is $\phi$-compatible if $\phi(I)\subseteq I$ or, equivalently, $u I \subseteq I^{[p]}$.
-	    This function returns a list of all prime ideals $P$ such that:
+	    The function {\tt compatibleIdeals} returns a list of all prime ideals $P$ such that:
 
             (a) $u P \subseteq P^{[p]}$, and
 
             (b) $u$ is not in $P^{[p]}$.
 
-            Condition (b) is equivalent to the non-vanishing of the corresponding near-splitting of $R/P$. When $\phi$ is surjective, the set of all $\phi$-compatible ideals consists of all intersections of the
-	    primes above.
+            Condition (b) is equivalent to the non-vanishing of the corresponding near-splitting of $R/P$. When $\phi$ is surjective, the set of all $\phi$-compatible ideals consists of all intersections of the above prime ideals.
 
-	    This function is an implementation of the algorithm described in Moty Katzman and Karl Schwede's paper "An algorithm for computing compatibly Frobenius split subvarieties" J. Symbolic Comput. 47 (2012), no. 8, 996-1008.
+	    This function is an implementation of the algorithm described in Moty Katzman and Karl Schwede's paper "An algorithm for computing compatibly Frobenius split subvarieties", J. Symbolic Comput. 47 (2012), no. 8, pp. 996-1008.
 
-	    These prime ideals have a "Matlis-dual" interpretation, too. Let $E$ be the injective hull of the residue field of the localization or $R$ at the irrelevant ideal,
+	    These prime ideals have a "Matlis-dual" interpretation, too. Let $E$ be the injective hull of the residue field of the localization of $R$ at the irrelevant ideal,
 	    and let $T: E \rightarrow E$ be the natural Frobenius map. Then $uT$ is a Frobenius map on $E$, and the primes $P$ computed by this function are precisely those for which
-	    $uT$ restricts to a non-zero Frobenius map of the annihlator of $P$ on $E$.
+	    $uT$ restricts to a nonzero Frobenius map of the annihlator of $P$ on $E$.
 
-            We begin with a simple example (what is split with the coordinate axes in A^2).
+            We begin with a simple example (which is split with the coordinate axes in A^2).
         Example
-            R = ZZ/3[u,v];
-            u = u^2*v^2;
+            R = ZZ/3[s,t];
+            u = s^2*t^2;
             compatibleIdeals u
         Text
             Here is a more substantial example.

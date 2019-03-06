@@ -197,13 +197,31 @@ doc ///
 doc ///
     Key
         AssumeCM
-        AssumeNormal
-        AssumeReduced
     Headline
-        make assumptions about a ring
+        an option to assume a ring is Cohen-Macaulay
     Description
         Text
-            These are options used in various functions to make assumptions about a ring.
+            {\tt AssumeCM} is an option used in various functions, to assume that a ring is Cohen-Macaulay.
+///
+
+doc ///
+    Key
+        AssumeNormal
+    Headline
+        an option to assume a ring is normal
+    Description
+        Text
+            {\tt AssumeNormal} is an option used in various functions, to assume that a ring is normal.
+///
+
+doc ///
+    Key
+        AssumeReduced
+    Headline
+        an option to assume a ring is reduced
+    Description
+        Text
+            {\tt AssumeReduced} is an option used in various functions, to assume that a ring is reduced.
 ///
 
 

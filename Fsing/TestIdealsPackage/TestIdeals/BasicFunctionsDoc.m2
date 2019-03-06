@@ -28,7 +28,7 @@ doc ///
         d:ZZ
             the $e$-th digit of the base $p$ expansion of $x$
         D:List
-            consisting of the $e$-th digits of the base $p$ expansion of the elements of $L$
+            consisting of the $e$-th digits of the base $p$ expansions of the elements of $L$
     Description
         Text
             The command {\tt adicDigit(p,e,0)} returns 0.  If $x$ is a rational number in the interval $(0,1]$,

@@ -15,9 +15,9 @@ doc ///
     Headline
         find the smallest ideal containing a given ideal which is compatible with a given Cartier linear map
     Usage
-        ascendIdeal(e, h, J)
-        ascendIdeal(e, a, h, J)
-        ascendIdeal(e, expList, hList, J)
+        ascendIdeal(e,h,J)
+        ascendIdeal(e,a,h,J)
+        ascendIdeal(e,expList,hList,J)
     Inputs
         J:Ideal
             the ideal to ascend
@@ -26,22 +26,23 @@ doc ///
         e:ZZ
             the Frobenius root to take at each step of the ascent
         a:ZZ
-            the power to raise h to at each step of the ascent
+            the power to raise {\tt h} to at each step of the ascent
         expList:List
-            a list of powers to raise the h's to at each step of the ascent
+            consisting of the powers to raise the elements of {\tt hList} to, at each step of the ascent
         hList:List
-            a list of elements to multiply by at each step of the ascent
-        AscentCount => ZZ
-            tell the function to return how many times it took before the ascent of the ideal stabilized
+            consisting of the elements to multiply by, at each step of the ascent
+        AscentCount => Boolean
+            tells the function to return the number of steps it took before the ascent of the ideal stabilized
         FrobeniusRootStrategy => Symbol
-            choose the strategy for internal frobeniusRoot calls
+            selects the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Ideal
+	    the stable ideal in the ascending chain $J\subseteq J+\phi(J)\subseteq J+\phi(J)+\phi^2(J)\subseteq \cdots$, where $\phi$ is the $p^{-e}$ linear map obtained by multiplying the $e$th Frobenius trace on a polynomial ring by $h$, or $h^a$, or {\tt product(hList,expList,(h,a)->h^a)}
     Description
         Text
-            Let $\phi$ be the $p^{-e}$ linear map obtained by multiplying $e$-th Frobenius trace on a polynomial ring by the polynomial $h$  (or $h^a$ if $a$ is given).
-            This function finds the smallest $\phi$-stable ideal containing $J$ which is the stable value of ascending chain $J, J+\phi(J), J+\phi(J)+\phi^2(J), \ldots$.
-            Note if the ideal $J$ is not an ideal in a polynomial ring, the function will do the computation with $e$-th Frobenius trace in the ambient polynomial ring, but will do the comparison inside the quotient ring (to see if we are done).
+            Let $\phi$ be the $p^{-e}$ linear map obtained by multiplying the $e$th Frobenius trace on a polynomial ring by the polynomial $h$  (or $h^a$, if $a$ is given).
+            This function finds the smallest $\phi$-stable ideal containing $J$, which is the stable value of the ascending chain $J\subseteq J+\phi(J)\subseteq J+\phi(J)+\phi^2(J)\subseteq \cdots$.
+            Note that if the ideal $J$ is not an ideal in a polynomial ring, but in a quotient of a polynomial ring, the function will do the computation with the $e$th Frobenius trace in the ambient polynomial ring, but will do the comparison, to see if stabilization has occured, inside the quotient ring.
         Example
             S = ZZ/5[x,y,z];
             g = x^4+y^4+z^4;
@@ -50,7 +51,7 @@ doc ///
             ascendIdeal(1, h, ideal(y^3))
             ascendIdeal(1, h, ideal((sub(y, S))^3))
         Text
-            The alternate ways to call the function allow the function to behave in a more efficient way.  Indeed, frequently the polynomial passed is a power, $h^a$.  If $a$ is large, we don't want to compute $h^a$; instead we try to keep the exponent small by only raising it to the minimal power needed to do computation at that time.
+            The alternate ways to call the function allow the function to behave in a more efficient way. Indeed, frequently the polynomial passed is a power, $h^a$.  If $a$ is large, it is more efficient not to compute $h^a$, but instead, to keep the exponent small by only raising $h$ to the minimal power needed to do the computation at that time.
         Example
             S = ZZ/5[x,y,z];
             g = x^4+y^4+z^4;
@@ -58,11 +59,11 @@ doc ///
             ascendIdeal(1, 4, g, ideal(y^3))
             ascendIdeal(1, 4, g, ideal((sub(y, S))^3))
         Text
-            More generally, if $h$ is a product of powers, $h = h_1^{a_1}\cdots h_n^{a_n}$, then you should pass {\tt ascendIdeal} the lists {\tt expList=\{a_1,\ldots,a_n\}} and {\tt \{h_1,\ldots,h_n\}} of exponents and bases.
+            More generally, if $h$ is a product of powers, $h = h_1^{a_1}\cdots h_n^{a_n}$, then it is more efficient to pass {\tt ascendIdeal} the lists {\tt expList = \{a_1,\ldots,a_n\}} and {\tt hList = \{h_1,\ldots,h_n\}} of exponents and bases.
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
         Text
-            By default (when {\tt AscentCount => true}), {\tt ascendIdeal} just returns the stable (ascended) ideal.  If instead you set {\tt AscentCount => true} then it returns a list.  The first value is the stable ideal.  The second is how many steps it took to reach that ideal.
+            By default (when {\tt AscentCount => false}), {\tt ascendIdeal} just returns the stable (ascended) ideal.  If, instead, {\tt AscentCount} is set to {\tt true}, then {\tt ascendIdeal} returns a list, where the first value is the stable ideal, and the second is the number of steps it took for the ascending chain to stabilize and reach that ideal.
         Example
             R = ZZ/5[x,y,z];
             J = ideal(x^12,y^15,z^21);
