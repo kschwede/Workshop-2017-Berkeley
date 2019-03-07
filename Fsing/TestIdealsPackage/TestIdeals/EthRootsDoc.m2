@@ -164,13 +164,13 @@ doc ///
             Similarly, if $M$ is a submodule of $R^k$, the $p^e$-th Frobenius root of $M$, denoted $M^{[1/p^e]}$, is the smallest submodule $V$ of $R^k$ such that $M\subseteq V^{[p^e]}$.
 	    The function {\tt frobeniusRoot} computes such ideals and submodules.
 
-            There are many ways to call {\tt frobeniusRoot}. The simplest way is to call {\tt frobeniusRoot(e,I)}, which computes $I^{[1/p^e]}$, i.e., the $p^e$-th Frobenius root of $I$.  
+            There are many ways to call {\tt frobeniusRoot}. The simplest way is to call {\tt frobeniusRoot(e,I)}, which computes $I^{[1/p^e]}$.
         Example
             R = ZZ/5[x,y,z];
             I = ideal(x^50*z^95, y^100+z^27);
             frobeniusRoot(2, I)
         Text
-            Often, one wants to compute a Frobenius root of some product of powers of ideals, $I_1^{a_1}\cdots I_n^{a_n}$. This is best accomplished by calling {\tt frobeniusRoot(e,\{a_1,\ldots,_n\},\{I_1,\ldots,I_n\})}.
+            Often, one wants to compute a Frobenius root of some product of powers of ideals, $I_1^{a_1}\cdots I_n^{a_n}$. This is best accomplished by calling {\tt frobeniusRoot(e,\{a_1,\ldots,a_n\},\{I_1,\ldots,I_n\})}.
         Example
             R =  ZZ/5[x,y,z];
             I1 = ideal( x^10, y^10, z^10 );
@@ -180,7 +180,7 @@ doc ///
             time J2 = frobeniusRoot( 1, I1^8 * I2^10 * I3^12 );
 	    J1 == J2  
         Text
-            For legacy reasons, the last ideal in the list can be specified separately, using {\tt frobeniusRoot(e,\{a_1,\ldots,_n\},\{I_1,\ldots,I_n\},I)}. The last ideal, {\tt I}, is just raised to the first power.
+            For legacy reasons, the last ideal in the list can be specified separately, using {\tt frobeniusRoot(e,\{a_1,\ldots,a_n\},\{I_1,\ldots,I_n\},I)}. The last ideal, {\tt I}, is just raised to the first power.
         Text
             The function {\tt frobeniusRoot} works over arbitrary finite fields.
         Example
@@ -204,7 +204,7 @@ doc ///
 	    
 	    $\bullet$ {\tt frobeniusRoot(e,a,f,I)} computes the $p^e$-th Frobenius root of the product $f^aI$. 
         Text
-            There are two valid inputs for the option {\tt FrobeniusRootStrategy}, namely {\tt Substitution} and {\tt MonomialBasis}.  In the computation of the $p^e$-th Frobenius root of an ideal $I$, each generator $f$ of $I$ is written as $f = \sum a_i^{p^e} m_i$, where each $m_i$ is a monomial whose exponents are less than $p^e$; then the collection of all the $a_i$, obtained for all generators of $I$, generate the Frobenius root $I^{[1/p^e]}$. {\tt Substitution} and {\tt MonomialBasis} use different methods for gathering these $a_i$, and sometimes one method is faster than the other.
+            There are two valid inputs for the option {\tt FrobeniusRootStrategy}, namely {\tt Substitution} and {\tt MonomialBasis}.  In the computation of the $p^e$-th Frobenius root of an ideal $I$, each generator $f$ of $I$ is written in the form $f = \sum a_i^{p^e} m_i$, where each $m_i$ is a monomial whose exponents are less than $p^e$; then the collection of all the $a_i$, obtained for all generators of $I$, generate the Frobenius root $I^{[1/p^e]}$. {\tt Substitution} and {\tt MonomialBasis} use different methods for gathering these $a_i$, and sometimes one method is faster than the other.
     SeeAlso
         frobenius
         frobeniusPower
