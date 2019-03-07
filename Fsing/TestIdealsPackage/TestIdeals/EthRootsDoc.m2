@@ -155,27 +155,32 @@ doc ///
             controls the strategy for this function
     Outputs
         :Ideal
-	    the {\tt p^e}-th Frobenius root of {\tt I} (or {\tt f^aI}, {\tt (f^a)}, {\tt I^m}, {\tt I_1^{a_1}\cdots I_n^{a_n}}, {\tt II_1^{a_1}\cdots I_n^{a_n}}, {\tt A}, depending on the arguments passed)
+	    the {\tt p^e}-th Frobenius root of {\tt I}, {\tt f^aI}, {\tt (f^a)}, {\tt I^m}, {\tt I_1^{a_1}\cdots I_n^{a_n}}, or {\tt I_1^{a_1}\cdots I_n^{a_n}I}, depending on the arguments passed
+        :Matrix
+	    whose image is the {\tt p^e}-th Frobenius root of the image of the matrix {\tt A} 
     Description
         Text
-            In a polynomial ring $R=k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the Frobenius root $I^{[1/p^e]}$ of an ideal $I$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(p^e,J)} ).  This function computes it.  Alternately it can be viewed as the image under the trace Cartier map of the ideal $I$.
-            Similarly, if the image of $A$ is in $R^k$, the Frobenius root is the smallest submodule $V$ of $R^k$ such that $A\subseteq V^{[p^e]}$.
+            In a polynomial ring $R=k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the $p^e$-th Frobenius root $I^{[1/p^e]}$ of an ideal $I$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(p^e,J)}).   
+            Similarly, if $M$ is a submodule of $R^k$, the $p^e$-th Frobenius root of $M$, denoted $M^{[1/p^e]}$, is the smallest submodule $V$ of $R^k$ such that $M\subseteq V^{[p^e]}$.
+	    The function {\tt frobeniusRoot} computes such ideals and submodules.
 
-            There are many ways to call {\tt frobeniusRoot}. The simplest way is to call {\tt frobeniusRoot(e,I)}. 
+            There are many ways to call {\tt frobeniusRoot}. The simplest way is to call {\tt frobeniusRoot(e,I)}, which computes $I^{[1/p^e]}$, i.e., the $p^e$-th Frobenius root of $I$.  
         Example
             R = ZZ/5[x,y,z];
             I = ideal(x^50*z^95, y^100+z^27);
             frobeniusRoot(2, I)
         Text
-            This computes $I^{[1/p^e]}$, i.e., the $p^e$-th root of $I$. Often, one wants to compute the frobeniusRoot of some product of ideals. This is best accomplished by calling the following version of frobeniusRoot.
+            Often, one wants to compute a Frobenius root of some product of powers of ideals, $I_1^{a_1}\cdots I_n^{a_n}$. This is best accomplished by calling {\tt frobeniusRoot(e,\{a_1,\ldots,_n\},\{I_1,\ldots,I_n\})}.
         Example
             R =  ZZ/5[x,y,z];
             I1 = ideal( x^10, y^10, z^10 );
             I2 = ideal( x^20*y^100, x + z^100 );
             I3 = ideal( x^50*y^50*z^50 );
-            frobeniusRoot( 1, {4,5,6}, {I1, I2, I3} )
+            time J1 = frobeniusRoot( 1, {8,10,12}, {I1,I2,I3} );
+            time J2 = frobeniusRoot( 1, I1^8 * I2^10 * I3^12 );
+	    J1 == J2  
         Text
-            The above example computes the ideal {\tt (I1^4 I2^5 I3^6)^{[1/p]}}. For legacy reasons, the last ideal in the list can be specified separately, using {\tt frobeniusRoot(e,expList,idealList,I)}. The last ideal $I$ is just raised to the first power.
+            For legacy reasons, the last ideal in the list can be specified separately, using {\tt frobeniusRoot(e,\{a_1,\ldots,_n\},\{I_1,\ldots,I_n\},I)}. The last ideal, {\tt I}, is just raised to the first power.
         Text
             The function {\tt frobeniusRoot} works over arbitrary finite fields.
         Example
@@ -185,15 +190,21 @@ doc ///
             I = ideal( a^(2*p)*x^p+y*z^p+x^p*y^p )
             frobeniusRoot(1,I)
         Text
-            For the matrix $A$ below, {\tt frobeniusRoot(1,A)} computes the smallest $V\subseteq R^2$ such that the image of $A$ is in $V^{[2]}$.
+            For the matrix $A$ below, {\tt frobeniusRoot(1,A)} computes a matrix whose image is the smallest submodule $V$ of $R^2$ such that the image of $A$ is in $V^{[2]}$.
         Example
             R = ZZ/2[a,b,c,d]
             A = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3 }}
-            V = frobeniusRoot(1,A)
+            frobeniusRoot(1,A)
         Text
-            You can also call {\tt frobeniusRoot(e,a,f)}. This computes the $e$th root of the principal ideal $(f^a)$. Calling {\tt frobeniusRoot(e,m,I)} computes the $e$th root of the ideal $I^m$, and calling {\tt frobeniusRoot(e,a,f,I)} computes the eth root of the product $f^a I$. Finally, you can also compute the $p^e$-th root of a matrix $A$ by calling {\tt frobeniusRoot(e,A)}.
+            The following are additional ways of calling {\tt frobeniusRoot}:
+	    
+	    $\bullet$ {\tt frobeniusRoot(e,a,f)} computes the $p^e$-th Frobenius root of the principal ideal ($f^a$). 
+	    
+	    $\bullet$ {\tt frobeniusRoot(e,m,I)} computes the $p^e$-th Frobenius root of the ideal $I^m$.
+	    
+	    $\bullet$ {\tt frobeniusRoot(e,a,f,I)} computes the $p^e$-th Frobenius root of the product $f^aI$. 
         Text
-            There are two valid inputs for the option {\tt FrobeniusRootStrategy}, namely {\tt Substitution} and {\tt MonomialBasis}.  In the end, for each generator $f$ of an ideal $I$, we are simply writing $f = \sum a_i^{p^e} m_i$ where $m$ is a monomial all of whose exponents are $< p^e$, then all the possible $a_i$ generate the {\tt frobeniusRoot}. {\tt Substitution} and {\tt MonomialBasis} use different methods for gathering these $a_i$, sometimes one method is faster than the other.
+            There are two valid inputs for the option {\tt FrobeniusRootStrategy}, namely {\tt Substitution} and {\tt MonomialBasis}.  In the computation of the $p^e$-th Frobenius root of an ideal $I$, each generator $f$ of $I$ is written as $f = \sum a_i^{p^e} m_i$, where each $m_i$ is a monomial whose exponents are less than $p^e$; then the collection of all the $a_i$, obtained for all generators of $I$, generate the Frobenius root $I^{[1/p^e]}$. {\tt Substitution} and {\tt MonomialBasis} use different methods for gathering these $a_i$, and sometimes one method is faster than the other.
     SeeAlso
         frobenius
         frobeniusPower

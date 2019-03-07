@@ -48,9 +48,7 @@ is "the smallest ideal containing a given ideal which is compatible with a
 isFInjective, etc.
 
 --------------------------------------
-[Pedro] There's a lot of this in the documentation; it will be annoying
-to try to precisely describe the output for functions that can be called in
-multiple ways, like frobeniusRoot.
+[Pedro] There's a lot of this in the documentation; I'm working on it
 --------------------------------------
 
 *****************************************************************************
@@ -59,6 +57,12 @@ The documentation for ascendIdeal incorrectly state that the second argument A
 is a submodule of a free module, but in fact, it is a matrix.  Submodules work
 well in Macaulay2, so it would be good to make the code conform to the
 documentation, rather than the other way around.
+
+--------------------------------------
+[Pedro] There's also ascendModule, and frobeniusRoot of a matrix.
+Should these take and return modules, instead of matrices? Or maybe both?
+I'll wait until I hear from others before making any changes. 
+--------------------------------------
 
 *****************************************************************************
 
@@ -191,6 +195,7 @@ surely you intended to say instead
 =============================================================================
 
 comments on the code:
+
 
 
 Change
