@@ -30,30 +30,16 @@ canonicalIdeal Ring := o -> R1 ->
     embedAsIdeal(M1, Attempts => o.Attempts)
 )
 
---the following function computes the u of a canonical ideal in a polynomial ring
---it uses previous work of Katzman
-finduOfIdeal = method()
-
-finduOfIdeal ( Ideal, Ideal ) := ( defIdeal, canIdeal ) -> 
-(
-    Ip := frobenius( defIdeal );
-    tempIdeal := intersect( (frobenius( canIdeal )) : canIdeal, Ip : defIdeal );
-    M1 := compress ((gens tempIdeal)%(gens Ip));
-    first first entries M1
-)
-
---****************************************************
---*****Karl rewrote this *****
---****************************************************
-
 --this function finds the generators of the intersection of
 --J^{[p]} : J and I^{[p]} : I where I is the defining ideal and J is the canonical
 --ideal lifted to the ambient ring (in a maximal way).
-frobeniusTraceOnCanonicalModule = ( defIdeal, canIdeal ) -> 
+frobeniusTraceOnCanonicalModule = method()
+
+frobeniusTraceOnCanonicalModule ( Ideal, Ideal ) := ( defIdeal, canIdeal ) -> 
 (
     Ip := frobenius( defIdeal );
-    tempIdeal := intersect( (frobenius( canIdeal )) : canIdeal, Ip : defIdeal );
-    M1 := compress ((gens tempIdeal)%(gens Ip));
+    tempIdeal := intersect( frobenius( canIdeal ) : canIdeal, Ip : defIdeal );
+    M1 := compress( (gens tempIdeal) % (gens Ip) );
     first entries M1
 )
 

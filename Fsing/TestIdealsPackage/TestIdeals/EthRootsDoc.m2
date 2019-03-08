@@ -128,29 +128,29 @@ doc ///
         compute a Frobenius root
     Usage
         frobeniusRoot(e, I)
-        frobeniusRoot(e, a, f, I)
-        frobeniusRoot(e, a, f)
-        frobeniusRoot(e, m, I)
+        frobeniusRoot(e, A)
         frobeniusRoot(e, expList, idealList)
         frobeniusRoot(e, expList, idealList, I)
-        frobeniusRoot(e, A)
+        frobeniusRoot(e, m, I)
+        frobeniusRoot(e, a, f)
+        frobeniusRoot(e, a, f, I)
     Inputs
         e:ZZ
             the order of the Frobenius root
         I:Ideal
             an ideal in a polynomial ring over a finite field of characteristic {\tt p}
-        a:ZZ
-            the exponent to which {\tt f} will be raised, before taking the Frobenius root
-        f:RingElement
-            a polynomial over a finite field of characteristic {\tt p}
+        A:Matrix
+	    with entries in a polynomial ring over a finite field of characteristic {\tt p}
         idealList:List
             containing ideals {\tt I_1,\ldots,I_n}
         expList:List
             containing exponents {\tt a_1,\ldots,a_n} to which the ideals in {\tt idealList} will be raised 
         m:ZZ
             the exponent to which {\tt I} will be raised, before taking the Frobenius root
-        A:Matrix
-	    with entries in a polynomial ring over a finite field of characteristic {\tt p}
+        f:RingElement
+            a polynomial over a finite field of characteristic {\tt p}
+        a:ZZ
+            the exponent to which {\tt f} will be raised, before taking the Frobenius root
         FrobeniusRootStrategy => Symbol
             controls the strategy for this function
     Outputs
@@ -170,6 +170,19 @@ doc ///
             I = ideal(x^50*z^95, y^100+z^27);
             frobeniusRoot(2, I)
         Text
+            The function {\tt frobeniusRoot} works over arbitrary finite fields.
+        Example
+            p = 3;
+            R = GF( p^2 )[x,y,z];
+            I = ideal( a^(2*p)*x^p+y*z^p+x^p*y^p );
+            frobeniusRoot(1,I)
+        Text
+            For the matrix $A$ below, {\tt frobeniusRoot(1,A)} computes a matrix whose image is the smallest submodule $V$ of $R^2$ such that the image of $A$ is in $V^{[2]}$.
+        Example
+            R = ZZ/2[a,b,c,d];
+            A = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3 }}
+            frobeniusRoot(1,A)
+        Text
             Often, one wants to compute a Frobenius root of some product of powers of ideals, $I_1^{a_1}\cdots I_n^{a_n}$. This is best accomplished by calling {\tt frobeniusRoot(e,\{a_1,\ldots,a_n\},\{I_1,\ldots,I_n\})}.
         Example
             R =  ZZ/5[x,y,z];
@@ -182,26 +195,12 @@ doc ///
         Text
             For legacy reasons, the last ideal in the list can be specified separately, using {\tt frobeniusRoot(e,\{a_1,\ldots,a_n\},\{I_1,\ldots,I_n\},I)}. The last ideal, {\tt I}, is just raised to the first power.
         Text
-            The function {\tt frobeniusRoot} works over arbitrary finite fields.
-        Example
-            p = 3
-            F = GF( p^2, Variable => a )
-            R = F[x,y,z]
-            I = ideal( a^(2*p)*x^p+y*z^p+x^p*y^p )
-            frobeniusRoot(1,I)
-        Text
-            For the matrix $A$ below, {\tt frobeniusRoot(1,A)} computes a matrix whose image is the smallest submodule $V$ of $R^2$ such that the image of $A$ is in $V^{[2]}$.
-        Example
-            R = ZZ/2[a,b,c,d]
-            A = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3 }}
-            frobeniusRoot(1,A)
-        Text
             The following are additional ways of calling {\tt frobeniusRoot}:
-	    
-	    $\bullet$ {\tt frobeniusRoot(e,a,f)} computes the $p^e$-th Frobenius root of the principal ideal ($f^a$). 
-	    
+
 	    $\bullet$ {\tt frobeniusRoot(e,m,I)} computes the $p^e$-th Frobenius root of the ideal $I^m$.
 	    
+	    $\bullet$ {\tt frobeniusRoot(e,a,f)} computes the $p^e$-th Frobenius root of the principal ideal ($f^a$). 
+	    	    
 	    $\bullet$ {\tt frobeniusRoot(e,a,f,I)} computes the $p^e$-th Frobenius root of the product $f^aI$. 
         Text
             There are two valid inputs for the option {\tt FrobeniusRootStrategy}, namely {\tt Substitution} and {\tt MonomialBasis}.  In the computation of the $p^e$-th Frobenius root of an ideal $I$, each generator $f$ of $I$ is written in the form $f = \sum a_i^{p^e} m_i$, where each $m_i$ is a monomial whose exponents are less than $p^e$; then the collection of all the $a_i$, obtained for all generators of $I$, generate the Frobenius root $I^{[1/p^e]}$. {\tt Substitution} and {\tt MonomialBasis} use different methods for gathering these $a_i$, and sometimes one method is faster than the other.
