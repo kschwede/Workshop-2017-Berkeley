@@ -37,8 +37,9 @@ frobeniusTraceOnCanonicalModule = method()
 
 frobeniusTraceOnCanonicalModule ( Ideal, Ideal ) := ( defIdeal, canIdeal ) -> 
 (
-    Ip := frobenius( defIdeal );
-    tempIdeal := intersect( frobenius( canIdeal ) : canIdeal, Ip : defIdeal );
+    canonical := canIdeal + defIdeal;
+    Ip := frobenius defIdeal;
+    tempIdeal := intersect( frobenius( canonical ) : canonical, Ip : defIdeal );
     M1 := compress( (gens tempIdeal) % (gens Ip) );
     first entries M1
 )
@@ -63,7 +64,7 @@ testModule ( Ring, Ideal ) := o -> ( R1, canIdeal ) ->
     I1 := ideal R1;
     J1 := sub(canIdeal, S1);
     C1 := testElement(R1, AssumeDomain => o.AssumeDomain);
-    u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
+    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
     tau := I1;
     if #u1 > 1 then
     (
@@ -91,7 +92,7 @@ testModule ( Number, RingElement ) := o -> (tt, ff) ->
     canIdeal := canonicalIdeal(R1);
     I1 := ideal R1;
     J1 := sub(canIdeal, S1);
-    u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
+    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
     testModule(tt, ff, canIdeal, u1, o)
 )
 
@@ -245,7 +246,7 @@ testModule ( List, List ) := o -> ( ttList, ffList ) ->
     canIdeal := canonicalIdeal(R1);
     I1 := ideal R1;
     J1 := sub(canIdeal, S1);
-    u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
+    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
     testModule(ttList, ffList, canIdeal, u1, o)
 )
 

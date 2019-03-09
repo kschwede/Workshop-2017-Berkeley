@@ -155,7 +155,7 @@ doc ///
             controls the strategy for this function
     Outputs
         :Ideal
-	    the {\tt p^e}-th Frobenius root of {\tt I}, {\tt f^aI}, {\tt (f^a)}, {\tt I^m}, {\tt I_1^{a_1}\cdots I_n^{a_n}}, or {\tt I_1^{a_1}\cdots I_n^{a_n}I}, depending on the arguments passed
+	    the {\tt p^e}-th Frobenius root of {\tt I} (or {\tt I_1^{a_1}\cdots I_n^{a_n}}, {\tt I_1^{a_1}\cdots I_n^{a_n}I}, {\tt I^m}, {\tt (f^a)}, {\tt f^aI}, depending on the arguments passed)
         :Matrix
 	    whose image is the {\tt p^e}-th Frobenius root of the image of the matrix {\tt A} 
     Description
@@ -203,7 +203,7 @@ doc ///
 	    	    
 	    $\bullet$ {\tt frobeniusRoot(e,a,f,I)} computes the $p^e$-th Frobenius root of the product $f^aI$. 
         Text
-            There are two valid inputs for the option {\tt FrobeniusRootStrategy}, namely {\tt Substitution} and {\tt MonomialBasis}.  In the computation of the $p^e$-th Frobenius root of an ideal $I$, each generator $f$ of $I$ is written in the form $f = \sum a_i^{p^e} m_i$, where each $m_i$ is a monomial whose exponents are less than $p^e$; then the collection of all the $a_i$, obtained for all generators of $I$, generate the Frobenius root $I^{[1/p^e]}$. {\tt Substitution} and {\tt MonomialBasis} use different methods for gathering these $a_i$, and sometimes one method is faster than the other.
+            There are two valid inputs for the option {\tt FrobeniusRootStrategy}, namely {\tt Substitution} and {\tt MonomialBasis}.  In the computation of the $p^e$-th Frobenius root of an ideal $I$, each generator $f$ of $I$ is written in the form $f = \sum a_i^{p^e} m_i$, where each $m_i$ is a monomial whose exponents are less than $p^e$; then the collection of all the $a_i$, obtained for all generators of $I$, generates the Frobenius root $I^{[1/p^e]}$. {\tt Substitution} and {\tt MonomialBasis} use different methods for gathering these $a_i$, and sometimes one method is faster than the other.
     SeeAlso
         frobenius
         frobeniusPower

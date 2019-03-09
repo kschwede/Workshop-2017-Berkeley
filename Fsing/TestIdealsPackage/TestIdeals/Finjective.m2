@@ -8,7 +8,7 @@
 --*** local cohomology               ***
 --**************************************
 
-HSLGModule = method(Options => {FrobeniusRootStrategy => Substitution});
+HSLGModule = method( Options => { FrobeniusRootStrategy => Substitution } )
                        --it returns two ideals, an element and an integer
                        --The first ideal is an ideal isomorphic to the non-F-injective module and the
                        --and the second is an ideal isomorphic to the canonical module, in which the parameter
@@ -17,140 +17,130 @@ HSLGModule = method(Options => {FrobeniusRootStrategy => Substitution});
                        --the final element is the element of the ambient polynomial ring which is used to
                        --induce the canonical trace map (or a list of elements)
                        --finally, it also outputs the associated HSL(G)-number.
-                       --{HSLMod, CanMod, u, HSL#}
+                       -- (HSLMod, CanMod, u, HSL#)
 
+HSLGModule Ring := o -> R1 -> HSLGModule( R1, canonicalIdeal R1, o )
 
-HSLGModule(Ring) := o-> (R1) -> (
-    J1 := trim canonicalIdeal(R1);
-    HSLGModule(R1, J1, o)
-);
-
-HSLGModule(Ring, Ideal) := o-> (R1, canIdeal) -> (
+HSLGModule ( Ring, Ideal ) := o -> ( R1, canIdeal ) -> 
+(
     S1 := ambient R1;
-	I1 := ideal R1;
-    J1 := sub(canIdeal, S1);
-    u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
+    I1 := ideal R1;
+    J1 := sub( canIdeal, S1 );
+    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
 --    powList := apply(u1, zz->1);
     --NEED TO CHANGE (and below), we should not have the full list of us there.
-    HSLGModule(R1, canIdeal, u1)
-);
+    HSLGModule( R1, canIdeal, u1 )
+)
 
-HSLGModule(Ring, Ideal, List) := o-> (R1, canIdeal, u1) -> (
+HSLGModule ( Ring, Ideal, List ) := o -> ( R1, canIdeal, u1 ) -> 
+(
     S1 := ambient R1;
-	I1 := ideal R1;
-    J1 := sub(canIdeal, S1);
+    I1 := ideal R1;
+    J1 := sub( canIdeal, S1 );
 
-    curIdeal := ideal(sub(0, R1));
+    curIdeal := ideal 0_R1;
     curHSL := 1;
     curHSLList := null;
-    i := 0;
-    while (i < #u1) do (
-        curHSLList = HSLGModule(1, {1}, {u1#i}, canIdeal, o);
-        curIdeal = curIdeal + curHSLList#0;
-        curHSL = lcm(curHSL, curHSLList#3);
-        i = i+1;
+    scan( u1, u->  
+	(
+            curHSLList = HSLGModule( 1, {1}, {u}, canIdeal, o );
+            curIdeal = curIdeal + curHSLList#0;
+            curHSL = lcm(curHSL, curHSLList#3)
+	)
     );
-    return {curIdeal, canIdeal, u1, curHSL};
-);
+    ( trim curIdeal, canIdeal, u1, curHSL )
+)
 
-HSLGModule(Ideal) := o -> (canIdeal) -> (
-    R1 := ring canIdeal;
-    HSLGModule(R1, canIdeal, o)
-);
+HSLGModule Ideal := o -> canIdeal -> HSLGModule( ring canIdeal, canIdeal, o )
 
-HSLGModule(Number, RingElement, Ideal, List) := o -> (tt, ff, canIdeal, u1) -> (
+HSLGModule ( Number, RingElement, Ideal, List ) := o -> ( tt, ff, canIdeal, u1 ) -> 
+(
     R1 := ring ff;
     S1 := ambient R1;
-    if (not (ring (u1#0) === S1)) then error "HSLGModule: Exptected u1 to be in the ambient polynomial ring.";
-	I1 := ideal R1;
-    J1 := sub(canIdeal, S1);
+    if ring (u1#0) =!= S1 then error "HSLGModule: Exptected u1 to be in the ambient polynomial ring.";
+    I1 := ideal R1;
+    J1 := sub( canIdeal, S1 );
     pp := char S1;
     tt = tt*1/1;
-    (aa, bb, cc) := decomposeFraction(pp, tt);
+    (aa, bb, cc) := decomposeFraction( pp, tt, NoZeroC => true );
         -- fraction divided writes tt = (a/(p^b(p^c-1))
-    if (bb > 0) then (
-        error "HSLGModule: Cannot compute the HSLG module associated to something with p in denominator.";
-    );
-    if (cc == 0) then (
-        cc = 1;
-        aa = aa*(pp-1);
-    );
+    if bb > 0 then error "HSLGModule: Cannot compute the HSLG module associated to something with p in denominator.";
     newExp := floor( (pp^cc-1)/(pp-1) );
 --    uList := append(u1, ff);
 --    powList = append(powList, aa);
     --now we have to do a sum again since Macaulay2 might not find one u in the nongraded case.
-    curIdeal := ideal(sub(0, R1));
+    curIdeal := ideal 0_R1;
     curHSL := 1;
     curHSLList := null;
-    i := 0;
-    while (i < #u1) do (
-        curHSLList = HSLGModule(cc, {newExp, aa}, {u1#i, ff}, canIdeal, o);
-        curIdeal = curIdeal + curHSLList#0;
-        curHSL = lcm(curHSL, curHSLList#3);
-        i = i+1;
+    scan( u1, u -> 
+	(
+            curHSLList = HSLGModule( cc, {newExp, aa}, {u, ff}, canIdeal, o );
+            curIdeal = curIdeal + curHSLList#0;
+            curHSL = lcm(curHSL, curHSLList#3)
+        )
     );
-    {curIdeal, canIdeal, u1, curHSL}
-);
+    ( trim curIdeal, canIdeal, u1, curHSL )
+)
 
-HSLGModule(Number, RingElement) := o -> (tt, ff) -> (
+HSLGModule ( Number, RingElement ) := o -> ( tt, ff ) -> 
+(
     R1 := ring ff;
-    canIdeal := trim canonicalIdeal(R1);
+    canIdeal := trim canonicalIdeal R1;
     S1 := ambient R1;
-	I1 := ideal R1;
-    J1 := sub(canIdeal, S1);
-    u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
-    return HSLGModule(tt, ff, canIdeal, u1);
-);
+    I1 := ideal R1;
+    J1 := sub( canIdeal, S1 );
+    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
+    HSLGModule( tt, ff, canIdeal, u1 )
+)
 
-HSLGModule(List, List, Ideal, List) := o -> (tList, fList, canIdeal, u1) -> (
-    if ( not (#tList == #fList) ) then error "HSLGModule: expected the lists to have the same lengths.";
-    if ( #fList == 0 ) then error "HSLGModule: expected a list of length > 0.";
-    R1 := ring ((fList)#0);
+HSLGModule ( List, List, Ideal, List ) := o -> ( tList, fList, canIdeal, u1 ) -> 
+(
+    if #tList != #fList then error "HSLGModule: expected the lists to have the same lengths.";
+    if #fList == 0 then error "HSLGModule: expected a list of length > 0.";
+    R1 := ring ( fList#0 );
     S1 := ambient R1;
-	I1 := ideal R1;
-    J1 := sub(canIdeal, S1);
+    I1 := ideal R1;
+    J1 := sub( canIdeal, S1 );
     pp := char S1;
-    tList = apply(tList, tt -> tt*1/1);
-    fractionDividedList := apply(tList, tt -> decomposeFraction(pp, tt, NoZeroC => true));
+    tList = tList / 1;
+    fractionDividedList := apply( tList, tt -> decomposeFraction( pp, tt, NoZeroC => true ) );
         -- fraction divided writes tt = (a/(p^b(p^c-1))
---    fractionDividedList := apply(fractionDividedList2, myList -> ( if (myList#2 == 0) then {(pp-1)*(myList#0), myList#1, 1} else myList ) );
---    aaList := apply(fractionDividedList, zz->zz#0);
     bbList := apply(fractionDividedList, zz->zz#1);
     ccList := apply(fractionDividedList, zz->zz#2);
 
-    if (any(bbList, val -> (val > 0))) then (
+    if any( bbList, val -> val > 0 ) then 
         error "HSLGModule: Cannot compute the HSLG module associated to something with p in denominator.";
-    );
-    ccLCM := lcm(ccList);
+    ccLCM := lcm ccList;
     newExpList := apply(fractionDividedList, myList -> (myList#0)*floor( (pp^(ccLCM) - 1)/(pp^(myList#2)-1) ) );
 --    uList := u1 | fList;
 --    powList := (apply(u1, tt -> floor((pp^(ccLCM) - 1)/(pp - 1))) ) | newExpList;
 --    HSLGModule(ccLCM, powList, uList, canIdeal, FrobeniusRootStrategy=>o.FrobeniusRootStrategy)
-    curIdeal := ideal(sub(0, R1));
+    curIdeal := ideal 0_R1;
     curHSL := 1;
     curHSLList := null;
-    i := 0;
 
-    while (i < #u1) do (
-        curHSLList = HSLGModule(ccLCM, {floor((pp^(ccLCM) - 1)/(pp - 1))} | newExpList, {u1#i} | apply(fList, gg -> sub(gg, S1)), canIdeal, o);
-        curIdeal = curIdeal + curHSLList#0;
-        curHSL = lcm(curHSL, curHSLList#3);
-        i = i+1;
+    scan( u1, u -> 
+	(
+            curHSLList = HSLGModule(ccLCM, {floor((pp^(ccLCM) - 1)/(pp - 1))} | newExpList, {u} | apply(fList, gg -> sub(gg, S1)), canIdeal, o);
+            curIdeal = curIdeal + curHSLList#0;
+            curHSL = lcm(curHSL, curHSLList#3)
+        )
     );
-    {curIdeal, canIdeal, u1, curHSL}
+    ( trim curIdeal, canIdeal, u1, curHSL )
 )
 
-HSLGModule(List, List) := o -> (tList, fList) -> (
-    if ( not (#tList == #fList) ) then error "HSLGModule: expected the lists to have the same lengths.";
-    if ( #fList == 0 ) then error "HSLGModule: expected a list of length > 0.";
-    R1 := ring ((fList)#0);
-    canIdeal := trim canonicalIdeal(R1);
+HSLGModule ( List, List ) := o -> ( tList, fList ) -> 
+(
+    if #tList != #fList then error "HSLGModule: expected the lists to have the same lengths.";
+    if #fList == 0 then error "HSLGModule: expected a list of length > 0.";
+    R1 := ring( fList#0 );
+    canIdeal := trim canonicalIdeal R1;
     S1 := ambient R1;
-	I1 := ideal R1;
-    J1 := sub(canIdeal, S1);
-    u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
-    return HSLGModule(tList, fList, canIdeal, u1);
-);
+    I1 := ideal R1;
+    J1 := sub( canIdeal, S1 );
+    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
+    HSLGModule( tList, fList, canIdeal, u1 )
+)
 
 --the next one is the internal function that does the real work
 --you pass it the base frobeniusRoot to work with
@@ -158,23 +148,25 @@ HSLGModule(List, List) := o -> (tList, fList) -> (
 --the list of u's
 --the canonical ideal (or whatever you want to run HSL on), this one is
 --it computes sigma(canIdeal, f^s g^t h^l ...)
-HSLGModule(ZZ, List, List, Ideal) :=  o-> (ee, expList, u1, canIdeal) -> (
+HSLGModule ( ZZ, List, List, Ideal ) :=  o -> ( ee, expList, u1, canIdeal ) -> 
+(
     R1 := ring canIdeal;
     S1 := ambient R1;
     I1 := ideal R1;
-    J1 := sub(canIdeal, S1) + I1;
-    u2 := apply(u1, gg -> sub(gg, S1));
+    J1 := sub( canIdeal, S1 ) + I1;
+    u2 := apply( u1, gg -> sub( gg, S1 ) );
     --now we do the HSLG computation
     idealIn := J1;
-    idealOut := frobeniusRoot(ee, expList, u1, idealIn, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
+    idealOut := frobeniusRoot( ee, expList, u1, idealIn, FrobeniusRootStrategy => o.FrobeniusRootStrategy );
     HSLCount := 0;
-    while (not (idealIn + I1 == idealOut + I1)) do (
+    while idealIn + I1 != idealOut + I1 do 
+    (
         idealIn = idealOut;
-        idealOut = frobeniusRoot(ee, expList, u2, idealIn + I1, o);
-        HSLCount = HSLCount+1;
+        idealOut = frobeniusRoot( ee, expList, u2, idealIn + I1, o );
+        HSLCount = HSLCount + 1;
     );
-    {sub(idealIn, R1), canIdeal, u1, HSLCount}
-);
+    ( trim sub( idealIn, R1 ), canIdeal, u1, HSLCount )
+)
 
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
@@ -196,80 +188,76 @@ isFInjective = method(
 )
 --originally written by Drew Ellingson, with assistance from Karl Schwede
 
-isFInjective(Ring) := o-> (R1) ->
+isFInjective Ring := o-> R1 ->
 (
     d := dim R1;
     S1 := ambient R1;
     I1 := ideal R1;
     FS := null; -- this is the pushFwd of (R-F_*R) to a map of (ambient R) modules. computationally expensive. Only computed if needed.
-    F := map(R1,S1);
+    F := map( R1, S1 );
     d1 := dim S1;
-    i := d1-d+1;
+    i := d1 - d + 1;
     myMap := null; -- maps between ext groups used to test F-injectivity. Computationally expensive and computed where needed.
     flag := true;
     flagPushComputed := false;
 
     -- F-Injectivity fast to compute on dim(S)-dim(R), so we check there seperately by default
-    if (o.CanonicalStrategy === Katzman) then (
-        if (isFInjectiveCanonicalStrategy(R1, passOptions( o, { IsLocal, FrobeniusRootStrategy } ) ) == false) then ( -- if F-injectivity fails in top dimension, no need to try any others
-        	return false;
-    	);
+    if o.CanonicalStrategy === Katzman then 
+    (
+	-- if F-injectivity fails in top dimension, no need to try any others
+         if not isFInjectiveCanonicalStrategy(R1, passOptions( o, { IsLocal, FrobeniusRootStrategy } ) )  then return false
     )
-    else (
-        i = i - 1;
-    );
+    else i = i - 1;
+
     --if we assume Cohen-Macaulay, then we are already done
-    if (o.AssumeCM == true) then return true;
+    if o.AssumeCM then return true;
     --otherwise we next construct G : R -> F_* R
     G := null;
 
-    if (o.AssumeNormal == true) then (d1 = d1 - 2) else if (o.AssumeReduced == true) then (d1 = d1-1);
+    if o.AssumeNormal then d1 = d1 - 2 else if o.AssumeReduced then d1 = d1 - 1;
 
-    while ((i <= d1) and (flag == true)) do (
+    while i <= d1 and flag do 
+    (
     	--if ambient pushforward is faster in the next line, use it instead
-	    if (Ext^i(S1^1/I1, S1^1) != 0) then (
-    	    if (G === null) then G = frobPFMap(1,R1);
+	    if Ext^i( S1^1/I1, S1^1 ) != 0 then 
+	    (
+    	        if G === null then G = frobPFMap( 1, R1 );
 	        --note we only compute the Frobenius pushforward if the ring is not CM
-            if (flagPushComputed == false) then (
-                FS = pushFwdToAmbient(R1,G);   --pushforward Frobenius
-                flagPushComputed == true;
-            );
-
-	        myMap = Ext^i(FS,S1^1); --functorial Ext
-	        if ((dim coker myMap) != -1) then (flag = false;);
+                if not flagPushComputed then 
+		(
+		    FS = pushFwdToAmbient( R1, G );   --pushforward Frobenius
+                    flagPushComputed == true
+                );
+	        myMap = Ext^i( FS, S1^1 ); --functorial Ext
+	        if (dim coker myMap) != -1 then flag = false;
 	    );
 	    i = i + 1;
 	);
 	flag
-);
+)
 
 --the following is an internal function, it checks if is F-injective at the top cohomology (quickly)
 isFInjectiveCanonicalStrategy = method(
-    Options => {FrobeniusRootStrategy => Substitution, IsLocal => false}
+    Options => { FrobeniusRootStrategy => Substitution, IsLocal => false }
 )
 
-isFInjectiveCanonicalStrategy(Ring) := o->(R1) -> (
+isFInjectiveCanonicalStrategy Ring := o -> R1 -> 
+(
     S1 := ambient R1;
-	I1 := ideal R1;
-	canIdeal := trim canonicalIdeal(R1);
-    J1 := sub(canIdeal, S1) + I1;
-    u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
-    curIdeal := ideal(sub(0, S1));
-    i := 0;
-    while (i < #u1) do (
-        curIdeal = curIdeal + frobeniusRoot(1, {1}, {u1#i}, J1);
-        i = i+1;
-    );
-    if (o.IsLocal == true) then (
-        myMax := maxIdeal(S1);
+    I1 := ideal R1;
+    canIdeal := trim canonicalIdeal R1;
+    J1 := sub( canIdeal, S1 ) + I1;
+    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
+    curIdeal := ideal 0_S1;
+    scan( u1, u -> curIdeal = curIdeal + frobeniusRoot( 1, {1}, {u}, J1 ) );
+    if o.IsLocal then 
+    (
+        myMax := maxIdeal S1;
         paramFideal := curIdeal : J1;
-        return not isSubset(paramFideal, myMax);
+        not isSubset( paramFideal, myMax )
     )
-    else (
-        if (curIdeal + I1 == J1 + I1) then return true else return false;
-    );
-);
-
+    else if curIdeal + I1 == J1 + I1 then true else false
+)
 
 --the following are internal functions
 --this creates the ring map A -> F^e_* A

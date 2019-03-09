@@ -191,7 +191,7 @@ testIdeal ( List, List, Ring ) := o -> ( tList, fList, R1 ) ->
         gensList := first entries gens trim nMinusKX;
 
         runningIdeal := ideal 0_R1;
-        omegaAmb := sub( canIdeal, ambient R1 ) + ideal R1;
+        omegaAmb := sub( canIdeal, ambient R1 );
     	u1 := frobeniusTraceOnCanonicalModule( ideal R1, omegaAmb );
         t2 := append( tList, 1/cartIndex );
         f2 := fList;

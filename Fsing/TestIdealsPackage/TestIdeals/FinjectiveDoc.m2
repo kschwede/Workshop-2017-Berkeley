@@ -50,7 +50,7 @@ doc ///
         FrobeniusRootStrategy=>Symbol
             choose the strategy for internal frobeniusRoot calls
     Outputs
-        :List
+        :Sequence
     Description
         Text
             Given a ring $R$ with canonical module $\omega$, this computes the image of $F^e_* \omega \to \omega$ for $e >> 0$.  This image is sometimes called the HSLG-module (named for Hartshorne-Speiser, Lyubeznik and Gabber).  It roughly tells you where a ring is non-F-injective.
@@ -58,11 +58,11 @@ doc ///
             Specifically, this function returns a list of the following entries.  {\tt HSLGmodule, canonicalModule, u, HSLCount} where {\tt canonicalModule} is the canonical module of the ring (expressed as an ideal), {\tt HSLGmodule} is a submodule of that canonical module, {\tt u} is an element of the ambient polynomial ring representing the trace of Frobenius on the canonical module and {\tt HSLCount} is how many times the trace of Frobenius was computed before the image stabilized.
         Example
             R = ZZ/7[x,y,z]/ideal( x^5+y^5+z^5 );
-            HSLList = HSLGModule(R);
-            HSLList#1 --the ambient canonical module
-            HSLList#0 --the HSLG submodule
-            HSLList#2 --the element representing trace of Frobenius
-            HSLList#3 --how many times it took until the image stabilized
+            ( HSLGMod, canMod, frobTrace, count ) = HSLGModule R;
+            canMod --the ambient canonical module
+            HSLGMod --the HSLG submodule
+            frobTrace --the element representing trace of Frobenius
+            count --how many times it took until the image stabilized
         Text
             If you do not want the function to compute the canonical module, you can also pass the canonical module as an ideal.
             You can also pass it something other than the canonical module as well (for example, a submodule of the canonical module).

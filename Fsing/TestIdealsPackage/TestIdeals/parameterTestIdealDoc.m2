@@ -41,34 +41,33 @@ doc ///
 doc ///
     Key
         frobeniusTraceOnCanonicalModule
+        (frobeniusTraceOnCanonicalModule, Ideal, Ideal)
     Headline
         find an element of a polynomial ring that determines the Frobenius trace on the canonical module of a quotient of that ring
     Usage
-        frobeniusTraceOnCanonicalModule(canIdeal, defIdeal)
+        frobeniusTraceOnCanonicalModule( defIdeal, canIdeal )
     Inputs
-        canIdeal:Ideal
-            a ring representing the canonical ideal
         defIdeal:Ideal
             the defining ideal of the ring
+        canIdeal:Ideal
+            an ideal representing the canonical ideal
     Outputs
-        :RingElement
+        :List
     Description
         Text
             Given $R = S/I$, where $S$ is a polynomial ring, there is a map from the canonical module of $R$ back to itself, dual to the Frobenius: $\omega_R^{1/p^e} \to \omega_R$.
             By embedding $\omega_R$ as an ideal $J$ of $R$, one can interpret this map as a $p^e$-inverse linear map on $S$.  But every $p$ inverse linear map on $S$ is a premultiple of the dual to Frobenius on $S$, by some element $u$.  This function finds such $u$.
-        Text
+
             However, because Macaulay2 does not always properly identify an ideal as principal (even though it is), sometimes we cannot find this single $u$ and instead find a list of $u$s, a linear combination of which is the desired $u$.
-        Text
-            Specifically, you pass this function two ideals.  First, an ideal that restricts to the canonical ideal $J \subseteq R$, and an ideal $I$ that defines the $R$ as a quotient of $S$.  The canonical ideal should be chosen so that it contains the defining ideal (if you do not do this, there may be unexpected behavior).
+	    
+            The function {\tt frobeniusTraceOnCanonicalModule} takes as inputs the defining ideal $I$ of $R$, and an ideal $J$ of $S$ whose image in $R$ is a canonical module of $R$.  
         Example
             S = ZZ/5[x,y,z,w];
-            T = ZZ/5[a,b];
-            f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
-            defIdeal = ker f;
-            R = S/defIdeal;
-            J = canonicalIdeal(R);
-            canIdeal = sub(J, S) + defIdeal;
-            frobeniusTraceOnCanonicalModule(canIdeal, defIdeal)
+            I = ker map( ZZ/5[a,b], S, {a^3, a^2*b, a*b^2, b^3} );
+	    R = S/I;
+            canIdeal = canonicalIdeal R;
+            J = sub( canIdeal, S );
+            frobeniusTraceOnCanonicalModule( I, J )
 ///
 
 doc ///
