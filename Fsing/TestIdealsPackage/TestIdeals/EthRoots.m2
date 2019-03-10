@@ -9,7 +9,7 @@
 --*************************************************
 --*************************************************
 
-frobeniusRoot = method(Options => {FrobeniusRootStrategy => Substitution})
+frobeniusRoot = method( Options => { FrobeniusRootStrategy => Substitution } )
 --frobeniusRoot takes two strategy options: Substitution and MonomialBasis
 --The second strategy seems to generally be faster for computing I^[1/p^e] when e = 1, especially for polynomials of
 --high degree, but slower for larger e. 
@@ -43,17 +43,17 @@ frobeniusRoot ( ZZ, Ideal ) := Ideal => opts -> ( e, I ) ->
 
 -----------------------------------------------------------------------------
 
-frobeniusRoot ( ZZ, MonomialIdeal ) := Ideal => opts -> ( e, I ) -> 
+frobeniusRoot ( ZZ, MonomialIdeal ) := MonomialIdeal => opts -> ( e, I ) -> 
 (
     R := ring I;
     p := char R;
     G := I_*;
-    if #G == 0 then ideal 0_R else ideal apply( G, f -> R_( (exponents f)#0 // p^e ))
+    if #G == 0 then ideal 0_R else monomialIdeal apply( G, f -> R_( (exponents f)#0 // p^e ))
 )
 
 ------------------------------------------------------------------------------
 
-frobeniusRoot(ZZ, List, List) := opts -> ( e, exponentList, idealList ) -> 
+frobeniusRoot ( ZZ, List, List ) := Ideal => opts -> ( e, exponentList, idealList ) -> 
 (
     --idealList is a list of ideals and/or ring elements. 
     --exponentList is a list of exponents we're taking these ideals/elemetns to
@@ -89,55 +89,37 @@ frobeniusRoot(ZZ, List, List) := opts -> ( e, exponentList, idealList ) ->
 
 -----------------------------------------------------------------------------
 
-frobeniusRoot ( ZZ, ZZ, RingElement, Ideal ) := opts -> ( e, a, f, I ) -> frobeniusRootRingElements ( e, a, f, I, opts ) ---MK
- -- in the future, frobeniusRootRingElements should be subsumed by frobeniusRoot(ZZ, List, List). When this happens,
- -- the above line should end with frobeniusRoot( e, {a, 1}, {f, I} ) 
+frobeniusRoot ( ZZ, ZZ, RingElement, Ideal ) := Ideal => opts -> ( e, a, f, I ) -> 
+    frobeniusRootRingElements ( e, a, f, I, opts )
+    
+-----------------------------------------------------------------------------
+
+frobeniusRoot ( ZZ, ZZ, RingElement ) := Ideal => opts -> ( e, a, f ) -> 
+    frobeniusRootRingElements ( e, a, f, opts ) 
 
 -----------------------------------------------------------------------------
 
-frobeniusRoot ( ZZ, ZZ, RingElement ) := opts -> ( e, a, f ) -> frobeniusRootRingElements ( e, a, f, opts ) ---MK
- -- in the future, frobeniusRootRingElements should be subsumed by frobeniusRoot(ZZ, List, List). When this happens,
- -- the above line should end with frobeniusRoot( e, {a}, {f} ) 
+frobeniusRoot ( ZZ, ZZ, Ideal ) := Ideal => opts -> ( e, m, I ) -> 
+    frobeniusRoot( e, {m}, {I}, opts )
 
 -----------------------------------------------------------------------------
 
-frobeniusRoot ( ZZ, ZZ, Ideal ) := opts -> ( e, m, I ) -> frobeniusRoot( e, {m}, {I}, opts )
-
+frobeniusRoot( ZZ, List, List, Ideal) := Ideal => opts -> (e, exponentList, idealList, J) ->
+   frobeniusRoot(e, append(exponentList, 1), append(idealList, J), opts )
+   
 -----------------------------------------------------------------------------
 
-frobeniusRoot( ZZ, List, List, Ideal) := opts -> (e, exponentList, idealList, J) ->
-   frobeniusRoot(e, append(exponentList, 1), append(idealList, J), opts );
------------------------------------------------------------------------------
-
-frobeniusRoot ( ZZ, Matrix ) := opts -> (e, A) -> mEthRoot (e,A)  --- MK
+frobeniusRoot ( ZZ, Matrix ) := Matrix => opts -> (e, A) -> mEthRoot ( e, A ) 
 
 -----------------------------------------------------------------------------
-
---frobeniusRoot = method( Options => { FrobeniusRootStrategy => Substitution } )
-
---frobeniusRoot ( ZZ, Ideal ) := o -> ( n, I ) -> 
---(
---    p := char ring I;  
---    e := floorLog( p, n );
---    if n != p^e then error "frobeniusPower: first argument must be a number of the form p^e, where p is the characteristic of the ring.";   
---    frobeniusRoot( e, I, FrobeniusRootStrategy => o.FrobeniusRootStrategy )
---)
-
---frobeniusRoot ( ZZ, MonomialIdeal ) := o -> ( n, I ) -> 
---(
---    p := char ring I;  
---    e := floorLog( p, n );
---    if n != p^e then error "frobeniusPower: first argument must be a number of the form p^e, where p is the characteristic of the ring.";   
---    frobeniusRoot( e, I, FrobeniusRootStrategy => o.FrobeniusRootStrategy )
---)
-
 
 -----------------------------------------------------------------------------
 -- MACHINERY
 -----------------------------------------------------------------------------
 
-getFieldGenRoot = (e,p,q,k) -> (
-    s := floorLog(p,q);
+getFieldGenRoot = (e, p, q, k) -> 
+(
+    s := floorLog( p, q );
     -- Gets the exponent s such that q = p^s.
     a := (gens k)#0;
     a^(p^(s-e%s))
@@ -151,7 +133,8 @@ getFieldGenRoot = (e,p,q,k) -> (
 
 -----------------------------------------------------------------------------
 
-frobeniusRootMonStrat = (e,p,q,k,f,R) -> ( --print "MonStrat";
+frobeniusRootMonStrat = (e, p, q, k, f, R) -> 
+(
     -- e = exponent, p = prime, q = size of coeff field, k = coeff field, 
 	-- f = a generator of the ideal in question, R = the ring
 	-- to use this strategy to find the p^eth root of an ideal, you need to apply this
@@ -178,7 +161,8 @@ frobeniusRootMonStrat = (e,p,q,k,f,R) -> ( --print "MonStrat";
 
 -----------------------------------------------------------------------------
 
-frobeniusRootSubStrat = (e,p,q,k,I,R) -> ( --print "SubStrat";
+frobeniusRootSubStrat = (e, p, q, k, I, R) -> 
+(
     n := numgens R;
     Rvars := R_*;
     Y := local Y;
@@ -247,14 +231,11 @@ frobeniusRootRingElements( ZZ, ZZ, RingElement, Ideal ) := o->( e, a, f, I ) ->
 frobeniusRootRingElements( ZZ, ZZ, RingElement ) := o->( e, a, f ) -> 
     frobeniusRootRingElements( e, {a}, {f}, ideal( 1_(ring f) ), o )
 
-
-
 ----------------------------------------------------------------
 --************************************************************--
 --Functions for computing test ideals, and related objects.   --
 --************************************************************--
 ----------------------------------------------------------------
-
 
 --Finds the smallest phi-stable ideal containing the given ideal Jk
 --in a polynomial ring Sk
@@ -266,18 +247,18 @@ frobeniusRootRingElements( ZZ, ZZ, RingElement ) := o->( e, a, f ) ->
 --the point is the ascending might be faster if we don't care about it mod a certain ideal.  
 ascendIdeal = method( Options => { FrobeniusRootStrategy => Substitution, AscentCount => false } )
 
-ascendIdeal(ZZ, RingElement, Ideal) := o->(ek, hk, Jk) -> 
-    ascendIdeal(ek, {1}, {hk}, Jk, o)
+ascendIdeal ( ZZ, RingElement, Ideal ) := o -> ( ek, hk, Jk ) -> 
+    ascendIdeal( ek, {1}, {hk}, Jk, o )
 
 --Works like above ascendIdeal but tries to minimize the exponents elements are taken to
 -- what's ak?  Karl: ak is the numerator of the exponent t = ak/(p^ek - 1)
 
-ascendIdeal(ZZ, ZZ, RingElement, Ideal) := o->( ek, ak, hk, Jk) -> 
-    ascendIdeal(ek, {ak}, {hk}, Jk, o)
-
+ascendIdeal ( ZZ, ZZ, RingElement, Ideal ) := o -> ( ek, ak, hk, Jk ) -> 
+    ascendIdeal( ek, {ak}, {hk}, Jk, o )
 
 --handles lists of hk to powers...
-ascendIdeal(ZZ, List, List, Ideal) := o->(ek, akList,  hkList, Jk) -> (
+ascendIdeal ( ZZ, List, List, Ideal ) := o -> ( ek, akList,  hkList, Jk ) -> 
+(
     Rk := ring Jk;
     Ik := ideal Rk;
     Sk := ambient Rk;
@@ -311,7 +292,8 @@ ascendIdeal(ZZ, List, List, Ideal) := o->(ek, akList,  hkList, Jk) -> (
 -----------------------------------------------------------------------------
 
 getExponents = method();
-getExponents(Matrix):= (f)-> (
+getExponents Matrix := f -> 
+(
     answer:={};
     t:=terms(first first entries f);
     apply(t, i->
@@ -324,7 +306,8 @@ getExponents(Matrix):= (f)-> (
     answer
 )
 
-mEthRootOfOneElement= (e,v) ->(
+mEthRootOfOneElement= ( e, v ) ->
+(
 	local i; local j;
 	local d;
 	local w;
@@ -404,7 +387,6 @@ mEthRoot = (e,A) ->(
 )	
 
 
-
 --MKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMK
 -- given n by n matrix U and submodule A of a free module R^n,
 -- ascendModule finds the smallest submodule V of R^n containing A and which satisfies U^(1+p+...+p^(e-1)) V\subset V^{[p^e]} 
@@ -414,7 +396,6 @@ ascendModule = method();
 ascendModule(ZZ,Matrix,Matrix) := (e,A,U) -> (
 Mstar (e,A,U)
 )
-
 
 --MKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMK
 
