@@ -404,51 +404,43 @@ mEthRoot = (e,A) ->(
 )	
 *-
 
---MKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMK
--- given n by n matrix U and submodule A of a free module R^n,
--- ascendModule finds the smallest submodule V of R^n containing A and which satisfies U^(1+p+...+p^(e-1)) V\subset V^{[p^e]} 
+-- ascendModule is the implementaion of the star closure operation desribed in M Katzman and 
+-- W. Zhang's "Annihilators of Artinian modules compatible with a Frobenius map" 
+-- Inputs:
+--    a positive integer e
+--    submodule A of a free module R^n OVER A PRIME FIELD.
+--    n by n matrix U
+-- Output:
+--    the smallest submodule V of R^n containing A and which satisfies 
+--    U^(1+p+...+p^(e-1)) V\subset V^{[p^e]} 
 -- This is analogous to ascendIdeal, only for submodules of free modules.
 ascendModule = method()
 
-ascendModule (ZZ, Matrix, Matrix ) := (e,A,U) -> Mstar( e, A, U )
-
---MKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMK
-
---- Mstar is the implementaion of the star closure operation desribed in 
---- M Katzman and W. Zhang's "Annihilators of Artinian modules compatible with a Frobenius map" 
---- Input:
----    a positive integer e
----    n by n matrix U and submodule A of a free module R^n OVER A PRIME FIELD.
---- Output:
----    the smallest submodule V of R^n containing A and which satisfies U^(1+p+...+p^(e-1)) V\subset V^{[p^e]} 
-Mstar = ( e, A, U ) ->
+ascendModule ( ZZ, Matrix, Matrix ) := ( e, A, U ) -> 
 (
-	local answer;
-	R:=ring(A); p:=char R;
-	if (A==0) then
-	{
-		answer=A;
-	}
-	else
-	{
-		flag:=true;
-		Ne:=sum toList(apply(0..(e-1), i->p^i));
-		lastA:= A;
-		while (flag) do
-		{
-			flag=false;
-			A1:=matrix entries mEthRoot(e, mingens image ((U^Ne)*lastA));
-			A1=A1 | lastA;
-			t1:=compress ((A1))%((lastA));
-			if (t1!=0) then 
-			{
-				flag=true;
-				lastA=mingens image A1;
-			};
-		};
-		answer=mingens (image A1);
-	};
-	use(R);
-	answer
+    R := ring A; 
+    p := char R;
+    if A == 0 then A
+    else
+    (
+	flag := true;
+	Ne := sum( e, i -> p^i );
+	lastA := A;
+	while flag do
+	(
+	    flag = false;
+	    A1 := matrix entries mEthRoot( e, mingens image( U^Ne * lastA ) );
+	    A1 = A1 | lastA;
+	    t1 := compress ( A1 % lastA );
+	    if t1 != 0 then 
+	    (
+	        flag = true;
+		lastA = mingens image A1;
+	    );
+	 );
+	 mingens image A1;
+    )
+--    use R;
+--    answer
 )
 
