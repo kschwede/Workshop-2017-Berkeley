@@ -41,7 +41,7 @@ doc ///
 	    and let $T: E \rightarrow E$ be the natural Frobenius map. Then $uT$ is a Frobenius map on $E$, and the primes $P$ computed by this function are precisely those for which
 	    $uT$ restricts to a nonzero Frobenius map of the annihlator of $P$ on $E$.
 
-            We begin with a simple example (which is split with the coordinate axes in $\mathbb{A}^2$).
+            The following is a simple example, which is split with the coordinate axes in $\mathbb{A}^2$.
         Example
             R = ZZ/3[s,t];
             u = s^2*t^2;
@@ -51,8 +51,7 @@ doc ///
         Example
             R = ZZ/2[x_21,x_31,x_32,x_41,x_42,x_43];
             u = x_41*(x_31*x_42-x_41*x_32)*(x_41-x_21*x_42-x_31*x_43+x_21*x_32*x_43);
-            C = compatibleIdeals u;
-            apply(C, print);
+            print \ compatibleIdeals u;
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
 ///

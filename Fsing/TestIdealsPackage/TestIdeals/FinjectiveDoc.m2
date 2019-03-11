@@ -66,7 +66,7 @@ doc ///
         Text
             If you do not want the function to compute the canonical module, you can also pass the canonical module as an ideal.
             You can also pass it something other than the canonical module as well (for example, a submodule of the canonical module).
-            In the following example, we compute the non-F-pure ideal of a Q-Gorenstein ring by hijacking this functionality.
+            In the following example, the non-F-pure ideal of a Q-Gorenstein ring is computed by hijacking this functionality.
         Example
             T = ZZ/7[a,b];
             S = ZZ/7[x,y,z,w];

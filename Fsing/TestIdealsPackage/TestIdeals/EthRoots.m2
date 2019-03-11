@@ -291,43 +291,67 @@ ascendIdeal ( ZZ, List, List, Ideal ) := o -> ( ek, akList,  hkList, Jk ) ->
 
 -----------------------------------------------------------------------------
 
-getExponents = method();
+getCoeffsAndExps = method( TypicalValue => List )
+
+--Input: a 1x1 matrix {{F}}
+--Output: a list of pairs (coefficient, exponent list), one for each
+-- term of F 
+
+getCoeffsAndExps Matrix := List => F -> 
+(
+    -- get the single entry of the matrix
+    f := first first entries F;
+    -- get list of terms and coefficients
+    coeffs := flatten entries last coefficients f;
+    -- get list of exponents
+    exps := exponents f;
+    -- build list of pairs
+    apply( coeffs, exps, identity)
+)
+
+-*
+getExponents = method()
+
 getExponents Matrix := f -> 
 (
-    answer:={};
-    t:=terms(first first entries f);
-    apply(t, i->
-    {
-        exps:=first exponents(i);
-        c:=(coefficients(i))#1;
-        c=first first entries c;
-        answer=append(answer,(c,exps));
-    });
+    answer := {};
+    t := terms first first entries f;
+    local c;
+    local exps;
+    apply( t, i ->
+	(
+            exps = first exponents i;
+            c = (coefficients i)#1;
+            c = first first entries c;
+            answer = append( answer, ( c, exps ) )
+        )
+    );
     answer
 )
+*-
 
 mEthRootOfOneElement= ( e, v ) ->
 (
-	local i; local j;
-	local d;
-	local w;
-	local m;
-	local answer;
-	R:=ring(v); p:=char R; q:=p^e;
-	F:=coefficientRing(R);
-	n:=rank source vars(R);
-	V:=ideal vars(R);
-	vv:=first entries vars(R);
-	T:=new MutableHashTable;
-	alpha:=rank target matrix(v);
-	B:={};
-	for i from 1 to alpha do
+    local i; 
+    local j;
+    local d;
+    local w;
+    local m;
+    local answer;
+    R := ring v; 
+    p := char R; 
+    q := p^e;
+    F := coefficientRing R;
+    n := rank source vars R;
+    V := ideal vars R;
+    vv := first entries vars R;
+    T := new MutableHashTable;
+    alpha := rank target matrix v;
+    B := {};
+    for i from 1 to alpha do
 	{
 		vi:=v^{i-1};
----print("i=",i);
----print("vi=",vi);
-		C:=getExponents(vi);
----print(C);
+		C:=getCoeffsAndExps(vi);
 		apply(C, c->
 		{
 			lambda:=c#0;
@@ -335,10 +359,8 @@ mEthRootOfOneElement= ( e, v ) ->
 			gamma:=apply(beta, j-> (j%q));
 			B=append(B,gamma);
 			key:=(i,gamma);
----print(beta, #beta,vv);
 			data:=apply(1..(#beta), j-> vv_(j-1)^((beta#(j-1))//q));
 			data=lambda*product(toList data);
----print(beta, key, data);
 			if (T#?key) then
 			{
 				T#key=(T#key)+data;
@@ -364,6 +386,15 @@ mEthRootOfOneElement= ( e, v ) ->
 	answer
 )
 
+mEthRoot = ( e, A ) ->
+(
+    answer := apply( rank source A, i -> mEthRootOfOneElement( e, A_{i} ) );
+    --the above subscript denotes taking the ith column of A
+    answer = if #answer == 0 then A else fold( (i,j) -> i|j, answer );
+    mingens image answer
+)	
+
+-*
 mEthRoot = (e,A) ->(
 	local i;
 	local answer;
@@ -385,17 +416,15 @@ mEthRoot = (e,A) ->(
 	};
 	mingens( image answer )
 )	
-
+*-
 
 --MKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMK
 -- given n by n matrix U and submodule A of a free module R^n,
 -- ascendModule finds the smallest submodule V of R^n containing A and which satisfies U^(1+p+...+p^(e-1)) V\subset V^{[p^e]} 
 -- This is analogous to ascendIdeal, only for submodules of free modules.
-ascendModule = method();
+ascendModule = method()
 
-ascendModule(ZZ,Matrix,Matrix) := (e,A,U) -> (
-Mstar (e,A,U)
-)
+ascendModule (ZZ, Matrix, Matrix ) := (e,A,U) -> Mstar( e, A, U )
 
 --MKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMKMK
 
@@ -406,7 +435,8 @@ Mstar (e,A,U)
 ---    n by n matrix U and submodule A of a free module R^n OVER A PRIME FIELD.
 --- Output:
 ---    the smallest submodule V of R^n containing A and which satisfies U^(1+p+...+p^(e-1)) V\subset V^{[p^e]} 
-Mstar = (e,A,U) ->(
+Mstar = ( e, A, U ) ->
+(
 	local answer;
 	R:=ring(A); p:=char R;
 	if (A==0) then
