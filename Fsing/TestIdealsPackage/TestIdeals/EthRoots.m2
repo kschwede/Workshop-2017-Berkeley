@@ -351,7 +351,7 @@ mEthRootOfOneElement = ( e, v ) ->
     var := R_*;
     n := rank target v;
     F := coefficientRing R;
-    -- for computing roots of the coefficients
+    -- root = a function for computing p^e-th roots of the coefficients
     if isFinitePrimeField F then root = identity
     else 
     (
@@ -363,10 +363,11 @@ mEthRootOfOneElement = ( e, v ) ->
     scan( n, i -> 
 	scan( getCoeffsAndExps v^{i}, ( coeff, expVec ) ->
 	    (
-		expVecModQ = apply( expVec, j-> j % q );
+		expVecModQ = expVec % q;
 		B = append( B, expVecModQ );
 		key = ( i, expVecModQ );
-		data = root(coeff) * product apply( var, expVec, (x,y) -> x^(y//q) );
+		-- create new monomials with the quotients of exponents by q
+		data = root(coeff) * product apply( var, expVec//q, (x,y) -> x^y );
 		if T#?key then T#key = T#key + data else T#key = data
 	    )
 	)
