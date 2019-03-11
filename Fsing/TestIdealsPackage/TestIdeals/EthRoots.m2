@@ -299,14 +299,10 @@ getCoeffsAndExps = method( TypicalValue => List )
 
 getCoeffsAndExps Matrix := List => F -> 
 (
-    -- get the single entry of the matrix
-    f := first first entries F;
-    -- get list of terms and coefficients
+    f := first first entries F; -- the single entry in F
     coeffs := flatten entries last coefficients f;
-    -- get list of exponents
     exps := exponents f;
-    -- build list of pairs
-    apply( coeffs, exps, identity)
+    apply( coeffs, exps, identity) -- build list of pairs
 )
 
 -*
