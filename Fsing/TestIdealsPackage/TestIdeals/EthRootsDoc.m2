@@ -96,10 +96,10 @@ doc ///
         Text
             Given an $n \times n$ matrix $U$ and a submodule $A$ of a free module $R^n$, {\tt ascendModule} finds the smallest submodule $V$ of $R^n$ containing $A$ and which satisfies $U^{1+p+\cdots+p^{e-1}} V\subset V^{[p^e]}$.
         Example
-            R=ZZ/2[a,b,c,d];
-            A= matrix {{b*c, a, 0}, {a^2* d, d^2 , c + d}}
-            U= matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3 }}
-            V=ascendModule (1,A,U)
+            R = ZZ/2[a,b,c,d];
+            A = matrix {{b*c, a, 0}, {a^2* d, d^2 , c + d}}
+            U = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3 }}
+            V = ascendModule( 1, A, U )
         Text
             This method is described in M Katzman and W. Zhang's "Annihilators of Artinian modules compatible with a Frobenius map"
             under the name "star-closure".

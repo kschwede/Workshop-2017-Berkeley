@@ -109,7 +109,7 @@ frobeniusRoot( ZZ, List, List, Ideal) := Ideal => opts -> (e, exponentList, idea
    
 -----------------------------------------------------------------------------
 
-frobeniusRoot ( ZZ, Matrix ) := Matrix => opts -> (e, A) -> mEthRoot ( e, A ) 
+frobeniusRoot ( ZZ, Matrix ) := Matrix => opts -> (e, A) -> mEthRoot( e, A ) 
 
 -----------------------------------------------------------------------------
 
@@ -299,7 +299,7 @@ getCoeffsAndExps = method( TypicalValue => List )
 
 getCoeffsAndExps Matrix := List => F -> 
 (
-    f := first first entries F; -- the single entry in F
+    f := first first entries F; -- get the single entry in F
     coeffs := flatten entries last coefficients f;
     exps := exponents f;
     apply( coeffs, exps, identity) -- build list of pairs
@@ -329,48 +329,94 @@ getExponents Matrix := f ->
 mEthRootOfOneElement = ( e, v ) ->
 (
     local ww;
-    local lambda;
-    local beta;
-    local gamma;
+    local expVecModQ;
     local data;
     local key;
     R := ring v; 
     q := (char R)^e;
-    vv := R_*;
+    var := R_*;
+    n := rank target v;
     T := new MutableHashTable;
-    alpha := rank target v;
     B := {};
-    scan( 1..alpha, i -> 
-	scan( getCoeffsAndExps( v^{i-1} ), c ->
+    scan( n, i -> 
+	scan( getCoeffsAndExps v^{i}, ( coeff, expVec ) ->
 	    (
-		( lambda, beta ) = c;
-		gamma = apply( beta, j-> j % q );
-		B = append( B, gamma );
-		key = ( i, gamma );
-		data = apply( vv, beta, (x,y) -> x^( y // q ) );
-		data = lambda * product( toList data );
-		if T#?key then T#key = T#key + data else T#key = data;
+		expVecModQ = apply( expVec, j-> j % q );
+		B = append( B, expVecModQ );
+		key = ( i, expVecModQ );
+		data = coeff * product apply( var, expVec, (x,y) -> x^( y // q ) );
+		if T#?key then T#key = T#key + data else T#key = data
 	    )
 	)
     );
-    B = unique B;
-    TT := new MutableHashTable;
-    apply( B, b ->
+    TT := apply( unique B, b ->
 	(
-	    ww = {};
-	    scan( 1..alpha, i ->  
-	        if T#?(i,b) then ww = append( ww, T#(i,b) ) 
-		else ww = append(ww,0_R)
-	    );
-	    ww = transpose matrix {ww};
-	    TT#b = ww;
+            ww = apply( n, i -> if T#?(i,b) then T#(i,b) else 0_R );
+	    transpose matrix { toList ww }
 	)
     );
-    KEYS := keys TT;
-    answer := TT#(KEYS#0);
-    for i from 1 to (#KEYS)-1 do answer = answer | TT#(KEYS#i);
-    answer
+    fold( (i,j) -> i|j, TT )
 )
+
+-*
+mEthRootOfOneElement= (e,v) ->(
+	local i; local j;
+	local d;
+	local w;
+	local m;
+	local answer;
+	R:=ring(v); p:=char R; q:=p^e;
+	F:=coefficientRing(R);
+	n:=rank source vars(R);
+	V:=ideal vars(R);
+	vv:=first entries vars(R);
+	T:=new MutableHashTable;
+	alpha:=rank target matrix(v);
+	B:={};
+	for i from 1 to alpha do
+	{
+		vi:=v^{i-1};
+---print("i=",i);
+---print("vi=",vi);
+		C:=getCoeffsAndExps(vi);
+---print(C);
+		apply(C, c->
+		{
+			lambda:=c#0;
+			beta:=c#1;
+			gamma:=apply(beta, j-> (j%q));
+			B=append(B,gamma);
+			key:=(i,gamma);
+---print(beta, #beta,vv);
+			data:=apply(1..(#beta), j-> vv_(j-1)^((beta#(j-1))//q));
+			data=lambda*product(toList data);
+---print(beta, key, data);
+			if (T#?key) then
+			{
+				T#key=(T#key)+data;
+			}
+			else
+			{
+				T#key=data;
+			};
+		});
+	};
+	B=unique(B);
+	TT:=new MutableHashTable;
+	apply(B, b->
+	{
+		ww:={};
+		for i from 1 to alpha do if T#?(i,b) then ww=append(ww,T#(i,b)) else ww=append(ww,0_R);
+		ww=transpose matrix {ww};
+		TT#b=ww;
+	});
+	KEYS:=keys(TT);
+	answer=TT#(KEYS#0);
+	for i from 1 to (#KEYS)-1 do answer=answer | TT#(KEYS#i);
+	answer
+)
+
+*-
 
 mEthRoot = ( e, A ) ->
 (
@@ -438,7 +484,7 @@ ascendModule ( ZZ, Matrix, Matrix ) := ( e, A, U ) ->
 		lastA = mingens image A1;
 	    );
 	 );
-	 mingens image A1;
+	 mingens image A1
     )
 --    use R;
 --    answer
