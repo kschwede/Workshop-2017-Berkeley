@@ -23,8 +23,9 @@ frobeniusRoot ( ZZ, Ideal ) := Ideal => opts -> ( e, I ) ->
     R := ring I;
     if class R =!= PolynomialRing then error "frobeniusRoot: Expected an ideal in a PolynomialRing";
     p := char R;
+    if not isPrime p then error "frobeniusRoot: Expected an ideal in a ring of prime characteristic";
     k := coefficientRing R;
-    if k =!= ZZ/p and class k =!= GaloisField then error "frobeniusRoot: Expected the coefficient field to be ZZ/p or a GaloisField";
+    if k =!= ZZ/p and class k =!= GaloisField then error "frobeniusRoot: Expected the coefficient field to be a finite prime field or a GaloisField";
 
     q := k#order;
     --Gets the cardinality of the base field.
@@ -109,7 +110,17 @@ frobeniusRoot( ZZ, List, List, Ideal) := Ideal => opts -> (e, exponentList, idea
    
 -----------------------------------------------------------------------------
 
-frobeniusRoot ( ZZ, Matrix ) := Matrix => opts -> (e, A) -> mEthRoot( e, A ) 
+frobeniusRoot ( ZZ, Matrix ) := Matrix => opts -> ( e, A ) -> 
+(
+    if e < 0 then error "frobeniusRoot: Expected first argument to be a nonnegative integer";
+    R := ring A;
+    if class R =!= PolynomialRing then error "frobeniusRoot: Expected a matrix with entries in a PolynomialRing";
+    p := char R;
+    if not isPrime p then error "frobeniusRoot: Expected a matrix with entries in a ring of prime characteristic";
+    k := coefficientRing R;
+    if k =!= ZZ/p and class k =!= GaloisField then error "frobeniusRoot: Expected the coefficient field to be a finite prime field or a GaloisField";
+   mEthRoot( e, A ) 
+)
 
 -----------------------------------------------------------------------------
 
@@ -332,10 +343,21 @@ mEthRootOfOneElement = ( e, v ) ->
     local expVecModQ;
     local data;
     local key;
+    local root;
+    local rootOfGen;
     R := ring v; 
-    q := (char R)^e;
+    p := char R;
+    q := p^e;
     var := R_*;
     n := rank target v;
+    F := coefficientRing R;
+    -- for computing roots of the coefficients
+    if isFinitePrimeField F then root = identity
+    else 
+    (
+	rootOfGen = getFieldGenRoot( e, p, F#order, F );
+	root = c -> substitute( c, (gens F)#0 => rootOfGen )
+    );
     T := new MutableHashTable;
     B := {};
     scan( n, i -> 
@@ -344,7 +366,7 @@ mEthRootOfOneElement = ( e, v ) ->
 		expVecModQ = apply( expVec, j-> j % q );
 		B = append( B, expVecModQ );
 		key = ( i, expVecModQ );
-		data = coeff * product apply( var, expVec, (x,y) -> x^( y // q ) );
+		data = root(coeff) * product apply( var, expVec, (x,y) -> x^(y//q) );
 		if T#?key then T#key = T#key + data else T#key = data
 	    )
 	)
