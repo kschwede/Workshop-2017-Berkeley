@@ -19,8 +19,8 @@
 --protect FrobeniusPowerStrategy;
 
 newPackage( "TestIdeals",
-Version => "1.0",
-Date => "8/17/2018, 2018",
+Version => "1.01",
+Date => "3/22/2019, 2019",
 Authors => {
      {Name => "Erin Bela",
      Email => "ebela@nd.edu"
@@ -128,6 +128,9 @@ export{
     "isFInjective",
     "CanonicalStrategy", --how to check F-injectivity on the canonical module (Ext or Katzman)
     "Katzman", --an option for CanonicalStrategy
+    "CanonicalIdeal", --an option for passing the canonical ideal
+    "GeneratorList", --an option for passing a list of u-generators (in Katzman's notation) for the canonical ideal or a canonical-like ideal
+    "CurrentRing",--an option for passing a ring to work with
 
 -- testIdeals.m2
     "QGorensteinGenerator", --Karl (this finds y such that I^{[p^e]} : I = (y) + I^{[p^e]}, if it exists) **Documented**

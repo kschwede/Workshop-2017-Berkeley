@@ -26,7 +26,7 @@ TEST /// --cone over P1 times ordinary elliptic curve (non CM)
 
 TEST /// --HSLGModule cone over ordinary elliptic curve
     R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
-    HSLmod = HSLGModule(R);
+    HSLmod = HSLGModule(CurrentRing => R);
     assert(HSLmod#0 == HSLmod#1);
 ///
 
@@ -38,11 +38,11 @@ TEST /// --the isLocal option
 
 TEST /// --HSLGModule cone over supersingular elliptic curve
     R = ZZ/5[x,y,z]/ideal(x^3+y^3+z^3);
-    HSLmod = HSLGModule(R);
+    HSLmod = HSLGModule(CurrentRing => R);
     assert(not (HSLmod#0 == HSLmod#1));
 ///
 
-TEST /// --HSLGModule cone over supersingular elliptic curve
+TEST /// --HSLGModule of an F-pure pair
     R = ZZ/7[x,y]
     HSLmod = HSLGModule(5/6, y^2-x^3);
     assert((HSLmod#0 == HSLmod#1));

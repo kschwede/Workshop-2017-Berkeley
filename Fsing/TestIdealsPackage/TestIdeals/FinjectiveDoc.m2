@@ -7,65 +7,62 @@
 doc ///
     Key
         HSLGModule
-        (HSLGModule, Ring)
-        (HSLGModule, Ring, Ideal)
-        (HSLGModule, Ideal)
-        (HSLGModule, Ring, Ideal, List)
+--        (HSLGModule, null)
         (HSLGModule, Number, RingElement)
-        (HSLGModule, Number, RingElement, Ideal, List)
         (HSLGModule, List, List)
-        (HSLGModule, List, List, Ideal, List)
-        (HSLGModule, ZZ, List, List, Ideal)
+        (HSLGModule, ZZ, List, List)
         [HSLGModule, FrobeniusRootStrategy]
+        [HSLGModule, CanonicalIdeal]
+        [HSLGModule, CurrentRing]
+        [HSLGModule, GeneratorList]
     Headline
         compute the submodule of the canonical module stable under the image of the trace of Frobenius
     Usage
-        HSLGModule(R)
-        HSLGModule(R, canonicalIdeal)
-        HSLGModule(canonicalIdeal)
-        HSLGModule(R, canonicalIdeal, uList)
+        HSLGModule()
         HSLGModule(t, f)
-        HSLGModule(t, f, canonicalIdeal, uList)
-        HSLGModule(expList, eltList)
-        HSLGModule(expList, eltList, canonicalIdeal, uList)
-        HSLGModule(e, expList, eltList, canIdeal) --this last command is largely an internal function
+        HSLGModule(tList, fList)
+        HSLGModule(e, expList, fList) --this last command is largely an internal function
     Inputs
-        R:Ring
-        canonicalIdeal:Ideal
-            an ideal isomorphic to the canonical ideal
         f:RingElement
             a ring element, to make a pair
-        expList:List
-            a list of formal exponents for ring elements, for pairs
-        eltList:List
-            a list of ring elements, for pairs
         t:Number
             a formal exponent
+        tList:List
+            a list of formal exponents for ring elements, for pairs
+        fList:List
+            a list of ring elements, for pairs
         expList:List
             a list of formal exponents
         e:ZZ
             an integer, what root of Frobenius to take
-        uList:List
-            the trace generator in the ambient polynomial ring (a list of elements that generate the trace map)
         FrobeniusRootStrategy=>Symbol
             choose the strategy for internal frobeniusRoot calls
+        CanonicalIdeal=>Ideal
+            specify the canonical ideal (so the function doesn't recompute it)
+        CurrentRing=>Ring
+            specify the current ring to work with
+        GeneratorList=>List
+            specify the action on the canonical module
     Outputs
         :Sequence
     Description
         Text
-            Given a ring $R$ with canonical module $\omega$, this computes the image of $F^e_* \omega \to \omega$ for $e >> 0$.  This image is sometimes called the HSLG-module (named for Hartshorne-Speiser, Lyubeznik and Gabber).  It roughly tells you where a ring is non-F-injective.
+            Given a ring $R$ with canonical module $\omega$, this computes the image of $F^e_* \omega \to \omega$ for $e >> 0$.  This image is sometimes called the HSLG-module (named for Hartshorne-Speiser, Lyubeznik and Gabber).
+            It roughly tells you where a ring is non-F-injective.
+            It can also be used to compute the maximal F-pure sub-Cartier module of a given rank-1 Cartier module (represented as an ideal).
         Text
-            Specifically, this function returns a list of the following entries.  {\tt HSLGmodule, canonicalModule, u, HSLCount} where {\tt canonicalModule} is the canonical module of the ring (expressed as an ideal), {\tt HSLGmodule} is a submodule of that canonical module, {\tt u} is an element of the ambient polynomial ring representing the trace of Frobenius on the canonical module and {\tt HSLCount} is how many times the trace of Frobenius was computed before the image stabilized.
+            Specifically, this function returns a list of the following entries.  {\tt HSLGmodule, canonicalModule, u, HSLCount} where {\tt canonicalModule} is the canonical module of the ring (expressed as an ideal), {\tt HSLGmodule} is a submodule of that canonical module, {\tt u} is a list of elements of the ambient polynomial ring representing the trace of Frobenius on the canonical module and {\tt HSLCount} is how many times the trace of Frobenius was computed before the image stabilized.
         Example
             R = ZZ/7[x,y,z]/ideal( x^5+y^5+z^5 );
-            ( HSLGMod, canMod, frobTrace, count ) = HSLGModule R;
+            ( HSLGMod, canMod, frobTrace, count ) = HSLGModule(CurrentRing => R);
             canMod --the ambient canonical module
             HSLGMod --the HSLG submodule
             frobTrace --the element representing trace of Frobenius
             count --how many times it took until the image stabilized
         Text
-            If you do not want the function to compute the canonical module, you can also pass the canonical module as an ideal.
-            You can also pass it something other than the canonical module as well (for example, a submodule of the canonical module).
+            If you do not want the function to compute the canonical module, you can also pass the canonical module as an ideal via the {\tt CanonicalModule} option.
+            You could also pass it something other than the canonical module as well (for example, a submodule of the canonical module).
+            Likewise you can use the {\tt GeneratorList} option to specify the dual Frobenius action on the canonical module (or ideal playing the role of the canonical module).
             In the following example, the non-F-pure ideal of a Q-Gorenstein ring is computed by hijacking this functionality.
         Example
             T = ZZ/7[a,b];
@@ -75,16 +72,16 @@ doc ///
             R = S/I;
             J = ideal(sub(1, R));
             u = QGorensteinGenerator(1, R);
-            HSLGModule(R, J, {u})
+            HSLGModule(CanonicalIdeal=>J, GeneratorList=>{u})
         Text
             Additionally, you can specify a pair $(R, f^t)$ as long as $t$ is a rational number without $p$ in its denominator.
         Example
             R = ZZ/7[x,y];
-            HSLList = HSLGModule(5/6, y^2-x^3);
-            HSLList#1 --the canonical module
-            HSLList#0
-            HSLList = HSLGModule(9/10, y^2-x^3);
-            HSLList#0
+            M = HSLGModule(5/6, y^2-x^3);
+            M#1 --the canonical module
+            M#0
+            N = HSLGModule(9/10, y^2-x^3);
+            N#0
         Text
             Additionally, we can compute HSLG-modules of things like $(R, f^s g^t)$ even when $R$ is not regular (although we do require that R is Q-Gorenstein with index not divisible by the characteristic).
         Example
@@ -92,6 +89,9 @@ doc ///
             f = y;
             g = z;
             HSLGModule({1/2, 1/2, 1/2}, {y,z,y+z})
+        Text
+            The other way to call HSLGModule is to by passing it and integer $e$, a list of integers $L$ and a list of ring elements $G$.  It will the compute the maximal $F$-pure Cartier submodule (ie, the HSLG-submodule)
+            of the the ideal passed with the {\tt CanonicalIdeal} option with respect to the Cartier action defined by the $e$-iterated Frobenius Trace pre-composed with the elements of $G$ raised to the $L$.
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
@@ -192,6 +192,35 @@ doc ///
         testModule
 ///
 
+doc ///
+    Key
+        CurrentRing
+    Headline
+        an option to specify that a certain ring is used
+    Description
+        Text
+            {\tt CurrentRing} is an option used in various functions specify a ring to work with.
+///
+
+doc ///
+    Key
+        CanonicalIdeal
+    Headline
+        an option to specify that a certain ideal should be used as the canonical ideal
+    Description
+        Text
+            {\tt CanonicalIdeal} is an option used in various functions specify an ideal to use as the canonical ideal.  In this way, the canonical ideal does not have to be recomputed and one can use a single fixed choice.
+///
+
+doc ///
+    Key
+        GeneratorList
+    Headline
+        an option to specify that a certain list of elements are used to describe a Cartier action
+    Description
+        Text
+            {\tt GeneratorList} is an option used in various functions to specify a Cartier action, particularly on the canonical module.  In particular, if it is not specified, typically the Cartier action on the canonical module will need to be recomputed.
+///
 
 
 doc ///

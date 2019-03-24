@@ -61,7 +61,7 @@ documentation, rather than the other way around.
 --------------------------------------
 [Pedro] There's also ascendModule, and frobeniusRoot of a matrix.
 Should these take and return modules, instead of matrices? Or maybe both?
-I'll wait until I hear from others before making any changes. 
+I'll wait until I hear from others before making any changes.
 --------------------------------------
 
 *****************************************************************************
@@ -119,7 +119,7 @@ would be to return a sequence, for then you could write
 , labeling them in time for the reader.
 
 --------------------------------------
-[Pedro] Done. 
+[Pedro] Done.
 --------------------------------------
 
 *****************************************************************************
@@ -146,7 +146,7 @@ Avoid personal pronouns.
 --------------------------------------
 [Pedro] Done. Fixed also a couple other occurences of "our" or "your".
 However, there are *many* "you"s throughout the documentation
-("if you pass this...", "if you do that..."). I've been slowly working on this. 
+("if you pass this...", "if you do that..."). I've been slowly working on this.
 --------------------------------------
 
 *****************************************************************************
@@ -170,21 +170,25 @@ for other constructions of this type.
 
 Surely functions such as "HSLGModule" could be given better names, not
 involving obscure acronyms.  And why compound the obscurity by writing example
-code such as 
+code such as
 
      HSLList = HSLGModule(R);
 
-?
+-----------------------------------------
+[Karl]  I thought about this.  Maximal Dual Frobenius Stable Submodule?
+F-pure Cartier SubIdeal?  sigma?  I don't think there is a good name for this in the literature.
+I changed the HSLList to M, N in the examples though.
+------------------
 
 *****************************************************************************
 
 In
 
-	If you pass the IsLocal parameter, this will 
+	If you pass the IsLocal parameter, this will
 
 surely you intended to say instead
 
-	If you pass the "true" as the value of the IsLocal parameter, this will 
+	If you pass the "true" as the value of the IsLocal parameter, this will
 
 --------------------------------------
 [Pedro] Fixed.
@@ -240,6 +244,10 @@ suggests that the use of named optional arguments would simplify the code and
 the documentation considerably!  Pass the canonical ideal, if desired, as the
 value of an optional argument.  Maybe even make *all* of the arguments optional
 (with "null" as the default value).  This seems to be a recurring problem.
+
+--------------------------
+[Karl]  I've implemented this for CanonicalIdeal and for the uList, and for the Ring.  I'm currently looking for other functions to do the same with.
+--------------------------
 
 =============================================================================
 
