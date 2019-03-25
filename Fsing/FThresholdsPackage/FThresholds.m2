@@ -1,6 +1,6 @@
 newPackage( "FThresholds",
-Version => "1.0",
-Date => "August 17th, 2018",
+Version => "1.01",
+Date => "March 24th, 2019",
 Authors => {
      {Name => "Erin Bela",
      Email => "ebela@nd.edu"

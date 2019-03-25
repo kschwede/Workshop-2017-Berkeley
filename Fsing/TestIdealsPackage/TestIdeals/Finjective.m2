@@ -81,22 +81,22 @@ HSLGModule ( List, List ) := Sequence => opts -> ( tList, fList ) ->
     internalHSLGModule( tList, fList, canIdeal, uList,FrobeniusRootStrategy=>opts.FrobeniusRootStrategy )
 )
 
+descendIdeal = method(
+    TypicalValue => Sequence,
+    Options => { FrobeniusRootStrategy => Substitution}
+)
+
 --this version is only to be called by real experts as to what is going on.
-HSLGModule (ZZ, List, List ) := Sequence => opts -> (e1, expList, fList ) ->
+descendIdeal (ZZ, List, List, Ideal) := Sequence => opts -> (e1, expList, fList, canIdeal ) ->
 (
-    if #expList != #fList then error "HSLGModule: expected the lists to have the same lengths";
-    if #fList == 0 then error "HSLGModule: expected a nonempty list";
+    if #expList != #fList then error "descendIdeal: expected the lists to have the same lengths";
+    if #fList == 0 then error "descendIdeal: expected a nonempty list";
 
-    R1 := opts.CurrentRing;
-    canIdeal := opts.CanonicalIdeal;
-    --uList := opts.GeneratorList; (ulist is ignored for this construction)
+    R1 := ring( fList#0 );
+    if (not (R1 === ring canIdeal)) then error "descendIdeal: Expected a common ideal for the currentRing, ring elements, and ideal";
 
-    if (R1 === null ) then R1 = ring( fList#0 );
-    if (canIdeal === null) then canIdeal = trim canonicalIdeal R1;
-    S1 := ambient R1;
-    J1 := sub( canIdeal, S1 );
-
-    internalHSLGModule( e1, expList, fList, canIdeal,FrobeniusRootStrategy=>opts.FrobeniusRootStrategy )
+    HSLList := internalHSLGModule( e1, expList, fList, canIdeal,FrobeniusRootStrategy=>opts.FrobeniusRootStrategy );
+    (HSLList#0, HSLList#3)
 )
 
 internalHSLGModule = method(

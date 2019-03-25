@@ -7,10 +7,8 @@
 doc ///
     Key
         HSLGModule
---        (HSLGModule, null)
         (HSLGModule, Number, RingElement)
         (HSLGModule, List, List)
-        (HSLGModule, ZZ, List, List)
         [HSLGModule, FrobeniusRootStrategy]
         [HSLGModule, CanonicalIdeal]
         [HSLGModule, CurrentRing]
@@ -90,13 +88,59 @@ doc ///
             g = z;
             HSLGModule({1/2, 1/2, 1/2}, {y,z,y+z})
         Text
-            The other way to call HSLGModule is to by passing it and integer $e$, a list of integers $L$ and a list of ring elements $G$.  It will the compute the maximal $F$-pure Cartier submodule (ie, the HSLG-submodule)
-            of the the ideal passed with the {\tt CanonicalIdeal} option with respect to the Cartier action defined by the $e$-iterated Frobenius Trace pre-composed with the elements of $G$ raised to the $L$.
-        Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
         testModule
         isFInjective
+        descendIdeal
+///
+
+doc ///
+    Key
+        descendIdeal
+        (descendIdeal, ZZ, List, List, Ideal)
+        [descendIdeal, FrobeniusRootStrategy]
+    Headline
+        finds the maximal F-pure Cartier submodule of an ideal viewed as a Cartier module
+    Usage
+        descendIdeal(e, expList, fList, J)
+    Inputs
+        e:ZZ
+            an integer, what root of Frobenius to take
+        fList:List
+            a list of ring elements, for pairs
+        expList:List
+            a list of formal exponents
+        J:Ideal
+            the Cartier module which to study
+        FrobeniusRootStrategy=>Symbol
+            choose the strategy for internal frobeniusRoot calls
+    Outputs
+        :Sequence
+    Description
+        Text
+            This command will compute the maximal $F$-pure Cartier submodule of {\tt J}
+            under the dual-{\tt e}-iterated Frobenius induced induced by the elements
+            in {\tt fList} raised to the exponents in {\tt expList}.
+        Text
+            The function returns a list where the first entry is the descended ideal.
+            The second entry is how many applications of {\tt frobeniusRoot} were applied (ie, the HSL number).
+        Example
+            R = ZZ/7[x,y,z];
+            f = y^2-x^3;
+            u = 1_R;
+            descendIdeal(1, {5}, {f}, ideal(u)) --this computes the non-F-pure ideal of (R, f^{5/6})
+            descendIdeal(2, {41}, {f}, ideal(u)) --this computes the non-F-pure ideal of (R, f^{41/48})
+            (HSLGModule(5/6, f, CanonicalIdeal=>ideal(u), GeneratorList => {u}))#0
+            (HSLGModule(41/48, f, CanonicalIdeal=>ideal(u), GeneratorList => {u}))#0
+        Text
+            The same two examples could also be accomplished via the calls of {\tt HSLGModule} as illustrated above.
+            However, the {\tt ascendIdeal} construction gives the user more direct control.
+        Text
+            The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
+    SeeAlso
+        HSLGModule
+        ascendIdeal
 ///
 
 doc ///
