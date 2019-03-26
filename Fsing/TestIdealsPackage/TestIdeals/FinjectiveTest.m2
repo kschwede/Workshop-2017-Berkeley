@@ -61,3 +61,17 @@ TEST /// --checking brute force F-injective vs canonicalStrategy
     assert(not isFInjective(S));
     assert(not isFInjective(S, CanonicalStrategy=>null));
 ///
+
+TEST /// --checking HSLGModule vs descendIdeal #1
+    R = ZZ/7[x,y];
+    maxIdeal = ideal(x,y);
+    unitIdeal = ideal(sub(1,R));
+    f = x*y*(x+y);
+    unit = sub(1, R);
+    assert((HSLGModule(2/3, f, CanonicalIdeal => maxIdeal, GeneratorList => {unit}))#0 == maxIdeal );
+    assert((HSLGModule(2/3, f, CanonicalIdeal => unitIdeal, GeneratorList => {unit}))#0 == unitIdeal );
+    assert((descendIdeal(1, {4}, {f}, maxIdeal))#0 == maxIdeal);
+    assert((descendIdeal(1, {4}, {f}, unitIdeal))#0 == unitIdeal);
+    assert((HSLGModule(37/48, f, CanonicalIdeal => unitIdeal, GeneratorList => {unit}))#0 == maxIdeal);
+    assert((HSLGModule(37/48, f, CanonicalIdeal => unitIdeal, GeneratorList => {unit}))#0 == maxIdeal);
+///

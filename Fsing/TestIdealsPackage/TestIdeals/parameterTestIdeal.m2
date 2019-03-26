@@ -12,7 +12,7 @@
 
 canonicalIdeal = method( Options => { Attempts => 10 } )
 
-canonicalIdeal Ring := o -> R1 -> 
+canonicalIdeal Ring := o -> R1 ->
 (
     S1 := ambient R1;
     I1 := ideal R1;
@@ -20,9 +20,9 @@ canonicalIdeal Ring := o -> R1 ->
     dS := dim S1;
     varList := first entries vars S1;
     degList := {};
-    if #varList > 0 then 
+    if #varList > 0 then
     (
-	if #(degree(varList#0)) == 1 then 
+	if #(degree(varList#0)) == 1 then
 	    degList = apply(varList, q -> (degree(q))#0)
     	else degList = apply(varList, q -> (degree(q)))
     );
@@ -35,7 +35,7 @@ canonicalIdeal Ring := o -> R1 ->
 --ideal lifted to the ambient ring (in a maximal way).
 frobeniusTraceOnCanonicalModule = method()
 
-frobeniusTraceOnCanonicalModule ( Ideal, Ideal ) := ( defIdeal, canIdeal ) -> 
+frobeniusTraceOnCanonicalModule ( Ideal, Ideal ) := ( defIdeal, canIdeal ) ->
 (
     canonical := canIdeal + defIdeal;
     Ip := frobenius defIdeal;
@@ -44,7 +44,7 @@ frobeniusTraceOnCanonicalModule ( Ideal, Ideal ) := ( defIdeal, canIdeal ) ->
     first entries M1
 )
 
-testModule = method( Options => { FrobeniusRootStrategy => Substitution, AssumeDomain => false } ) 
+testModule = method( Options => { FrobeniusRootStrategy => Substitution, AssumeDomain => false, CanonicalIdeal=>null, CurrentRing=>null, GeneratorList=>null } )
 --a rewritten function to construct the (parameter) test (sub)module of a given ring.
                        --it returns two ideals and an element.
                        --The first ideal is an ideal isomorphic to the test module and the
@@ -56,47 +56,104 @@ testModule = method( Options => { FrobeniusRootStrategy => Substitution, AssumeD
                        --This function can also compute \tau(omega, f^t) (again as a submodule of omega).
                        --
 
-testModule Ring := o -> R -> testModule( R, canonicalIdeal R, o )
+installMethod(testModule,
+    o->() -> (
+        R1 := o.CurrentRing;
+        canIdeal := o.CanonicalIdeal;
 
-testModule ( Ring, Ideal ) := o -> ( R1, canIdeal ) -> 
-(
-    S1 := ambient R1;
-    I1 := ideal R1;
-    J1 := sub(canIdeal, S1);
-    C1 := testElement(R1, AssumeDomain => o.AssumeDomain);
-    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
-    tau := I1;
-    if #u1 > 1 then
-    (
-        print "testModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal).  Using them all.";
-        j := 0;
-        while j < #u1 do 
-	(
-            tau = tau + ascendIdeal(1, u1#j, C1*J1*R1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
-            j = j+1;
+        if ( (not (R1 === null)) and (canIdeal === null) ) then (--if no canonicalIdeal is chosen
+            canIdeal = canonicalIdeal R1;
         );
+        if (canIdeal===null) then (error "testModule: cannot compute the testModule with no arguments or optional arguments";);
+        S1 := ambient R1;
+        I1 := ideal R1;
+        J1 := sub(canIdeal, S1);
+        C1 := testElement(R1, AssumeDomain => o.AssumeDomain);
+        u1 := o.GeneratorList;
+        if (u1 === null) then u1 = frobeniusTraceOnCanonicalModule( I1, J1 );
+        tau := I1;
+        if #u1 > 1 then
+        (
+            if (debugLevel > 0) then print "testModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal).  Using them all.";
+            j := 0;
+            while j < #u1 do
+            (
+                tau = tau + ascendIdeal(1, u1#j, C1*J1*R1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
+                j = j+1;
+            );
+        )
+        else
+        (
+            u1 = u1#0;
+            tau = ascendIdeal(1, u1, C1*J1*R1, FrobeniusRootStrategy => o.FrobeniusRootStrategy);
+        );
+        return (sub(tau, R1), sub(J1, R1), u1);
     )
-    else 
-    (
-        u1 = u1#0;
-        tau = ascendIdeal(1, u1, C1*J1*R1, FrobeniusRootStrategy => o.FrobeniusRootStrategy);
-    );
-    (sub(tau, R1), sub(J1, R1), u1)
 )
+
+--testModule Ring := o -> R -> testModule( R, canonicalIdeal R, o )
+
+--testModule ( Ring, Ideal ) := o -> ( R1, canIdeal ) ->
+--(
+--    S1 := ambient R1;
+--    I1 := ideal R1;
+--    J1 := sub(canIdeal, S1);
+--    C1 := testElement(R1, AssumeDomain => o.AssumeDomain);
+--    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
+--    tau := I1;
+--    if #u1 > 1 then
+--    (
+--        print "testModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal).  Using them all.";
+--        j := 0;
+--        while j < #u1 do
+--        (
+--            tau = tau + ascendIdeal(1, u1#j, C1*J1*R1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
+--           j = j+1;
+--        );
+--    )
+--    else
+--    (
+--        u1 = u1#0;
+--        tau = ascendIdeal(1, u1, C1*J1*R1, FrobeniusRootStrategy => o.FrobeniusRootStrategy);
+--    );
+--    (sub(tau, R1), sub(J1, R1), u1)
+--)
 
 testModule ( Number, RingElement ) := o -> (tt, ff) ->
 (
-    tt = tt/1;
-    R1 := ring ff;
+    tt = sub(tt,QQ);
+    R1 := o.CurrentRing;
+    if (R1 === null) then R1 = ring ff;
     S1 := ambient R1;
-    canIdeal := canonicalIdeal(R1);
+    canIdeal := o.CanonicalIdeal;
+    if (canIdeal === null) then canIdeal = canonicalIdeal(R1);
     I1 := ideal R1;
     J1 := sub(canIdeal, S1);
-    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
-    testModule(tt, ff, canIdeal, u1, o)
+
+    u1 := o.GeneratorList;
+    if (u1 === null) then u1 = frobeniusTraceOnCanonicalModule( I1, J1 );
+    internalTestModule(tt, ff, canIdeal, u1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain)
 )
 
-testModule ( Number, RingElement, Ideal, List ) := o -> (tt, ff, canIdeal, u1) -> 
+testModule ( List, List ) := o -> ( ttList, ffList ) ->
+(
+    R1 := o.CurrentRing;
+    if (R1 === null) then R1 = ring (ffList#0);
+    S1 := ambient R1;
+    canIdeal := o.CanonicalIdeal;
+    if (canIdeal === null) then canIdeal = canonicalIdeal(R1);
+    I1 := ideal R1;
+    J1 := sub(canIdeal, S1);
+
+    u1 := o.GeneratorList;
+    if (u1 === null) then u1 = frobeniusTraceOnCanonicalModule( I1, J1 );
+
+    internalTestModule(ttList, ffList, canIdeal, u1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain)
+)
+
+internalTestModule = method( Options => { FrobeniusRootStrategy => Substitution, AssumeDomain => false } )
+
+internalTestModule ( Number, RingElement, Ideal, List ) := o -> (tt, ff, canIdeal, u1) ->
 (
     tt = tt/1;
     R1 := ring ff;
@@ -117,14 +174,14 @@ testModule ( Number, RingElement, Ideal, List ) := o -> (tt, ff, canIdeal, u1) -
     local aaa;
     local ccc;
     local newIntegerPart;
-    if cc > 0 then 
+    if cc > 0 then
     (
         ttt := aa/(pp^cc-1);
         newIntegerPart = floor(ttt);
         newFractionalPart := ttt - newIntegerPart;
         (aaa, ccc) = drop( decomposeFraction(pp, newFractionalPart), {1,1} )
     )
-    else 
+    else
     ( -- this is the case when t = a/p^b
         (aaa, ccc) = (0,1);
         newIntegerPart = aa;
@@ -133,8 +190,8 @@ testModule ( Number, RingElement, Ideal, List ) := o -> (tt, ff, canIdeal, u1) -
     curTau := I1;
     if #u1 > 1 then
     (
-        if debugLevel > 0 then 
-            print "testModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal).  Using them all.";
+        if debugLevel > 0 then
+            print "internalTestModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal).  Using them all.";
         j := 0;
         while j < #u1 do
 	(
@@ -165,7 +222,7 @@ testModule ( Number, RingElement, Ideal, List ) := o -> (tt, ff, canIdeal, u1) -
 --this works similarly to testModule(QQ, RingElement, Ideal, List), but it takes lists of elements.
 --Note if you specify u1 and something a bit different that canIdeal (but that is u compatible), this can be used to still compute
 --a test module of a certain Cartier module.
-testModule ( List, List, Ideal, List ) := o -> ( ttList, ffList, canIdeal, u1 ) -> 
+internalTestModule ( List, List, Ideal, List ) := o -> ( ttList, ffList, canIdeal, u1 ) ->
 (
     ff := ffList#0;
     R1 := ring ff;
@@ -210,7 +267,7 @@ testModule ( List, List, Ideal, List ) := o -> ( ttList, ffList, canIdeal, u1 ) 
     prodList := apply(#ffList, iii -> (ffList#iii)^(min(1, aaListForCsReduced#iii)) );
     if #u1 > 1 then
     (
-        print "testModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal).  Using them all.";
+        print "internalTestModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal).  Using them all.";
         j := 0;
         while (j < #u1) do (
             curTau = ascendIdeal(lcmCs, append(aaListForCsReduced, floor((pp^lcmCs - 1)/(pp-1))), append(ffList, u1), (product(prodList))*C1*J1*R1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
@@ -225,7 +282,7 @@ testModule ( List, List, Ideal, List ) := o -> ( ttList, ffList, canIdeal, u1 ) 
             j = j+1;
         );
     )
-    else 
+    else
     (
         u1 = u1#0;
         curTau = ascendIdeal(lcmCs, append(aaListForCsReduced, floor((pp^lcmCs - 1)/(pp-1))), append(ffList, u1), (product(prodList))*C1*J1*R1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
@@ -239,23 +296,14 @@ testModule ( List, List, Ideal, List ) := o -> ( ttList, ffList, canIdeal, u1 ) 
     (sub(tau, R1), sub(J1, R1), u1)
 )
 
-testModule ( List, List ) := o -> ( ttList, ffList ) ->
-(
-    R1 := ring (ffList#0);
-    S1 := ambient R1;
-    canIdeal := canonicalIdeal(R1);
-    I1 := ideal R1;
-    J1 := sub(canIdeal, S1);
-    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
-    testModule(ttList, ffList, canIdeal, u1, o)
-)
+
 
 --we also can compute the parameter test ideal (in a Cohen-Macaulay ring)
 
 parameterTestIdeal = method(Options => { FrobeniusRootStrategy => Substitution } )
 
 parameterTestIdeal(Ring) := o-> (R1) -> (
-    testMod := testModule(R1,o);
+    testMod := testModule(CurrentRing => R1,o);
     (testMod#0) : (testMod#1)
 )
 
@@ -269,10 +317,10 @@ parameterTestIdeal(Ring) := o-> (R1) -> (
 --then this function will return false, even if R is Cohen-Macaulay.
 isCohenMacaulay = method( Options => { IsLocal => false } )
 
-isCohenMacaulay Ring := o -> R1 -> 
+isCohenMacaulay Ring := o -> R1 ->
 (
     if o.IsLocal then isCM R1
-    else 
+    else
     (
         S1 := ambient R1;
         I1 := ideal R1;
@@ -304,13 +352,13 @@ isCohenMacaulay Ring := o -> R1 ->
 
 --next we write an isFRational function
 
-isFRational = method( 
-    Options => 
+isFRational = method(
+    Options =>
     {
-	AssumeDomain => false, 
-	IsLocal => false, 
-	AssumeCM => false, 
-	FrobeniusRootStrategy => Substitution 
+	AssumeDomain => false,
+	IsLocal => false,
+	AssumeCM => false,
+	FrobeniusRootStrategy => Substitution
     }
 )
 
@@ -321,11 +369,11 @@ isFRational Ring := o -> R1 ->
     if not o.AssumeCM then
         if not isCohenMacaulay(R1, IsLocal => o.IsLocal) then flag = false;
     --next verify if it is Frational
-    if flag then 
+    if flag then
     (
         --note we don't compute the test module if we know that the ring is not CM.
-        MList := testModule(R1, passOptions( o, { AssumeDomain, FrobeniusRootStrategy } ) );
-        if o.IsLocal then 
+        MList := testModule(CurrentRing => R1, passOptions( o, { AssumeDomain, FrobeniusRootStrategy } ) );
+        if o.IsLocal then
 	(
             paraTestIdeal := (MList#0):(MList#1);
             myMaxIdeal := sub(maxIdeal(ambient R1), R1);

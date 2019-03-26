@@ -73,33 +73,39 @@ doc ///
 doc ///
     Key
         testModule
-        (testModule, Ring)
-        (testModule, Ring, Ideal)
         (testModule, Number, RingElement)
-        (testModule, Number, RingElement, Ideal, List)
         (testModule, List, List)
-        (testModule, List, List, Ideal, List)
         [testModule, AssumeDomain]
         [testModule, FrobeniusRootStrategy]
+        [testModule, CanonicalIdeal]
+        [testModule, GeneratorList]
+        [testModule, CurrentRing]
     Headline
         find the parameter test module of a reduced ring
     Usage
-        testModule(R)
-        testModule(R, canIdeal)
+        testModule(CurrentRing => R)
         testModule(tt, ff)
-        testModule(tt, ff, canIdeal, u1)
+        testModule(tList, fList)
     Inputs
         R:Ring
-        canIdeal:Ideal
-            an ideal isomorphic to the canonical module
+        ff:RingElement
+            the element in a pair
         tt:QQ
             the formal exponent that ff is raised to
-        u1:List
-            a list of elements describing the map on hte canonical module
+        fList:List
+            a list of elements for a pair
+        tList:List
+            a list of formal exponents that fList is raised to
         AssumeDomain => Boolean
             assume whether the ring passed is an integral domain
         FrobeniusRootStrategy => Symbol
             choose the strategy for internal frobeniusRoot calls
+        CanonicalIdeal=>Ideal
+            specify the canonical ideal (so the function doesn't recompute it)
+        CurrentRing=>Ring
+            specify the current ring to work with
+        GeneratorList=>List
+            specify the action on the canonical module
     Outputs
         :Sequence
     Description
@@ -107,7 +113,7 @@ doc ///
             Computes the parameter test module (as a submodule of the canonical module).  The function returns three values, the parameter test submodule, the canonical module of which it is a subset, and the element $u$ (or $u$s) used to compute this ideal via the method @TO frobeniusTraceOnCanonicalModule@.
         Example
             R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
-            testModule(R)
+            testModule(CurrentRing => R)
         Text
             The canonical module returned is always embedded as an ideal of $R$ (not of the ambient polynomial ring).  Likewise the parameter test submodule is then viewed as a subideal of that.
             With this in mind, because the example above is a Gorenstein ring, the ambient canonical module is the unit ideal.  The next example is not Gorenstein.
@@ -116,20 +122,20 @@ doc ///
             T = ZZ/3[a,b];
             f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
             R = S/(ker f);
-            testModule(R)
+            testModule(CurrentRing => R)
         Text
             Note that the output in this case has the parameter test module equal to the canonical module, as it should be.  Let's consider a non-Gorenstein example which is not F-rational.
         Example
             R = ZZ/5[x,y,z]/ideal(y*z, x*z, x*y);
-            paraTestMod = testModule(R)
+            paraTestMod = testModule(CurrentRing => R)
             (paraTestMod#0) : (paraTestMod#1)
         Text
-            This function can be used to compute parameter test ideals in Cohen-Macaulay rings.
+            This function can be used to compute parameter test ideals in Cohen-Macaulay rings, or one can use the {\tt parameterTestIdeal} method.
         Example
             S=ZZ/2[X_1..X_5];
             E=matrix {{X_1,X_2,X_2,X_5},{X_4,X_4,X_3,X_1}};
             I=minors(2,E);
-            tau=testModule(S/I);
+            tau=testModule(CurrentRing => S/I);
             (tau#0):(tau#1)
         Text
             This function can also be used to compute the parameter test module of a pair $(R, f^t)$.
@@ -146,9 +152,12 @@ doc ///
             g = x^2 - y^3;
             testModule({1/2, 1/2}, {f, g})
         Text
-            Sometimes you would like to specify the ambient canonical module (and choice of u) across multiple calls of testModule.  Those are what the $canIdeal$ or $u1$ can be used to specify.  Finally, the option {\tt FrobeniusRootStrategy} is passed to any calls of @TO frobeniusRoot@ and the option {\tt AssumeDomain} is used when computing a test element.
+            Sometimes you would like to specify the ambient canonical module (and choice of u) across multiple calls of testModule.  Those are what the {\tt CanonicalIdeal} and {\tt GeneratorList} can be used to specify.
+            Finally, the option {\tt FrobeniusRootStrategy} is passed to any calls of @TO frobeniusRoot@ and the option {\tt AssumeDomain} is used when computing a test element.
     SeeAlso
         testIdeal
+        parameterTestIdeal
+        HSLGModule
 ///
 
 doc ///
@@ -201,7 +210,7 @@ doc ///
     Inputs
         R:Ring
         IsLocal => Boolean
-	    stipulates whether to check if the ring is Cohen-Macaulay only at the origin 
+	    stipulates whether to check if the ring is Cohen-Macaulay only at the origin
     Outputs
         :Boolean
     Description

@@ -125,6 +125,7 @@ export{
 
 -- Finjective.m2
     "HSLGModule", --produces the non-F-injective module, ie the submodule of the canonical module
+    "descendIdeal",
     "isFInjective",
     "CanonicalStrategy", --how to check F-injectivity on the canonical module (Ext or Katzman)
     "Katzman", --an option for CanonicalStrategy

@@ -34,18 +34,18 @@ QGorensteinGenerator ( ZZ, Ring ) := ( e, R ) ->
 QGorensteinGenerator Ring := R -> QGorensteinGenerator( 1, R )
 
 -- Finds a test element of a ring R = k[x, y, ...]/I (or at least an ideal
--- containing a nonzero test element).  It views it as an element of the 
+-- containing a nonzero test element).  It views it as an element of the
 -- ambient ring of R. It returns an ideal with some of these elements in it.
--- One could make this faster by not computing the entire Jacobian/singular 
--- locus. Instead, if we just find one element of the Jacobian not in I, then 
+-- One could make this faster by not computing the entire Jacobian/singular
+-- locus. Instead, if we just find one element of the Jacobian not in I, then
 -- that would also work and perhaps be substantially faster.
 -- It assumes that R is a reduced ring.
 testElement = method( Options => { AssumeDomain => false } )
 
 testElement Ring := o -> R1 ->
-( 
-    -- Marcus I believe wrote this code to look at random minors instead of all 
-    -- minors. Note in the current version this will not terminate if the ring 
+(
+    -- Marcus I believe wrote this code to look at random minors instead of all
+    -- minors. Note in the current version this will not terminate if the ring
     -- is not generically reduced.
     I1 := ideal R1;
     n1 := #(gens R1) - dim R1;
@@ -59,8 +59,8 @@ testElement Ring := o -> R1 ->
     while any( primesList, II -> isSubset( ideal testEle, II ) ) do
     (
 	curMinor = ( minors( n1, M1, First => {randomSubset(r1,n1),randomSubset(c1,n1)}, Limit => 1 ) )_*;
-	if #curMinor > 0 then 
-	    testEle = if o.AssumeDomain then first curMinor else 
+	if #curMinor > 0 then
+	    testEle = if o.AssumeDomain then first curMinor else
 	        testEle + random( coefficientRing R1 )*( first curMinor );
     );
     testEle % I1
@@ -68,7 +68,7 @@ testElement Ring := o -> R1 ->
 
 randomSubset = method()
 
-randomSubset ( ZZ, ZZ ) := ( m, n ) -> 
+randomSubset ( ZZ, ZZ ) := ( m, n ) ->
 (
     L := toList( 0..m-1 );
     scan( m-n, i -> L = delete( L#(random(0,m-1-i)), L ) );
@@ -84,16 +84,16 @@ randomSubset ( ZZ, ZZ ) := ( m, n ) ->
 --the following is the new function for computing test ideals written by Karl.
 
 testIdeal = method(
-    Options => 
+    Options =>
     {
-	MaxCartierIndex => 10, 
-	FrobeniusRootStrategy => Substitution, 
-	QGorensteinIndex => 0, 
+	MaxCartierIndex => 10,
+	FrobeniusRootStrategy => Substitution,
+	QGorensteinIndex => 0,
 	AssumeDomain => false
      }
 )
 
-testIdeal Ring := o -> R1 -> 
+testIdeal Ring := o -> R1 ->
 (
     canIdeal := canonicalIdeal R1;
     pp := char R1;
@@ -103,13 +103,13 @@ testIdeal Ring := o -> R1 ->
     curIdeal := ideal 0_R1;
     locPrincList := null;
     computedTau := ideal 0_R1;
-    if o.QGorensteinIndex > 0 then 
+    if o.QGorensteinIndex > 0 then
     (
         cartIndex = o.QGorensteinIndex;
         fflag = true
     )
-    else 
-        while not fflag and cartIndex < o.MaxCartierIndex do 
+    else
+        while not fflag and cartIndex < o.MaxCartierIndex do
 	(
             cartIndex = cartIndex + 1;
             curIdeal = reflexivePower( cartIndex, canIdeal );
@@ -117,7 +117,7 @@ testIdeal Ring := o -> R1 ->
             if locPrincList#0 then fflag = true
         );
     if cartIndex <= 0 or not fflag then error "testIdeal: Ring does not appear to be Q-Gorenstein, perhaps increase the option MaxCartierIndex.  Also see the documentation for isFRegular.";
-    if (pp-1) % cartIndex == 0 then 
+    if (pp-1) % cartIndex == 0 then
     (
         J1 := testElement( R1, AssumeDomain => o.AssumeDomain );
         h1 := sub(0, ambient R1);
@@ -138,7 +138,7 @@ testIdeal Ring := o -> R1 ->
         omegaAmb := sub( canIdeal, ambient R1 ) + ideal R1;
     	u1 := frobeniusTraceOnCanonicalModule( ideal R1, omegaAmb );
         for x in gensList do
-            runningIdeal = runningIdeal + (testModule(1/cartIndex, sub(x, R1), canIdeal, u1, passOptions(o, { FrobeniusRootStrategy, AssumeDomain }) ))#0;
+            runningIdeal = runningIdeal + (internalTestModule(1/cartIndex, sub(x, R1), canIdeal, u1, passOptions(o, { FrobeniusRootStrategy, AssumeDomain }) ))#0;
         newDenom := reflexify( canIdeal * dualCanIdeal );
         computedTau = ( runningIdeal*R1 ) : newDenom;
     );
@@ -146,10 +146,10 @@ testIdeal Ring := o -> R1 ->
 )
 
 --this computes \tau(R, f^t)
-testIdeal ( Number, RingElement, Ring ) := o -> ( t1, f1, R1 ) -> 
+testIdeal ( Number, RingElement, Ring ) := o -> ( t1, f1, R1 ) ->
     testIdeal( { t1/1 }, { f1 }, R1, o )
 
-testIdeal ( Number, RingElement ) := o -> ( t1, f1 ) -> 
+testIdeal ( Number, RingElement ) := o -> ( t1, f1 ) ->
     testIdeal( { t1/1 }, { f1 }, ring f1, o )
 
 testIdeal ( List, List ) := o -> ( tList, fList ) ->
@@ -166,8 +166,8 @@ testIdeal ( List, List, Ring ) := o -> ( tList, fList, R1 ) ->
     locPrincList := null;
     computedTau := ideal 0_R1;
     if o.QGorensteinIndex > 0 then cartIndex = o.QGorensteinIndex
-    else 
-        while not fflag and cartIndex < o.MaxCartierIndex do 
+    else
+        while not fflag and cartIndex < o.MaxCartierIndex do
 	(
             cartIndex = cartIndex + 1;
             curIdeal = reflexivePower( cartIndex, canIdeal );
@@ -175,15 +175,15 @@ testIdeal ( List, List, Ring ) := o -> ( tList, fList, R1 ) ->
             if locPrincList#0 then fflag = true
         );
     if not fflag then error "testIdeal: Ring does not appear to be Q-Gorenstein, perhaps increase the option MaxCartierIndex.  Also see the documentation for isFRegular.";
-    if (pp-1) % cartIndex == 0 then 
+    if (pp-1) % cartIndex == 0 then
     (
         J1 := testElement( R1, AssumeDomain => o.AssumeDomain );
         h1 := sub(0, ambient R1);
-        try (h1 = QGorensteinGenerator( 1, R1)) then 
-	    computedTau = testModule(tList, fList, ideal 1_R1, { h1 }, passOptions( o, { FrobeniusRootStrategy, AssumeDomain } ) )
+        try (h1 = QGorensteinGenerator( 1, R1)) then
+	    computedTau = internalTestModule(tList, fList, ideal 1_R1, { h1 }, passOptions( o, { FrobeniusRootStrategy, AssumeDomain } ) )
         else computedFlag = false;
     );
-    if not computedFlag then 
+    if not computedFlag then
     (
         gg := first first entries gens trim canIdeal;
         dualCanIdeal := ( ideal gg : canIdeal );
@@ -195,10 +195,10 @@ testIdeal ( List, List, Ring ) := o -> ( tList, fList, R1 ) ->
     	u1 := frobeniusTraceOnCanonicalModule( ideal R1, omegaAmb );
         t2 := append( tList, 1/cartIndex );
         f2 := fList;
-        for x in gensList do 
+        for x in gensList do
 	(
             f2 = append( fList, x );
-            runningIdeal = runningIdeal + ( testModule( t2, f2, canIdeal, u1, passOptions( o, { FrobeniusRootStrategy, AssumeDomain } ) ) )#0;
+            runningIdeal = runningIdeal + ( internalTestModule( t2, f2, canIdeal, u1, passOptions( o, { FrobeniusRootStrategy, AssumeDomain } ) ) )#0;
         );
         newDenom := reflexify( canIdeal * dualCanIdeal );
         computedTau = ( runningIdeal*R1 ) : newDenom;
@@ -209,20 +209,20 @@ testIdeal ( List, List, Ring ) := o -> ( tList, fList, R1 ) ->
 --We can now check F-regularity
 
 isFRegular = method(
-    Options => 
+    Options =>
     {
-	AssumeDomain => false, 
-	DepthOfSearch => 2, 
-	MaxCartierIndex => 10, 
-	IsLocal => false, 
-	FrobeniusRootStrategy => Substitution, 
+	AssumeDomain => false,
+	DepthOfSearch => 2,
+	MaxCartierIndex => 10,
+	IsLocal => false,
+	FrobeniusRootStrategy => Substitution,
 	QGorensteinIndex => 0
     }
 )
 
-isFRegular Ring := o -> R1 -> 
+isFRegular Ring := o -> R1 ->
 (
-    if o.QGorensteinIndex == infinity then 
+    if o.QGorensteinIndex == infinity then
         return nonQGorensteinIsFregular( o.DepthOfSearch, {0}, {1_R1}, R1, passOptions( o, { AssumeDomain, FrobeniusRootStrategy } ) );
   --      return nonQGorensteinIsFregular( o.DepthOfSearch, {0}, {1_R1}, R1, AssumeDomain => o.AssumeDomain, FrobeniusRootStrategy => o.FrobeniusRootStrategy );
     tau := testIdeal( R1, passOptions( o, { AssumeDomain, MaxCartierIndex, FrobeniusRootStrategy, QGorensteinIndex } ) );
@@ -231,10 +231,10 @@ isFRegular Ring := o -> R1 ->
     else isSubset( ideal 1_R1, tau )
 )
 
-isFRegular ( Number, RingElement ) := o -> ( tt, ff ) -> 
+isFRegular ( Number, RingElement ) := o -> ( tt, ff ) ->
 (
     tt = tt/1;
-    if o.QGorensteinIndex == infinity then 
+    if o.QGorensteinIndex == infinity then
         return nonQGorensteinIsFregular( o.DepthOfSearch, {tt}, {ff}, ring ff, passOptions( o, { AssumeDomain, FrobeniusRootStrategy } ) );
 --        return nonQGorensteinIsFregular( o.DepthOfSearch, {tt}, {ff}, ring ff, AssumeDomain => o.AssumeDomain,  FrobeniusRootStrategy => o.FrobeniusRootStrategy );
     R1 := ring ff;
@@ -244,9 +244,9 @@ isFRegular ( Number, RingElement ) := o -> ( tt, ff ) ->
     else isSubset( ideal 1_R1, tau )
 )
 
-isFRegular ( List, List ) := o -> ( ttList, ffList ) -> 
+isFRegular ( List, List ) := o -> ( ttList, ffList ) ->
 (
-    if o.QGorensteinIndex == infinity then 
+    if o.QGorensteinIndex == infinity then
         return nonQGorensteinIsFregular( o.DepthOfSearch, ttList, ffList, ring ffList#0, passOptions( o, { AssumeDomain, FrobeniusRootStrategy } ) );
 --        return nonQGorensteinIsFregular( o.DepthOfSearch, ttList, ffList, ring ffList#0, AssumeDomain => o.AssumeDomain,  FrobeniusRootStrategy => o.FrobeniusRootStrategy );
     R1 := ring ffList#0;
@@ -261,7 +261,7 @@ nonQGorensteinIsFregular = method(
     Options => { AssumeDomain => false, FrobeniusRootStrategy => Substitution }
 )
 
-nonQGorensteinIsFregular ( ZZ, List, List, Ring ) := o -> ( n1, ttList, ffList, R1 ) -> 
+nonQGorensteinIsFregular ( ZZ, List, List, Ring ) := o -> ( n1, ttList, ffList, R1 ) ->
 (
     e := 1;
     cc := (sub(product(apply(#ffList, i -> (ffList#i)^(ceiling(ttList#i)) )), ambient(R1)))*testElement(R1, AssumeDomain => o.AssumeDomain);
@@ -270,7 +270,7 @@ nonQGorensteinIsFregular ( ZZ, List, List, Ring ) := o -> ( n1, ttList, ffList, 
     ff1List := apply(ffList, ff->sub(ff, ambient(R1)));
     J1 := I1;
     testApproximate := I1;
-    while e < n1 do 
+    while e < n1 do
     (
         J1 = (frobenius(e, I1)) : I1;
         testApproximate = frobeniusRoot(e, apply(ttList, tt -> ceiling(tt*(pp^e - 1))), ff1List, cc*J1,  FrobeniusRootStrategy => o.FrobeniusRootStrategy);
@@ -296,20 +296,20 @@ isFPure = method(
     Options => { FrobeniusRootStrategy => Substitution, IsLocal => false }
 )
 
-isFPure Ring := o -> R1 -> 
+isFPure Ring := o -> R1 ->
     isFPure( ideal R1, o )
 
-isFPure Ideal := o -> I1 -> 
+isFPure Ideal := o -> I1 ->
 (
     p1 := char ring I1;
-    if o.IsLocal then 
+    if o.IsLocal then
     (
         maxideal := maxIdeal I1;
         if codim(I1) == numgens(I1) then
 	(
 	    L := flatten entries gens I1;
 	    not isSubset(
-		ideal( product( L, l -> fastExponentiation( p1-1, l ) ) ), 
+		ideal( product( L, l -> fastExponentiation( p1-1, l ) ) ),
 		frobenius maxideal
 	    )
     	)
@@ -317,6 +317,6 @@ isFPure Ideal := o -> I1 ->
     )
     else (
         nonFPureLocus := frobeniusRoot( 1, frobenius( I1 ) : I1, FrobeniusRootStrategy => o.FrobeniusRootStrategy );
-        nonFPureLocus == ideal( sub( 1, ring I1 ) ) 
+        nonFPureLocus == ideal( sub( 1, ring I1 ) )
     )
 )
