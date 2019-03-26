@@ -55,10 +55,10 @@ doc ///
         :List
     Description
         Text
-            Given $R = S/I$, where $S$ is a polynomial ring, there is a map from the canonical module of $R$ back to itself, dual to the Frobenius: $\omega_R^{1/p^e} \to \omega_R$.
-            By embedding $\omega_R$ as an ideal $J$ of $R$, one can interpret this map as a $p^e$-inverse linear map on $S$.  But every $p$ inverse linear map on $S$ is a premultiple of the dual to Frobenius on $S$, by some element $u$.  This function finds such $u$.
+            Given $R = S/I$, where $S$ is a polynomial ring, there is a map $\omega_R^{1/p^e} \to \omega_R$ dual to the Frobenius map on $R$.
+            By embedding $\omega_R$ as an ideal of $R$, one can interpret this map as a $p^{-e}$-linear map on $S$.  But every $p^{-e}$-linear map on $S$ is a premultiple of the dual to Frobenius on $S$, by some element of $S$. This function finds such an element.
 
-            However, because Macaulay2 does not always properly identify an ideal as principal (even though it is), sometimes we cannot find this single $u$ and instead find a list of $u$s, a linear combination of which is the desired $u$.
+            However, because {\it Macaulay2} does not always properly identify an ideal as principal (even though it is), sometimes we cannot find this single element, but instead find a list of elements of $S$, a linear combination of which is the desired one.
 	    
             The function {\tt frobeniusTraceOnCanonicalModule} takes as inputs the defining ideal $I$ of $R$, and an ideal $J$ of $S$ whose image in $R$ is a canonical module of $R$.  
         Example
