@@ -44,17 +44,25 @@ frobeniusTraceOnCanonicalModule ( Ideal, Ideal ) := ( defIdeal, canIdeal ) ->
     first entries M1
 )
 
-testModule = method( Options => { FrobeniusRootStrategy => Substitution, AssumeDomain => false, CanonicalIdeal=>null, CurrentRing=>null, GeneratorList=>null } )
---a rewritten function to construct the (parameter) test (sub)module of a given ring.
-                       --it returns two ideals and an element.
-                       --The first ideal is an ideal isomorphic to the test module and the
-                       --and the second is an ideal isomorphic to the canonical module, in which the parameter
-                       --resides.  The locus where these two ideals differ (plus the non-CM locus) is the
-                       --locus where the ring does not have rational singularities.
-                       --the final element is the element of the ambient polynomial ring which is used to
-                       --induce the canonical trace map
-                       --This function can also compute \tau(omega, f^t) (again as a submodule of omega).
-                       --
+testModule = method( 
+    Options => 
+    { 
+	FrobeniusRootStrategy => Substitution, 
+	AssumeDomain => false, 
+	CanonicalIdeal => null, 
+	CurrentRing => null, 
+	GeneratorList => null 
+    } 
+)
+--A rewritten function to construct the (parameter) test (sub)module of a given ring.
+--It returns two ideals and an element.
+--The first ideal is an ideal isomorphic to the test module and the
+--and the second is an ideal isomorphic to the canonical module, in which the parameter
+--resides.  The locus where these two ideals differ (plus the non-CM locus) is the
+--locus where the ring does not have rational singularities.
+--The final element is the element of the ambient polynomial ring which is used to
+--induce the canonical trace map.
+--This function can also compute \tau(omega, f^t) (again as a submodule of omega).
 
 installMethod(testModule,
     o->() -> (

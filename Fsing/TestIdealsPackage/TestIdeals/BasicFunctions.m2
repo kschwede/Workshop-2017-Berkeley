@@ -16,6 +16,7 @@
 --*************************************************
 --===================================================================================
 
+--Extend denominator and numerator to integers
 denominator ZZ := x -> 1
 
 numerator ZZ := x -> x
@@ -61,7 +62,7 @@ multiplicativeOrder ( ZZ, ZZ ) := ZZ => ( a, b ) ->
         if powermod(a, primeFactorList#i, b) == 1 then return primeFactorList#i;
         i = i + 1
     );
-    error "Something went wrong, multiplicativeOrder failed to find the multiplicative order";
+    error "multiplicativeOrder: Something went wrong; failed to find the multiplicative order";
 )
 
 --===================================================================================
@@ -69,10 +70,9 @@ multiplicativeOrder ( ZZ, ZZ ) := ZZ => ( a, b ) ->
 decomposeFraction = method( TypicalValue => Sequence, Options => { NoZeroC => false } )
 
 -- This function takes in a fraction t and a prime p and spits out a list
--- {a,b,c}, where t = a/(p^b*(p^c-1))
--- if c = 0, then this means that t = a/p^b
---alternately, if NoZeroC => true, then we will always write t = a/p^b(p^c - 1)
---even if it means increasing a.
+-- {a,b,c}, where t = a/(p^b*(p^c-1)). If c = 0, then this means that t = a/p^b.
+-- Alternately, if NoZeroC => true, then we will always write t = a/p^b(p^c - 1),
+-- even if it means increasing a.
 decomposeFraction ( ZZ, QQ ) := Sequence => o -> ( p, t ) ->
 (
     if not isPrime p then error "decomposeFraction: first argument must be a prime number";
@@ -180,16 +180,16 @@ adicTruncation ( ZZ, ZZ, List ) := List => ( p, e, u ) ->
 --- The change I made was switching the order of the first two arguments
 baseP1 = ( p, n, e ) ->
 (
-    a:=n//(p^e);
-    answer:=1:a; -- this generates the list (a)
-    m:=n-a*(p^e);
-    f:=e-1;
-    while (f>=0) do
+    a := n // p^e;
+    answer := 1 : a; -- this generates the list (a)
+    m := n - a * p^e;
+    f := e - 1;
+    while f >= 0 do
     (
-        d:=m//(p^f);
-        answer=append(answer,d);
-        m=m-d*(p^f);
-        f=f-1;
+        d := m // p^f;
+        answer = append( answer, d );
+        m = m - d * p^f;
+        f = f - 1
     );
     answer
 )
@@ -199,6 +199,7 @@ baseP1 = ( p, n, e ) ->
 --*************************************************
 --Tests for various types of polynomials
 --*************************************************
+
 --===================================================================================
 
 --isPolynomial(F) checks if F is a polynomial
@@ -221,21 +222,15 @@ isPolynomialOverPosCharField RingElement := Boolean => F ->
 isPolynomialOverFiniteField = method( TypicalValue => Boolean )
 
 isPolynomialOverFiniteField RingElement := Boolean => F ->
-    isPolynomialOverPosCharField F and  (coefficientRing ring F)#?order
+    isPolynomialOverPosCharField F and (coefficientRing ring F)#?order
 
 --===================================================================================
-
 
 --isPolynomialOverPrimeField(F) checks if F is a polynomial over ZZ/p.
 isPolynomialOverPrimeField = method( TypicalValue => Boolean )
 
 isPolynomialOverPrimeField RingElement := Boolean => F ->
-    isPolynomial F and  (coefficientRing ring F) === ZZ/(char ring F)
-
--- use isFinitePrimeField
-
---===================================================================================
-
+    isPolynomial F and isFinitePrimeField coefficientRing ring F
 
 --===================================================================================
 
@@ -264,3 +259,5 @@ passOptions = method()
 
 passOptions ( OptionTable, List ) := (o, L) -> 
     new OptionTable from apply( L, k -> k => o#k )
+
+--===================================================================================
