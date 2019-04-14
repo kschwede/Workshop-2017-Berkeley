@@ -64,38 +64,40 @@ testModule = method(
 --induce the canonical trace map.
 --This function can also compute \tau(omega, f^t) (again as a submodule of omega).
 
-installMethod(testModule,
-    o->() -> (
+installMethod(testModule, 
+    o -> () -> 
+    (
         R1 := o.CurrentRing;
         canIdeal := o.CanonicalIdeal;
-
-        if ( (not (R1 === null)) and (canIdeal === null) ) then (--if no canonicalIdeal is chosen
-            canIdeal = canonicalIdeal R1;
-        );
-        if (canIdeal===null) then (error "testModule: cannot compute the testModule with no arguments or optional arguments";);
+	--if no canonicalIdeal is give, compute it.
+        if R1 =!= null and canIdeal === null then canIdeal = canonicalIdeal R1;
+        if canIdeal === null then 
+	    error "testModule: cannot compute the testModule with no arguments or optional arguments";
         S1 := ambient R1;
         I1 := ideal R1;
-        J1 := sub(canIdeal, S1);
-        C1 := testElement(R1, AssumeDomain => o.AssumeDomain);
+        J1 := sub( canIdeal, S1 );
+        C1 := testElement( R1, AssumeDomain => o.AssumeDomain );
         u1 := o.GeneratorList;
-        if (u1 === null) then u1 = frobeniusTraceOnCanonicalModule( I1, J1 );
+	--if no u is given, compute it.
+        if u1 === null then u1 = frobeniusTraceOnCanonicalModule( I1, J1 );
         tau := I1;
         if #u1 > 1 then
         (
-            if (debugLevel > 0) then print "testModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal).  Using them all.";
+            if debugLevel > 0 then 
+	        print "testModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal). Using them all.";
             j := 0;
             while j < #u1 do
             (
-                tau = tau + ascendIdeal(1, u1#j, C1*J1*R1, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
-                j = j+1;
-            );
+                tau = tau + ascendIdeal( 1, u1#j, C1*J1*R1, FrobeniusRootStrategy => o.FrobeniusRootStrategy );
+                j = j+1
+            )
         )
         else
         (
             u1 = u1#0;
-            tau = ascendIdeal(1, u1, C1*J1*R1, FrobeniusRootStrategy => o.FrobeniusRootStrategy);
+            tau = ascendIdeal( 1, u1, C1*J1*R1, FrobeniusRootStrategy => o.FrobeniusRootStrategy )
         );
-        return (sub(tau, R1), sub(J1, R1), u1);
+        ( trim sub(tau, R1), trim sub(J1, R1), u1 )
     )
 )
 

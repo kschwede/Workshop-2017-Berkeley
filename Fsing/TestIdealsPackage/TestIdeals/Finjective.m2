@@ -23,7 +23,7 @@ HSLGModule = method(
 -- (HSLMod, CanMod, u, HSL#)
 
 
---we install the method for for no arguments
+--we install the method for no arguments
 installMethod(HSLGModule,
     o->() -> (
         curRing := o.CurrentRing;
