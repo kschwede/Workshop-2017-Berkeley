@@ -254,7 +254,7 @@ The computation of Frobenius roots is the workhorse behind many of the methods i
 Hence it is important to understand how this is implemented, and its computational complexity.
 
 The computation of Frobenius roots of ideals reduces to the case of principal ideals, and its complexity grows linearly with the number of generators of the ideal.
-Furthermore the calculation of  $(f)^{[1/p^e]}$ reduces to finding the summands in (\ref{eqn1}), which essentially amounts to
+Furthermore the calculation of  $(f)^{[1/p^e]}$ reduces to finding the terms in the right hand side of (\ref{eqn1}), which essentially amounts to
 taking each term in $f$, computing the $p^e$-th root of the coefficient in $\mathbb{K}$, and dividing the monomial exponent vector by $p^e$ with remainder.
 Hence the complexity of computing $(f)^{[1/p^e]}$ is proportional to the number of terms in $f$, and is independent of its degree.
 We emphasize that the calculation of Frobenius roots \emph{does not involve the calculation of Gr\"obner bases.}
