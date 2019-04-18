@@ -308,7 +308,7 @@ We can extend the definition of Frobenius powers as follows.
 Let  $I\subseteq R$ be an ideal.
 \begin{enumerate}
  \item[(a)] If $n$ is a positive integer with base $p$ expansion  $n=d_0 + d_1 p +  \dots + d_r p^r$, we define
-\[ I^{[n]}=I^{d_0} (I^{d_1})^{[p]} \dots  (I^{d_r})^{[p^r]}.\]
+\[ I^{[n]}=I^{d_0} (I^{d_1})^{[p]} \cdots  (I^{d_r})^{[p^r]}.\]
  \item[(b)] If $t$ is a nonnegative rational number of the form $t = a/p^e$, we define  $I^{[t]} = {\big(I^{[a]}\big)}^{[1/p^e]}.$
  \item[(c)] If $t$ is any nonnegative rational number, and $\{a_n/p^{e_n}\}_{n\geq 1}$ is a sequence of rational numbers converging to $t$ from above, we define $I^{[t]}$
  to be the stable value of the non-decreasing chain of ideals $\{I^{[a_n/p^{e_n}]}\}_{n\geq 1}$.
@@ -376,7 +376,7 @@ we call this $N$ the $p^e$-th Frobenius root of $M$, and denote it by $M^{[1/p^e
 \begin{example}
 Let $R=\ZZ/p\ZZ[a,b,c,d]$, and consider the ideals $\mathfrak{m}=(a,b,c,d)$ and
 $$I= (a,b) \cap (a,c) \cap (c,d) \cap (c+d, a^3+b d^2).$$
-Then $R/I$ is a $3$-dimensional non-Cohen-Macaulay ring.
+Then $R/I$ is a $3$-dimensional non-Cohen--Macaulay ring.
 Matlis Duality applied to $H^2_{\mathfrak{m}} (R/I)$ with its natural Frobenius map
 yields a $p^{-1}$-linear map $U$ on $\Ext^2_R(R/ I, R)$.
 %$\Ext^2(R/ I, R) \xrightarrow{U} \Ext^2(R/I, R)$.
@@ -571,12 +571,12 @@ The default value for this option is \texttt{Katzman}, which instead of using th
 %strategy is typically much faster.
 
 The performance of the algorithm can be improved if the ring of interest is
-nice enough. If the ring is Cohen-Macaulay, then setting \texttt{AssumeCM =>
+nice enough. If the ring is Cohen--Macaulay, then setting \texttt{AssumeCM =>
 true} (the default value is \texttt{false}) lets the algorithm check the Frobenius action only on top cohomology
 (which is typically much faster, as explained above).
 %The default value for the option \texttt{AssumeCM} is \texttt{false}.
 %Of
-%course, telling the algorithm to assume the ring is Cohen-Macaulay when it
+%course, telling the algorithm to assume the ring is Cohen--Macaulay when it
 %is not can lead to an incorrect answer if the non-injective Frobenius
 %occurs in a lower degree. For an example of this see the documentation.
 When studying a reduced ring,  setting \texttt{AssumeReduced => true} (the default value) avoids
@@ -739,7 +739,7 @@ returns \texttt{true}.
 \subsection{$F$-rationality}
 
 \begin{definition}
-Suppose that $R$ is a Cohen-Macaulay ring and that $T_{R} :
+Suppose that $R$ is a Cohen--Macaulay ring and that $T_{R} :
 \omega_{R^{1/p}} \rightarrow \omega_{R}$ is the canonical dual to the
 Frobenius. We say that $R$ has \emph{$F$-rational singularities}, of simply that \emph{$R$ is $F$-rational}, if there
 are no non-zero proper submodules $M$ of $\omega_{R}$ such that
@@ -762,8 +762,8 @@ o7 = true
 \end{MyVerbatim}
 }\medskip
 
-The algorithm used by \texttt{isFRational} first checks if the ring is Cohen-Macaulay, unless the option \texttt{AssumeCM} is set to \texttt{true}. If the ring
-is not Cohen-Macaulay then \texttt{false} is returned. Next, the algorithm
+The algorithm used by \texttt{isFRational} first checks if the ring is Cohen--Macaulay, unless the option \texttt{AssumeCM} is set to \texttt{true}. If the ring
+is not Cohen--Macaulay then \texttt{false} is returned. Next, the algorithm
 computes the test module $M \subseteq \omega_{R}$ and checks to see if
 $\omega_{R} \subseteq M$;  see the next section for the description of a test module.
 
@@ -1205,7 +1205,7 @@ o5 = true
 \end{MyVerbatim}
 }\medskip
 
-In \cite{KatzmanParameterTestIdealOfCMRings} it is shown that as $R/I$ is Cohen-Macaulay, $u$
+In \cite{KatzmanParameterTestIdealOfCMRings} it is shown that as $R/I$ is Cohen--Macaulay, $u$
 can be taken as the generator of the cyclic module $(I^{[p]}:I) \cap (\Omega^{[p]}:\Omega)/I^{[p]}$
 where $\Omega \subseteq R$ is an ideal whose image in $R/I$ is a canonical module of that ring.
 
