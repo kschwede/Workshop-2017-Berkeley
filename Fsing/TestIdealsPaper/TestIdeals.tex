@@ -88,7 +88,7 @@ urlcolor=OliveGreen
 \author[Alberto F.\ Boix et al.]{Alberto F.\ Boix}
 \address{Department of Mathematics, Ben-Gurion University of the Negev, Beer-Sheva 8410501, Israel}
 \email{fernanal@post.bgu.ac.il}
-\thanks{A.F.~Boix was supported by Israel Science Foundation (grant No. 844/14) and Spanish Ministerio de Econom\'ia y Competitividad MTM2016-7881-P}
+\thanks{A.F.\,Boix was supported by Israel Science Foundation (grant No. 844/14) and Spanish Ministerio de Econom\'ia y Competitividad MTM2016-7881-P}
 
 \author[]{Daniel J.\ Hern\'andez}
 \address{Department of Mathematics, University of Kansas, Lawrence, KS~66045, USA}
@@ -146,7 +146,7 @@ urlcolor=OliveGreen
 
 \section{Introduction}
 
-This paper describes methods for computing objects and numerical invariants in prime characteristic commutative algebra, implemented in the \texttt{TestIdeals.m2} package for the computer algebra system \emph{Macaulay2}.
+This paper describes methods for computing objects and numerical invariants in prime characteristic commutative algebra, implemented in the \texttt{TestIdeals.m2} package for the computer algebra system \emph{Macaulay2} \cite{M2}.
 A ring $R$ of prime characteristic $p$ comes equipped with the Frobenius endomorphism
 \[ F: R \to R \ \text{ given by } F(x) =  x^p,\]
 which is the basis for many constructions and methods.
@@ -254,7 +254,7 @@ The computation of Frobenius roots is the workhorse behind many of the methods i
 Hence it is important to understand how this is implemented, and its computational complexity.
 
 The computation of Frobenius roots of ideals reduces to the case of principal ideals, and its complexity grows linearly with the number of generators of the ideal.
-Furthermore the calculation of  $(f)^{[1/p^e]}$ reduces to finding the summands in (\ref{eqn1}), which essentially amounts to
+Furthermore the calculation of  $(f)^{[1/p^e]}$ reduces to finding the terms in the right hand side of (\ref{eqn1}), which essentially amounts to
 taking each term in $f$, computing the $p^e$-th root of the coefficient in $\mathbb{K}$, and dividing the monomial exponent vector by $p^e$ with remainder.
 Hence the complexity of computing $(f)^{[1/p^e]}$ is proportional to the number of terms in $f$, and is independent of its degree.
 We emphasize that the calculation of Frobenius roots \emph{does not involve the calculation of Gr\"obner bases.}

@@ -26,7 +26,7 @@ Authors => {
      Email => "ebela@nd.edu"
      },
      {Name => "Alberto F. Boix",
-     Email => "alberto.fernandezb@upf.edu"
+     Email => "albertof.boix@gmail.com"
      },
      {Name => "Juliette Bruce",
      Email => "juliette.bruce@math.wisc.edu",
