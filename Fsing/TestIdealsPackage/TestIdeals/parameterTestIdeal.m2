@@ -69,7 +69,9 @@ installMethod(testModule,
     (
         R1 := o.CurrentRing;
         canIdeal := o.CanonicalIdeal;
-	--if no canonicalIdeal is give, compute it.
+	--if canonical ideal is given, use it to get the ring.
+        if canIdeal =!= null then R1 = ring canIdeal;
+	--if no canonical ideal is given, compute it.
         if R1 =!= null and canIdeal === null then canIdeal = canonicalIdeal R1;
         if canIdeal === null then 
 	    error "testModule: cannot compute the testModule with no arguments or optional arguments";
@@ -101,7 +103,7 @@ installMethod(testModule,
     )
 )
 
---testModule Ring := o -> R -> testModule( R, canonicalIdeal R, o )
+testModule Ring := o -> R -> testModule( o, CurrentRing => R )
 
 --testModule ( Ring, Ideal ) := o -> ( R1, canIdeal ) ->
 --(

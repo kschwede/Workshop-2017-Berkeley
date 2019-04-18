@@ -245,4 +245,5 @@ doc ///
     Description
         Text
             Valid values are {\tt true} or {\tt false}.
+	    If {\tt true}, the third entry in the output of {\tt decomposeFraction} is required to be nonzero.
 ///

@@ -22,11 +22,11 @@ doc ///
             the {\tt n}-th power of {\tt f}
     Description
         Text
-            In prime characteristic $p > 0$, raising a sum $a+b$ to the $p$th power
+            In prime characteristic $p > 0$, raising a sum $a + b$ to the $p$th power
             is more quickly done by simply computing $a^p$ and $b^p$ and adding them.
             The basic strategy behind {\tt fastExponentiation} is to break up the exponent into its base $p$
             expansion, and then use the exponent rules. For example,
-            $(x+y)^{3p^2+5p+2} = ((x+y)^3)^{p^2}((x+y)^5)^p(x+y)^2$.
+            $(x + y)^{3p^2 + 5p + 2} = ((x + y)^3)^{p^2}((x + y)^5)^p(x + y)^2$.
         Example
             R = ZZ/5[x];
             f = sum( 10, i -> x^i );
@@ -82,7 +82,7 @@ doc ///
             (see @TO frobeniusRoot@).
         Example
             R = ZZ/5[x,y,z,w];
-            I = ideal(x^27*y^10+3*z^28-x^2*y^15*z^35,x^17*w^30+2*x^10*y^10*z^35,x*z^50);
+            I = ideal(x^27*y^10 + 3*z^28 - x^2*y^15*z^35, x^17*w^30 + 2*x^10*y^10*z^35, x*z^50);
             frobenius(-1,I)
             frobenius(-2,I)
             frobeniusRoot(2,I)
@@ -93,7 +93,7 @@ doc ///
             the $p^e$-th powers of the entries of $M$.
         Example
             M = ZZ/3[x,y];
-            M = matrix {{x,y},{x+y,x^2+y^2}};
+            M = matrix {{x, y},{x + y, x^2 + y^2}};
             frobenius(2,M)
         Text
             {\tt frobenius(I)} and {\tt frobenius(M)} are abbreviations for
@@ -156,7 +156,7 @@ doc ///
             $I^{[t]} = (I^{[a]})^{[1/p^e]}$.
         Example
             R = ZZ/5[x,y,z];
-            I = ideal(x^50*z^95, y^100+z^27);
+            I = ideal(x^50*z^95, y^100 + z^27);
             frobeniusPower(4/5^2,I)
             frobeniusRoot(2,frobeniusPower(4,I))
         Text

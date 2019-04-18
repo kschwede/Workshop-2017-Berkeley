@@ -72,7 +72,8 @@ doc ///
 
 doc ///
     Key
-        testModule
+        (testModule)
+	(testModule, Ring)
         (testModule, Number, RingElement)
         (testModule, List, List)
         [testModule, AssumeDomain]
@@ -83,7 +84,8 @@ doc ///
     Headline
         find the parameter test module of a reduced ring
     Usage
-        testModule(CurrentRing => R)
+        testModule()
+	testModule(R)
         testModule(t,f)
         testModule(tList,fList)
     Inputs
@@ -93,15 +95,15 @@ doc ///
         t:QQ
             the formal exponent to which f is raised
         fList:List
-            a list of elements for a pair
+            consisting of elements for a pair
         tList:List
-            a list of formal exponents to which the elements of fList are raised
+            consisting of formal exponents to which the elements of fList are raised
         AssumeDomain => Boolean
             assumes the ring passed is an integral domain
         FrobeniusRootStrategy => Symbol
             selects the strategy for internal {\tt frobeniusRoot} calls
         CanonicalIdeal => Ideal
-            specifies the canonical ideal (so the function doesn't recompute it)
+            specifies the canonical ideal (so the function does not recompute it)
         CurrentRing => Ring
             specifies the ring to work with
         GeneratorList => List
@@ -113,34 +115,35 @@ doc ///
         Text
             The function {\tt testModule} computes the parameter test module of a ring $R$, returning a sequence with three elements: the parameter test submodule (as a submodule of the canonical module), the canonical module of which it is a subset, and the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module (see @ TO frobeniusTraceOnCanonicalModule@).
         Example
-            R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
-            testModule(CurrentRing => R)
+            R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
+            testModule(R)
         Text
             The canonical module returned is always embedded as an ideal of $R$, and not of the ambient polynomial ring. 
-	    Likewise the parameter test submodule is then viewed as a subideal of that.
+	    Likewise, the parameter test module is viewed as a subideal of that ideal of $R$.
             Because the ring in the example above is a Gorenstein ring, the ambient canonical module is the unit ideal.  
-	    In contrast, our next example is not Gorenstein.
+	    In contrast, the ring in our next example is not Gorenstein.
         Example
             S = ZZ/3[x,y,u,v];
             T = ZZ/3[a,b];
             f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
             R = S/(ker f);
-            testModule(CurrentRing => R)
+            testModule(R)
         Text
-            Note that the output in this case has the parameter test module equal to the canonical module, as it should be, since the ring is F-rational.  
-	    Let us consider a non-Gorenstein example that is not F-rational.
+            Note that the output in this case has the parameter test module equal to the canonical module, as it should be, since the ring is $F$-rational.  
+	    Let us now consider a non-Gorenstein example that is not $F$-rational.
         Example
             R = ZZ/5[x,y,z]/ideal(y*z, x*z, x*y);
-            (testMod,canMod,u) = testModule(CurrentRing => R)
+            (testMod,canMod,u) = testModule(R)
             testMod : canMod
         Text
             This function can be used to compute parameter test ideals in Cohen-Macaulay rings, as an alternative to @TO parameterTestIdeal@.
         Example
             S = ZZ/2[X_1..X_5];
-            E = matrix { {X_1,X_2,X_2,X_5}, {X_4,X_4,X_3,X_1} };
+            E = matrix {{X_1, X_2, X_2, X_5}, {X_4, X_4, X_3, X_1}};
             R = S/minors(2,E);
-            (testMod,canMod,u) = testModule(CurrentRing => R);
+            (testMod,canMod,u) = testModule(R);
 	    testMod : canMod
+	    parameterTestIdeal(R)
         Text
             The function {\tt testModule} can also be used to compute the parameter test module of a pair ($R, f^t$), or ($R,f_1^{t_1}\cdots f_n^{t_n}$).
         Example
@@ -151,8 +154,13 @@ doc ///
             g = x^2 - y^3;
             testModule({1/2, 1/2}, {f, g})
         Text
-            Sometimes it is conveneient to specify the ambient canonical module, or the choice of element(s) that detemine the Forbenius trace on the canonical module, across multiple calls of testModule.  
+            Sometimes it is convenient to specify the ambient canonical module, or the choice of element(s) that detemines the Frobenius trace on the canonical module, across multiple calls of testModule.  
 	    This can be done by using the options {\tt CanonicalIdeal} and {\tt GeneratorList}.
+        Example
+            R = ZZ/5[x,y,z]/ideal(x*y, y*z, z*x);
+	    I = ideal(x - z, y - z);
+            testModule( CanonicalIdeal => I )
+        Text
             Finally, the option {\tt FrobeniusRootStrategy} is passed to any calls of @TO frobeniusRoot@, and the option {\tt AssumeDomain} is used when computing a test element.
     SeeAlso
         testIdeal
@@ -189,7 +197,7 @@ doc ///
         Text
             Consider now a non-$F$-rational Gorenstein ring, whose test ideal and parameter test ideal coincide.
         Example
-            R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
+            R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
             parameterTestIdeal(R)
             testIdeal(R)
     SeeAlso
@@ -256,18 +264,18 @@ doc ///
     Inputs
         R:Ring
         IsLocal => Boolean
-            check F-rationality only at the origin and call the isCM command from the depth package
+            check $F$-rationality only at the origin and call the isCM command from the depth package
         AssumeCM => Boolean
             assume whether the ring is Cohen-Macaulay
         AssumeDomain => Boolean
             assume whether the ring is an integral domain
-        FrobeniusRootStrategy=>Symbol
+        FrobeniusRootStrategy => Symbol
             choose the strategy for internal frobeniusRoot calls
     Outputs
         :Boolean
     Description
         Text
-            Determines if a ring is F-rational.  If you pass it {\tt IsLocal => true}, it will only check if the ring is F-rational at the origin (this can be slower).  If you pass it {\tt AssumeCM => true}, it will not verify that the ring is Cohen-Macaulay.
+            Determines if a ring is $F$-rational.  If you pass it {\tt IsLocal => true}, it will only check if the ring is $F$-rational at the origin (this can be slower).  If you pass it {\tt AssumeCM => true}, it will not verify that the ring is Cohen-Macaulay.
         Example
             T = ZZ/5[x,y];
             S = ZZ/5[a,b,c,d];
@@ -275,20 +283,20 @@ doc ///
             R = S/(ker g);
             isFRational(R)
         Example
-            R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
+            R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
             isFRational(R)
         Text
-            We conclude with a more interesting example of a ring that is F-rational but not F-regular.  This example first appeared in A. K. Singh's work on deformation of F-regularity.
+            We conclude with a more interesting example of a ring that is $F$-rational but not $F$-regular.  This example first appeared in A. K. Singh's work on deformation of $F$-regularity.
         Example
              S = ZZ/3[a,b,c,d,t];
              m = 4;
              n = 3;
-             M = matrix{ {a^2 + t^m, b, d}, {c, a^2, b^n-d} };
+             M = matrix{{a^2 + t^m, b, d}, {c, a^2, b^n-d}};
              I = minors(2, M);
              R = S/I;
              isFRational(R)
         Text
             The option {\tt AssumeDomain} is used when computing a test element.  The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     Caveat
-        Warning, this function assumes that Spec R is connected.  Like {\tt isCohenMacaulay}, if you pass it a non-equidimensional F-rational ring (for example, if Spec R has two connected components of different dimensions), this function will return false.
+        Warning, this function assumes that Spec R is connected.  Like {\tt isCohenMacaulay}, if you pass it a non-equidimensional $F$-rational ring (for example, if Spec R has two connected components of different dimensions), this function will return false.
 ///

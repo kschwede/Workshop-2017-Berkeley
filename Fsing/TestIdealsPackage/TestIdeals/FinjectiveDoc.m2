@@ -33,25 +33,25 @@ doc ///
             a list of formal exponents
         e:ZZ
             an integer, what root of Frobenius to take
-        FrobeniusRootStrategy=>Symbol
+        FrobeniusRootStrategy => Symbol
             choose the strategy for internal frobeniusRoot calls
-        CanonicalIdeal=>Ideal
+        CanonicalIdeal => Ideal
             specify the canonical ideal (so the function doesn't recompute it)
-        CurrentRing=>Ring
+        CurrentRing => Ring
             specify the current ring to work with
-        GeneratorList=>List
+        GeneratorList => List
             specify the action on the canonical module
     Outputs
         :Sequence
     Description
         Text
-            Given a ring $R$ with canonical module $\omega$, this computes the image of $F^e_* \omega \to \omega$ for $e >> 0$.  This image is sometimes called the HSLG-module (named for Hartshorne-Speiser, Lyubeznik and Gabber).
-            It roughly tells you where a ring is non-F-injective.
-            It can also be used to compute the maximal F-pure sub-Cartier module of a given rank-1 Cartier module (represented as an ideal).
+            Given a ring $R$ with canonical module $\omega$, this computes the image of $F^e_* \omega \to \omega$ for $e >> 0$.  
+	    This image is sometimes called the HSLG-module (named for Hartshorne-Speiser, Lyubeznik and Gabber), and it roughly tells us where a ring is non-$F$-injective.
+            It can also be used to compute the maximal $F$-pure sub-Cartier module of a given rank-1 Cartier module (represented as an ideal).
         Text
             Specifically, this function returns a list of the following entries.  {\tt HSLGmodule, canonicalModule, u, HSLCount} where {\tt canonicalModule} is the canonical module of the ring (expressed as an ideal), {\tt HSLGmodule} is a submodule of that canonical module, {\tt u} is a list of elements of the ambient polynomial ring representing the trace of Frobenius on the canonical module and {\tt HSLCount} is how many times the trace of Frobenius was computed before the image stabilized.
         Example
-            R = ZZ/7[x,y,z]/ideal( x^5+y^5+z^5 );
+            R = ZZ/7[x,y,z]/ideal(x^5 + y^5 + z^5);
             ( HSLGMod, canMod, frobTrace, count ) = HSLGModule(CurrentRing => R);
             canMod --the ambient canonical module
             HSLGMod --the HSLG submodule
@@ -61,7 +61,7 @@ doc ///
             If you do not want the function to compute the canonical module, you can also pass the canonical module as an ideal via the {\tt CanonicalModule} option.
             You could also pass it something other than the canonical module as well (for example, a submodule of the canonical module).
             Likewise you can use the {\tt GeneratorList} option to specify the dual Frobenius action on the canonical module (or ideal playing the role of the canonical module).
-            In the following example, the non-F-pure ideal of a Q-Gorenstein ring is computed by hijacking this functionality.
+            In the following example, the non-$F$-pure ideal of a $\mathbb{Q}$-Gorenstein ring is computed by hijacking this functionality.
         Example
             T = ZZ/7[a,b];
             S = ZZ/7[x,y,z,w];
@@ -70,9 +70,9 @@ doc ///
             R = S/I;
             J = ideal(sub(1, R));
             u = QGorensteinGenerator(1, R);
-            HSLGModule(CanonicalIdeal=>J, GeneratorList=>{u})
+            HSLGModule(CanonicalIdeal => J, GeneratorList => {u})
         Text
-            Additionally, you can specify a pair $(R, f^t)$ as long as $t$ is a rational number without $p$ in its denominator.
+            Additionally, one can specify a pair $(R, f^t)$, as long as $t$ is a rational number without $p$ in its denominator.
         Example
             R = ZZ/7[x,y];
             M = HSLGModule(5/6, y^2-x^3);
@@ -81,12 +81,12 @@ doc ///
             N = HSLGModule(9/10, y^2-x^3);
             N#0
         Text
-            Additionally, we can compute HSLG-modules of things like $(R, f^s g^t)$ even when $R$ is not regular (although we do require that R is Q-Gorenstein with index not divisible by the characteristic).
+            Additionally, we can compute HSLG-modules of things like $(R, f^s g^t)$ even when $R$ is not regular (although we do require that R is $\mathbb{Q}$-Gorenstein with index not divisible by the characteristic).
         Example
             R = ZZ/3[x,y,z]/ideal(x^2-y*z);
             f = y;
             g = z;
-            HSLGModule({1/2, 1/2, 1/2}, {y,z,y+z})
+            HSLGModule({1/2, 1/2, 1/2}, {y, z, y + z})
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
@@ -113,7 +113,7 @@ doc ///
             a list of formal exponents
         J:Ideal
             the Cartier module which to study
-        FrobeniusRootStrategy=>Symbol
+        FrobeniusRootStrategy => Symbol
             choose the strategy for internal frobeniusRoot calls
     Outputs
         :Sequence
@@ -131,8 +131,8 @@ doc ///
             u = 1_R;
             descendIdeal(1, {5}, {f}, ideal(u)) --this computes the non-F-pure ideal of (R, f^{5/6})
             descendIdeal(2, {41}, {f}, ideal(u)) --this computes the non-F-pure ideal of (R, f^{41/48})
-            (HSLGModule(5/6, f, CanonicalIdeal=>ideal(u), GeneratorList => {u}))#0
-            (HSLGModule(41/48, f, CanonicalIdeal=>ideal(u), GeneratorList => {u}))#0
+            (HSLGModule(5/6, f, CanonicalIdeal => ideal(u), GeneratorList => {u}))#0
+            (HSLGModule(41/48, f, CanonicalIdeal => ideal(u), GeneratorList => {u}))#0
         Text
             The same two examples could also be accomplished via the calls of {\tt HSLGModule} as illustrated above.
             However, the {\tt ascendIdeal} construction gives the user more direct control.
@@ -162,7 +162,7 @@ doc ///
         FrobeniusRootStrategy => Symbol
             selects the strategy for internal {\tt frobeniusRoot} calls
         IsLocal => Boolean
-            stipulates whether to check F-injectivity only at the origin
+            stipulates whether to check $F$-injectivity only at the origin
         AssumeCM => Boolean
             assumes the ring is Cohen-Macaulay
         AssumeNormal => Boolean
@@ -175,22 +175,24 @@ doc ///
         :Boolean
     Description
         Text
-            This function determines whether a ring of finite type over a prime field is F-injective.  Over a more general field, it checks the F-injectivity of the relative Frobenius.
-            We begin with an example of an F-injective ring that is not F-pure (taken from the work of Anurag Singh).
+            This function determines whether a ring of finite type over a prime field is $F$-injective.  
+	    Over a more general field, it checks the $F$-injectivity of the relative Frobenius.
+            We begin with an example of an $F$-injective ring that is not $F$-pure (taken from the work of Anurag Singh).
         Example
              S = ZZ/3[a,b,c,d,t];
              m = 4;
              n = 3;
-             M = matrix{ {a^2 + t^m, b, d}, {c, a^2, b^n-d} };
+             M = matrix{{a^2 + t^m, b, d}, {c, a^2, b^n-d}};
              I = minors(2, M);
              R = S/I;
              isFInjective(R)
              isFPure(R)
         Text
-            Next, let us form the cone over $P^1 \times E$ where $E$ is an elliptic curve.  We begin with a supersingular elliptic curve.  This should be F-injective if and only if it is F-pure.
+            Next, let us form the cone over $P^1 \times E$ where $E$ is an elliptic curve.  We begin with a supersingular elliptic curve.  
+	    This should be $F$-injective if and only if it is $F$-pure.
         Example
             S = ZZ/3[xs, ys, zs, xt, yt, zt];
-            EP1 = ZZ/3[x,y,z,s,t]/ideal(x^3+y^2*z-x*z^2); --supersingular elliptic curve
+            EP1 = ZZ/3[x,y,z,s,t]/ideal(x^3 + y^2*z - x*z^2); --supersingular elliptic curve
             f = map(EP1, S, {x*s, y*s, z*s, x*t, y*t, z*t});
             R = S/(ker f);
             isFInjective(R)
@@ -199,7 +201,7 @@ doc ///
             Now we do a similar computation, this time with an ordinary elliptic curve.
         Example
             S = ZZ/3[xs, ys, zs, xt, yt, zt];
-            EP1 = ZZ/3[x,y,z,s,t]/ideal(y^2*z-x^3+x*y*z); --ordinary elliptic curve
+            EP1 = ZZ/3[x,y,z,s,t]/ideal(y^2*z - x^3 + x*y*z); --ordinary elliptic curve
             f = map(EP1, S, {x*s, y*s, z*s, x*t, y*t, z*t});
             R = S/(ker f);
             isFInjective(R)
@@ -211,16 +213,19 @@ doc ///
             time isFInjective(R)
             time isFInjective(R, CanonicalStrategy => null)
         Text
-            If the option {\tt IsLocal} (default value {\tt false}) is set to {\tt true}, {\tt isFInjective} will only check F-injectivity at the origin.  Otherwise it will check F-injectivity globally.  Note that checking F-injectivity at the origin can be slower than checking it globally.  Consider the following example of a non-F-injective ring.
+            If the option {\tt IsLocal} (default value {\tt false}) is set to {\tt true}, {\tt isFInjective} will only check $F$-injectivity at the origin.  
+	    Otherwise it will check $F$-injectivity globally.  
+	    Note that checking $F$-injectivity at the origin can be slower than checking it globally.  
+	    Consider the following example of a non-$F$-injective ring.
         Example
-            R = ZZ/7[x,y,z]/ideal( (x-1)^5 + (y+1)^5 + z^5 );
+            R = ZZ/7[x,y,z]/ideal((x-1)^5 + (y+1)^5 + z^5);
             isFInjective(R)
             isFInjective(R, IsLocal => true)
         Text
             If the option {\tt AssumeCM} (default value {\tt false}) is set to {\tt true}, then the function only checks the Frobenius action on top cohomology (which is typically much faster). Note that it can give an incorrect answer if the non-injective Frobenius occurs in a lower degree.  Consider the example of the cone over a supersingular elliptic curve times $P^1$.
         Example
             S = ZZ/3[xs, ys, zs, xt, yt, zt];
-            EP1 = ZZ/3[x,y,z,s,t]/ideal(x^3+y^2*z-x*z^2);
+            EP1 = ZZ/3[x,y,z,s,t]/ideal(x^3 + y^2*z - x*z^2);
             f = map(EP1, S, {x*s, y*s, z*s, x*t, y*t, z*t});
             R = S/(ker f);
             time isFInjective(R)

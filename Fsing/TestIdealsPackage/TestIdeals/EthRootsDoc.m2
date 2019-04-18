@@ -37,15 +37,15 @@ doc ///
             selects the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Ideal
-	    the stable ideal in the ascending chain $J\subseteq J+\phi(J)\subseteq J+\phi(J)+\phi^2(J)\subseteq \cdots$, where $\phi$ is the $p^{-e}$ linear map obtained by multiplying the $e$th Frobenius trace on a polynomial ring by $h$, or $h^a$, or {\tt product(hList,expList,(h,a)->h^a)}
+	    the stable ideal in the ascending chain $J\subseteq J + \phi(J)\subseteq J + \phi(J) + \phi^2(J)\subseteq \cdots$, where $\phi$ is the $p^{-e}$ linear map obtained by multiplying the $e$th Frobenius trace on a polynomial ring by $h$, or $h^a$, or {\tt product(hList,expList,(h,a)->h^a)}
     Description
         Text
             Let $\phi$ be the $p^{-e}$ linear map obtained by multiplying the $e$th Frobenius trace on a polynomial ring by the polynomial $h$  (or $h^a$, if $a$ is given).
-            This function finds the smallest $\phi$-stable ideal containing $J$, which is the stable value of the ascending chain $J\subseteq J+\phi(J)\subseteq J+\phi(J)+\phi^2(J)\subseteq \cdots$.
+            This function finds the smallest $\phi$-stable ideal containing $J$, which is the stable value of the ascending chain $J\subseteq J + \phi(J)\subseteq J + \phi(J) + \phi^2(J)\subseteq \cdots$.
             Note that if the ideal $J$ is not an ideal in a polynomial ring, but in a quotient of a polynomial ring, the function will do the computation with the $e$th Frobenius trace in the ambient polynomial ring, but will do the comparison, to see if stabilization has occured, inside the quotient ring.
         Example
             S = ZZ/5[x,y,z];
-            g = x^4+y^4+z^4;
+            g = x^4 + y^4 + z^4;
             h = g^4;
             R = S/ideal(g);
             ascendIdeal(1, h, ideal(y^3))
@@ -54,7 +54,7 @@ doc ///
             The alternate ways to call the function allow the function to behave in a more efficient way. Indeed, frequently the polynomial passed is a power, $h^a$.  If $a$ is large, it is more efficient not to compute $h^a$, but instead, to keep the exponent small by only raising $h$ to the minimal power needed to do the computation at that time.
         Example
             S = ZZ/5[x,y,z];
-            g = x^4+y^4+z^4;
+            g = x^4 + y^4 + z^4;
             R = S/ideal(g);
             ascendIdeal(1, 4, g, ideal(y^3))
             ascendIdeal(1, 4, g, ideal((sub(y, S))^3))
@@ -66,8 +66,8 @@ doc ///
             By default (when {\tt AscentCount => false}), {\tt ascendIdeal} just returns the stable (ascended) ideal.  If, instead, {\tt AscentCount} is set to {\tt true}, then {\tt ascendIdeal} returns a list, where the first value is the stable ideal, and the second is the number of steps it took for the ascending chain to stabilize and reach that ideal.
         Example
             R = ZZ/5[x,y,z];
-            J = ideal(x^12,y^15,z^21);
-            f = y^2+x^3-z^5;
+            J = ideal(x^12, y^15, z^21);
+            f = y^2 + x^3 - z^5;
             ascendIdeal(1, f^4, J)
             ascendIdeal(1, f^4, J, AscentCount => true)
         Text
@@ -94,7 +94,7 @@ doc ///
         :Matrix
     Description
         Text
-            Given an $n \times n$ matrix $U$ and a submodule $A$ of a free module $R^n$, {\tt ascendModule} finds the smallest submodule $V$ of $R^n$ containing $A$ and which satisfies $U^{1+p+\cdots+p^{e-1}} V\subset V^{[p^e]}$.
+            Given an $n \times n$ matrix $U$ and a submodule $A$ of a free module $R^n$, {\tt ascendModule} finds the smallest submodule $V$ of $R^n$ containing $A$ and which satisfies $U^{1 + p + \cdots + p^{e-1}} V\subset V^{[p^e]}$.
         Example
             R = ZZ/2[a,b,c,d];
             A = matrix {{b*c, a, 0}, {a^2* d, d^2 , c + d}}
@@ -160,21 +160,21 @@ doc ///
 	    whose image is the {\tt p^e}-th Frobenius root of the image of the matrix {\tt A} 
     Description
         Text
-            In a polynomial ring $R=k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the $p^e$-th Frobenius root $I^{[1/p^e]}$ of an ideal $I$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(p^e,J)}).   
+            In a polynomial ring $R = k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the $p^e$-th Frobenius root $I^{[1/p^e]}$ of an ideal $I$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(p^e,J)}).   
             Similarly, if $M$ is a submodule of $R^k$, the $p^e$-th Frobenius root of $M$, denoted $M^{[1/p^e]}$, is the smallest submodule $V$ of $R^k$ such that $M\subseteq V^{[p^e]}$.
 	    The function {\tt frobeniusRoot} computes such ideals and submodules.
 
             There are many ways to call {\tt frobeniusRoot}. The simplest way is to call {\tt frobeniusRoot(e,I)}, which computes $I^{[1/p^e]}$.
         Example
             R = ZZ/5[x,y,z];
-            I = ideal(x^50*z^95, y^100+z^27);
+            I = ideal(x^50*z^95, y^100 + z^27);
             frobeniusRoot(2, I)
         Text
             The function {\tt frobeniusRoot} works over arbitrary finite fields.
         Example
             p = 3;
             R = GF( p^2 )[x,y,z];
-            I = ideal( a^(2*p)*x^p+y*z^p+x^p*y^p );
+            I = ideal(a^(2*p)*x^p + y*z^p + x^p*y^p);
             frobeniusRoot(1,I)
         Text
             For the matrix $A$ below, {\tt frobeniusRoot(1,A)} computes a matrix whose image is the smallest submodule $V$ of $R^2$ such that the image of $A$ is in $V^{[2]}$.
@@ -186,9 +186,9 @@ doc ///
             Often, one wants to compute a Frobenius root of some product of powers of ideals, $I_1^{a_1}\cdots I_n^{a_n}$. This is best accomplished by calling {\tt frobeniusRoot(e,\{a_1,\ldots,a_n\},\{I_1,\ldots,I_n\})}.
         Example
             R =  ZZ/5[x,y,z];
-            I1 = ideal( x^10, y^10, z^10 );
-            I2 = ideal( x^20*y^100, x + z^100 );
-            I3 = ideal( x^50*y^50*z^50 );
+            I1 = ideal(x^10, y^10, z^10);
+            I2 = ideal(x^20*y^100, x + z^100);
+            I3 = ideal(x^50*y^50*z^50);
             time J1 = frobeniusRoot( 1, {8,10,12}, {I1,I2,I3} );
             time J2 = frobeniusRoot( 1, I1^8 * I2^10 * I3^12 );
 	    J1 == J2  

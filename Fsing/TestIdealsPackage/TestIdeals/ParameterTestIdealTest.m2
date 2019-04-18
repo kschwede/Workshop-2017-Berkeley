@@ -12,7 +12,7 @@ time assert(isCohenMacaulay(R/I) == true);
 Omega=canonicalIdeal(R/I);
 time assert(substitute(Omega,R)==ideal(x_1, x_4, x_5));
 --u=finduOfIdeal(I,Omega);
-time tau=testModule(CurrentRing => R/I);
+time tau=testModule(R/I);
 assert((tau#1)==Omega);
 assert((tau#2)== x_1^3*x_2*x_3+x_1^3*x_2*x_4+x_1^2*x_3*x_4*x_5+x_1*x_2*x_3*x_4*x_5+x_1*x_2*x_4^2*x_5+x_2^2*x_4^2*x_5+x_3*x_4^2*x_5^2+x_4^3*x_5^2);
 assert(substitute( (tau#0):(tau#1),R)==ideal(x_1, x_2, x_3+x_4));
