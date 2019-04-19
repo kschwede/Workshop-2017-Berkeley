@@ -145,7 +145,7 @@ doc ///
 	    testMod : canMod
 	    parameterTestIdeal(R)
         Text
-            The function {\tt testModule} can also be used to compute the parameter test module of a pair ($R, f^t$), or ($R,f_1^{t_1}\cdots f_n^{t_n}$).
+            The function {\tt testModule} can also be used to compute the parameter test module of a pair ($R, f^{ t}$), or ($R,f_1^{t_1}\cdots f_n^{t_n}$).
         Example
             R = ZZ/7[x,y];
             f = y^2 - x^3;
