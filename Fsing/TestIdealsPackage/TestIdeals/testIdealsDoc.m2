@@ -12,7 +12,7 @@ doc ///
     Headline
         find an element representing the Frobenius trace map of a Q-Gorenstein ring
     Usage
-        QGorensteinGenerator(e, R)
+        QGorensteinGenerator(e,R)
         QGorensteinGenerator(R)
     Inputs
         e: ZZ
@@ -21,9 +21,10 @@ doc ///
             the $\mathbb{Q}$-Gorenstein ring
     Outputs
         :RingElement
+	    representing the Frobenius trace map of {\tt R}
     Description
         Text
-            Suppose that $R$ is a ring such that $(p^e-1)K_R$ is linearly equivalent to zero (for example, if $R$ is $Q$-Gorenstein with index not divisible by $p$).
+            Suppose that $R$ is a ring such that $(p^e-1)K_R$ is linearly equivalent to zero (for example, if $R$ is $\mathbb{Q}$-Gorenstein with index not divisible by $p$).
             Then if we write $R = S/I$ where $S$ is a polynomial ring, we have that $I^{[p^e]} : I = u S + I^{[p^e]}$ for some $u \in S$.
             By Fedder's criterion, this element $u$ represents the generator of the $R^{1/p^e}$-module $Hom(R^{1/p^e}, R)$.
             For example if $I = (f)$ is principal, then $u = f^{p^e-1}$ works.
@@ -62,12 +63,11 @@ doc ///
         Text
             Given $R = S/I$, where $S$ is a polynomial ring, the function {\tt testElement} finds an element of the ambient ring $S$ whose image in $R$ is a test element of $R$. This is done by finding a minor of the jacobian of $I$ that does not lie in any minimal prime of $I$. This function considers random minors until one is found, instead of computing all minors. Thus, repeated calls will not always produce the same answer.
         Example
-            R = ZZ/5[x,y,z]/( x^3 + y^3 + z^3 );
-            testElement(R)
-            testElement(R)
-            testElement(R)
+            R = ZZ/11[x,y,z]/(x^3 + y^3 + z^3);
+	    apply( 1..5, i -> testElement(R) )
         Text
-            If the option {\tt AssumeDomain} (default value {\tt false}) is set to {\tt true}, then {\tt testElement} does not compute the minimal primes of $I$. This can result in a substantial speedup in some cases.
+            If the option {\tt AssumeDomain} (default value {\tt false}) is set to {\tt true}, then {\tt testElement} does not compute the minimal primes of $I$. 
+	    This can result in a substantial speedup in some cases.
 ///
 
 doc ///
@@ -95,8 +95,8 @@ doc ///
         an option to specify the index of the canonical divisor, if known
     Description
         Text
-             When working in a $\mathbb{Q}$-Gorenstein ring $R$, frequently we must find an integer $N$ such that $N * K_R$ is Cartier. 
-	     This option lets the user skip this search if this integer is already known, by setting {\tt QGorensteinIndex => N}.
+             When working in a $\mathbb{Q}$-Gorenstein ring $R$, frequently we must find a positive integer $N$ such that $N K_R$ is Cartier. 
+	     This option allows this search to be bypassed if this integer is already known, by setting {\tt QGorensteinIndex => N}.
 ///
 
 doc ///

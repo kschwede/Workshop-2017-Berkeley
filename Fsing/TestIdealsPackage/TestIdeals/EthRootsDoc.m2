@@ -223,7 +223,7 @@ doc ///
     Key
         Substitution
     Headline
-        a valid value for the FrobeniusRootStrategy option
+        a valid value for the option FrobeniusRootStrategy
     SeeAlso
 	FrobeniusRootStrategy
 ///
@@ -232,7 +232,7 @@ doc ///
     Key
         MonomialBasis
     Headline
-        a valid value for the FrobeniusRootStrategy option
+        a valid value for the option FrobeniusRootStrategy
     SeeAlso
 	FrobeniusRootStrategy
 ///
