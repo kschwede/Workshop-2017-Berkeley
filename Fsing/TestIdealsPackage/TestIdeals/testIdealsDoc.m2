@@ -114,9 +114,7 @@ doc ///
         testIdeal
         (testIdeal, Ring)
         (testIdeal, Number, RingElement)
-        (testIdeal, Number, RingElement, Ring)
         (testIdeal, List, List)
-        (testIdeal, List, List, Ring)
         [testIdeal, AssumeDomain]
         [testIdeal, FrobeniusRootStrategy]
         [testIdeal, MaxCartierIndex]
@@ -124,10 +122,9 @@ doc ///
     Headline
         compute a test ideal in a Q-Gorenstein ring
     Usage
+        testIdeal(R)
         testIdeal(t,f)
-        testIdeal(t,f,R)
         testIdeal(tList,fList)
-        testIdeal(tList,fList,R)
     Inputs
         R: Ring
         t: QQ
@@ -137,13 +134,13 @@ doc ///
         tList: List
             consisting of formal exponents for the elements in {\tt fList}
         fList: List
-            consisting of elements to whose test ideal is to be computed
+            consisting of elements whose test ideal is to be computed
         AssumeDomain => Boolean
             assumes the ring is an integral domain
         FrobeniusRootStrategy => Symbol
             selects the strategy for internal {\tt frobeniusRoot} calls
         MaxCartierIndex => ZZ
-            sets the maximum $\mathbb{Q}$-Gorenstein index to search for when working with a $\mathbb{Q}$-Gorenstein ambient ring
+            sets the maximum $\mathbb{Q}$-Gorenstein index to search for 
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
     Outputs
@@ -161,23 +158,22 @@ doc ///
             R = S/(ker f);
             testIdeal(R)
         Text
-            Given a normal $\mathbb{Q}$-Gorenstein ring $R$, a rational number $t \geq 0$ and an element $f \in R$, we can also compute the test ideal $\tau(R, f^t)$.
+            Given a nonnegative rational number $t$ and an element $f$ of a normal $\mathbb{Q}$-Gorenstein ring $R$, {\tt testIdeal(t,f)} computes the test ideal $\tau(R, f^t)$.
         Example
             R = ZZ/5[x,y,z];
             f = y^2 - x^3;
 	    apply({1/2, 4/5, 5/6, 1}, t -> testIdeal(t, f) )
-        Example
             R = ZZ/7[x,y,z];
             f = y^2 - x^3;
 	    apply({1/2, 4/5, 5/6, 1}, t -> testIdeal(t, f) )
         Text
-            The next example shows that the ring $R$ need not be a polynomial ring.
+            The ring $R$ need not be a polynomial ring, as the next example illustrates.
         Example
             R = ZZ/11[x,y,z]/ideal(x^2 - y*z);
             testIdeal(1/2, y)
             testIdeal(1/3, y)
         Text
-            Given rational numbers $t_1, t_2, \ldots$ and ring elements $f_1, f_2, \ldots$, we can compute the test ideal $\tau(R, f_1^{t_1} f_2^{t_2}\cdots)$.
+            Given nonnegative rational numbers $t_1, t_2, \ldots$ and ring elements $f_1, f_2, \ldots$, {\tt testIdeal(\{t_1,t_2,\ldots\},\{f_1,f_2,\ldots\})} computes the test ideal $\tau(R, f_1^{t_1} f_2^{t_2}\cdots)$.
         Example
             R = ZZ/7[x,y];
             L = {x, y, x + y};
@@ -186,7 +182,7 @@ doc ///
             testIdeal(2/3, f)
             testIdeal({3/4,2/3,3/5}, L)
         Text
-            Frequently, passing a list will be faster, as opposed to finding a common denominator and passing a single element, since the {\tt testIdeal} can do things in a more intelligent way for such a list.
+            It is often more efficient to pass a list, as opposed to finding a common denominator and passing a single element, since {\tt testIdeal} can do things in a more intelligent way for such a list.
         Example
             time testIdeal({3/4,2/3,3/5}, L)
             time testIdeal(1/60, x^45*y^40*(x+y)^36)
@@ -194,11 +190,11 @@ doc ///
             The option {\tt AssumeDomain} (default value {\tt false}) is used when finding a test element.  
 	    The option {\tt FrobeniusRootStrategy} (default value {\tt Substitution}) is passed to internal @TO frobeniusRoot@ calls.
 
-            When working in a $\mathbb{Q}$-Gorenstein ring $R$, {\tt testIdeal} finds a positive integer $N$ such that $N K_R$ is Cartier.  
-	    The option {\tt MaxCartierIndex} (default value $10$) controls the maximum value of $N$ to consider.  
-	    If the smallest such $N$ turns out to be greater than the value set by {\tt MaxCartierIndex}, then {\tt testIdeal} returns an error.  
+            When working in a $\mathbb{Q}$-Gorenstein ring $R$, {\tt testIdeal} looks for a positive integer $N$ such that $N K_R$ is Cartier.  
+	    The option {\tt MaxCartierIndex} (default value $10$) controls the maximum value of $N$ to consider in this search.  
+	    If the smallest such $N$ turns out to be greater than the value passed to {\tt MaxCartierIndex}, then {\tt testIdeal} returns an error.  
 
-	    The value $N$ can be specified by the user through the option {\tt QGorensteinIndex}; when this option is used, the search for $N$ is bypassed, and the option {\tt MaxCartierIndex} ignored.
+	    The $\mathbb{Q}$-Gorenstein index can be specified by the user through the option {\tt QGorensteinIndex}; when this option is used, the search for $N$ is bypassed, and the option {\tt MaxCartierIndex} ignored.
     SeeAlso
         testModule
         isFRegular

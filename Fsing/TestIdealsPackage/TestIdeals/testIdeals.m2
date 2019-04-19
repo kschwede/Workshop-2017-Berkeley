@@ -146,17 +146,12 @@ testIdeal Ring := o -> R1 ->
 )
 
 --this computes \tau(R, f^t)
-testIdeal ( Number, RingElement, Ring ) := o -> ( t1, f1, R1 ) ->
-    testIdeal( { t1/1 }, { f1 }, R1, o )
-
 testIdeal ( Number, RingElement ) := o -> ( t1, f1 ) ->
-    testIdeal( { t1/1 }, { f1 }, ring f1, o )
+    testIdeal( { t1/1 }, { f1 }, o )
 
 testIdeal ( List, List ) := o -> ( tList, fList ) ->
-    testIdeal( tList, fList, ring fList#0, o )
-
-testIdeal ( List, List, Ring ) := o -> ( tList, fList, R1 ) ->
 (
+    R1 := ring fList#0;
     canIdeal := canonicalIdeal R1;
     pp := char R1;
     cartIndex := 0;
