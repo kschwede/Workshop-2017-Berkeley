@@ -178,7 +178,7 @@ doc ///
         multiplicativeOrder(a,b)
     Inputs
         a:ZZ
-            the number whose multiplicative order is to be computed
+            whose multiplicative order is to be computed
         b:ZZ
             prime to {\tt a}; the modulus
     Outputs
@@ -186,8 +186,7 @@ doc ///
             the multiplicative order of {\tt a} mod {\tt b}
     Description
         Text
-            {\tt multiplicativeOrder(a,b)} computes the multiplicative order
-            of $a$ modulo $b$.
+            {\tt multiplicativeOrder(a,b)} computes the multiplicative order of $a$ modulo $b$.
         Example
             multiplicativeOrder(2, 11^2)
             multiplicativeOrder(3, 11^2)

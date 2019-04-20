@@ -18,7 +18,7 @@ doc ///
         e: ZZ
             the degree in which to search
         R: Ring
-            the $\mathbb{Q}$-Gorenstein ring
+            a $\mathbb{Q}$-Gorenstein ring
     Outputs
         :RingElement
 	    representing the Frobenius trace map of {\tt R}
@@ -85,7 +85,8 @@ doc ///
         an option to specify the maximum number to consider when computing the Cartier index of a divisor
     Description
         Text
-                Some functions need to find the smallest value $N$ such that $N$ times a divisor (usually the canonical divisor) is Cartier. By specifying this value, the user controls what the maximal possible Cartier index to consider is.
+	    Some functions need to search for the smallest positive integer $N$ such that $N$ times a divisor (usually the canonical divisor) is Cartier. 
+	    The option {\tt MaxCartierIndex} is used to specify the largest integer to be considered in this search.
 ///
 
 
@@ -128,14 +129,15 @@ doc ///
         testIdeal(tList,fList)
     Inputs
         R: Ring
+	    a $\mathbb{Q}$-Gorenstein ring
         t: QQ
             a formal exponent for {\tt f}
         f: RingElement
             the element whose test ideal is to be computed
         tList: List
-            consisting of formal exponents for the elements in {\tt fList}
+            consisting of formal exponents {\tt t_1,\ldots,t_n \in}  $\mathbb{Q}$ for the elements in {\tt fList}
         fList: List
-            consisting of elements whose test ideal is to be computed
+            consisting of elements {\tt f_1,\ldots,f_n \in} {\tt R} whose test ideal is to be computed
         AssumeDomain => Boolean
             assumes the ring is an integral domain
         FrobeniusRootStrategy => Symbol
@@ -146,9 +148,10 @@ doc ///
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
     Outputs
         :Ideal
+	    the test ideal {\tt \tau(R)}, {\tt \tau(R,f^{t})}, or {\tt \tau(R,f_1^{t_1}\ldots f_n^{t_n})}, depending on the arguments passed
     Description
         Text
-            Given a normal $\mathbb{Q}$-Gorenstein ring $R$, {\tt testIdeal(R)} simply computes the test ideal $\tau(R)$.
+            Given a normal $\mathbb{Q}$-Gorenstein ring $R$, {\tt testIdeal(R)} simply computes the test ideal {\tt \tau}($R$).
         Example
             R = ZZ/5[x,y,z]/ideal(x^3 + y^3 + z^3);
             testIdeal(R)
@@ -159,7 +162,7 @@ doc ///
             R = S/(ker f);
             testIdeal(R)
         Text
-            Given a nonnegative rational number $t$ and an element $f$ of a normal $\mathbb{Q}$-Gorenstein ring $R$, {\tt testIdeal(t,f)} computes the test ideal $\tau(R, f^{ t})$.
+            Given a nonnegative rational number $t$ and an element $f$ of a normal $\mathbb{Q}$-Gorenstein ring $R$, {\tt testIdeal(t,f)} computes the test ideal {\tt \tau}($R$, $f^{ t}$).
         Example
             R = ZZ/5[x,y,z];
             f = y^2 - x^3;
@@ -174,7 +177,7 @@ doc ///
             testIdeal(1/2, y)
             testIdeal(1/3, y)
         Text
-            Given nonnegative rational numbers $t_1, t_2, \ldots$ and ring elements $f_1, f_2, \ldots$, {\tt testIdeal(\{t_1,t_2,\ldots\},\{f_1,f_2,\ldots\})} computes the test ideal $\tau(R, f_1^{t_1} f_2^{t_2}\cdots)$.
+            Given nonnegative rational numbers $t_1, t_2, \ldots$ and ring elements $f_1, f_2, \ldots$, {\tt testIdeal(\{t_1,t_2,\ldots\},\{f_1,f_2,\ldots\})} computes the test ideal {\tt \tau}($R$, $f_1^{t_1} f_2^{t_2}\cdots$).
         Example
             R = ZZ/7[x,y];
             L = {x, y, x + y};
@@ -219,22 +222,22 @@ doc ///
         whether a ring or pair is strongly F-regular
     Usage
         isFRegular(R)
-        isFRegular(t, f)
-        isFRegular(Lexp, Lelts)
+        isFRegular(t,f)
+        isFRegular(tList,fList)
     Inputs
         R: Ring
         t: QQ
-            a formal exponent for f
+            a formal exponent for {\tt f}
         f: RingElement
-            the element for the pair, to compute $F$-regularity
-        Lexp: List
-            a list of formal exponents
-        Lelts: List
-            a list of elements for the tuple, to compute $F$-regularity
+            the element for the pair, to test $F$-regularity
+        tList: List
+            a list of formal exponents, for the elements of {\tt fList}
+        fList: List
+            a list of elements for a pair, to test $F$-regularity
         AssumeDomain => Boolean
-            assume the ring is an integral domain
+            assumes the ring is an integral domain
         FrobeniusRootStrategy => Symbol
-            choose the strategy for internal frobeniusRoot calls
+            selects the strategy for internal {\tt frobeniusRoot} calls
         MaxCartierIndex => ZZ
             sets the maximum Gorenstein index to search for when working with a $\mathbb{Q}$-Gorenstein ambient ring
         QGorensteinIndex => ZZ
@@ -242,14 +245,13 @@ doc ///
         IsLocal => Boolean
             specifies whether to check $F$-regularity just at the origin
         DepthOfSearch => ZZ
-            specifies how hard to try to prove a non-$\mathbb{Q}$-Gorenstein ring is $F$-regular
+            specifies how hard to try to prove that a non-$\mathbb{Q}$-Gorenstein ring is $F$-regular
     Outputs
         :Boolean
     Description
         Text
-            Given a normal $\mathbb{Q}$-Gorenstein ring $R$, this computes whether the ring is strongly $F$-regular.  
-	    It can also prove that a non-$\mathbb{Q}$-Gorenstein ring is $F$-regular (but cannot show it is not).  
-	    See below for how to access this functionality.
+            Given a normal $\mathbb{Q}$-Gorenstein ring $R$, the function {\tt isFRegular} checks whether the ring is strongly $F$-regular.  
+	    It can also prove that a non-$\mathbb{Q}$-Gorenstein ring is $F$-regular (but cannot show it is not); see below for how to access this functionality.
         Example
             R = ZZ/5[x,y,z]/ideal(x^2 + y*z);
             isFRegular(R)
@@ -257,7 +259,7 @@ doc ///
             R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
             isFRegular(R)
         Text
-            It can also do the same computation for a pair.
+            The function {\tt isFRegular} can also test strong $F$-regularity of pairs.
         Example
             R = ZZ/5[x,y];
             f = y^2-x^3;
@@ -266,8 +268,8 @@ doc ///
             isFRegular(4/5, f)
             isFRegular(4/5-1/100000, f)
         Text
-            When checking whether a ring or pair is strongly $F$-regular, the option {\tt IsLocal} determines if this is checked at the origin or everywhere (default is {\tt false}, which corresponds to everywhere).  
-	    Setting {\tt IsLocal = >true}, it will only check this at the origin.
+            When checking whether a ring or pair is strongly $F$-regular, the option {\tt IsLocal} determines if this is to be checked at the origin or everywhere.
+	    The default value for {\tt IsLocal} is {\tt false}, which corresponds to checking $F$-regularity everywhere; setting {\tt IsLocal => true}, $F$-regularity is checked only at the origin.
         Example
             R = ZZ/7[x,y,z]/ideal((x-1)^3 + (y+1)^3 + z^3);
             isFRegular(R)
@@ -286,18 +288,18 @@ doc ///
             isFRegular(5/6, g)
             isFRegular(5/6, g, IsLocal => true)
         Text
-            The option {\tt AssumeDomain => true} is used when finding a test element.  The default value is {\tt false}.  The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
+            The option {\tt AssumeDomain} (default value {\tt false}) is used when finding a test element.  
+	    The option {\tt FrobeniusRootStrategy} (default value {\tt Substitution}) is passed to internal @TO frobeniusRoot@ calls.
+
+            When working in a $\mathbb{Q}$-Gorenstein ring $R$, {\tt isFRegular} looks for a positive integer $N$ such that $N K_R$ is Cartier.  
+	    The option {\tt MaxCartierIndex} (default value $10$) controls the maximum value of $N$ to consider in this search.  
+	    If the smallest such $N$ turns out to be greater than the value passed to {\tt MaxCartierIndex}, then {\tt testIdeal} returns an error.  
+
+	    The $\mathbb{Q}$-Gorenstein index can be specified by the user through the option {\tt QGorensteinIndex}; when this option is used, the search for $N$ is bypassed, and the option {\tt MaxCartierIndex} ignored.
         Text
-            When working in a $\mathbb{Q}$-Gorenstein ring this function finds an $N$ such that $N * K_R$ is Cartier.  
-	    This option controls the maximum value of $N$ to consider.  
-	    The default value is $100$.  
-	    If you pass this function a ring such that the smallest such $N$ is less that {\tt MaxCartierIndex}, then the function will throw an error.  
-	    This value is ignored if the user specifies the option {\tt QGorensteinIndex}.  
-	    In particular, specifying the {\tt QGorensteinIndex} will let the user skip the search for the value $N$.
-        Text
-            You can also show that rings that are {\bf not} $\mathbb{Q}$-Gorenstein are $F$-regular (it cannot show that such a ring is {\bf not} $F$-regular).  
+            The function {\tt isFRegular} can show that rings that are {\bf not} $\mathbb{Q}$-Gorenstein are $F$-regular (it cannot, however, show that such a ring is {\bf not} $F$-regular).  
 	    To do this, set the option {\tt QGorensteinIndex => infinity}.  
-	    One may change the option {\tt DepthOfSearch} to increase the depth of search.
+	    One may also use the option {\tt DepthOfSearch} to increase the depth of search.
         Example
             S = ZZ/7[x,y,z,u,v,w];
             I = minors(2, matrix {{x, y, z}, {u, v, w}});

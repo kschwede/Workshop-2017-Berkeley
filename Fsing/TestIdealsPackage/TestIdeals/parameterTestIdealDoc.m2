@@ -187,7 +187,9 @@ doc ///
 	    the parameter test ideal of {\tt R}
     Description
         Text
-            This function computes the parameter test ideal of a Cohen-Macaulay ring $R$. Technically, it computes $\tau(\omega) : \omega$ where $\omega$ is a canonical module of $R$, and $\tau(\omega)$ is the (parameter) test module, as computed by @TO testModule@. For example, the ring $R$ in the following example is $F$-rational, and so its parameter test ideal is the unit ideal.
+            This function computes the parameter test ideal of a Cohen-Macaulay ring $R$. 
+	    Technically, it computes {\tt \tau}($\omega$) : $\omega$ where $\omega$ is a canonical module of $R$, and {\tt \tau}($\omega$) is the (parameter) test module, as computed by @TO testModule@. 
+	    For example, the ring $R$ in the following example is $F$-rational, and so its parameter test ideal is the unit ideal.
         Example
             T = ZZ/5[x,y];
             S = ZZ/5[a,b,c,d];
@@ -264,18 +266,20 @@ doc ///
     Inputs
         R:Ring
         IsLocal => Boolean
-            check $F$-rationality only at the origin and call the isCM command from the depth package
+            specifies that $F$-rationality be checked only at the origin, and that the Cohen-Macaulayness test be done with the {\tt isCM} command, from the {\tt Depth} package 
         AssumeCM => Boolean
-            assume whether the ring is Cohen-Macaulay
+            assumes the ring is Cohen-Macaulay
         AssumeDomain => Boolean
-            assume whether the ring is an integral domain
+            assumes the ring is an integral domain
         FrobeniusRootStrategy => Symbol
-            choose the strategy for internal frobeniusRoot calls
+            selects the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Boolean
     Description
         Text
-            Determines if a ring is $F$-rational.  If you pass it {\tt IsLocal => true}, it will only check if the ring is $F$-rational at the origin (this can be slower).  If you pass it {\tt AssumeCM => true}, it will not verify that the ring is Cohen-Macaulay.
+            The function {\tt isFRational} determines whether a ring is $F$-rational.  
+	    If the option {\tt IsLocal} (default value {\tt false}) is set to {\tt true}, it will only check if the ring is $F$-rational at the origin (this can be slower).  
+	    If the option {\tt AssumeCM} (default value {\tt false}) is set to {\tt true}, it will not verify that the ring is Cohen-Macaulay.
         Example
             T = ZZ/5[x,y];
             S = ZZ/5[a,b,c,d];
@@ -298,5 +302,6 @@ doc ///
         Text
             The option {\tt AssumeDomain} is used when computing a test element.  The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     Caveat
-        Warning, this function assumes that Spec R is connected.  Like {\tt isCohenMacaulay}, if you pass it a non-equidimensional $F$-rational ring (for example, if Spec R has two connected components of different dimensions), this function will return false.
+        This function assumes that the spectrum of the ring is connected.  
+	Like {\tt isCohenMacaulay}, if given a non-equidimensional $F$-rational ring (e.g., a ring whose spectrum has two connected components of different dimensions), {\tt isFRational} will return {\tt false}.
 ///
