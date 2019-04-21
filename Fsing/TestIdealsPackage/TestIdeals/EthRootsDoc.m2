@@ -47,7 +47,7 @@ doc ///
             S = ZZ/5[x,y,z];
             g = x^4 + y^4 + z^4;
             h = g^4;
-            R = S/ideal(g);
+            R = S/(g);
             ascendIdeal(1, h, ideal(y^3))
             ascendIdeal(1, h, ideal((sub(y, S))^3))
         Text
@@ -55,7 +55,7 @@ doc ///
         Example
             S = ZZ/5[x,y,z];
             g = x^4 + y^4 + z^4;
-            R = S/ideal(g);
+            R = S/(g);
             ascendIdeal(1, 4, g, ideal(y^3))
             ascendIdeal(1, 4, g, ideal((sub(y, S))^3))
         Text

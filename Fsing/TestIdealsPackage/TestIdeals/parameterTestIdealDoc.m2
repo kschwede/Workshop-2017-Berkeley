@@ -32,7 +32,7 @@ doc ///
         Text
             Here is an example in a non-domain.
         Example
-            R = ZZ/13[x,y,z]/ideal(x*y, x*z, y*z);
+            R = ZZ/13[x,y,z]/(x*y, x*z, y*z);
             canonicalIdeal(R)
         Text
             The option {\tt Attempts} is passed to {\tt embedAsIdeal}, and tells it how many times to try before giving up.
@@ -115,7 +115,7 @@ doc ///
         Text
             The function {\tt testModule} computes the parameter test module of a ring $R$, returning a sequence with three elements: the parameter test submodule (as a submodule of the canonical module), the canonical module of which it is a subset, and the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module (see @ TO frobeniusTraceOnCanonicalModule@).
         Example
-            R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
+            R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
             testModule(R)
         Text
             The canonical module returned is always embedded as an ideal of $R$, and not of the ambient polynomial ring. 
@@ -132,7 +132,7 @@ doc ///
             Note that the output in this case has the parameter test module equal to the canonical module, as it should be, since the ring is $F$-rational.  
 	    Let us now consider a non-Gorenstein example that is not $F$-rational.
         Example
-            R = ZZ/5[x,y,z]/ideal(y*z, x*z, x*y);
+            R = ZZ/5[x,y,z]/(y*z, x*z, x*y);
             (testMod,canMod,u) = testModule(R)
             testMod : canMod
         Text
@@ -157,7 +157,7 @@ doc ///
             Sometimes it is convenient to specify the ambient canonical module, or the choice of element(s) that detemines the Frobenius trace on the canonical module, across multiple calls of testModule.  
 	    This can be done by using the options {\tt CanonicalIdeal} and {\tt GeneratorList}.
         Example
-            R = ZZ/5[x,y,z]/ideal(x*y, y*z, z*x);
+            R = ZZ/5[x,y,z]/(x*y, y*z, z*x);
 	    I = ideal(x - z, y - z);
             testModule( CanonicalIdeal => I )
         Text
@@ -199,7 +199,7 @@ doc ///
         Text
             Consider now a non-$F$-rational Gorenstein ring, whose test ideal and parameter test ideal coincide.
         Example
-            R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
+            R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
             parameterTestIdeal(R)
             testIdeal(R)
     SeeAlso
@@ -287,15 +287,13 @@ doc ///
             R = S/(ker g);
             isFRational(R)
         Example
-            R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
+            R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
             isFRational(R)
         Text
             We conclude with a more interesting example of a ring that is $F$-rational but not $F$-regular.  This example first appeared in A. K. Singh's work on deformation of $F$-regularity.
         Example
              S = ZZ/3[a,b,c,d,t];
-             m = 4;
-             n = 3;
-             M = matrix{{a^2 + t^m, b, d}, {c, a^2, b^n-d}};
+             M = matrix{{a^2 + t^4, b, d}, {c, a^2, b^3-d}};
              I = minors(2, M);
              R = S/I;
              isFRational(R)

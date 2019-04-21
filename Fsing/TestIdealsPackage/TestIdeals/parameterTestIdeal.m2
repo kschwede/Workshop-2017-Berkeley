@@ -362,8 +362,6 @@ isCohenMacaulay Ring := o -> R1 ->
     )
 )
 
---next we write an isFRational function
-
 isFRational = method(
     Options =>
     {

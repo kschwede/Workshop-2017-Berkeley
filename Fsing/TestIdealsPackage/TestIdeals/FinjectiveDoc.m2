@@ -51,7 +51,7 @@ doc ///
         Text
             Specifically, this function returns a list of the following entries.  {\tt HSLGmodule, canonicalModule, u, HSLCount} where {\tt canonicalModule} is the canonical module of the ring (expressed as an ideal), {\tt HSLGmodule} is a submodule of that canonical module, {\tt u} is a list of elements of the ambient polynomial ring representing the trace of Frobenius on the canonical module and {\tt HSLCount} is how many times the trace of Frobenius was computed before the image stabilized.
         Example
-            R = ZZ/7[x,y,z]/ideal(x^5 + y^5 + z^5);
+            R = ZZ/7[x,y,z]/(x^5 + y^5 + z^5);
             ( HSLGMod, canMod, frobTrace, count ) = HSLGModule(CurrentRing => R);
             canMod --the ambient canonical module
             HSLGMod --the HSLG submodule
@@ -83,7 +83,7 @@ doc ///
         Text
             Additionally, we can compute HSLG-modules of things like $(R, f^s g^t)$ even when $R$ is not regular (although we do require that R is $\mathbb{Q}$-Gorenstein with index not divisible by the characteristic).
         Example
-            R = ZZ/3[x,y,z]/ideal(x^2-y*z);
+            R = ZZ/3[x,y,z]/(x^2-y*z);
             f = y;
             g = z;
             HSLGModule({1/2, 1/2, 1/2}, {y, z, y + z})
@@ -175,24 +175,23 @@ doc ///
         :Boolean
     Description
         Text
-            This function determines whether a ring of finite type over a prime field is $F$-injective.  
+            This function determines whether a ring of finite type over a finite prime field is $F$-injective.  
 	    Over a more general field, it checks the $F$-injectivity of the relative Frobenius.
-            We begin with an example of an $F$-injective ring that is not $F$-pure (taken from the work of Anurag Singh).
+            We begin with an example of an $F$-injective ring that is not $F$-pure (taken from the work of Anurag Singh on deformation of $F$-regularity).
         Example
              S = ZZ/3[a,b,c,d,t];
-             m = 4;
-             n = 3;
-             M = matrix{{a^2 + t^m, b, d}, {c, a^2, b^n-d}};
+             M = matrix{{a^2 + t^4, b, d}, {c, a^2, b^3-d}};
              I = minors(2, M);
              R = S/I;
              isFInjective(R)
              isFPure(R)
         Text
-            Next, let us form the cone over $P^1 \times E$ where $E$ is an elliptic curve.  We begin with a supersingular elliptic curve.  
+            Next, let us form the cone over $\mathbb{P}^1 \times E$, where $E$ is an elliptic curve.  
+	    We begin with a supersingular elliptic curve.
 	    This should be $F$-injective if and only if it is $F$-pure.
         Example
             S = ZZ/3[xs, ys, zs, xt, yt, zt];
-            EP1 = ZZ/3[x,y,z,s,t]/ideal(x^3 + y^2*z - x*z^2); --supersingular elliptic curve
+            EP1 = ZZ/3[x,y,z,s,t]/(x^3 + y^2*z - x*z^2); --supersingular elliptic curve
             f = map(EP1, S, {x*s, y*s, z*s, x*t, y*t, z*t});
             R = S/(ker f);
             isFInjective(R)
@@ -201,31 +200,33 @@ doc ///
             Now we do a similar computation, this time with an ordinary elliptic curve.
         Example
             S = ZZ/3[xs, ys, zs, xt, yt, zt];
-            EP1 = ZZ/3[x,y,z,s,t]/ideal(y^2*z - x^3 + x*y*z); --ordinary elliptic curve
+            EP1 = ZZ/3[x,y,z,s,t]/(y^2*z - x^3 + x*y*z); --ordinary elliptic curve
             f = map(EP1, S, {x*s, y*s, z*s, x*t, y*t, z*t});
             R = S/(ker f);
             isFInjective(R)
             isFPure(R)
         Text
-            If {\tt CanonicalStrategy} is set to {\tt Katzman}, which is the default behavior, then the Frobenius action on the top local cohomology (bottom Ext) is computed via the method of Katzman.  If it is set to anything else, it is simply brute forced in Macaulay2 using the fuctoriality of Ext.  {\tt CanonicalStrategy => Katzman} typically is much faster.
+            If {\tt CanonicalStrategy} is set to {\tt Katzman} (its default behavior), then the Frobenius action on the top local cohomology (bottom Ext) is computed via the method of Katzman.  
+	    If it is set to anything else, it is simply brute forced in {\it Macaulay2} using the functoriality of Ext.  
+	    The {\tt Katzman} strategy is typically much faster.
         Example
-            R = ZZ/5[x,y,z]/ideal(y^2*z + x*y*z-x^3)
+            R = ZZ/5[x,y,z]/(y^2*z + x*y*z-x^3)
             time isFInjective(R)
             time isFInjective(R, CanonicalStrategy => null)
         Text
             If the option {\tt IsLocal} (default value {\tt false}) is set to {\tt true}, {\tt isFInjective} will only check $F$-injectivity at the origin.  
-	    Otherwise it will check $F$-injectivity globally.  
+	    Otherwise, it will check $F$-injectivity globally.  
 	    Note that checking $F$-injectivity at the origin can be slower than checking it globally.  
 	    Consider the following example of a non-$F$-injective ring.
         Example
-            R = ZZ/7[x,y,z]/ideal((x-1)^5 + (y+1)^5 + z^5);
-            isFInjective(R)
-            isFInjective(R, IsLocal => true)
+            R = ZZ/7[x,y,z]/((x-1)^5 + (y+1)^5 + z^5);
+            time isFInjective(R)
+            time isFInjective(R, IsLocal => true)
         Text
-            If the option {\tt AssumeCM} (default value {\tt false}) is set to {\tt true}, then the function only checks the Frobenius action on top cohomology (which is typically much faster). Note that it can give an incorrect answer if the non-injective Frobenius occurs in a lower degree.  Consider the example of the cone over a supersingular elliptic curve times $P^1$.
+            If the option {\tt AssumeCM} (default value {\tt false}) is set to {\tt true}, then {isFInjective} only checks the Frobenius action on top cohomology (which is typically much faster). Note that it can give an incorrect answer if the non-injective Frobenius occurs in a lower degree.  Consider the example of the cone over a supersingular elliptic curve times $\mathbb{P}^1$.
         Example
             S = ZZ/3[xs, ys, zs, xt, yt, zt];
-            EP1 = ZZ/3[x,y,z,s,t]/ideal(x^3 + y^2*z - x*z^2);
+            EP1 = ZZ/3[x,y,z,s,t]/(x^3 + y^2*z - x*z^2);
             f = map(EP1, S, {x*s, y*s, z*s, x*t, y*t, z*t});
             R = S/(ker f);
             time isFInjective(R)
