@@ -225,20 +225,26 @@ doc ///
         :Boolean
     Description
         Text
-            The function {\tt isCohenMacaulay} determines if a ring is Cohen-Macaulay.  If the option {\tt IsLocal} (which defaults to {\tt false}) is set to {\tt true}, {\tt isCohenMacaulay} will simply call the @TO isCM@ function in the {\tt Depth} package, which checks whether the ring is Cohen-Macaulay at the origin; otherwise, {\tt isCohenMacaulay} checks the Cohen-Macaulay property globally, which sometimes is much faster than the local computation.
+            The function {\tt isCohenMacaulay} determines if a ring is Cohen-Macaulay.  
+	    If the option {\tt IsLocal} (default value {\tt false}) is set to {\tt true}, {\tt isCohenMacaulay} will simply call the @TO isCM@ function in the {\tt Depth} package, which checks whether the ring is Cohen-Macaulay at the origin; otherwise, {\tt isCohenMacaulay} checks the Cohen-Macaulay property globally, which sometimes is much faster than the local computation.
         Example
             T = ZZ/5[x,y];
             S = ZZ/5[a,b,c,d];
             g = map(T, S, {x^3, x^2*y, x*y^2, y^3});
             R = S/(ker g);
-            isCohenMacaulay(R)
+            time isCohenMacaulay(R)
+	    time isCohenMacaulay(R, IsLocal => true)
         Example
-            R = QQ[x,y,u,v]/(ideal(x*u, x*v, y*u, y*v));
+            R = QQ[x,y,u,v]/(x*u, x*v, y*u, y*v);
             isCohenMacaulay(R)
         Text
-            The function works as follows.  It considers $R$ as a quotient of an ambient polynomial ring, $R = S/I$.  It takes a resolution of $I$.  If the resolution has length equal to dim $R$ - dim $S$, then $R$ is Cohen-Macaulay.  If the resolution has a different length, and $I$ is homogeneous, then $R$ is not Cohen-Macaulay.  Finally, if the resolution has a different length and $I$ is not homogeneous, the function looks at the $Ext$ groups which compute the depth.
+	    The function {\tt isCohenMacaulay} considers $R$ as a quotient of a polynomial ring, $R = S/I$, and takes a resolution of $I$.  
+	    If the resolution has length equal to dim $S$ - dim $R$, then $R$ is Cohen-Macaulay.  
+	    If the resolution has a different length, and $I$ is homogeneous, then $R$ is not Cohen-Macaulay.  
+	    Finally, if the resolution has a different length and $I$ is not homogeneous, the function looks at the Ext modules which compute the depth.
     Caveat
-        This function assumes that Spec $R$ is connected.  In particular, if you pass it a non-equidimensional Cohen-Macaulay ring (for example, if Spec $R$ has two connected components of different dimensions), this function will return {\tt false}.
+        This function assumes that the spectrum of the ring is connected.  
+	If given a non-equidimensional Cohen-Macaulay ring (e.g., a ring whose spectrum has two connected components of different dimensions), {\tt isCohenMacaulay} will return {\tt false}.
 ///
 
 doc ///

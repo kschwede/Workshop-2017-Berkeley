@@ -256,7 +256,7 @@ doc ///
             R = ZZ/5[x,y,z]/(x^2 + y*z);
             isFRegular(R)
         Example
-            R = ZZ/7[x,y,z]/ideal(x^3 + y^3 + z^3);
+            R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
             isFRegular(R)
         Text
             The function {\tt isFRegular} can also test strong $F$-regularity of pairs.
