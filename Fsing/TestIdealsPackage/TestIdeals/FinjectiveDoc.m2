@@ -186,7 +186,7 @@ doc ///
              isFInjective(R)
              isFPure(R)
         Text
-            Next, let us form the cone over $\mathbb{P}^1 \times E$, where $E$ is an elliptic curve.  
+            Next, let us form the cone over $\mathbb{P}^1 \times  E$, where $E$ is an elliptic curve.  
 	    We begin with a supersingular elliptic curve.
 	    This should be $F$-injective if and only if it is $F$-pure.
         Example
@@ -223,7 +223,7 @@ doc ///
             time isFInjective(R)
             time isFInjective(R, IsLocal => true)
         Text
-            If the option {\tt AssumeCM} (default value {\tt false}) is set to {\tt true}, then {isFInjective} only checks the Frobenius action on top cohomology (which is typically much faster). Note that it can give an incorrect answer if the non-injective Frobenius occurs in a lower degree.  Consider the example of the cone over a supersingular elliptic curve times $\mathbb{P}^1$.
+            If the option {\tt AssumeCM} (default value {\tt false}) is set to {\tt true}, then {\tt isFInjective} only checks the Frobenius action on top cohomology (which is typically much faster). Note that it can give an incorrect answer if the non-injective Frobenius occurs in a lower degree.  Consider the example of the cone over a supersingular elliptic curve times $\mathbb{P}^1$.
         Example
             S = ZZ/3[xs, ys, zs, xt, yt, zt];
             EP1 = ZZ/3[x,y,z,s,t]/(x^3 + y^2*z - x*z^2);
@@ -234,7 +234,7 @@ doc ///
         Text
             If the option {\tt AssumedReduced} is set to {\tt true} (its default behavior), then the bottom local cohomology is avoided (this means the Frobenius action on the top potentially nonzero Ext is not computed).
         Text
-            If the option {\tt AssumeNormal} (default value {\tt false}) is set to {\tt true}, then we need not compute the bottom two local cohomology modules (or rather their duals).
+            If the option {\tt AssumeNormal} (default value {\tt false}) is set to {\tt true}, then the bottom two local cohomology modules (or, rather, their duals) need not be computed.
         Text
             The value of the option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
