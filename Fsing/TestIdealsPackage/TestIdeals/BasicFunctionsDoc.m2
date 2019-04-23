@@ -26,21 +26,18 @@ doc ///
             a list of rational numbers in the interval [0,1] whose digits are to be computed
     Outputs
         d:ZZ
-            the $e$-th digit of the base $p$ expansion of $x$
+            the {\tt e^{th}} digit of the base {\tt p} expansion of {\tt x}
         D:List
-            consisting of the $e$-th digits of the base $p$ expansions of the elements of $L$
+            consisting of the {\tt e^{th}} digits of the base {\tt p} expansions of the elements of {\tt L}
     Description
         Text
-            The command {\tt adicDigit(p,e,0)} returns 0.  If $x$ is a rational number in the interval $(0,1]$,
-            then {\tt adicDigit(p,e,x)} returns the coefficient of $p^{-e}$ in
+            The command {\tt adicDigit(p, e, 0)} returns 0.  
+	    If $x$ is a rational number in the interval $(0,1]$, then {\tt adicDigit(p, e, x)} returns the coefficient of $p^{-e}$ in
             the non-terminating base $p$ expansion of $x$.
         Example
             adicDigit(5, 4, 1/3)
         Text
-            If $L$ is a list
-            of rational numbers in the unit interval,  {\tt adicDigit(p,e,L)}
-            returns a list where this function is applied to each
-            element of $L$.
+            If $L$ is a list of rational numbers in the unit interval, {\tt adicDigit(p, e, L)} returns a list where this function is applied to each element of $L$.
         Example
             adicDigit(5, 4, {1/3, 1/7, 2/3})
     SeeAlso
@@ -67,29 +64,23 @@ doc ///
         e:ZZ
 	    positive, which specifies how many digits are to be computed
         x:QQ
-	    in the interval [0,1]; the number whose base $p$ expansion is to be computed
+	    in the interval [0,1]; the number whose base {\tt p} expansion is to be computed
     Outputs
         L1:List
-            consisting of all digits of the terminating base $p$ expansion of $N$
+            consisting of all digits of the terminating base {\tt p} expansion of {\tt N}
         L2:List
-            consisting of the first $e$ digits of the {\em non-terminating} base
-            $p$ expansion of $x$
+            consisting of the first {\tt e} digits of the {\em non-terminating} base {\tt p} expansion of {\tt x}
     Description
         Text
-            {\tt adicExpansion(p, 0)} returns $\{0\}$.
-            If $N$ is nonzero, then {\tt adicExpansion(p, N)} returns a list in
-            which the $i$th element is the coefficient of $p^{i}$ in the base $p$
-            expansion of $N$.
+            {\tt adicExpansion(p, 0)} returns {\tt \{0\}}.
+            If $N$ is nonzero, then {\tt adicExpansion(p, N)} returns a list in which the $i^{th}$ element is the coefficient of $p^{i}$ in the base $p$ expansion of $N$.
         Example
             38 == 3*5^0 + 2*5^1 + 1*5^2
             adicExpansion(5, 38)
         Text
-            {\tt adicExpansion(p, e, 0)} returns a list with $e$ elements, all of which
-            are zero. If $x$ is nonzero, then {\tt adicExpansion(p, e, x)} returns a
-            list of size $e$ in which the $i$th element is the coefficient of
-            $p^{-i-1}$ in the unique nonterminating base $p$ expansion of $x$.
-            For example, the non-terminating base $2$ expansion of $1/2$ is
-            $1/2 = 0/2 + 1/4 + 1/8 + 1/16 + \cdots$, and so {\tt adicExpansion(2, 4, 1/2)} returns the digits $0$, $1$, $1$, and $1$.
+            {\tt adicExpansion(p, e, 0)} returns a list with $e$ elements, all of which are zero. 
+	    If $x$ is nonzero, then {\tt adicExpansion(p, e, x)} returns a list of size $e$ in which the $i$th element is the coefficient of $p^{-i-1}$ in the unique nonterminating base $p$ expansion of $x$.
+            For example, the non-terminating base $2$ expansion of $1/2$ is $1/2 = 0/2 + 1/4 + 1/8 + 1/16 + \cdots$, and so {\tt adicExpansion(2, 4, 1/2)} returns the digits $0$, $1$, $1$, and $1$.
         Example
             adicExpansion(2, 4, 1/2)
     SeeAlso
@@ -119,9 +110,9 @@ doc ///
             containing nonnegative rational numbers whose truncations are to be computed
     Outputs
         t:QQ
-            the $e$th truncation of $r$ (base $p$)
+            the {\tt e^{th}} truncation of {\tt r} (base {\tt p})
         T:List
-            containing the $e$th truncations (base $p$) of the elements of $L$
+            containing the {\tt e^{th}} truncations (base {\tt p}) of the elements of {\tt L}
     Description
         Text
             This function computes the $e$th truncation of the unique non-terminating $p$-adic expansion of a positive rational number $r$.

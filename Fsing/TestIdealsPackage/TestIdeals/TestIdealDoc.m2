@@ -15,8 +15,6 @@ document {
     as introduced by Blickle-Mustata-Smith (this is equivalent to the image of an ideal under the Cartier
         operator in a polynomial ring).",
     BR{},BR{},
-    "We describe some notable functions below.",
-    BR{},BR{},
     BOLD "Notable functions:",BR{},
     UL {
       {TO "testIdeal", " computes the test ideal of a normal ", TEX ///\mathbb{Q}///, "-Gorenstein ring or pair."},

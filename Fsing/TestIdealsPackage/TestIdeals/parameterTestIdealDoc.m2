@@ -58,7 +58,7 @@ doc ///
             Given $R = S/I$, where $S$ is a polynomial ring, there is a map $\omega_R^{1/p^e} \to \omega_R$ dual to the Frobenius map on $R$.
             By embedding $\omega_R$ as an ideal of $R$, one can interpret this map as a $p^{-e}$-linear map on $S$.  But every $p^{-e}$-linear map on $S$ is a premultiple of the dual to Frobenius on $S$, by some element of $S$. This function finds such an element.
 
-            However, because {\it Macaulay2} does not always properly identify an ideal as principal (even though it is), sometimes we cannot find this single element, but instead find a list of elements of $S$, a linear combination of which is the desired one.
+            However, because {\it Macaulay2} does not always properly identify an ideal as principal (even though it is), sometimes the function cannot find this single element, but instead finds a list of elements of $S$, a linear combination of which is the desired one.
 	    
             The function {\tt frobeniusTraceOnCanonicalModule} takes as inputs the defining ideal $I$ of $R$, and an ideal $J$ of $S$ whose image in $R$ is a canonical module of $R$.  
         Example
@@ -121,7 +121,7 @@ doc ///
             The canonical module returned is always embedded as an ideal of $R$, and not of the ambient polynomial ring. 
 	    Likewise, the parameter test module is viewed as a subideal of that ideal of $R$.
             Because the ring in the example above is a Gorenstein ring, the ambient canonical module is the unit ideal.  
-	    In contrast, the ring in our next example is not Gorenstein.
+	    In contrast, the ring in the next example is not Gorenstein.
         Example
             S = ZZ/3[x,y,u,v];
             T = ZZ/3[a,b];
@@ -296,7 +296,8 @@ doc ///
             R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
             isFRational(R)
         Text
-            We conclude with a more interesting example of a ring that is $F$-rational but not $F$-regular.  This example first appeared in A. K. Singh's work on deformation of $F$-regularity.
+            Below is a more interesting example, of a ring that is $F$-rational but not $F$-regular.  
+	    This example first appeared in A. K. Singh's work on deformation of $F$-regularity.
         Example
              S = ZZ/3[a,b,c,d,t];
              M = matrix{{a^2 + t^4, b, d}, {c, a^2, b^3 - d}};

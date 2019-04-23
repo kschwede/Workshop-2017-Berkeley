@@ -19,7 +19,7 @@ doc ///
             in positive characteristic
     Outputs
         :RingElement
-            the {\tt n}-th power of {\tt f}
+            the {\tt n^{th}} power of {\tt f}
     Description
         Text
             In prime characteristic $p > 0$, raising a sum $a + b$ to the $p$th power
@@ -128,7 +128,7 @@ doc ///
             chooses the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Ideal
-	    the {\tt n}-th or {\tt t}-th Frobenius power of {\tt I}
+	    the {\tt n^{th}} or {\tt t^{th}} Frobenius power of {\tt I}
     Description
         Text
 	        {\tt frobeniusPower(t,I)} computes the generalized Frobenius power

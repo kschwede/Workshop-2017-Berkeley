@@ -84,7 +84,7 @@ doc ///
             N = HSLGModule(9/10, y^2 - x^3);
             N#0 -- the HSLG module
         Text
-            Finally, one can compute HSLG module of a pair ($R$, $f_1^{ t_1}\cdots f_n^{ t_n}$), even when $R$ is not regular (although we do require that $R$ be $\mathbb{Q}$-Gorenstein, with index not divisible by the characteristic).
+            Finally, one can compute HSLG module of a pair ($R$, $f_1^{ t_1}\cdots f_n^{ t_n}$), even when $R$ is not regular (although $R$ is required to be $\mathbb{Q}$-Gorenstein, with index not divisible by the characteristic).
         Example
             R = ZZ/3[x,y,z]/(x^2 - y*z);
             f = y;
@@ -180,7 +180,7 @@ doc ///
         Text
             This function determines whether a ring of finite type over a finite prime field is $F$-injective.  
 	    Over a more general field, it checks the $F$-injectivity of the relative Frobenius.
-            We begin with an example of an $F$-injective ring that is not $F$-pure (taken from the work of Anurag Singh on deformation of $F$-regularity).
+            The example below shows an $F$-injective ring that is not $F$-pure (taken from the work of Anurag Singh on deformation of $F$-regularity).
         Example
              S = ZZ/3[a,b,c,d,t];
              M = matrix{{a^2 + t^4, b, d}, {c, a^2, b^3-d}};
