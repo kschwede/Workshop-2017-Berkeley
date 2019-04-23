@@ -12,7 +12,7 @@ doc ///
     Headline
         find an element representing the Frobenius trace map of a Q-Gorenstein ring
     Usage
-        QGorensteinGenerator(e,R)
+        QGorensteinGenerator(e, R)
         QGorensteinGenerator(R)
     Inputs
         e: ZZ
@@ -34,9 +34,9 @@ doc ///
         Example
             S = ZZ/3[x,y,z];
             f = x^2*y - z^2;
-            I = ideal(f);
+            I = ideal f;
             R = S/I;
-            u = QGorensteinGenerator(1,R)
+            u = QGorensteinGenerator(1, R)
             u % I^3 == f^2 % I^3
         Text
             If {\it Macaulay2} does not recognize that $I^{[p^e]}:I / I^{[p^e]}$ is principal, an error is thrown, which will also happen if $R$ is not $\mathbb{Q}$-Gorenstein of the appropriate index.  
@@ -65,7 +65,7 @@ doc ///
             Given $R = S/I$, where $S$ is a polynomial ring, the function {\tt testElement} finds an element of the ambient ring $S$ whose image in $R$ is a test element of $R$. This is done by finding a minor of the jacobian of $I$ that does not lie in any minimal prime of $I$. This function considers random minors until one is found, instead of computing all minors. Thus, repeated calls will not always produce the same answer.
         Example
             R = ZZ/11[x,y,z]/(x^3 + y^3 + z^3);
-	    apply( 1..5, i -> testElement(R) )
+	    apply(1..5, i -> testElement(R))
         Text
             If the option {\tt AssumeDomain} (default value {\tt false}) is set to {\tt true}, then {\tt testElement} does not compute the minimal primes of $I$. 
 	    This can result in a substantial speedup in some cases.
@@ -125,8 +125,8 @@ doc ///
         compute a test ideal in a Q-Gorenstein ring
     Usage
         testIdeal(R)
-        testIdeal(t,f)
-        testIdeal(tList,fList)
+        testIdeal(t, f)
+        testIdeal(tList, fList)
     Inputs
         R:Ring
 	    a $\mathbb{Q}$-Gorenstein ring
@@ -181,15 +181,15 @@ doc ///
         Example
             R = ZZ/7[x,y];
             L = {x, y, x + y};
-            f = x*y*(x+y);
-            testIdeal({2/3,2/3,2/3}, L)
+            f = x*y*(x + y);
+            testIdeal({2/3, 2/3, 2/3}, L)
             testIdeal(2/3, f)
-            testIdeal({3/4,2/3,3/5}, L)
+            testIdeal({3/4, 2/3, 3/5}, L)
         Text
             It is often more efficient to pass a list, as opposed to finding a common denominator and passing a single element, since {\tt testIdeal} can do things in a more intelligent way for such a list.
         Example
-            time testIdeal({3/4,2/3,3/5}, L)
-            time testIdeal(1/60, x^45*y^40*(x+y)^36)
+            time testIdeal({3/4, 2/3, 3/5}, L)
+            time testIdeal(1/60, x^45*y^40*(x + y)^36)
         Text
             The option {\tt AssumeDomain} (default value {\tt false}) is used when finding a test element.  
 	    The option {\tt FrobeniusRootStrategy} (default value {\tt Substitution}) is passed to internal @TO frobeniusRoot@ calls.
@@ -222,8 +222,8 @@ doc ///
         whether a ring or pair is strongly F-regular
     Usage
         isFRegular(R)
-        isFRegular(t,f)
-        isFRegular(tList,fList)
+        isFRegular(t, f)
+        isFRegular(tList, fList)
     Inputs
         R: Ring
         t: QQ

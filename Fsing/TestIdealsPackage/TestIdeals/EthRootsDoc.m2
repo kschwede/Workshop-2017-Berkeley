@@ -15,9 +15,9 @@ doc ///
     Headline
         find the smallest ideal containing a given ideal which is compatible with a given Cartier linear map
     Usage
-        ascendIdeal(e,h,J)
-        ascendIdeal(e,a,h,J)
-        ascendIdeal(e,expList,hList,J)
+        ascendIdeal(e, h, J)
+        ascendIdeal(e, a, h, J)
+        ascendIdeal(e, expList, hList, J)
     Inputs
         J:Ideal
             the ideal to ascend
@@ -48,16 +48,16 @@ doc ///
             g = x^4 + y^4 + z^4;
             h = g^4;
             R = S/(g);
-            ascendIdeal(1, h, ideal(y^3))
-            ascendIdeal(1, h, ideal((sub(y, S))^3))
+            ascendIdeal(1, h, ideal y^3)
+            ascendIdeal(1, h, ideal (sub(y, S))^3)
         Text
             The alternate ways to call the function allow the function to behave in a more efficient way. Indeed, frequently the polynomial passed is a power, $h^a$.  If $a$ is large, it is more efficient not to compute $h^a$, but instead, to keep the exponent small by only raising $h$ to the minimal power needed to do the computation at that time.
         Example
             S = ZZ/5[x,y,z];
             g = x^4 + y^4 + z^4;
             R = S/(g);
-            ascendIdeal(1, 4, g, ideal(y^3))
-            ascendIdeal(1, 4, g, ideal((sub(y, S))^3))
+            ascendIdeal(1, 4, g, ideal y^3)
+            ascendIdeal(1, 4, g, ideal (sub(y, S))^3)
         Text
             More generally, if $h$ is a product of powers, $h = h_1^{a_1}\cdots h_n^{a_n}$, then it is more efficient to pass {\tt ascendIdeal} the lists {\tt expList = \{a_1,\ldots,a_n\}} and {\tt hList = \{h_1,\ldots,h_n\}} of exponents and bases.
         Text
@@ -98,8 +98,8 @@ doc ///
         Example
             R = ZZ/2[a,b,c,d];
             A = matrix {{b*c, a, 0}, {a^2* d, d^2 , c + d}}
-            U = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3 }}
-            V = ascendModule( 1, A, U )
+            U = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3}}
+            V = ascendModule(1, A, U)
         Text
             This method is described in M Katzman and W. Zhang's "Annihilators of Artinian modules compatible with a Frobenius map"
             under the name "star-closure".
@@ -173,15 +173,15 @@ doc ///
             The function {\tt frobeniusRoot} works over arbitrary finite fields.
         Example
             p = 3;
-            R = GF( p^2 )[x,y,z];
+            R = GF(p^2)[x,y,z];
             I = ideal(a^(2*p)*x^p + y*z^p + x^p*y^p);
-            frobeniusRoot(1,I)
+            frobeniusRoot(1, I)
         Text
             For the matrix $A$ below, {\tt frobeniusRoot(1,A)} computes a matrix whose image is the smallest submodule $V$ of $R^2$ such that the image of $A$ is in $V^{[2]}$.
         Example
             R = ZZ/2[a,b,c,d];
-            A = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3 }}
-            frobeniusRoot(1,A)
+            A = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3}}
+            frobeniusRoot(1, A)
         Text
             Often, one wants to compute a Frobenius root of some product of powers of ideals, $I_1^{a_1}\cdots I_n^{a_n}$. This is best accomplished by calling {\tt frobeniusRoot(e,\{a_1,\ldots,a_n\},\{I_1,\ldots,I_n\})}.
         Example
@@ -189,8 +189,8 @@ doc ///
             I1 = ideal(x^10, y^10, z^10);
             I2 = ideal(x^20*y^100, x + z^100);
             I3 = ideal(x^50*y^50*z^50);
-            time J1 = frobeniusRoot( 1, {8,10,12}, {I1,I2,I3} );
-            time J2 = frobeniusRoot( 1, I1^8 * I2^10 * I3^12 );
+            time J1 = frobeniusRoot(1, {8, 10, 12}, {I1, I2, I3});
+            time J2 = frobeniusRoot(1, I1^8*I2^10*I3^12);
 	    J1 == J2  
         Text
             For legacy reasons, the last ideal in the list can be specified separately, using {\tt frobeniusRoot(e,\{a_1,\ldots,a_n\},\{I_1,\ldots,I_n\},I)}. The last ideal, {\tt I}, is just raised to the first power.

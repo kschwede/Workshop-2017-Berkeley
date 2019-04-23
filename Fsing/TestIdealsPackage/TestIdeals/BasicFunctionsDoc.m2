@@ -13,8 +13,8 @@ doc ///
     Headline
         compute a digit of the non-terminating expansion of a number in the unit interval in a given base
     Usage
-        d = adicDigit(p,e,x)
-        D = adicDigit(p,e,L)
+        d = adicDigit(p, e, x)
+        D = adicDigit(p, e, L)
     Inputs
         p:ZZ
             greater than 1; the desired base
@@ -35,14 +35,14 @@ doc ///
             then {\tt adicDigit(p,e,x)} returns the coefficient of $p^{-e}$ in
             the non-terminating base $p$ expansion of $x$.
         Example
-            adicDigit(5,4,1/3)
+            adicDigit(5, 4, 1/3)
         Text
             If $L$ is a list
             of rational numbers in the unit interval,  {\tt adicDigit(p,e,L)}
             returns a list where this function is applied to each
             element of $L$.
         Example
-            adicDigit(5,4,{1/3,1/7,2/3})
+            adicDigit(5, 4, {1/3, 1/7, 2/3})
     SeeAlso
         adicExpansion
         adicTruncation
@@ -57,8 +57,8 @@ doc ///
     Headline
         compute adic expansion
     Usage
-        L1 = adicExpansion(p,N)
-        L2 = adicExpansion(p,e,x)
+        L1 = adicExpansion(p, N)
+        L2 = adicExpansion(p, e, x)
     Inputs
         p:ZZ
 	    greater than 1; the desired base
@@ -76,22 +76,22 @@ doc ///
             $p$ expansion of $x$
     Description
         Text
-            {\tt adicExpansion(p,0)} returns $\{0\}$.
-            If $N$ is nonzero, then {\tt adicExpansion(p,N)} returns a list in
+            {\tt adicExpansion(p, 0)} returns $\{0\}$.
+            If $N$ is nonzero, then {\tt adicExpansion(p, N)} returns a list in
             which the $i$th element is the coefficient of $p^{i}$ in the base $p$
             expansion of $N$.
         Example
             38 == 3*5^0 + 2*5^1 + 1*5^2
-            adicExpansion(5,38)
+            adicExpansion(5, 38)
         Text
-            {\tt adicExpansion(p,e,0)} returns a list with $e$ elements, all of which
-            are zero. If $x$ is nonzero, then {\tt adicExpansion(p,e,x)} returns a
+            {\tt adicExpansion(p, e, 0)} returns a list with $e$ elements, all of which
+            are zero. If $x$ is nonzero, then {\tt adicExpansion(p, e, x)} returns a
             list of size $e$ in which the $i$th element is the coefficient of
             $p^{-i-1}$ in the unique nonterminating base $p$ expansion of $x$.
             For example, the non-terminating base $2$ expansion of $1/2$ is
-            $1/2 = 0/2 + 1/4 + 1/8 + 1/16 + \cdots$, and so {\tt adicExpansion(2,4,1/2)} returns the digits $0$, $1$, $1$, and $1$.
+            $1/2 = 0/2 + 1/4 + 1/8 + 1/16 + \cdots$, and so {\tt adicExpansion(2, 4, 1/2)} returns the digits $0$, $1$, $1$, and $1$.
         Example
-            adicExpansion(2,4,1/2)
+            adicExpansion(2, 4, 1/2)
     SeeAlso
         adicDigit
         adicTruncation
@@ -106,8 +106,8 @@ doc ///
     Headline
         truncation of a non-terminating adic expansion
     Usage
-        t = adicTruncation(p,e,r)
-        T = adicTruncation(p,e,L)
+        t = adicTruncation(p, e, r)
+        T = adicTruncation(p, e, L)
     Inputs
         p:ZZ
             greater than 1; the desired base
@@ -132,7 +132,7 @@ doc ///
         Text
             If $r = 0$, {\tt adicTruncation} returns zero.
         Example
-            adicTruncation(4,2,0)
+            adicTruncation(4, 2, 0)
         Text
             If a list $L$ of nonnegative rational numbers is passed, {\tt adicTruncation(p,e,L)} returns a list containing the $e$th truncations (base $p$) of those numbers.
         Example
@@ -150,7 +150,7 @@ doc ///
     Headline
         floor of a logarithm
     Usage
-     	floorLog(b,x)
+     	floorLog(b, x)
     Inputs
         b:Number
             greater than 1; the base of the logarithm
@@ -175,7 +175,7 @@ doc ///
     Headline
         multiplicative order of an integer modulo another
     Usage
-        multiplicativeOrder(a,b)
+        multiplicativeOrder(a, b)
     Inputs
         a:ZZ
             whose multiplicative order is to be computed
@@ -205,7 +205,7 @@ doc ///
     Headline
         decompose a rational number
     Usage
-        (a,b,c) = decomposeFraction(p,t)
+        (a, b, c) = decomposeFraction(p, t)
     Inputs
         p:ZZ
             a prime
@@ -222,17 +222,17 @@ doc ///
             returns a sequence ($a$,$b$,$c$) of integers, with $b$ and $c$ nonnegative,
             such that $t = a/(p^b(p^c-1))$.
         Example
-            (a,b,c) = decomposeFraction( 3, 4/45 )
-            4/45 == a/( 3^b * ( 3^c - 1 ) )
+            (a, b, c) = decomposeFraction(3, 4/45)
+            4/45 == a/(3^b * (3^c - 1))
         Text
             If the number $t$ is of the form $a/p^b$, then there is no valid value of $c$ and the
             function returns $c = 0$. Setting the option {\tt NoZeroC => true}
             forces the third entry of the output list to be nonzero, even if
             that means increasing the first entry.
         Example
-            decomposeFraction( 3, 4/27 )
-            (a,b,c) = decomposeFraction( 3, 4/27, NoZeroC => true )
-            4/27 == a/( 3^b * ( 3^c - 1 ) )
+            decomposeFraction(3, 4/27)
+            (a, b, c) = decomposeFraction(3, 4/27, NoZeroC => true)
+            4/27 == a/(3^b * (3^c - 1))
 ///
 
 

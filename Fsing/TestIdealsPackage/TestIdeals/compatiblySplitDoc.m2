@@ -50,7 +50,7 @@ doc ///
             Here is a more substantial example.
         Example
             R = ZZ/2[x_21,x_31,x_32,x_41,x_42,x_43];
-            u = x_41 * ( x_31*x_42 - x_41*x_32 ) * ( x_41 - x_21*x_42 - x_31*x_43 + x_21*x_32*x_43 );
+            u = x_41 * (x_31*x_42 - x_41*x_32) * (x_41 - x_21*x_42 - x_31*x_43 + x_21*x_32*x_43);
             print \ compatibleIdeals u;
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.

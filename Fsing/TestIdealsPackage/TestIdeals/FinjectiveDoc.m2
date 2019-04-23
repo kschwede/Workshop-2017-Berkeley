@@ -18,9 +18,9 @@ doc ///
     Usage
         HSLGModule()
         HSLGModule(R)
-        HSLGModule(t,f)
-        HSLGModule(tList,fList)
-        HSLGModule(e,tList,fList) --this last command is largely an internal function
+        HSLGModule(t, f)
+        HSLGModule(tList, fList)
+        HSLGModule(e, tList, fList) --this last command is largely an internal function
     Inputs
         R:Ring
         f:RingElement
@@ -53,7 +53,7 @@ doc ///
             Specifically, this function returns a sequence {\tt (HSLGMod, canMod, frobTrace, count)}, where {\tt canMod} is a canonical module of the ring (expressed as an ideal), {\tt HSLGMod} is the HSLG-module, given as a submodule of {\tt canMod}, {\tt frobTrace} is a list of elements of the ambient polynomial ring representing the trace of Frobenius on the canonical module, and {\tt count} is the number of times the trace of Frobenius was computed before the image stabilized.
         Example
             R = ZZ/7[x,y,z]/(x^5 + y^5 + z^5);
-            ( HSLGMod, canMod, frobTrace, count ) = HSLGModule(R);
+            (HSLGMod, canMod, frobTrace, count) = HSLGModule(R);
             canMod --the ambient canonical module
             HSLGMod --the HSLG submodule
             frobTrace --the element representing trace of Frobenius
@@ -70,8 +70,7 @@ doc ///
             T = ZZ/7[a,b];
             S = ZZ/7[x,y,z,w];
             f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
-            I = ker f;
-            R = S/I;
+            R = S/(ker f);
             J = ideal 1_R;
             u = QGorensteinGenerator(1, R);
             HSLGModule(CanonicalIdeal => J, GeneratorList => {u})
@@ -131,12 +130,12 @@ doc ///
             The second entry is how many applications of {\tt frobeniusRoot} were applied (ie, the HSL number).
         Example
             R = ZZ/7[x,y,z];
-            f = y^2-x^3;
+            f = y^2 - x^3;
             u = 1_R;
-            descendIdeal(1, {5}, {f}, ideal(u)) --this computes the non-F-pure ideal of (R, f^{5/6})
-            descendIdeal(2, {41}, {f}, ideal(u)) --this computes the non-F-pure ideal of (R, f^{41/48})
-            (HSLGModule(5/6, f, CanonicalIdeal => ideal(u), GeneratorList => {u}))#0
-            (HSLGModule(41/48, f, CanonicalIdeal => ideal(u), GeneratorList => {u}))#0
+            descendIdeal(1, {5}, {f}, ideal u) --this computes the non-F-pure ideal of (R, f^{5/6})
+            descendIdeal(2, {41}, {f}, ideal u) --this computes the non-F-pure ideal of (R, f^{41/48})
+            (HSLGModule(5/6, f, CanonicalIdeal => ideal u, GeneratorList => {u}))#0
+            (HSLGModule(41/48, f, CanonicalIdeal => ideal u, GeneratorList => {u}))#0
         Text
             The same two examples could also be accomplished via the calls of {\tt HSLGModule} as illustrated above.
             However, the {\tt ascendIdeal} construction gives the user more direct control.
@@ -214,7 +213,7 @@ doc ///
 	    If it is set to anything else, it is simply brute forced in {\it Macaulay2} using the functoriality of Ext.  
 	    The {\tt Katzman} strategy is typically much faster.
         Example
-            R = ZZ/5[x,y,z]/(y^2*z + x*y*z-x^3)
+            R = ZZ/5[x,y,z]/(y^2*z + x*y*z - x^3)
             time isFInjective(R)
             time isFInjective(R, CanonicalStrategy => null)
         Text

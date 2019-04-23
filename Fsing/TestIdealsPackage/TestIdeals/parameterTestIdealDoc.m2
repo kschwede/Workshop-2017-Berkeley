@@ -45,7 +45,7 @@ doc ///
     Headline
         find an element of a polynomial ring that determines the Frobenius trace on the canonical module of a quotient of that ring
     Usage
-        frobeniusTraceOnCanonicalModule( defIdeal, canIdeal )
+        frobeniusTraceOnCanonicalModule(defIdeal, canIdeal)
     Inputs
         defIdeal:Ideal
             the defining ideal of the ring
@@ -66,8 +66,8 @@ doc ///
             I = ker map( ZZ/5[a,b], S, {a^3, a^2*b, a*b^2, b^3} );
 	    R = S/I;
             canIdeal = canonicalIdeal R;
-            J = sub( canIdeal, S );
-            frobeniusTraceOnCanonicalModule( I, J )
+            J = sub(canIdeal, S);
+            frobeniusTraceOnCanonicalModule(I, J)
 ///
 
 doc ///
@@ -86,8 +86,8 @@ doc ///
     Usage
         testModule()
 	testModule(R)
-        testModule(t,f)
-        testModule(tList,fList)
+        testModule(t, f)
+        testModule(tList, fList)
     Inputs
         R:Ring
         f:RingElement
@@ -133,15 +133,15 @@ doc ///
 	    Let us now consider a non-Gorenstein example that is not $F$-rational.
         Example
             R = ZZ/5[x,y,z]/(y*z, x*z, x*y);
-            (testMod,canMod,u) = testModule(R)
+            (testMod, canMod, u) = testModule(R)
             testMod : canMod
         Text
             This function can be used to compute parameter test ideals in Cohen-Macaulay rings, as an alternative to @TO parameterTestIdeal@.
         Example
             S = ZZ/2[X_1..X_5];
             E = matrix {{X_1, X_2, X_2, X_5}, {X_4, X_4, X_3, X_1}};
-            R = S/minors(2,E);
-            (testMod,canMod,u) = testModule(R);
+            R = S/minors(2, E);
+            (testMod, canMod, u) = testModule(R);
 	    testMod : canMod
 	    parameterTestIdeal(R)
         Text
@@ -159,7 +159,7 @@ doc ///
         Example
             R = ZZ/5[x,y,z]/(x*y, y*z, z*x);
 	    I = ideal(x - z, y - z);
-            testModule( CanonicalIdeal => I )
+            testModule(CanonicalIdeal => I)
         Text
             Finally, the option {\tt FrobeniusRootStrategy} is passed to any calls of @TO frobeniusRoot@, and the option {\tt AssumeDomain} is used when computing a test element.
     SeeAlso
@@ -299,7 +299,7 @@ doc ///
             We conclude with a more interesting example of a ring that is $F$-rational but not $F$-regular.  This example first appeared in A. K. Singh's work on deformation of $F$-regularity.
         Example
              S = ZZ/3[a,b,c,d,t];
-             M = matrix{{a^2 + t^4, b, d}, {c, a^2, b^3-d}};
+             M = matrix{{a^2 + t^4, b, d}, {c, a^2, b^3 - d}};
              I = minors(2, M);
              R = S/I;
              isFRational(R)
