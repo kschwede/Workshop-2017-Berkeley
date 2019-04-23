@@ -128,16 +128,16 @@ doc ///
         testIdeal(t,f)
         testIdeal(tList,fList)
     Inputs
-        R: Ring
+        R:Ring
 	    a $\mathbb{Q}$-Gorenstein ring
-        t: QQ
-            a formal exponent for {\tt f}
-        f: RingElement
-            the element whose test ideal is to be computed
-        tList: List
-            consisting of formal exponents {\tt t_1,\ldots,t_n \in}  $\mathbb{Q}$ for the elements in {\tt fList}
-        fList: List
-            consisting of elements {\tt f_1,\ldots,f_n \in} {\tt R} whose test ideal is to be computed
+        f:RingElement
+            the element in a pair
+        t:Number
+            the formal exponent to which {\tt f} is raised
+        fList:List
+            consisting of ring elements {\tt f_1,\ldots,f_n}, for a pair
+        tList:List
+            consisting of formal exponents {\tt t_1,\ldots,t_n} for the elements of {\tt fList}
         AssumeDomain => Boolean
             assumes the ring is an integral domain
         FrobeniusRootStrategy => Symbol

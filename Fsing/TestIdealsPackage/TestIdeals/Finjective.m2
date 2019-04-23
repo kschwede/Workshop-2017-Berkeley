@@ -46,6 +46,8 @@ installMethod(HSLGModule,
     )
 )
 
+HSLGModule ( Ring ) := Sequence => opts -> R -> HSLGModule( opts, CurrentRing => R )
+
 HSLGModule ( Number, RingElement ) := Sequence => opts -> ( tt, ff ) ->
 (
     R1 := opts.CurrentRing;

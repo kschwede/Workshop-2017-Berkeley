@@ -92,12 +92,12 @@ doc ///
         R:Ring
         f:RingElement
             the element in a pair
-        t:QQ
-            the formal exponent to which f is raised
+        t:Number
+            the formal exponent to which {\tt f} is raised
         fList:List
-            consisting of elements for a pair
+            consisting of ring elements {\tt f_1,\ldots,f_n}, for a pair
         tList:List
-            consisting of formal exponents to which the elements of fList are raised
+            consisting of formal exponents {\tt t_1,\ldots,t_n} for the elements of {\tt fList}
         AssumeDomain => Boolean
             assumes the ring passed is an integral domain
         FrobeniusRootStrategy => Symbol
@@ -107,10 +107,10 @@ doc ///
         CurrentRing => Ring
             specifies the ring to work with
         GeneratorList => List
-            specifies the action on the canonical module
+            specifies the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module
     Outputs
         :Sequence
-	    consisting of three elements: the parameter test module of {\tt R} (as a submodule of a canonical module), the canonical module of which it is a submodule (given as an ideal of {\tt R}), and the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module
+	    consisting of three elements: the parameter test module of {\tt R}, {\tt (R,f^t)}, or {\tt (R,f_1^{t_1}\ldots f_n^{t_n})}, represented as a submodule of a canonical module; the canonical module of which it is a submodule (given as an ideal of {\tt R}); the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module
     Description
         Text
             The function {\tt testModule} computes the parameter test module of a ring $R$, returning a sequence with three elements: the parameter test submodule (as a submodule of the canonical module), the canonical module of which it is a subset, and the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module (see @ TO frobeniusTraceOnCanonicalModule@).
