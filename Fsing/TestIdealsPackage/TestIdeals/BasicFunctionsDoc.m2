@@ -125,7 +125,7 @@ doc ///
         Example
             adicTruncation(4, 2, 0)
         Text
-            If a list $L$ of nonnegative rational numbers is passed, {\tt adicTruncation(p,e,L)} returns a list containing the $e$th truncations (base $p$) of those numbers.
+            If a list $L$ of nonnegative rational numbers is passed, {\tt adicTruncation(p, e, L)} returns a list containing the $e$th truncations (base $p$) of those numbers.
         Example
             adicTruncation(5, 5, {1/100, 1/1000})
     SeeAlso
@@ -152,11 +152,11 @@ doc ///
 	    the floor of {\tt log_b(x)}
     Description
         Text
-            {\tt floorLog(b,x)} computes {\tt floor(log_b(x))}, correcting occasional
+            {\tt floorLog(b, x)} computes {\tt floor(log_b x)}, correcting occasional
             errors due to rounding.
         Example
-            floor( log_3 3^5 )
-            floorLog( 3, 3^5 )
+            floor(log_3 3^5)
+            floorLog(3, 3^5)
 ///
 
 doc ///
@@ -183,7 +183,7 @@ doc ///
             multiplicativeOrder(3, 11^2)
             multiplicativeOrder(4, 11^2)
         Text
-            If $a$ and $b$ are not relatively prime,  {\tt multiplicativeOrder(a,b)}
+            If $a$ and $b$ are not relatively prime,  {\tt multiplicativeOrder(a, b)}
             returns an error.
 ///
 
@@ -209,7 +209,7 @@ doc ///
 	    containing integers {\tt a}, {\tt b}, and {\tt c}, with {\tt b} and {\tt c} nonnegative, such that {\tt t = a/(p^b(p^c-1))}
     Description
         Text
-            Given a rational number $t$ and a prime $p$, {\tt decomposeFraction(p,t)}
+            Given a rational number $t$ and a prime $p$, {\tt decomposeFraction(p, t)}
             returns a sequence ($a$,$b$,$c$) of integers, with $b$ and $c$ nonnegative,
             such that $t = a/(p^b(p^c-1))$.
         Example

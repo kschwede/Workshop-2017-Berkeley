@@ -262,16 +262,16 @@ doc ///
             The function {\tt isFRegular} can also test strong $F$-regularity of pairs.
         Example
             R = ZZ/5[x,y];
-            f = y^2-x^3;
+            f = y^2 - x^3;
             isFRegular(1/2, f)
             isFRegular(5/6, f)
             isFRegular(4/5, f)
-            isFRegular(4/5-1/100000, f)
+            isFRegular(4/5 - 1/100000, f)
         Text
             When checking whether a ring or pair is strongly $F$-regular, the option {\tt IsLocal} determines if this is to be checked at the origin or everywhere.
 	    The default value for {\tt IsLocal} is {\tt false}, which corresponds to checking $F$-regularity everywhere; setting {\tt IsLocal => true}, $F$-regularity is checked only at the origin.
         Example
-            R = ZZ/7[x,y,z]/((x-1)^3 + (y+1)^3 + z^3);
+            R = ZZ/7[x,y,z]/((x - 1)^3 + (y + 1)^3 + z^3);
             isFRegular(R)
             isFRegular(R, IsLocal => true)
             S = ZZ/13[x,y,z]/(x^3 + y^3 + z^3);
@@ -281,7 +281,7 @@ doc ///
             Here is an example of {\tt IsLocal} behavior with a pair.
         Example
             R = ZZ/13[x,y];
-            f = (y-2)^2 - (x-3)^3;
+            f = (y - 2)^2 - (x - 3)^3;
             isFRegular(5/6, f)
             isFRegular(5/6, f, IsLocal => true)
             g = y^2 - x^3;
@@ -355,7 +355,7 @@ doc ///
             The option {\tt IsLocal} controls whether $F$-purity is checked at the origin or everywhere.  
 	    If its value is set to {\tt true} (the default is {\tt false}), it will only check $F$-purity at the origin.
         Example
-            R = ZZ/5[x,y,z]/((x-1)^3 + (y-2)^3 + z^3);
+            R = ZZ/5[x,y,z]/((x - 1)^3 + (y - 2)^3 + z^3);
             isFPure(R)
             isFPure(R, IsLocal => true)
             S = ZZ/13[x,y,z]/(x^3 + y^3 + z^3);

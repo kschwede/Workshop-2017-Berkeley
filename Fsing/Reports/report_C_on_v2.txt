@@ -152,7 +152,7 @@ Avoid personal pronouns.
 However, there are *many* "you"s throughout the documentation
 ("if you pass this...", "if you do that..."). I've been slowly working on this.
 
-You's and your's are gone.
+You's and your's and our's are gone.
 --------------------------------------
 
 *****************************************************************************
@@ -230,7 +230,8 @@ attaches a different method for that, and users are tempted to use both
 packages.
 
 --------------------------------------
-[Pedro] That would be neat, but it's already being used by M2.
+[Pedro] That would be neat, but that syntax is already being used by M2,
+for a different operation.
 --------------------------------------
 
 This multiplicity of usage forms:

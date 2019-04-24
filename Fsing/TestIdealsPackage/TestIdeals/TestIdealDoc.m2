@@ -28,7 +28,7 @@ document {
 	  {TO "compatibleIdeals", " finds the compatibly ", TEX ///$F$///, "-split ideals with a (near) ", TEX ///$F$///, "-splitting."},
 	},
 	BR{},"Consider, for instance, the test ideal of the cone over an elliptic curve.",
-    EXAMPLE{"R = ZZ/5[x,y,z]/(z*y^2 - x*(x-z)*(x+z));", "testIdeal(R)" },
+    EXAMPLE{"R = ZZ/5[x,y,z]/(z*y^2 - x*(x - z)*(x + z));", "testIdeal(R)" },
     BR{}, "The following example was studied by Anurag Singh when showing that ", TEX ///$F$///, "-regularity does not deform.",
     EXAMPLE{"S = ZZ/3[A,B,C,D,T];",
     "M = matrix{{A^2 + T^4, B, D}, {C, A^2, B^3 - D}};",

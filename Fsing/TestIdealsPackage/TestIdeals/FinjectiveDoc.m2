@@ -50,7 +50,7 @@ doc ///
 	    This image is sometimes called the HSLG module (named for Hartshorne-Speiser, Lyubeznik, and Gabber), and it roughly tells us where a ring is non-$F$-injective.
             It can also be used to compute the maximal $F$-pure sub-Cartier module of a given rank-1 Cartier module (represented as an ideal).
 
-            Specifically, this function returns a sequence {\tt (HSLGMod, canMod, frobTrace, count)}, where {\tt canMod} is a canonical module of the ring (expressed as an ideal), {\tt HSLGMod} is the HSLG-module, given as a submodule of {\tt canMod}, {\tt frobTrace} is a list of elements of the ambient polynomial ring representing the trace of Frobenius on the canonical module, and {\tt count} is the number of times the trace of Frobenius was computed before the image stabilized.
+            Specifically, this function returns a sequence {\tt (HSLGMod, canMod, frobTrace, count)}, where {\tt canMod} is a canonical module of the ring (expressed as an ideal), {\tt HSLGMod} is the HSLG module, given as a submodule of {\tt canMod}, {\tt frobTrace} is a list of elements of the ambient polynomial ring representing the trace of Frobenius on the canonical module, and {\tt count} is the number of times the trace of Frobenius was computed before the image stabilized, sometimes called the {\it HSLG number} of the canonical module as a Cartier module.
         Example
             R = ZZ/7[x,y,z]/(x^5 + y^5 + z^5);
             (HSLGMod, canMod, frobTrace, count) = HSLGModule(R);
@@ -183,7 +183,7 @@ doc ///
             The example below shows an $F$-injective ring that is not $F$-pure (taken from the work of Anurag Singh on deformation of $F$-regularity).
         Example
              S = ZZ/3[a,b,c,d,t];
-             M = matrix{{a^2 + t^4, b, d}, {c, a^2, b^3-d}};
+             M = matrix{{a^2 + t^4, b, d}, {c, a^2, b^3 - d}};
              I = minors(2, M);
              R = S/I;
              isFInjective(R)
@@ -222,7 +222,7 @@ doc ///
 	    Note that checking $F$-injectivity at the origin can be slower than checking it globally.  
 	    Consider the following example of a non-$F$-injective ring.
         Example
-            R = ZZ/7[x,y,z]/((x-1)^5 + (y+1)^5 + z^5);
+            R = ZZ/7[x,y,z]/((x - 1)^5 + (y + 1)^5 + z^5);
             time isFInjective(R)
             time isFInjective(R, IsLocal => true)
         Text
