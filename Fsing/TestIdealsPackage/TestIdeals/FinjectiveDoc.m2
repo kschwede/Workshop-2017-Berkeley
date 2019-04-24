@@ -86,7 +86,7 @@ doc ///
             N = FPureModule(9/10, y^2-x^3);
             N#0
         Text
-            Additionally, we can compute HSLG-modules of things like $(R, f^s g^t)$ even when $R$ is not regular (although we do require that R is $\mathbb{Q}$-Gorenstein with index not divisible by the characteristic).
+            Additionally, we can compute F-pure submodules of the canonical module of things like $(R, f^s g^t)$ even when $R$ is not regular.
         Example
             R = ZZ/3[x,y,z]/(x^2-y*z);
             f = y;

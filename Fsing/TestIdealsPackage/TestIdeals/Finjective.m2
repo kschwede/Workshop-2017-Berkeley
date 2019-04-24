@@ -160,7 +160,7 @@ internalFPureModule ( Number, RingElement, Ideal, List ) := Sequence => o -> ( t
     tt = tt / 1;
     (aa, bb, cc) := decomposeFraction( pp, tt, NoZeroC => true );
         -- fraction divided writes tt = (a/(p^b(p^c-1))
-    if bb > 0 then error "internalFPureModule: Cannot compute the HSLG module associated to something with p in denominator";
+    if bb > 0 then error "internalFPureModule: Cannot compute the FPureModule associated to something with p in denominator";
     newExp := floor( ( pp^cc - 1 )/( pp - 1 ) );
 --    uList := append(u1, ff);
 --    powList = append(powList, aa);
@@ -195,7 +195,7 @@ internalFPureModule ( List, List, Ideal, List ) := Sequence => o -> ( tList, fLi
     ccList := last \ fractionDividedList;
 
     if any( bbList, val -> val > 0 ) then
-        error "internalFPureModule: Cannot compute the HSLG module associated to something with p in denominator";
+        error "internalFPureModule: Cannot compute the FPureModule associated to something with p in denominator";
     ccLCM := lcm ccList;
     newExpList := apply( fractionDividedList, myList -> (myList#0) * floor( (pp^ccLCM - 1) / (pp ^(myList#2) - 1) ) );
 --    uList := u1 | fList;

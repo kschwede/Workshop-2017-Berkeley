@@ -45,7 +45,7 @@ doc ///
     Headline
         find an element of a polynomial ring that determines the Frobenius trace on the canonical module of a quotient of that ring
     Usage
-        frobeniusTraceOnCanonicalModule( defIdeal, canIdeal )
+        frobeniusTraceOnCanonicalModule(defIdeal, canIdeal)
     Inputs
         defIdeal:Ideal
             the defining ideal of the ring
@@ -58,7 +58,7 @@ doc ///
             Given $R = S/I$, where $S$ is a polynomial ring, there is a map $\omega_R^{1/p^e} \to \omega_R$ dual to the Frobenius map on $R$.
             By embedding $\omega_R$ as an ideal of $R$, one can interpret this map as a $p^{-e}$-linear map on $S$.  But every $p^{-e}$-linear map on $S$ is a premultiple of the dual to Frobenius on $S$, by some element of $S$. This function finds such an element.
 
-            However, because {\it Macaulay2} does not always properly identify an ideal as principal (even though it is), sometimes we cannot find this single element, but instead find a list of elements of $S$, a linear combination of which is the desired one.
+            However, because {\it Macaulay2} does not always properly identify an ideal as principal (even though it is), sometimes the function cannot find this single element, but instead finds a list of elements of $S$, a linear combination of which is the desired one.
 
             The function {\tt frobeniusTraceOnCanonicalModule} takes as inputs the defining ideal $I$ of $R$, and an ideal $J$ of $S$ whose image in $R$ is a canonical module of $R$.
         Example
@@ -66,8 +66,8 @@ doc ///
             I = ker map( ZZ/5[a,b], S, {a^3, a^2*b, a*b^2, b^3} );
 	    R = S/I;
             canIdeal = canonicalIdeal R;
-            J = sub( canIdeal, S );
-            frobeniusTraceOnCanonicalModule( I, J )
+            J = sub(canIdeal, S);
+            frobeniusTraceOnCanonicalModule(I, J)
 ///
 
 doc ///
@@ -86,18 +86,18 @@ doc ///
     Usage
         testModule()
 	testModule(R)
-        testModule(t,f)
-        testModule(tList,fList)
+        testModule(t, f)
+        testModule(tList, fList)
     Inputs
         R:Ring
         f:RingElement
             the element in a pair
-        t:QQ
-            the formal exponent to which f is raised
+        t:Number
+            the formal exponent to which {\tt f} is raised
         fList:List
-            consisting of elements for a pair
+            consisting of ring elements {\tt f_1,\ldots,f_n}, for a pair
         tList:List
-            consisting of formal exponents to which the elements of fList are raised
+            consisting of formal exponents {\tt t_1,\ldots,t_n} for the elements of {\tt fList}
         AssumeDomain => Boolean
             assumes the ring passed is an integral domain
         FrobeniusRootStrategy => Symbol
@@ -107,10 +107,10 @@ doc ///
         CurrentRing => Ring
             specifies the ring to work with
         GeneratorList => List
-            specifies the action on the canonical module
+            specifies the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module
     Outputs
         :Sequence
-	    consisting of three elements: the parameter test module of {\tt R} (as a submodule of a canonical module), the canonical module of which it is a submodule (given as an ideal of {\tt R}), and the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module
+	    consisting of three elements: the parameter test module of {\tt R}, {\tt (R,f^t)}, or {\tt (R,f_1^{t_1}\ldots f_n^{t_n})}, represented as a submodule of a canonical module; the canonical module of which it is a submodule (given as an ideal of {\tt R}); the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module
     Description
         Text
             The function {\tt testModule} computes the parameter test module of a ring $R$, returning a sequence with three elements: the parameter test submodule (as a submodule of the canonical module), the canonical module of which it is a subset, and the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module (see @ TO frobeniusTraceOnCanonicalModule@).
@@ -119,9 +119,10 @@ doc ///
             testModule(R)
         Text
             The canonical module returned is always embedded as an ideal of $R$, and not of the ambient polynomial ring.
-	    Likewise, the parameter test module is viewed as a subideal of that ideal of $R$.
+	        Likewise, the parameter test module is viewed as a subideal of that ideal of $R$.
+        Text
             Because the ring in the example above is a Gorenstein ring, the ambient canonical module is the unit ideal.
-	    In contrast, the ring in our next example is not Gorenstein.
+	        In contrast, the ring in our next example is not Gorenstein.
         Example
             S = ZZ/3[x,y,u,v];
             T = ZZ/3[a,b];
@@ -133,15 +134,15 @@ doc ///
 	    Let us now consider a non-Gorenstein example that is not $F$-rational.
         Example
             R = ZZ/5[x,y,z]/(y*z, x*z, x*y);
-            (testMod,canMod,u) = testModule(R)
+            (testMod, canMod, u) = testModule(R)
             testMod : canMod
         Text
             This function can be used to compute parameter test ideals in Cohen-Macaulay rings, as an alternative to @TO parameterTestIdeal@.
         Example
             S = ZZ/2[X_1..X_5];
             E = matrix {{X_1, X_2, X_2, X_5}, {X_4, X_4, X_3, X_1}};
-            R = S/minors(2,E);
-            (testMod,canMod,u) = testModule(R);
+            R = S/minors(2, E);
+            (testMod, canMod, u) = testModule(R);
 	    testMod : canMod
 	    parameterTestIdeal(R)
         Text
@@ -159,7 +160,7 @@ doc ///
         Example
             R = ZZ/5[x,y,z]/(x*y, y*z, z*x);
 	    I = ideal(x - z, y - z);
-            testModule( CanonicalIdeal => I )
+            testModule(CanonicalIdeal => I)
         Text
             Finally, the option {\tt FrobeniusRootStrategy} is passed to any calls of @TO frobeniusRoot@, and the option {\tt AssumeDomain} is used when computing a test element.
     SeeAlso
@@ -296,10 +297,11 @@ doc ///
             R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
             isFRational(R)
         Text
-            We conclude with a more interesting example of a ring that is $F$-rational but not $F$-regular.  This example first appeared in A. K. Singh's work on deformation of $F$-regularity.
+            Below is a more interesting example, of a ring that is $F$-rational but not $F$-regular.
+	    This example first appeared in A. K. Singh's work on deformation of $F$-regularity.
         Example
              S = ZZ/3[a,b,c,d,t];
-             M = matrix{{a^2 + t^4, b, d}, {c, a^2, b^3-d}};
+             M = matrix{{a^2 + t^4, b, d}, {c, a^2, b^3 - d}};
              I = minors(2, M);
              R = S/I;
              isFRational(R)

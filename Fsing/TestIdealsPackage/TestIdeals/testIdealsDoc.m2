@@ -12,7 +12,7 @@ doc ///
     Headline
         find an element representing the Frobenius trace map of a Q-Gorenstein ring
     Usage
-        QGorensteinGenerator(e,R)
+        QGorensteinGenerator(e, R)
         QGorensteinGenerator(R)
     Inputs
         e: ZZ
@@ -34,9 +34,9 @@ doc ///
         Example
             S = ZZ/3[x,y,z];
             f = x^2*y - z^2;
-            I = ideal(f);
+            I = ideal f;
             R = S/I;
-            u = QGorensteinGenerator(1,R)
+            u = QGorensteinGenerator(1, R)
             u % I^3 == f^2 % I^3
         Text
             If {\it Macaulay2} does not recognize that $I^{[p^e]}:I / I^{[p^e]}$ is principal, an error is thrown, which will also happen if $R$ is not $\mathbb{Q}$-Gorenstein of the appropriate index.  
@@ -65,7 +65,7 @@ doc ///
             Given $R = S/I$, where $S$ is a polynomial ring, the function {\tt testElement} finds an element of the ambient ring $S$ whose image in $R$ is a test element of $R$. This is done by finding a minor of the jacobian of $I$ that does not lie in any minimal prime of $I$. This function considers random minors until one is found, instead of computing all minors. Thus, repeated calls will not always produce the same answer.
         Example
             R = ZZ/11[x,y,z]/(x^3 + y^3 + z^3);
-	    apply( 1..5, i -> testElement(R) )
+	    apply(1..5, i -> testElement(R))
         Text
             If the option {\tt AssumeDomain} (default value {\tt false}) is set to {\tt true}, then {\tt testElement} does not compute the minimal primes of $I$. 
 	    This can result in a substantial speedup in some cases.
@@ -125,19 +125,19 @@ doc ///
         compute a test ideal in a Q-Gorenstein ring
     Usage
         testIdeal(R)
-        testIdeal(t,f)
-        testIdeal(tList,fList)
+        testIdeal(t, f)
+        testIdeal(tList, fList)
     Inputs
-        R: Ring
+        R:Ring
 	    a $\mathbb{Q}$-Gorenstein ring
-        t: QQ
-            a formal exponent for {\tt f}
-        f: RingElement
-            the element whose test ideal is to be computed
-        tList: List
-            consisting of formal exponents {\tt t_1,\ldots,t_n \in}  $\mathbb{Q}$ for the elements in {\tt fList}
-        fList: List
-            consisting of elements {\tt f_1,\ldots,f_n \in} {\tt R} whose test ideal is to be computed
+        f:RingElement
+            the element in a pair
+        t:Number
+            the formal exponent to which {\tt f} is raised
+        fList:List
+            consisting of ring elements {\tt f_1,\ldots,f_n}, for a pair
+        tList:List
+            consisting of formal exponents {\tt t_1,\ldots,t_n} for the elements of {\tt fList}
         AssumeDomain => Boolean
             assumes the ring is an integral domain
         FrobeniusRootStrategy => Symbol
@@ -181,15 +181,15 @@ doc ///
         Example
             R = ZZ/7[x,y];
             L = {x, y, x + y};
-            f = x*y*(x+y);
-            testIdeal({2/3,2/3,2/3}, L)
+            f = x*y*(x + y);
+            testIdeal({2/3, 2/3, 2/3}, L)
             testIdeal(2/3, f)
-            testIdeal({3/4,2/3,3/5}, L)
+            testIdeal({3/4, 2/3, 3/5}, L)
         Text
             It is often more efficient to pass a list, as opposed to finding a common denominator and passing a single element, since {\tt testIdeal} can do things in a more intelligent way for such a list.
         Example
-            time testIdeal({3/4,2/3,3/5}, L)
-            time testIdeal(1/60, x^45*y^40*(x+y)^36)
+            time testIdeal({3/4, 2/3, 3/5}, L)
+            time testIdeal(1/60, x^45*y^40*(x + y)^36)
         Text
             The option {\tt AssumeDomain} (default value {\tt false}) is used when finding a test element.  
 	    The option {\tt FrobeniusRootStrategy} (default value {\tt Substitution}) is passed to internal @TO frobeniusRoot@ calls.
@@ -222,8 +222,8 @@ doc ///
         whether a ring or pair is strongly F-regular
     Usage
         isFRegular(R)
-        isFRegular(t,f)
-        isFRegular(tList,fList)
+        isFRegular(t, f)
+        isFRegular(tList, fList)
     Inputs
         R: Ring
         t: QQ
@@ -262,16 +262,16 @@ doc ///
             The function {\tt isFRegular} can also test strong $F$-regularity of pairs.
         Example
             R = ZZ/5[x,y];
-            f = y^2-x^3;
+            f = y^2 - x^3;
             isFRegular(1/2, f)
             isFRegular(5/6, f)
             isFRegular(4/5, f)
-            isFRegular(4/5-1/100000, f)
+            isFRegular(4/5 - 1/100000, f)
         Text
             When checking whether a ring or pair is strongly $F$-regular, the option {\tt IsLocal} determines if this is to be checked at the origin or everywhere.
 	    The default value for {\tt IsLocal} is {\tt false}, which corresponds to checking $F$-regularity everywhere; setting {\tt IsLocal => true}, $F$-regularity is checked only at the origin.
         Example
-            R = ZZ/7[x,y,z]/((x-1)^3 + (y+1)^3 + z^3);
+            R = ZZ/7[x,y,z]/((x - 1)^3 + (y + 1)^3 + z^3);
             isFRegular(R)
             isFRegular(R, IsLocal => true)
             S = ZZ/13[x,y,z]/(x^3 + y^3 + z^3);
@@ -281,7 +281,7 @@ doc ///
             Here is an example of {\tt IsLocal} behavior with a pair.
         Example
             R = ZZ/13[x,y];
-            f = (y-2)^2 - (x-3)^3;
+            f = (y - 2)^2 - (x - 3)^3;
             isFRegular(5/6, f)
             isFRegular(5/6, f, IsLocal => true)
             g = y^2 - x^3;
@@ -355,7 +355,7 @@ doc ///
             The option {\tt IsLocal} controls whether $F$-purity is checked at the origin or everywhere.  
 	    If its value is set to {\tt true} (the default is {\tt false}), it will only check $F$-purity at the origin.
         Example
-            R = ZZ/5[x,y,z]/((x-1)^3 + (y-2)^3 + z^3);
+            R = ZZ/5[x,y,z]/((x - 1)^3 + (y - 2)^3 + z^3);
             isFPure(R)
             isFPure(R, IsLocal => true)
             S = ZZ/13[x,y,z]/(x^3 + y^3 + z^3);

@@ -48,7 +48,7 @@ is "the smallest ideal containing a given ideal which is compatible with a
 isFInjective, etc.
 
 --------------------------------------
-[Pedro] There's a lot of this in the documentation; I'm working on it
+[Pedro] Almost done...
 --------------------------------------
 
 *****************************************************************************
@@ -127,6 +127,10 @@ would be to return a sequence, for then you could write
 There are other functions with the same inconvenient behavior and documentation,
 including FPureModule. They could all be improved.
 
+--------------------------------------
+[Pedro] Done (I think).
+--------------------------------------
+
 *****************************************************************************
 
 Better than
@@ -147,6 +151,8 @@ Avoid personal pronouns.
 [Pedro] Done. Fixed also a couple other occurences of "our" or "your".
 However, there are *many* "you"s throughout the documentation
 ("if you pass this...", "if you do that..."). I've been slowly working on this.
+
+You's and your's and our's are gone.
 --------------------------------------
 
 *****************************************************************************
@@ -223,7 +229,8 @@ attaches a different method for that, and users are tempted to use both
 packages.
 
 --------------------------------------
-[Pedro] That would be neat, but it's already being used by M2.
+[Pedro] That would be neat, but that syntax is already being used by M2,
+for a different operation.
 --------------------------------------
 
 This multiplicity of usage forms:

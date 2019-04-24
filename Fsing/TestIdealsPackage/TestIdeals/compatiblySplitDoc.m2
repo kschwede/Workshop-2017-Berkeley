@@ -17,10 +17,10 @@ doc ///
         u:RingElement
             in a polynomial ring over the prime field $\mathbb{Z}/p$; the element determining the Frobenius splitting
         FrobeniusRootStrategy => Symbol
-            stipulates the strategy for internal {\tt frobeniusRoot} calls
+            selects the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :List
-	    containing all prime ideals $P$ of the ring of $u$ such that $u P \subseteq P^{[p]}$ and $u$ is not in $P^{[p]}$
+	    containing all prime ideals {\tt P} of the ring of {\tt u} such that {\tt u P} $\subseteq$ {\tt P^{[p]}} and {\tt u} is not in {\tt P^{[p]}}
 
     Description
         Text
@@ -50,7 +50,7 @@ doc ///
             Here is a more substantial example.
         Example
             R = ZZ/2[x_21,x_31,x_32,x_41,x_42,x_43];
-            u = x_41 * ( x_31*x_42 - x_41*x_32 ) * ( x_41 - x_21*x_42 - x_31*x_43 + x_21*x_32*x_43 );
+            u = x_41 * (x_31*x_42 - x_41*x_32) * (x_41 - x_21*x_42 - x_31*x_43 + x_21*x_32*x_43);
             print \ compatibleIdeals u;
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.

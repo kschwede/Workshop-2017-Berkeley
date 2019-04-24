@@ -201,9 +201,9 @@ In \autoref{ss: math behind} we describe the main ideas behind such computations
 {\small
 \begin{MyVerbatim}
 i1 : R = ZZ/5[x,y,z];
-i2 : I = ideal( x^6*y*z + x^2*y^12*z^3 + x*y*z^18 );
+i2 : I = ideal(x^6*y*z + x^2*y^12*z^3 + x*y*z^18);
 o2 : Ideal of R
-i3 : frobeniusPower( 1/5, I )
+i3 : frobeniusPower(1/5, I)
                 2   3
 o3 = ideal (x, y , z )
 o3 : Ideal of R
@@ -283,15 +283,15 @@ Here we compute two examples.
 \begin{MyVerbatim}
 i1 : S = ZZ/5[x,y,z];
 i2 : f = x^3 + y^3 + z^3;
-i3 : u = f^(5-1);
-i4 : frobeniusRoot( 1, ideal u )
+i3 : u = f^(5 - 1);
+i4 : frobeniusRoot(1, ideal u)
 o4 = ideal (z, y, x)
 o4 : Ideal of S
 
 i5 : S = ZZ/7[x,y,z];
 i6 : f = x^3 + y^3 + z^3;
-i7 : u = f^(7-1)
-i8 : frobeniusRoot( 1, ideal u )
+i7 : u = f^(7 - 1)
+i8 : frobeniusRoot(1, ideal u)
 o8 = ideal 1
 o8 : Ideal of S
 \end{MyVerbatim}
@@ -320,16 +320,16 @@ Let  $I\subseteq R$ be an ideal.
 \begin{MyVerbatim}
 i1 : p = 3;
 i2 : R = ZZ/p[x,y];
-i3 : m = monomialIdeal( x, y );
+i3 : m = monomialIdeal(x, y);
 o3 : MonomialIdeal of R
 i4 : I = m^5;
 o4 : MonomialIdeal of R
 i5 : t = 3/5 - 1/(5*p^3);
-i6 : frobeniusPower( t, I )
+i6 : frobeniusPower(t, I)
              2        2
 o6 = ideal (y , x*y, x )
 o6 : Ideal of R
-i7 : frobeniusPower( t - 1/p^5, I )
+i7 : frobeniusPower(t - 1/p^5, I)
 o7 = ideal (y, x)
 o7 : Ideal of R
 \end{MyVerbatim}
@@ -345,11 +345,11 @@ To illustrate, compare the computations above with the following.
 \begin{MyVerbatim}
 i8 : S = ZZ/3[a..f,x,y];
 i9 : G = a*x^5 + b*x^4*y + c*x^3*y^2 + d*x^2*y^3 + e*x*y^4 + f*y^5;
-i10 : testIdeal( t, G )
+i10 : testIdeal(t, G)
               2        2
 o10 = ideal (y , x*y, x )
 o10 : Ideal of S
-i11 : testIdeal( t - 1/p^5, G )
+i11 : testIdeal(t - 1/p^5, G)
 o11 = ideal (y, x)
 o11 : Ideal of S
 \end{MyVerbatim}
@@ -386,11 +386,11 @@ yields a $p^{-1}$-linear map $U$ on $\Ext^2_R(R/ I, R)$.
 \begin{MyVerbatim}
 i1 : p = 2;
 i2 : R = ZZ/p[a,b,c,d];
-i3 : I = intersect(ideal(a,b),ideal(a,c),ideal(c,d),ideal(c+d,a^3+b*d^2));
+i3 : I = intersect(ideal(a, b),ideal(a, c),ideal(c, d),ideal(c + d, a^3 + b*d^2));
 o3 : Ideal of R
-i4 : f = inducedMap( R^1/I, R^1/frobenius(I) );
+i4 : f = inducedMap(R^1/I, R^1/frobenius(I));
 o4 : Matrix
-i5 : E2 = Ext^2( f, R^1 )
+i5 : E2 = Ext^2(f, R^1)
 o5 = {-8}  | a4+abc2+abcd a2b            |
      {-10} | a2cd3        a3cd+a3d2+bcd3 |
 o5 : Matrix
@@ -422,7 +422,7 @@ o8 : Matrix R  <--- R
 i9 : A = matrix entries relations source E2;
              2       3
 o9 : Matrix R  <--- R
-i10 : frobeniusRoot( 1, U )
+i10 : frobeniusRoot(1, U)
 o10 = {-2} | 1 0 0 |
       {0}  | 0 d a |
               2       3
@@ -442,7 +442,7 @@ The method \texttt{ascendModule} can be used to calculate  $B$ (see a detailed d
 \medskip
 {\small
 \begin{MyVerbatim}
-i11 : V = ascendModule( 1, A, U )
+i11 : V = ascendModule(1, A, U)
 o11 = | 0   a  bc  |
       | c+d d2 a2d |
               2       3
@@ -530,10 +530,10 @@ $F$-injective, where $S$ is a polynomial ring.
 \medskip
 {\small
 \begin{MyVerbatim}
-i1 : R = ZZ/7[x,y,z]/ideal( x^3 + y^3 + z^3 );
+i1 : R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
 i2 : isFInjective R
 o2 = true
-i3 : R = ZZ/5[x,y,z]/ideal( x^3 + y^3 + z^3 );
+i3 : R = ZZ/5[x,y,z]/(x^3 + y^3 + z^3);
 i4 : isFInjective R
 o4 = false
 \end{MyVerbatim}
@@ -591,10 +591,10 @@ option \texttt{IsLocal} to  \texttt{true}.
 \medskip
 {\small
 \begin{MyVerbatim}
-i1 : R = ZZ/7[x,y,z]/ideal( (x-1)^5 + (y+1)^5 + z^5 );
+i1 : R = ZZ/7[x,y,z]/((x - 1)^5 + (y + 1)^5 + z^5);
 i2 : isFInjective R -- R is not globally F-injective...
 o2 = false
-i3 : isFInjective( R, IsLocal => true ) -- but is F-injective at the origin
+i3 : isFInjective(R, IsLocal => true) -- but is F-injective at the origin
 o3 = true
 \end{MyVerbatim}
 }\medskip
@@ -613,10 +613,10 @@ $F$-regular. Below are two examples, one of which is $F$-regular and the other o
 \medskip
 {\small
 \begin{MyVerbatim}
-i1 : R = ZZ/5[x,y,z]/ideal( x^2 + y*z );
+i1 : R = ZZ/5[x,y,z]/(x^2 + y*z);
 i2 : isFRegular R
 o2 = true
-i3 : R = ZZ/7[x,y,z]/ideal( x^3 + y^3 + z^3 );
+i3 : R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
 i4 : isFRegular R
 o4 = false
 \end{MyVerbatim}
@@ -629,13 +629,13 @@ We can also check whether a pair $(R, f^t)$ is $F$-regular.
 \begin{MyVerbatim}
 i1 : R = ZZ/5[x,y];
 i2 : f = y^2 - x^3;
-i3 : isFRegular( 1/2, f )
+i3 : isFRegular(1/2, f)
 o3 = true
-i4 : isFRegular( 5/6, f )
+i4 : isFRegular(5/6, f)
 o4 = false
-i5 : isFRegular( 4/5, f )
+i5 : isFRegular(4/5, f)
 o5 = false
-i6 : isFRegular( 4/5 - 1/100000, f )
+i6 : isFRegular(4/5 - 1/100000, f)
 o6 = true
 \end{MyVerbatim}
 }\medskip
@@ -683,16 +683,16 @@ Below are examples for both a ring and a pair.
 \medskip
 {\small
 \begin{MyVerbatim}
-i1 : R = ZZ/7[x,y,z]/ideal( (x-1)^3 + (y+1)^3 + z^3 );
+i1 : R = ZZ/7[x,y,z]/((x - 1)^3 + (y + 1)^3 + z^3);
 i2 : isFRegular R -- R is not globally F-regular...
 o2 = false
-i3 : isFRegular( R, IsLocal => true ) -- but is F-regular at the origin
+i3 : isFRegular(R, IsLocal => true) -- but is F-regular at the origin
 o3 = true
 i4 : R = ZZ/13[x,y];
-i5 : f = (y-2)^2 - (x-3)^3;
-i6 : isFRegular( 5/6, f ) -- (R,f^(5/6)) is not F-regular...
+i5 : f = (y - 2)^2 - (x - 3)^3;
+i6 : isFRegular(5/6, f) -- (R,f^(5/6)) is not F-regular...
 o6 = false
-i7 : isFRegular( 5/6, f, IsLocal => true ) -- but is F-regular at the origin
+i7 : isFRegular(5/6, f, IsLocal => true) -- but is F-regular at the origin
 o7 = true
 \end{MyVerbatim}
 }\medskip
@@ -711,16 +711,16 @@ Either a ring or a defining ideal can be input, as seen in the following example
 \medskip
 {\small
 \begin{MyVerbatim}
-i1 : R = ZZ/5[x,y,z]/ideal( x^2 + y*z );
+i1 : R = ZZ/5[x,y,z]/(x^2 + y*z);
 i2 : isFPure R
 o2 = true
-i3 : R = ZZ/7[x,y,z]/ideal( x^3 + y^3 + z^3 );
+i3 : R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
 i4 : isFPure R
 o4 = true
 i5 : S = ZZ/2[x,y,z];
-i5 : isFPure ideal( y^2 - x^3 )
+i5 : isFPure ideal(y^2 - x^3)
 o5 = false
-i6 : isFPure ideal( z^2 - x*y*z + x*y^2 + x^2*y )
+i6 : isFPure ideal(z^2 - x*y*z + x*y^2 + x^2*y)
 o6 = true
 \end{MyVerbatim}
 }\medskip
@@ -754,8 +754,8 @@ The command \texttt{isFRational} checks if a ring is $F$-rational.
 i1 : S = ZZ/3[a,b,c,d,t];
 i2 : m = 4;
 i3 : n = 3;
-i4 : M = matrix{ { a^2 + t^m, b, d }, { c, a^2, b^n-d } };
-i5 : I = minors( 2, M );
+i4 : M = matrix{{ a^2 + t^m, b, d }, { c, a^2, b^n - d }};
+i5 : I = minors(2, M);
 i6 : R = S/I;
 i7 : isFRational R
 o7 = true
@@ -776,7 +776,7 @@ Finally, if \texttt{IsLocal} is set to \texttt{true}, then $F$-rationality is ch
 
 \section{Test ideals}\label{Section: Test Ideals}
 
-In this section, we explain how to compute parameter test modules, parameter test ideals, test ideals, and HSLG-modules\footnote{HSLG-modules can be used to give a scheme structure to the $F$-injective or $F$-pure locus.}.
+In this section, we explain how to compute parameter test modules, parameter test ideals, test ideals, and HSLG modules\footnote{HSLG modules can be used to give a scheme structure to the $F$-injective or $F$-pure locus.}.
 
 \subsection{Parameter test modules}
 %
@@ -801,7 +801,7 @@ Using \emph{Macaulay2}, we can compute this using the \texttt{testModule} comman
 \medskip
 {\small
 \begin{MyVerbatim}
-i1 : R = ZZ/5[x,y,z]/ideal( x^4 + y^4 + z^4 );
+i1 : R = ZZ/5[x,y,z]/(x^4 + y^4 + z^4);
 i2 : N = testModule R;
 i3 : N#0
              2             2        2
@@ -825,7 +825,7 @@ Note since this ring is Gorenstein, the canonical module is simply represented a
 \medskip
 {\small
 \begin{MyVerbatim}
-i1 : R = ZZ/5[x,y,z]/ideal( y*z, x*z, x*y );
+i1 : R = ZZ/5[x,y,z]/(y*z, x*z, x*y);
 i2 : N = testModule R;
 i3 : N#0
              2   2   2
@@ -896,18 +896,18 @@ In this example we repeat the calculation in \cite[\S 9]{KatzmanParameterTestIde
 {\small
 \begin{MyVerbatim}
 i1 : R = ZZ/2[a..e];
-i2 : E = matrix { {a,b,b,e}, {d,d,c,a} };
+i2 : E = matrix {{a, b, b, e}, {d, d, c, a}};
              2       4
 o2 : Matrix R  <--- R
-i3 : I = minors( 2, E );
+i3 : I = minors(2, E);
 o3 : Ideal of R
 i4 : S = R/I;
 i5 : J = parameterTestIdeal S
 o5 = ideal (c + d, b, a)
 o5 : Ideal of S
-i6 : J = substitute( J, R );
+i6 : J = substitute(J, R);
 o6 : Ideal of R
-i7 : mingens( J+I )
+i7 : mingens(J + I)
 o7 = | c+d b a de |
              1       4
 o7 : Matrix R  <--- R
@@ -948,7 +948,7 @@ Here is an example (a $\bZ/3\bZ$-quotient, where $3 | (7-1)$), where exactly thi
 \begin{MyVerbatim}
 i1 : T = ZZ/7[x,y];
 i2 : S = ZZ/7[a,b,c,d];
-i3 : f = map( T, S, { x^3, x^2*y, x*y^2, y^3 } );
+i3 : f = map(T, S, {x^3, x^2*y, x*y^2, y^3});
 i4 : I = ker f;
 i5 : R = S/I;
 i6 : testIdeal R
@@ -962,7 +962,7 @@ However, the term $u$ constructed above can be quite complicated if $e > 1$ (whi
 \medskip
 {\small
 \begin{MyVerbatim}
-i7 : toString QGorensteinGenerator( 1, R )
+i7 : toString QGorensteinGenerator(1, R)
 o7 = a^2*b^6*c^12+a^3*b^4*c^13+a^3*b^5*c^11*d+a^4*b^3*c^12*d+a^5*b*c^13*d+b^
      12*c^6*d^2+a^3*b^6*c^9*d^2+a^4*b^4*c^10*d^2+a^5*b^2*c^11*d^2+a^6*c^12*d
      ^2+b^13*c^4*d^3+a*b^11*c^5*d^3+a^2*b^9*c^6*d^3+a^4*b^5*c^8*d^3+a^5*b^3*
@@ -994,7 +994,7 @@ Thus we directly compute $\tau(\omega_R, f^{1/n})$ via the command \texttt{testM
 \begin{MyVerbatim}
 i1 : T = ZZ/3[x,y];
 i2 : S = ZZ/3[a,b,c,d];
-i3 : f = map( T, S, { x^3, x^2*y, x*y^2, y^3 } );
+i3 : f = map(T, S, {x^3, x^2*y, x*y^2, y^3});
 i4 : I = ker f;
 i5 : R = S/I;
 i6 : testIdeal R
@@ -1029,11 +1029,11 @@ Again, consider the maps $T^e : \omega_{R^{1/p^e}} \to \omega_R$ we have conside
 stabilize for $e \gg 0$.
 The function \texttt{FPureModule} computes the stable submodule in this chain, called the \emph{HSLG module}, and returns a list containing the following items:
 \begin{enumerate}[(1)]
-   \item The HSLG module;
+   \item The HSLGmodule;
    \item The canonical module, embedded (non-uniquely) as an ideal;
    \item The element $u$ representing the map on the canonical module (see
    \autoref{subsec.DualToFrobeniusOnQuotientRings});
-   \item The value of $e > 0$ at which the descending images in \eqref{eq: descending images} stabilize.  This is sometimes also called the HSLG-number of the canonical module as a Cartier module.
+   \item The value of $e > 0$ at which the descending images in \eqref{eq: descending images} stabilize.  This is sometimes also called the HSLG number of the canonical module as a Cartier module.
 \end{enumerate}
 
 \medskip
@@ -1080,7 +1080,7 @@ R=(f^{p^0-1})^{[1/p^0]}\supseteq (f^{p-1})^{[1/p]}\supseteq
 \]
 stabilizes.
 \end{definition}
-This invariant was introduced in \cite{AlvarezBlickleLyubeznik2005}.  It is also essentially the same data as the HSLG-number of the pair $(R, f^1)$ as computed in (4) above (it is that number $+1$).
+This invariant was introduced in \cite{AlvarezBlickleLyubeznik2005}.  It is also essentially the same data as the HSLG number of the pair $(R, f^1)$ as computed in (4) above (it is that number $+1$).
 One interesting particular
 case is when $K=\mathbb{F}_p$ and $f$ is the defining homogeneous polynomial of a hyperelliptic curve
 of genus $g;$ when $g=1,$ it was proved in
@@ -1098,12 +1098,12 @@ of the following examples.
 {\small
 \begin{MyVerbatim}
 i1 : R = ZZ/2[x,y,z];
-i2 : f = x^3+y^2*z+y*z^2;
-i3 : frobeniusPower( 1/2, ideal f )
+i2 : f = x^3 + y^2*z + y*z^2;
+i3 : frobeniusPower(1/2, ideal f)
 o3 = ideal (x, y, z)
 o3 : Ideal of R
 i4 : u=f^3;
-i5 : frobeniusPower( 1/4, ideal u )
+i5 : frobeniusPower(1/4, ideal u)
 o6 = ideal (x, y, z)
 o6 : Ideal of R
 i7 : ((FPureModule(1, f))#3) + 1
@@ -1118,12 +1118,12 @@ shows a non-ordinary hyperelliptic curve of genus $2$ with level $2$.
 {\small
 \begin{MyVerbatim}
 i1 : R = ZZ/11[x,y,z];
-i2 : f = y^2*z^3-x^5-2*z^5;
-i3 : frobeniusPower( 1/11, ideal f^10 )
+i2 : f = y^2*z^3 - x^5 - 2*z^5;
+i3 : frobeniusPower(1/11, ideal f^10)
              2        3
 o6 = ideal (z , x*z, x )
 o3 : Ideal of R
-i5 : frobeniusPower( 1/121, ideal f^120 )
+i5 : frobeniusPower(1/121, ideal f^120)
              2        3
 o6 = ideal (z , x*z, x )
 o6 : Ideal of R
@@ -1194,10 +1194,10 @@ and the $p^1$-linear map $u \Theta$ on $\Ann_E I$, where $u$ is computed as foll
 {\small
 \begin{MyVerbatim}
 i1 : R = ZZ/2[a..f];
-i2 : E = matrix { {a,b,b,e}, {d,d,c,a} };
+i2 : E = matrix {{a, b, b, e}, {d, d, c, a}};
              2       4
 o2 : Matrix R  <--- R
-i3 : I = minors( 2, E );
+i3 : I = minors(2, E);
 o3 : Ideal of R
 i4 : S = R/I;
 i5 : isCohenMacaulay S
@@ -1216,11 +1216,11 @@ where $\Omega \subseteq R$ is an ideal whose image in $R/I$ is a canonical modul
 i6 : omega = canonicalIdeal S
 o6 = ideal (e, d, a)
 o6 : Ideal of S
-i7 : omega = substitute( omega, R ) + I;
+i7 : omega = substitute(omega, R) + I;
 o7 : Ideal of R
-i8 : u = intersect( (frobenius I ):I, ( frobenius omega ):omega );
+i8 : u = intersect((frobenius I):I, (frobenius omega) : omega);
 o8 : Ideal of R
-i9 : u = compress( (gens u) % gens( frobenius I) )
+i9 : u = compress((gens u) % gens(frobenius I))
 o9 = | a3bc+a3bd+a2cde+abcde+abd2e+b2d2e+cd2e2+d3e2 |
              1       1
 o9 : Matrix R  <--- R
@@ -1239,8 +1239,8 @@ Now we can compute all annihilators of $R$-submodules of $E$ stable under the $p
 \begin{MyVerbatim}
 i11 : L = compatibleIdeals u;
 i12 : print \ L;
-       3       3       2                         2     2 2       2 2    3 2
-ideal(a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  + d e )
+        3       3       2                         2     2 2       2 2    3 2
+ideal (a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  + d e )
                2
 ideal (a + b, a  + d*e)
 ideal (d, a)
@@ -1264,9 +1264,9 @@ We can also compute  all annihilators of $R$-submodules of $H^2_{\mathfrak{m}} (
 \medskip
 {\small
 \begin{MyVerbatim}
-i13 : print \ unique apply( L, J -> J : omega );
-       3       3       2                         2     2 2       2 2    3 2
-ideal(a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  + d e )
+i13 : print \ unique apply(L, J -> J : omega);
+        3       3       2                         2     2 2       2 2    3 2
+ideal (a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  + d e )
                2
 ideal (a + b, b  + d*e)
 ideal (d, a)
