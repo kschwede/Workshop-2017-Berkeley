@@ -1558,11 +1558,11 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
 	(
             a1quot := floor( (a1-1)/(pp^c1-1) );
             a1rem := a1 - (pp^c1-1)*a1quot;
-            computedHSLGInitial = HSLGModule( { a1rem/(pp^c1-1) }, { f }, baseTau#0, { h1 } );
+            computedHSLGInitial = FPureModule( { a1rem/(pp^c1-1) }, { f }, baseTau#0, { h1 } );
             computedHSLG = frobeniusRoot( b1, { ceiling( (pp^b1 - 1)/(pp-1) ), a1quot }, { h1, sub( f, S1 ) }, sub( computedHSLGInitial#0, S1 ) );
         )
         else (
-            computedHSLGInitial = HSLGModule( { a1/(pp^c1-1) }, { f }, baseTau#0, { h1 } );
+            computedHSLGInitial = FPureModule( { a1/(pp^c1-1) }, { f }, baseTau#0, { h1 } );
 	    --the e is assumed to be 1 here since we are implicitly doing stuff
             computedHSLG = frobeniusRoot( b1, ceiling( (pp^b1-1)/(pp-1) ), h1, sub( computedHSLGInitial#0, S1 ) );
         );
@@ -1603,12 +1603,12 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
     (
         a1quot := floor( (a1-1)/(pp^c1-1) );
         a1rem := a1 - (pp^c1-1)*a1quot;
-        computedHSLGInitial = HSLGModule( { a1rem/(pp^c1-1) }, { f }, ideal 1_S1, { h1 } );
+        computedHSLGInitial = FPureModule( { a1rem/(pp^c1-1) }, { f }, ideal 1_S1, { h1 } );
         computedHSLG = frobeniusRoot( b1, { ceiling( (pp^b1-1)/(pp-1) ), a1quot }, { h1, f }, computedHSLGInitial#0 );
     )
     else
     (
-        computedHSLGInitial = HSLGModule( { a1/(pp^c1-1) }, { f }, ideal 1_S1, { h1 } );
+        computedHSLGInitial = FPureModule( { a1/(pp^c1-1) }, { f }, ideal 1_S1, { h1 } );
 	--the e is assumed to be 1 here since we are implicitly doing stuff
         computedHSLG = frobeniusRoot( b1, ceiling( (pp^b1-1)/(pp-1) ), h1, computedHSLGInitial#0 );
     );
@@ -1754,11 +1754,11 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 	(
             a1quot := floor( (a1-1)/(pp^c1 - 1));
             a1rem := a1 - (pp^c1-1)*a1quot;
-            computedHSLGInitial = HSLGModule({a1rem/(pp^c1-1)}, {f}, baseTau#0, {h1});
+            computedHSLGInitial = FPureModule({a1rem/(pp^c1-1)}, {f}, baseTau#0, {h1});
             computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, sub(f, S1)}, sub(computedHSLGInitial#0, S1))
         )
         else (
-            computedHSLGInitial = HSLGModule({a1/(pp^c1 - 1)}, {f}, baseTau#0, {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
+            computedHSLGInitial = FPureModule({a1/(pp^c1 - 1)}, {f}, baseTau#0, {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
             computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, sub(computedHSLGInitial#0, S1))
         )
     )
@@ -1795,11 +1795,11 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
     if (a1 > (pp^c1-1)) then(
         a1quot := floor( (a1-1)/(pp^c1 - 1));
         a1rem := a1 - (pp^c1-1)*a1quot;
-        computedHSLGInitial = HSLGModule({a1rem/(pp^c1-1)}, {f}, ideal(sub(1, S1)), {h1});
+        computedHSLGInitial = FPureModule({a1rem/(pp^c1-1)}, {f}, ideal(sub(1, S1)), {h1});
         computedHSLG = frobeniusRoot(b1, {ceiling( (pp^b1 - 1)/(pp-1) ), a1quot}, {h1, f}, computedHSLGInitial#0);
     )
     else (
-        computedHSLGInitial = HSLGModule({a1/(pp^c1 - 1)}, {f}, ideal(sub(1, S1)), {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
+        computedHSLGInitial = FPureModule({a1/(pp^c1 - 1)}, {f}, ideal(sub(1, S1)), {h1}); --the e is assumed to be 1 here since we are implicitly doing stuff
         computedHSLG = frobeniusRoot(b1, ceiling( (pp^b1 - 1)/(pp-1) ), h1, computedHSLGInitial#0);
     );
 

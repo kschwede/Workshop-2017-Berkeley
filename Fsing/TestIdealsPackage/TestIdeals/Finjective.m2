@@ -1,14 +1,14 @@
 ---------------------------------------------------------------------
 ---------------------------------------------------------------------
 --**************************************
---*** HSLGModule computes the stable ***
+--*** FPureModule computes the stable ***
 --*** image under trace of \omega    ***
 --*** This is dual to the stable     ***
 --*** kernel of Frobenius acting on  ***
 --*** local cohomology               ***
 --**************************************
 
-HSLGModule = method(
+FPureModule = method(
     TypicalValue => Sequence,
     Options => { FrobeniusRootStrategy => Substitution, CanonicalIdeal=>null, CurrentRing=>null, GeneratorList=>null }
 )
@@ -24,7 +24,7 @@ HSLGModule = method(
 
 
 --we install the method for no arguments
-installMethod(HSLGModule,
+installMethod(FPureModule,
     o->() -> (
         curRing := o.CurrentRing;
         canIdeal := o.CanonicalIdeal;
@@ -32,7 +32,7 @@ installMethod(HSLGModule,
         if ( (not (curRing === null)) and (canIdeal === null) ) then (--if no canonicalIdeal is chosen
             canIdeal = canonicalIdeal curRing;
         );
-        if (canIdeal===null) then (error "HSGLModule: cannot compute the HSLGModule with no arguments or optional arguments";)
+        if (canIdeal===null) then (error "HSGLModule: cannot compute the FPureModule with no arguments or optional arguments";)
         else (--if we have a canonical ideal (or built one)
             if (curRing === null) then curRing = ring canIdeal;
             if (uList === null) then ( --build the uList if needed
@@ -42,11 +42,24 @@ installMethod(HSLGModule,
                 uList = frobeniusTraceOnCanonicalModule(I1, J1);
             )
         );
-        return internalHSLGModule(curRing, canIdeal, uList, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
+        return internalFPureModule(curRing, canIdeal, uList, FrobeniusRootStrategy=>o.FrobeniusRootStrategy);
     )
 )
 
-HSLGModule ( Number, RingElement ) := Sequence => opts -> ( tt, ff ) ->
+FPureModule( Ring ) := Sequence => opts -> (R1) -> (
+    canIdeal := opts.CanonicalIdeal;
+    uList := opts.GeneratorList;
+
+    if (canIdeal === null) then canIdeal = trim canonicalIdeal R1;
+    S1 := ambient R1;
+    I1 := ideal R1;
+    J1 := sub( canIdeal, S1 );
+    if (uList === null) then uList = frobeniusTraceOnCanonicalModule( I1, J1 );
+
+    return internalFPureModule(R1, canIdeal, uList, FrobeniusRootStrategy=>opts.FrobeniusRootStrategy);
+);
+
+FPureModule ( Number, RingElement ) := Sequence => opts -> ( tt, ff ) ->
 (
     R1 := opts.CurrentRing;
     canIdeal := opts.CanonicalIdeal;
@@ -59,13 +72,13 @@ HSLGModule ( Number, RingElement ) := Sequence => opts -> ( tt, ff ) ->
     J1 := sub( canIdeal, S1 );
     if (uList === null) then uList = frobeniusTraceOnCanonicalModule( I1, J1 );
 
-    internalHSLGModule( tt, ff, canIdeal, uList,FrobeniusRootStrategy=>opts.FrobeniusRootStrategy )
+    internalFPureModule( tt, ff, canIdeal, uList,FrobeniusRootStrategy=>opts.FrobeniusRootStrategy )
 )
 
-HSLGModule ( List, List ) := Sequence => opts -> ( tList, fList ) ->
+FPureModule ( List, List ) := Sequence => opts -> ( tList, fList ) ->
 (
-    if #tList != #fList then error "HSLGModule: expected the lists to have the same lengths";
-    if #fList == 0 then error "HSLGModule: expected a nonempty list";
+    if #tList != #fList then error "FPureModule: expected the lists to have the same lengths";
+    if #fList == 0 then error "FPureModule: expected a nonempty list";
 
     R1 := opts.CurrentRing;
     canIdeal := opts.CanonicalIdeal;
@@ -78,7 +91,7 @@ HSLGModule ( List, List ) := Sequence => opts -> ( tList, fList ) ->
     J1 := sub( canIdeal, S1 );
     if (uList === null) then uList = frobeniusTraceOnCanonicalModule( I1, J1 );
 
-    internalHSLGModule( tList, fList, canIdeal, uList,FrobeniusRootStrategy=>opts.FrobeniusRootStrategy )
+    internalFPureModule( tList, fList, canIdeal, uList,FrobeniusRootStrategy=>opts.FrobeniusRootStrategy )
 )
 
 descendIdeal = method(
@@ -95,27 +108,27 @@ descendIdeal (ZZ, List, List, Ideal) := Sequence => opts -> (e1, expList, fList,
     R1 := ring( fList#0 );
     if (not (R1 === ring canIdeal)) then error "descendIdeal: Expected a common ideal for the currentRing, ring elements, and ideal";
 
-    HSLList := internalHSLGModule( e1, expList, fList, canIdeal,FrobeniusRootStrategy=>opts.FrobeniusRootStrategy );
+    HSLList := internalFPureModule( e1, expList, fList, canIdeal,FrobeniusRootStrategy=>opts.FrobeniusRootStrategy );
     (HSLList#0, HSLList#3)
 )
 
-internalHSLGModule = method(
+internalFPureModule = method(
     TypicalValue => Sequence,
     Options => { FrobeniusRootStrategy => Substitution }
 )
 
---internalHSLGModule Ring := Sequence => o -> R1 -> HSLGModule( R1, canonicalIdeal R1, o )
+--internalFPureModule Ring := Sequence => o -> R1 -> FPureModule( R1, canonicalIdeal R1, o )
 
---HSLGModule ( Ring, Ideal ) := Sequence => o -> ( R1, canIdeal ) ->
+--FPureModule ( Ring, Ideal ) := Sequence => o -> ( R1, canIdeal ) ->
 --(
  --   S1 := ambient R1;
 --    I1 := ideal R1;
 --    J1 := sub( canIdeal, S1 );
 --    u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
---    HSLGModule( R1, canIdeal, u1 )
+--    FPureModule( R1, canIdeal, u1 )
 --)
 
-internalHSLGModule ( Ring, Ideal, List ) := Sequence => o -> ( R1, canIdeal, u1 ) ->
+internalFPureModule ( Ring, Ideal, List ) := Sequence => o -> ( R1, canIdeal, u1 ) ->
 (
     S1 := ambient R1;
     I1 := ideal R1;
@@ -126,7 +139,7 @@ internalHSLGModule ( Ring, Ideal, List ) := Sequence => o -> ( R1, canIdeal, u1 
     local curHSLList;
     scan( u1, u->
 	(
-            curHSLList = internalHSLGModule( 1, {1}, {u}, canIdeal, o );
+            curHSLList = internalFPureModule( 1, {1}, {u}, canIdeal, o );
             curIdeal = curIdeal + curHSLList#0;
             curHSL = lcm( curHSL, curHSLList#3 )
 	)
@@ -134,20 +147,20 @@ internalHSLGModule ( Ring, Ideal, List ) := Sequence => o -> ( R1, canIdeal, u1 
     ( trim curIdeal, canIdeal, u1, curHSL )
 )
 
---HSLGModule Ideal := Sequence => o -> canIdeal -> HSLGModule( ring canIdeal, canIdeal, o )
+--FPureModule Ideal := Sequence => o -> canIdeal -> FPureModule( ring canIdeal, canIdeal, o )
 
-internalHSLGModule ( Number, RingElement, Ideal, List ) := Sequence => o -> ( tt, ff, canIdeal, u1 ) ->
+internalFPureModule ( Number, RingElement, Ideal, List ) := Sequence => o -> ( tt, ff, canIdeal, u1 ) ->
 (
     R1 := ring ff;
     S1 := ambient R1;
-    if ring( u1#0 ) =!= S1 then error "internalHSLGModule: Exptected u1 to be in the ambient polynomial ring";
+    if ring( u1#0 ) =!= S1 then error "internalFPureModule: Exptected u1 to be in the ambient polynomial ring";
     I1 := ideal R1;
     J1 := sub( canIdeal, S1 );
     pp := char S1;
     tt = tt / 1;
     (aa, bb, cc) := decomposeFraction( pp, tt, NoZeroC => true );
         -- fraction divided writes tt = (a/(p^b(p^c-1))
-    if bb > 0 then error "internalHSLGModule: Cannot compute the HSLG module associated to something with p in denominator";
+    if bb > 0 then error "internalFPureModule: Cannot compute the HSLG module associated to something with p in denominator";
     newExp := floor( ( pp^cc - 1 )/( pp - 1 ) );
 --    uList := append(u1, ff);
 --    powList = append(powList, aa);
@@ -157,7 +170,7 @@ internalHSLGModule ( Number, RingElement, Ideal, List ) := Sequence => o -> ( tt
     local curHSLList;
     scan( u1, u ->
 	(
-            curHSLList = internalHSLGModule( cc, {newExp, aa}, {u, ff}, canIdeal, o );
+            curHSLList = internalFPureModule( cc, {newExp, aa}, {u, ff}, canIdeal, o );
             curIdeal = curIdeal + curHSLList#0;
             curHSL = lcm(curHSL, curHSLList#3)
         )
@@ -166,10 +179,10 @@ internalHSLGModule ( Number, RingElement, Ideal, List ) := Sequence => o -> ( tt
 )
 
 
-internalHSLGModule ( List, List, Ideal, List ) := Sequence => o -> ( tList, fList, canIdeal, u1 ) ->
+internalFPureModule ( List, List, Ideal, List ) := Sequence => o -> ( tList, fList, canIdeal, u1 ) ->
 (
-    if #tList != #fList then error "internalHSLGModule: expected the lists to have the same lengths";
-    if #fList == 0 then error "internalHSLGModule: expected a nonempty list";
+    if #tList != #fList then error "internalFPureModule: expected the lists to have the same lengths";
+    if #fList == 0 then error "internalFPureModule: expected a nonempty list";
     R1 := ring ( fList#0 );
     S1 := ambient R1;
     I1 := ideal R1;
@@ -182,18 +195,18 @@ internalHSLGModule ( List, List, Ideal, List ) := Sequence => o -> ( tList, fLis
     ccList := last \ fractionDividedList;
 
     if any( bbList, val -> val > 0 ) then
-        error "internalHSLGModule: Cannot compute the HSLG module associated to something with p in denominator";
+        error "internalFPureModule: Cannot compute the HSLG module associated to something with p in denominator";
     ccLCM := lcm ccList;
     newExpList := apply( fractionDividedList, myList -> (myList#0) * floor( (pp^ccLCM - 1) / (pp ^(myList#2) - 1) ) );
 --    uList := u1 | fList;
 --    powList := (apply(u1, tt -> floor((pp^(ccLCM) - 1)/(pp - 1))) ) | newExpList;
---    HSLGModule(ccLCM, powList, uList, canIdeal, FrobeniusRootStrategy=>o.FrobeniusRootStrategy)
+--    FPureModule(ccLCM, powList, uList, canIdeal, FrobeniusRootStrategy=>o.FrobeniusRootStrategy)
     curIdeal := ideal 0_R1;
     curHSL := 1;
     local curHSLList;
     scan( u1, u ->
 	(
-            curHSLList = internalHSLGModule(ccLCM, {floor((pp^(ccLCM) - 1)/(pp - 1))} | newExpList, {u} | apply(fList, gg -> sub(gg, S1)), canIdeal, o);
+            curHSLList = internalFPureModule(ccLCM, {floor((pp^(ccLCM) - 1)/(pp - 1))} | newExpList, {u} | apply(fList, gg -> sub(gg, S1)), canIdeal, o);
             curIdeal = curIdeal + curHSLList#0;
             curHSL = lcm(curHSL, curHSLList#3)
         )
@@ -209,7 +222,7 @@ internalHSLGModule ( List, List, Ideal, List ) := Sequence => o -> ( tList, fLis
 --the list of u's
 --the canonical ideal (or whatever you want to run HSL on), this one is
 --it computes sigma(canIdeal, f^s g^t h^l ...)
-internalHSLGModule ( ZZ, List, List, Ideal ) :=  Sequence => o -> ( ee, expList, u1, canIdeal ) ->
+internalFPureModule ( ZZ, List, List, Ideal ) :=  Sequence => o -> ( ee, expList, u1, canIdeal ) ->
 (
     R1 := ring canIdeal;
     S1 := ambient R1;

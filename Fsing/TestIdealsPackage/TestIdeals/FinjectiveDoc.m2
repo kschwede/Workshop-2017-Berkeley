@@ -6,21 +6,25 @@
 
 doc ///
     Key
-        HSLGModule
-        (HSLGModule, Number, RingElement)
-        (HSLGModule, List, List)
-        [HSLGModule, FrobeniusRootStrategy]
-        [HSLGModule, CanonicalIdeal]
-        [HSLGModule, CurrentRing]
-        [HSLGModule, GeneratorList]
+        FPureModule
+        (FPureModule, Ring)
+        (FPureModule, Number, RingElement)
+        (FPureModule, List, List)
+        [FPureModule, FrobeniusRootStrategy]
+        [FPureModule, CanonicalIdeal]
+        [FPureModule, CurrentRing]
+        [FPureModule, GeneratorList]
     Headline
         compute the submodule of the canonical module stable under the image of the trace of Frobenius
     Usage
-        HSLGModule()
-        HSLGModule(t, f)
-        HSLGModule(tList, fList)
-        HSLGModule(e, expList, fList) --this last command is largely an internal function
+        FPureModule()
+        FPureModule(R)
+        FPureModule(t, f)
+        FPureModule(tList, fList)
+        FPureModule(e, expList, fList)
     Inputs
+        R:RingMap
+            a ring
         f:RingElement
             a ring element, to make a pair
         t:Number
@@ -45,16 +49,17 @@ doc ///
         :Sequence
     Description
         Text
-            Given a ring $R$ with canonical module $\omega$, this computes the image of $F^e_* \omega \to \omega$ for $e >> 0$.  
+            Given a ring $R$ with canonical module $\omega$, this computes the image of $F^e_* \omega \to \omega$ for $e >> 0$.
 	    This image is sometimes called the HSLG-module (named for Hartshorne-Speiser, Lyubeznik and Gabber), and it roughly tells us where a ring is non-$F$-injective.
             It can also be used to compute the maximal $F$-pure sub-Cartier module of a given rank-1 Cartier module (represented as an ideal).
+            The name of the function is based on this interpretation.
         Text
-            Specifically, this function returns a list of the following entries.  {\tt HSLGmodule, canonicalModule, u, HSLCount} where {\tt canonicalModule} is the canonical module of the ring (expressed as an ideal), {\tt HSLGmodule} is a submodule of that canonical module, {\tt u} is a list of elements of the ambient polynomial ring representing the trace of Frobenius on the canonical module and {\tt HSLCount} is how many times the trace of Frobenius was computed before the image stabilized.
+            Specifically, this function returns a list of the following entries.  {\tt FPureModule, canonicalModule, u, HSLCount} where {\tt canonicalModule} is the canonical module of the ring (expressed as an ideal), {\tt FPureModule} is a submodule of that canonical module, {\tt u} is a list of elements of the ambient polynomial ring representing the trace of Frobenius on the canonical module and {\tt HSLCount} is how many times the trace of Frobenius was computed before the image stabilized.
         Example
             R = ZZ/7[x,y,z]/(x^5 + y^5 + z^5);
-            ( HSLGMod, canMod, frobTrace, count ) = HSLGModule(CurrentRing => R);
+            ( FPMod, canMod, frobTrace, count ) = FPureModule(CurrentRing => R);
             canMod --the ambient canonical module
-            HSLGMod --the HSLG submodule
+            FPMod --the F-pure submodule of the canonical module
             frobTrace --the element representing trace of Frobenius
             count --how many times it took until the image stabilized
         Text
@@ -70,15 +75,15 @@ doc ///
             R = S/I;
             J = ideal(sub(1, R));
             u = QGorensteinGenerator(1, R);
-            HSLGModule(CanonicalIdeal => J, GeneratorList => {u})
+            FPureModule(CanonicalIdeal => J, GeneratorList => {u})
         Text
             Additionally, one can specify a pair $(R, f^t)$, as long as $t$ is a rational number without $p$ in its denominator.
         Example
             R = ZZ/7[x,y];
-            M = HSLGModule(5/6, y^2-x^3);
+            M = FPureModule(5/6, y^2-x^3);
             M#1 --the canonical module
             M#0
-            N = HSLGModule(9/10, y^2-x^3);
+            N = FPureModule(9/10, y^2-x^3);
             N#0
         Text
             Additionally, we can compute HSLG-modules of things like $(R, f^s g^t)$ even when $R$ is not regular (although we do require that R is $\mathbb{Q}$-Gorenstein with index not divisible by the characteristic).
@@ -86,7 +91,7 @@ doc ///
             R = ZZ/3[x,y,z]/(x^2-y*z);
             f = y;
             g = z;
-            HSLGModule({1/2, 1/2, 1/2}, {y, z, y + z})
+            FPureModule({1/2, 1/2, 1/2}, {y, z, y + z})
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
@@ -131,15 +136,15 @@ doc ///
             u = 1_R;
             descendIdeal(1, {5}, {f}, ideal(u)) --this computes the non-F-pure ideal of (R, f^{5/6})
             descendIdeal(2, {41}, {f}, ideal(u)) --this computes the non-F-pure ideal of (R, f^{41/48})
-            (HSLGModule(5/6, f, CanonicalIdeal => ideal(u), GeneratorList => {u}))#0
-            (HSLGModule(41/48, f, CanonicalIdeal => ideal(u), GeneratorList => {u}))#0
+            (FPureModule(5/6, f, CanonicalIdeal => ideal(u), GeneratorList => {u}))#0
+            (FPureModule(41/48, f, CanonicalIdeal => ideal(u), GeneratorList => {u}))#0
         Text
-            The same two examples could also be accomplished via the calls of {\tt HSLGModule} as illustrated above.
+            The same two examples could also be accomplished via the calls of {\tt FPureModule} as illustrated above.
             However, the {\tt ascendIdeal} construction gives the user more direct control.
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
-        HSLGModule
+        FPureModule
         ascendIdeal
 ///
 
@@ -175,7 +180,7 @@ doc ///
         :Boolean
     Description
         Text
-            This function determines whether a ring of finite type over a finite prime field is $F$-injective.  
+            This function determines whether a ring of finite type over a finite prime field is $F$-injective.
 	    Over a more general field, it checks the $F$-injectivity of the relative Frobenius.
             We begin with an example of an $F$-injective ring that is not $F$-pure (taken from the work of Anurag Singh on deformation of $F$-regularity).
         Example
@@ -186,7 +191,7 @@ doc ///
              isFInjective(R)
              isFPure(R)
         Text
-            Next, let us form the cone over $\mathbb{P}^1 \times  E$, where $E$ is an elliptic curve.  
+            Next, let us form the cone over $\mathbb{P}^1 \times  E$, where $E$ is an elliptic curve.
 	    We begin with a supersingular elliptic curve.
 	    This should be $F$-injective if and only if it is $F$-pure.
         Example
@@ -206,17 +211,17 @@ doc ///
             isFInjective(R)
             isFPure(R)
         Text
-            If {\tt CanonicalStrategy} is set to {\tt Katzman} (its default behavior), then the Frobenius action on the top local cohomology (bottom Ext) is computed via the method of Katzman.  
-	    If it is set to anything else, it is simply brute forced in {\it Macaulay2} using the functoriality of Ext.  
+            If {\tt CanonicalStrategy} is set to {\tt Katzman} (its default behavior), then the Frobenius action on the top local cohomology (bottom Ext) is computed via the method of Katzman.
+	    If it is set to anything else, it is simply brute forced in {\it Macaulay2} using the functoriality of Ext.
 	    The {\tt Katzman} strategy is typically much faster.
         Example
             R = ZZ/5[x,y,z]/(y^2*z + x*y*z-x^3)
             time isFInjective(R)
             time isFInjective(R, CanonicalStrategy => null)
         Text
-            If the option {\tt IsLocal} (default value {\tt false}) is set to {\tt true}, {\tt isFInjective} will only check $F$-injectivity at the origin.  
-	    Otherwise, it will check $F$-injectivity globally.  
-	    Note that checking $F$-injectivity at the origin can be slower than checking it globally.  
+            If the option {\tt IsLocal} (default value {\tt false}) is set to {\tt true}, {\tt isFInjective} will only check $F$-injectivity at the origin.
+	    Otherwise, it will check $F$-injectivity globally.
+	    Note that checking $F$-injectivity at the origin can be slower than checking it globally.
 	    Consider the following example of a non-$F$-injective ring.
         Example
             R = ZZ/7[x,y,z]/((x-1)^5 + (y+1)^5 + z^5);

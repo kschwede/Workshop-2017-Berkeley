@@ -59,8 +59,8 @@ doc ///
             By embedding $\omega_R$ as an ideal of $R$, one can interpret this map as a $p^{-e}$-linear map on $S$.  But every $p^{-e}$-linear map on $S$ is a premultiple of the dual to Frobenius on $S$, by some element of $S$. This function finds such an element.
 
             However, because {\it Macaulay2} does not always properly identify an ideal as principal (even though it is), sometimes we cannot find this single element, but instead find a list of elements of $S$, a linear combination of which is the desired one.
-	    
-            The function {\tt frobeniusTraceOnCanonicalModule} takes as inputs the defining ideal $I$ of $R$, and an ideal $J$ of $S$ whose image in $R$ is a canonical module of $R$.  
+
+            The function {\tt frobeniusTraceOnCanonicalModule} takes as inputs the defining ideal $I$ of $R$, and an ideal $J$ of $S$ whose image in $R$ is a canonical module of $R$.
         Example
             S = ZZ/5[x,y,z,w];
             I = ker map( ZZ/5[a,b], S, {a^3, a^2*b, a*b^2, b^3} );
@@ -118,9 +118,9 @@ doc ///
             R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
             testModule(R)
         Text
-            The canonical module returned is always embedded as an ideal of $R$, and not of the ambient polynomial ring. 
+            The canonical module returned is always embedded as an ideal of $R$, and not of the ambient polynomial ring.
 	    Likewise, the parameter test module is viewed as a subideal of that ideal of $R$.
-            Because the ring in the example above is a Gorenstein ring, the ambient canonical module is the unit ideal.  
+            Because the ring in the example above is a Gorenstein ring, the ambient canonical module is the unit ideal.
 	    In contrast, the ring in our next example is not Gorenstein.
         Example
             S = ZZ/3[x,y,u,v];
@@ -129,7 +129,7 @@ doc ///
             R = S/(ker f);
             testModule(R)
         Text
-            Note that the output in this case has the parameter test module equal to the canonical module, as it should be, since the ring is $F$-rational.  
+            Note that the output in this case has the parameter test module equal to the canonical module, as it should be, since the ring is $F$-rational.
 	    Let us now consider a non-Gorenstein example that is not $F$-rational.
         Example
             R = ZZ/5[x,y,z]/(y*z, x*z, x*y);
@@ -154,7 +154,7 @@ doc ///
             g = x^2 - y^3;
             testModule({1/2, 1/2}, {f, g})
         Text
-            Sometimes it is convenient to specify the ambient canonical module, or the choice of element(s) that detemines the Frobenius trace on the canonical module, across multiple calls of testModule.  
+            Sometimes it is convenient to specify the ambient canonical module, or the choice of element(s) that detemines the Frobenius trace on the canonical module, across multiple calls of testModule.
 	    This can be done by using the options {\tt CanonicalIdeal} and {\tt GeneratorList}.
         Example
             R = ZZ/5[x,y,z]/(x*y, y*z, z*x);
@@ -165,7 +165,7 @@ doc ///
     SeeAlso
         testIdeal
         parameterTestIdeal
-        HSLGModule
+        FPureModule
 ///
 
 doc ///
@@ -187,8 +187,8 @@ doc ///
 	    the parameter test ideal of {\tt R}
     Description
         Text
-            This function computes the parameter test ideal of a Cohen-Macaulay ring $R$. 
-	    Technically, it computes {\tt \tau}($\omega$) : $\omega$ where $\omega$ is a canonical module of $R$, and {\tt \tau}($\omega$) is the (parameter) test module, as computed by @TO testModule@. 
+            This function computes the parameter test ideal of a Cohen-Macaulay ring $R$.
+	    Technically, it computes {\tt \tau}($\omega$) : $\omega$ where $\omega$ is a canonical module of $R$, and {\tt \tau}($\omega$) is the (parameter) test module, as computed by @TO testModule@.
 	    For example, the ring $R$ in the following example is $F$-rational, and so its parameter test ideal is the unit ideal.
         Example
             T = ZZ/5[x,y];
@@ -225,7 +225,7 @@ doc ///
         :Boolean
     Description
         Text
-            The function {\tt isCohenMacaulay} determines if a ring is Cohen-Macaulay.  
+            The function {\tt isCohenMacaulay} determines if a ring is Cohen-Macaulay.
 	    If the option {\tt IsLocal} (default value {\tt false}) is set to {\tt true}, {\tt isCohenMacaulay} will simply call the @TO isCM@ function in the {\tt Depth} package, which checks whether the ring is Cohen-Macaulay at the origin; otherwise, {\tt isCohenMacaulay} checks the Cohen-Macaulay property globally, which sometimes is much faster than the local computation.
         Example
             T = ZZ/5[x,y];
@@ -238,12 +238,12 @@ doc ///
             R = QQ[x,y,u,v]/(x*u, x*v, y*u, y*v);
             isCohenMacaulay(R)
         Text
-	    The function {\tt isCohenMacaulay} considers $R$ as a quotient of a polynomial ring, $R = S/I$, and takes a resolution of $I$.  
-	    If the resolution has length equal to dim $S$ - dim $R$, then $R$ is Cohen-Macaulay.  
-	    If the resolution has a different length, and $I$ is homogeneous, then $R$ is not Cohen-Macaulay.  
+	    The function {\tt isCohenMacaulay} considers $R$ as a quotient of a polynomial ring, $R = S/I$, and takes a resolution of $I$.
+	    If the resolution has length equal to dim $S$ - dim $R$, then $R$ is Cohen-Macaulay.
+	    If the resolution has a different length, and $I$ is homogeneous, then $R$ is not Cohen-Macaulay.
 	    Finally, if the resolution has a different length and $I$ is not homogeneous, the function looks at the Ext modules which compute the depth.
     Caveat
-        This function assumes that the spectrum of the ring is connected.  
+        This function assumes that the spectrum of the ring is connected.
 	If given a non-equidimensional Cohen-Macaulay ring (e.g., a ring whose spectrum has two connected components of different dimensions), {\tt isCohenMacaulay} will return {\tt false}.
 ///
 
@@ -272,7 +272,7 @@ doc ///
     Inputs
         R:Ring
         IsLocal => Boolean
-            specifies that $F$-rationality be checked only at the origin, and that the Cohen-Macaulayness test be done with the {\tt isCM} command, from the {\tt Depth} package 
+            specifies that $F$-rationality be checked only at the origin, and that the Cohen-Macaulayness test be done with the {\tt isCM} command, from the {\tt Depth} package
         AssumeCM => Boolean
             assumes the ring is Cohen-Macaulay
         AssumeDomain => Boolean
@@ -283,8 +283,8 @@ doc ///
         :Boolean
     Description
         Text
-            The function {\tt isFRational} determines whether a ring is $F$-rational.  
-	    If the option {\tt IsLocal} (default value {\tt false}) is set to {\tt true}, it will only check if the ring is $F$-rational at the origin (this can be slower).  
+            The function {\tt isFRational} determines whether a ring is $F$-rational.
+	    If the option {\tt IsLocal} (default value {\tt false}) is set to {\tt true}, it will only check if the ring is $F$-rational at the origin (this can be slower).
 	    If the option {\tt AssumeCM} (default value {\tt false}) is set to {\tt true}, it will not verify that the ring is Cohen-Macaulay.
         Example
             T = ZZ/5[x,y];
@@ -306,6 +306,6 @@ doc ///
         Text
             The option {\tt AssumeDomain} is used when computing a test element.  The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     Caveat
-        This function assumes that the spectrum of the ring is connected.  
+        This function assumes that the spectrum of the ring is connected.
 	Like {\tt isCohenMacaulay}, if given a non-equidimensional $F$-rational ring (e.g., a ring whose spectrum has two connected components of different dimensions), {\tt isFRational} will return {\tt false}.
 ///

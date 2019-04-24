@@ -125,7 +125,7 @@ would be to return a sequence, for then you could write
 *****************************************************************************
 
 There are other functions with the same inconvenient behavior and documentation,
-including HSLGModule. They could all be improved.
+including FPureModule. They could all be improved.
 
 *****************************************************************************
 
@@ -175,9 +175,8 @@ code such as
      HSLList = HSLGModule(R);
 
 -----------------------------------------
-[Karl]  I thought about this.  Maximal Dual Frobenius Stable Submodule?
-F-pure Cartier SubIdeal?  sigma?  I don't think there is a good name for this in the literature.
-I changed the HSLList to M, N in the examples though.
+[Karl]  I thought about this.  I went with HSLGModule, but I don't think there is a good name for this in the literature.
+I also changed the HSLList to M, N in the examples though.
 ------------------
 
 *****************************************************************************
@@ -230,15 +229,15 @@ packages.
 This multiplicity of usage forms:
 
 	Usage:
-	    HSLGModule(R)
-	    HSLGModule(R, canonicalIdeal)
-	    HSLGModule(canonicalIdeal)
-	    HSLGModule(R, canonicalIdeal, uList)
-	    HSLGModule(t, f)
-	    HSLGModule(t, f, canonicalIdeal, uList)
-	    HSLGModule(expList, eltList)
-	    HSLGModule(expList, eltList, canonicalIdeal, uList)
-	    HSLGModule(e, expList, eltList, canIdeal)
+	    FPureModule(R)
+	    FPureModule(R, canonicalIdeal)
+	    FPureModule(canonicalIdeal)
+	    FPureModule(R, canonicalIdeal, uList)
+	    FPureModule(t, f)
+	    FPureModule(t, f, canonicalIdeal, uList)
+	    FPureModule(expList, eltList)
+	    FPureModule(expList, eltList, canonicalIdeal, uList)
+	    FPureModule(e, expList, eltList, canIdeal)
 
 suggests that the use of named optional arguments would simplify the code and
 the documentation considerably!  Pass the canonical ideal, if desired, as the

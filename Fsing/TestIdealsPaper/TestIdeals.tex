@@ -1027,7 +1027,7 @@ Again, consider the maps $T^e : \omega_{R^{1/p^e}} \to \omega_R$ we have conside
 \omega_R \supseteq T(\omega_{R^{1/p}}) \supseteq \dots \supseteq T^e(\omega_{R^{1/p^e}}) \supseteq T^{e+1}(\omega_{R^{1/p^{e+1}}}) \supseteq \cdots
 \end{equation}
 stabilize for $e \gg 0$.
-The function \texttt{HSLGModule} computes the stable submodule in this chain, called the \emph{HSLG module}, and returns a list containing the following items:
+The function \texttt{FPureModule} computes the stable submodule in this chain, called the \emph{HSLG module}, and returns a list containing the following items:
 \begin{enumerate}[(1)]
    \item The HSLG module;
    \item The canonical module, embedded (non-uniquely) as an ideal;
@@ -1040,7 +1040,7 @@ The function \texttt{HSLGModule} computes the stable submodule in this chain, ca
 {\small
 \begin{MyVerbatim}
 i1 : R = ZZ/3[x,y,z]/ideal( x^3 + y^4 + z^5 );
-i2 : L = HSLGModule R;
+i2 : L = FPureModule R;
 i3 : L#0
                           2        2   3
 o3 = ideal (0, y*z, x*z, y , x*y, x , z )
@@ -1106,7 +1106,7 @@ i4 : u=f^3;
 i5 : frobeniusPower( 1/4, ideal u )
 o6 = ideal (x, y, z)
 o6 : Ideal of R
-i7 : ((HSLGModule(1, f))#3) + 1
+i7 : ((FPureModule(1, f))#3) + 1
 o7 : 2
 \end{MyVerbatim}
 }\medskip
@@ -1127,7 +1127,7 @@ i5 : frobeniusPower( 1/121, ideal f^120 )
              2        3
 o6 = ideal (z , x*z, x )
 o6 : Ideal of R
-i7 : ((HSLGModule(1, f))#3) + 1
+i7 : ((FPureModule(1, f))#3) + 1
 o7 : 2
 \end{MyVerbatim}
 }\medskip

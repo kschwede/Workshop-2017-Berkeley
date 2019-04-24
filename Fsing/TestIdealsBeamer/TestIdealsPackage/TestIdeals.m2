@@ -124,7 +124,7 @@ export{
     "parameterTestIdeal",
 
 -- Finjective.m2
-    "HSLGModule", --produces the non-F-injective module, ie the submodule of the canonical module
+    "FPureModule", --produces the non-F-injective module, ie the submodule of the canonical module
     "isFInjective",
     "CanonicalStrategy", --how to check F-injectivity on the canonical module (Ext or Katzman)
     "Katzman", --an option for CanonicalStrategy
@@ -1487,14 +1487,14 @@ passOptions ( OptionTable, List ) := (o, L) ->
     ---------------------------------------------------------------------
     ---------------------------------------------------------------------
     --**************************************
-    --*** HSLGModule computes the stable ***
+    --*** FPureModule computes the stable ***
     --*** image under trace of \omega    ***
     --*** This is dual to the stable     ***
     --*** kernel of Frobenius acting on  ***
     --*** local cohomology               ***
     --**************************************
 
-    HSLGModule = method(Options => {FrobeniusRootStrategy => Substitution});
+    FPureModule = method(Options => {FrobeniusRootStrategy => Substitution});
                            --it returns two ideals, an element and an integer
                            --The first ideal is an ideal isomorphic to the non-F-injective module and the
                            --and the second is an ideal isomorphic to the canonical module, in which the parameter
@@ -1506,22 +1506,22 @@ passOptions ( OptionTable, List ) := (o, L) ->
                            --{HSLMod, CanMod, u, HSL#}
 
 
-    HSLGModule(Ring) := o-> (R1) -> (
+    FPureModule(Ring) := o-> (R1) -> (
         J1 := trim canonicalIdeal(R1);
-        HSLGModule(R1, J1, o)
+        FPureModule(R1, J1, o)
     );
 
-    HSLGModule(Ring, Ideal) := o-> (R1, canIdeal) -> (
+    FPureModule(Ring, Ideal) := o-> (R1, canIdeal) -> (
         S1 := ambient R1;
     	I1 := ideal R1;
         J1 := sub(canIdeal, S1);
         u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
     --    powList := apply(u1, zz->1);
         --NEED TO CHANGE (and below), we should not have the full list of us there.
-        HSLGModule(R1, canIdeal, u1)
+        FPureModule(R1, canIdeal, u1)
     );
 
-    HSLGModule(Ring, Ideal, List) := o-> (R1, canIdeal, u1) -> (
+    FPureModule(Ring, Ideal, List) := o-> (R1, canIdeal, u1) -> (
         S1 := ambient R1;
     	I1 := ideal R1;
         J1 := sub(canIdeal, S1);
@@ -1531,7 +1531,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
         curHSLList := null;
         i := 0;
         while (i < #u1) do (
-            curHSLList = HSLGModule(1, {1}, {u1#i}, canIdeal, o);
+            curHSLList = FPureModule(1, {1}, {u1#i}, canIdeal, o);
             curIdeal = curIdeal + curHSLList#0;
             curHSL = lcm(curHSL, curHSLList#3);
             i = i+1;
@@ -1539,15 +1539,15 @@ passOptions ( OptionTable, List ) := (o, L) ->
         return {curIdeal, canIdeal, u1, curHSL};
     );
 
-    HSLGModule(Ideal) := o -> (canIdeal) -> (
+    FPureModule(Ideal) := o -> (canIdeal) -> (
         R1 := ring canIdeal;
-        HSLGModule(R1, canIdeal, o)
+        FPureModule(R1, canIdeal, o)
     );
 
-    HSLGModule(Number, RingElement, Ideal, List) := o -> (tt, ff, canIdeal, u1) -> (
+    FPureModule(Number, RingElement, Ideal, List) := o -> (tt, ff, canIdeal, u1) -> (
         R1 := ring ff;
         S1 := ambient R1;
-        if (not (ring (u1#0) === S1)) then error "HSLGModule: Exptected u1 to be in the ambient polynomial ring.";
+        if (not (ring (u1#0) === S1)) then error "FPureModule: Exptected u1 to be in the ambient polynomial ring.";
     	I1 := ideal R1;
         J1 := sub(canIdeal, S1);
         pp := char S1;
@@ -1558,7 +1558,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
         bb := fractionDivided#1;
         cc := fractionDivided#2;
         if (bb > 0) then (
-            error "HSLGModule: Cannot compute the HSLG module associated to something with p in denominator.";
+            error "FPureModule: Cannot compute the HSLG module associated to something with p in denominator.";
         );
         if (cc == 0) then (
             cc = 1;
@@ -1573,7 +1573,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
         curHSLList := null;
         i := 0;
         while (i < #u1) do (
-            curHSLList = HSLGModule(cc, {newExp, aa}, {u1#i, ff}, canIdeal, o);
+            curHSLList = FPureModule(cc, {newExp, aa}, {u1#i, ff}, canIdeal, o);
             curIdeal = curIdeal + curHSLList#0;
             curHSL = lcm(curHSL, curHSLList#3);
             i = i+1;
@@ -1581,19 +1581,19 @@ passOptions ( OptionTable, List ) := (o, L) ->
         {curIdeal, canIdeal, u1, curHSL}
     );
 
-    HSLGModule(Number, RingElement) := o -> (tt, ff) -> (
+    FPureModule(Number, RingElement) := o -> (tt, ff) -> (
         R1 := ring ff;
         canIdeal := trim canonicalIdeal(R1);
         S1 := ambient R1;
     	I1 := ideal R1;
         J1 := sub(canIdeal, S1);
         u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
-        return HSLGModule(tt, ff, canIdeal, u1);
+        return FPureModule(tt, ff, canIdeal, u1);
     );
 
-    HSLGModule(List, List, Ideal, List) := o -> (tList, fList, canIdeal, u1) -> (
-        if ( not (#tList == #fList) ) then error "HSLGModule: expected the lists to have the same lengths.";
-        if ( #fList == 0 ) then error "HSLGModule: expected a list of length > 0.";
+    FPureModule(List, List, Ideal, List) := o -> (tList, fList, canIdeal, u1) -> (
+        if ( not (#tList == #fList) ) then error "FPureModule: expected the lists to have the same lengths.";
+        if ( #fList == 0 ) then error "FPureModule: expected a list of length > 0.";
         R1 := ring ((fList)#0);
         S1 := ambient R1;
     	I1 := ideal R1;
@@ -1608,20 +1608,20 @@ passOptions ( OptionTable, List ) := (o, L) ->
         ccList := apply(fractionDividedList, zz->zz#2);
 
         if (any(bbList, val -> (val > 0))) then (
-            error "HSLGModule: Cannot compute the HSLG module associated to something with p in denominator.";
+            error "FPureModule: Cannot compute the HSLG module associated to something with p in denominator.";
         );
         ccLCM := lcm(ccList);
         newExpList := apply(fractionDividedList, myList -> (myList#0)*floor( (pp^(ccLCM) - 1)/(pp^(myList#2)-1) ) );
     --    uList := u1 | fList;
     --    powList := (apply(u1, tt -> floor((pp^(ccLCM) - 1)/(pp - 1))) ) | newExpList;
-    --    HSLGModule(ccLCM, powList, uList, canIdeal, FrobeniusRootStrategy=>o.FrobeniusRootStrategy)
+    --    FPureModule(ccLCM, powList, uList, canIdeal, FrobeniusRootStrategy=>o.FrobeniusRootStrategy)
         curIdeal := ideal(sub(0, R1));
         curHSL := 1;
         curHSLList := null;
         i := 0;
 
         while (i < #u1) do (
-            curHSLList = HSLGModule(ccLCM, {floor((pp^(ccLCM) - 1)/(pp - 1))} | newExpList, {u1#i} | apply(fList, gg -> sub(gg, S1)), canIdeal, o);
+            curHSLList = FPureModule(ccLCM, {floor((pp^(ccLCM) - 1)/(pp - 1))} | newExpList, {u1#i} | apply(fList, gg -> sub(gg, S1)), canIdeal, o);
             curIdeal = curIdeal + curHSLList#0;
             curHSL = lcm(curHSL, curHSLList#3);
             i = i+1;
@@ -1629,16 +1629,16 @@ passOptions ( OptionTable, List ) := (o, L) ->
         {curIdeal, canIdeal, u1, curHSL}
     )
 
-    HSLGModule(List, List) := o -> (tList, fList) -> (
-        if ( not (#tList == #fList) ) then error "HSLGModule: expected the lists to have the same lengths.";
-        if ( #fList == 0 ) then error "HSLGModule: expected a list of length > 0.";
+    FPureModule(List, List) := o -> (tList, fList) -> (
+        if ( not (#tList == #fList) ) then error "FPureModule: expected the lists to have the same lengths.";
+        if ( #fList == 0 ) then error "FPureModule: expected a list of length > 0.";
         R1 := ring ((fList)#0);
         canIdeal := trim canonicalIdeal(R1);
         S1 := ambient R1;
     	I1 := ideal R1;
         J1 := sub(canIdeal, S1);
         u1 := frobeniusTraceOnCanonicalModule(I1, J1+I1);
-        return HSLGModule(tList, fList, canIdeal, u1);
+        return FPureModule(tList, fList, canIdeal, u1);
     );
 
     --the next one is the internal function that does the real work
@@ -1647,7 +1647,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
     --the list of u's
     --the canonical ideal (or whatever you want to run HSL on), this one is
     --it computes sigma(canIdeal, f^s g^t h^l ...)
-    HSLGModule(ZZ, List, List, Ideal) :=  o-> (ee, expList, u1, canIdeal) -> (
+    FPureModule(ZZ, List, List, Ideal) :=  o-> (ee, expList, u1, canIdeal) -> (
         R1 := ring canIdeal;
         S1 := ambient R1;
         I1 := ideal R1;
@@ -2934,7 +2934,7 @@ document {
       {TO "testIdeal", " compute the test ideal of a normal Q-Gorenstein ring or pair."},
       {TO "testModule", " compute the parameter test module of a ring or pair."},
       {TO "parameterTestIdeal", " compute the parameter test ideal of a Cohen-Macaulay ring."},
-      {TO "HSLGModule", " compute the stable image of the trace of Frobenius on the canonical module."},
+      {TO "FPureModule", " compute the stable image of the trace of Frobenius on the canonical module."},
 	  {TO "isFRegular", " checks if a normal Q-Gorenstein ring or pair is F-regular."},
 	  {TO "isFPure", " checks if a ring is F-pure."},
 	  {TO "isFRational", " checks if a  ring is F-rational."},
@@ -3933,29 +3933,29 @@ doc ///
 
 doc ///
     Key
-        HSLGModule
-        (HSLGModule, Ring)
-        (HSLGModule, Ring, Ideal)
-        (HSLGModule, Ideal)
-        (HSLGModule, Ring, Ideal, List)
-        (HSLGModule, Number, RingElement)
-        (HSLGModule, Number, RingElement, Ideal, List)
-        (HSLGModule, List, List)
-        (HSLGModule, List, List, Ideal, List)
-        (HSLGModule, ZZ, List, List, Ideal)
-        [HSLGModule, FrobeniusRootStrategy]
+        FPureModule
+        (FPureModule, Ring)
+        (FPureModule, Ring, Ideal)
+        (FPureModule, Ideal)
+        (FPureModule, Ring, Ideal, List)
+        (FPureModule, Number, RingElement)
+        (FPureModule, Number, RingElement, Ideal, List)
+        (FPureModule, List, List)
+        (FPureModule, List, List, Ideal, List)
+        (FPureModule, ZZ, List, List, Ideal)
+        [FPureModule, FrobeniusRootStrategy]
     Headline
         computes the submodule of the canonical module stable under the image of the trace of Frobenius
     Usage
-        HSLGModule(R)
-        HSLGModule(R, canonicalIdeal)
-        HSLGModule(canonicalIdeal)
-        HSLGModule(R, canonicalIdeal, uList)
-        HSLGModule(t, f)
-        HSLGModule(t, f, canonicalIdeal, uList)
-        HSLGModule(expList, eltList)
-        HSLGModule(expList, eltList, canonicalIdeal, uList)
-        HSLGModule(e, expList, eltList, canIdeal) --this last command is largely an internal function
+        FPureModule(R)
+        FPureModule(R, canonicalIdeal)
+        FPureModule(canonicalIdeal)
+        FPureModule(R, canonicalIdeal, uList)
+        FPureModule(t, f)
+        FPureModule(t, f, canonicalIdeal, uList)
+        FPureModule(expList, eltList)
+        FPureModule(expList, eltList, canonicalIdeal, uList)
+        FPureModule(e, expList, eltList, canIdeal) --this last command is largely an internal function
     Inputs
         R:Ring
         canonicalIdeal:Ideal
@@ -3982,10 +3982,10 @@ doc ///
         Text
             Given a ring $R$ with canonical module $\omega$, this computes the image of $F^e_* \omega \to \omega$ for $e >> 0$.  This image is sometimes called the HSLG-module (named for Hartshorne-Speiser, Lyubeznik and Gabber).  It roughly tells you where a ring is non-F-injective.
         Text
-            Specifically, this function returns a list of the following entries.  {\tt HSLGmodule, canonicalModule, u, HSLCount} where {\tt canonicalModule} is the canonical module of the ring (expressed as an ideal), {\tt HSLGmodule} is a submodule of that canonical module, {\tt u} is an element of the ambient polynomial ring representing the trace of Frobenius on the canonical module and {\tt HSLCount} is how many times the trace of Frobenius was computed before the image stabilized.
+            Specifically, this function returns a list of the following entries.  {\tt FPureModule, canonicalModule, u, HSLCount} where {\tt canonicalModule} is the canonical module of the ring (expressed as an ideal), {\tt FPureModule} is a submodule of that canonical module, {\tt u} is an element of the ambient polynomial ring representing the trace of Frobenius on the canonical module and {\tt HSLCount} is how many times the trace of Frobenius was computed before the image stabilized.
         Example
             R = ZZ/7[x,y,z]/ideal(x^5+y^5+z^5);
-            HSLList = HSLGModule(R);
+            HSLList = FPureModule(R);
             HSLList#1 --the ambient canonical module
             HSLList#0 --the HSLGsubmodule
             HSLList#2 --the element representing trace of Frobenius
@@ -4002,15 +4002,15 @@ doc ///
             R = S/I;
             J = ideal(sub(1, R));
             u = QGorensteinGenerator(1, R);
-            HSLGModule(R, J, {u})
+            FPureModule(R, J, {u})
         Text
             Additionally, you can specify a pair $(R, f^t)$ as long as $t$ is a rational number without $p$ in its denominator.
         Example
             R = ZZ/7[x,y];
-            HSLList = HSLGModule(5/6, y^2-x^3);
+            HSLList = FPureModule(5/6, y^2-x^3);
             HSLList#1 --the canonical module
             HSLList#0
-            HSLList = HSLGModule(9/10, y^2-x^3);
+            HSLList = FPureModule(9/10, y^2-x^3);
             HSLList#0
         Text
             Additionally, we can compute HSLG-modules of things like $(R, f^s g^t)$ even when $R$ is not regular (although we do require that R is Q-Gorenstein with index not divisible by the characteristic).
@@ -4018,7 +4018,7 @@ doc ///
             R = ZZ/3[x,y,z]/ideal(x^2-y*z);
             f = y;
             g = z;
-            HSLGModule({1/2, 1/2, 1/2}, {y,z,y+z})
+            FPureModule({1/2, 1/2, 1/2}, {y,z,y+z})
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
@@ -4661,9 +4661,9 @@ TEST /// --cone over P1 times ordinary elliptic curve (non CM)
     assert( isFInjective(R) );
 ///
 
-TEST /// --HSLGModule cone over ordinary elliptic curve
+TEST /// --FPureModule cone over ordinary elliptic curve
     R = ZZ/7[x,y,z]/ideal(x^3+y^3+z^3);
-    HSLmod = HSLGModule(R);
+    HSLmod = FPureModule(R);
     assert(HSLmod#0 == HSLmod#1);
 ///
 
@@ -4673,15 +4673,15 @@ TEST /// --the isLocal option
     assert( not isFInjective(R) );
 ///
 
-TEST /// --HSLGModule cone over supersingular elliptic curve
+TEST /// --FPureModule cone over supersingular elliptic curve
     R = ZZ/5[x,y,z]/ideal(x^3+y^3+z^3);
-    HSLmod = HSLGModule(R);
+    HSLmod = FPureModule(R);
     assert(not (HSLmod#0 == HSLmod#1));
 ///
 
-TEST /// --HSLGModule cone over supersingular elliptic curve
+TEST /// --FPureModule cone over supersingular elliptic curve
     R = ZZ/7[x,y]
-    HSLmod = HSLGModule(5/6, y^2-x^3);
+    HSLmod = FPureModule(5/6, y^2-x^3);
     assert((HSLmod#0 == HSLmod#1));
 ///
 

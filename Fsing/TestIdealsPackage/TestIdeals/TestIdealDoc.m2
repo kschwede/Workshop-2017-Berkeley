@@ -22,7 +22,7 @@ document {
       {TO "testIdeal", " computes the test ideal of a normal ", TEX ///\mathbb{Q}///, "-Gorenstein ring or pair."},
       {TO "testModule", " computes the parameter test module of a ring or pair."},
       {TO "parameterTestIdeal", " computes the parameter test ideal of a Cohen-Macaulay ring."},
-      {TO "HSLGModule", " computes the stable image of the trace of Frobenius on the canonical module."},
+      {TO "FPureModule", " computes the stable image of the trace of Frobenius on the canonical module."},
 	  {TO "isFRegular", " checks if a normal ", TEX ///\mathbb{Q}///, "-Gorenstein ring or pair is ", TEX ///$F$///, "-regular."},
 	  {TO "isFPure", " checks if a ring is ", TEX ///$F$///, "-pure."},
 	  {TO "isFRational", " checks if a  ring is ", TEX ///$F$///, "-rational."},

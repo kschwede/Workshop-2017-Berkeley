@@ -58,7 +58,7 @@
 ** Documentation: [[file:./TestIdealsPackage/TestIdeals/FinjectiveDoc.m2][FinjectiveDoc.m2]] [0/0]
 ** Tests: [[file:./TestIdealsPackage/TestIdeals/FinjectiveTest.m2][FinjectiveTest.m2]]  [0/0]
 ** Functions [0/0]
-*** HSLGModule
+*** FPureModule
 *** isFinjective
 *** isFinjectiveCanonicalStrategy
 *** frob
