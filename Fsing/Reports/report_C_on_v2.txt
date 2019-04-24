@@ -181,7 +181,8 @@ code such as
      HSLList = HSLGModule(R);
 
 -----------------------------------------
-[Karl]  I thought about this.  I went with HSLGModule, but I don't think there is a good name for this in the literature.
+There isn't a good  name for this in the literature.  However, we have changed
+this to FPureModule as that at least does not involve an acronym.
 I also changed the HSLList to M, N in the examples though.
 ------------------
 
@@ -236,15 +237,15 @@ for a different operation.
 This multiplicity of usage forms:
 
 	Usage:
-	    FPureModule(R)
-	    FPureModule(R, canonicalIdeal)
-	    FPureModule(canonicalIdeal)
-	    FPureModule(R, canonicalIdeal, uList)
-	    FPureModule(t, f)
-	    FPureModule(t, f, canonicalIdeal, uList)
-	    FPureModule(expList, eltList)
-	    FPureModule(expList, eltList, canonicalIdeal, uList)
-	    FPureModule(e, expList, eltList, canIdeal)
+	    HSLGModule(R)
+	    HSLGModule(R, canonicalIdeal)
+	    HSLGModule(canonicalIdeal)
+	    HSLGModule(R, canonicalIdeal, uList)
+	    HSLGModule(t, f)
+	    HSLGModule(t, f, canonicalIdeal, uList)
+	    HSLGModule(expList, eltList)
+	    HSLGModule(expList, eltList, canonicalIdeal, uList)
+	    HSLGModule(e, expList, eltList, canIdeal)
 
 suggests that the use of named optional arguments would simplify the code and
 the documentation considerably!  Pass the canonical ideal, if desired, as the
@@ -252,7 +253,9 @@ value of an optional argument.  Maybe even make *all* of the arguments optional
 (with "null" as the default value).  This seems to be a recurring problem.
 
 --------------------------
-[Karl]  I've implemented this for CanonicalIdeal and for the uList, and for the Ring.  I'm currently looking for other functions to do the same with.
+[Karl]  I've implemented this for CanonicalIdeal and for the uList, and for the Ring.
+However, we have left the FPureModule(Ring) functionality to keep it consistent with other
+related functions.
 --------------------------
 
 =============================================================================
