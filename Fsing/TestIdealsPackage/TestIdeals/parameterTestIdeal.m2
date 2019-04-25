@@ -44,15 +44,15 @@ frobeniusTraceOnCanonicalModule ( Ideal, Ideal ) := ( defIdeal, canIdeal ) ->
     first entries M1
 )
 
-testModule = method( 
-    Options => 
-    { 
-	FrobeniusRootStrategy => Substitution, 
-	AssumeDomain => false, 
-	CanonicalIdeal => null, 
-	CurrentRing => null, 
-	GeneratorList => null 
-    } 
+testModule = method(
+    Options =>
+    {
+	FrobeniusRootStrategy => Substitution,
+	AssumeDomain => false,
+	CanonicalIdeal => null,
+	CurrentRing => null,
+	GeneratorList => null
+    }
 )
 --A rewritten function to construct the (parameter) test (sub)module of a given ring.
 --It returns two ideals and an element.
@@ -64,8 +64,8 @@ testModule = method(
 --induce the canonical trace map.
 --This function can also compute \tau(omega, f^t) (again as a submodule of omega).
 
-installMethod(testModule, 
-    o -> () -> 
+installMethod(testModule,
+    o -> () ->
     (
         R1 := o.CurrentRing;
         canIdeal := o.CanonicalIdeal;
@@ -73,7 +73,7 @@ installMethod(testModule,
         if canIdeal =!= null then R1 = ring canIdeal;
 	--if no canonical ideal is given, compute it.
         if R1 =!= null and canIdeal === null then canIdeal = canonicalIdeal R1;
-        if canIdeal === null then 
+        if canIdeal === null then
 	    error "testModule: cannot compute the testModule with no arguments or optional arguments";
         S1 := ambient R1;
         I1 := ideal R1;
@@ -85,7 +85,7 @@ installMethod(testModule,
         tau := I1;
         if #u1 > 1 then
         (
-            if debugLevel > 0 then 
+            if debugLevel > 0 then
 	        print "testModule: Multiple trace map for omega generators (Macaulay2 failed to find the principal generator of a principal ideal). Using them all.";
             j := 0;
             while j < #u1 do

@@ -81,13 +81,15 @@ doc ///
 doc ///
     Key
         ascendModule
-        (ascendModule,ZZ, Matrix, Matrix)
+        (ascendModule, ZZ, Module, Matrix)
+        (ascendModule, ZZ, Matrix, Matrix)
     Headline
         find the smallest submodule of free module containing a given submodule which is compatible with a given Cartier linear map
     Usage
         ascendModule(e, A, U)
     Inputs
         A:Matrix
+        A:Module
         U:Matrix
         e:ZZ
     Outputs
@@ -95,11 +97,13 @@ doc ///
     Description
         Text
             Given an $n \times n$ matrix $U$ and a submodule $A$ of a free module $R^n$, {\tt ascendModule} finds the smallest submodule $V$ of $R^n$ containing $A$ and which satisfies $U^{1 + p + \cdots + p^{e-1}} V\subset V^{[p^e]}$.
+            Instead of passing the matrix $A$, one can instead pass the matrix which $A$ in the image of.
         Example
             R = ZZ/2[a,b,c,d];
-            A = matrix {{b*c, a, 0}, {a^2* d, d^2 , c + d}}
-            U = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3}}
+            A = matrix {{b*c, a, 0}, {a^2* d, d^2 , c + d}};
+            U = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3}};
             V = ascendModule(1, A, U)
+            W = ascendModule(1, image A, U)
         Text
             This method is described in M Katzman and W. Zhang's "Annihilators of Artinian modules compatible with a Frobenius map"
             under the name "star-closure".
@@ -123,6 +127,7 @@ doc ///
         (frobeniusRoot, ZZ, ZZ, Ideal)
         (frobeniusRoot, ZZ, List, List, Ideal)
         (frobeniusRoot, ZZ, Matrix)
+        (frobeniusRoot, ZZ, Module)
         [frobeniusRoot, FrobeniusRootStrategy]
     Headline
         compute a Frobenius root
@@ -140,11 +145,13 @@ doc ///
         I:Ideal
             an ideal in a polynomial ring over a finite field of characteristic {\tt p}
         A:Matrix
-	    with entries in a polynomial ring over a finite field of characteristic {\tt p}
+	        with entries in a polynomial ring over a finite field of characteristic {\tt p}
+        A:Module
+            a submodule of a free module of a polynomial ring over a finite field of characteristic {\tt p}
         idealList:List
             containing ideals {\tt I_1,\ldots,I_n}
         expList:List
-            containing exponents {\tt a_1,\ldots,a_n} to which the ideals in {\tt idealList} will be raised 
+            containing exponents {\tt a_1,\ldots,a_n} to which the ideals in {\tt idealList} will be raised
         m:ZZ
             the exponent to which {\tt I} will be raised, before taking the Frobenius root
         f:RingElement
@@ -157,10 +164,10 @@ doc ///
         :Ideal
 	    the {\tt p^e}-th Frobenius root of {\tt I} (or {\tt I_1^{a_1}\cdots I_n^{a_n}}, {\tt I_1^{a_1}\cdots I_n^{a_n}I}, {\tt I^m}, {\tt (f^a)}, {\tt f^aI}, depending on the arguments passed)
         :Matrix
-	    whose image is the {\tt p^e}-th Frobenius root of the image of the matrix {\tt A} 
+	    whose image is the {\tt p^e}-th Frobenius root of the image of the matrix {\tt A}
     Description
         Text
-            In a polynomial ring $R = k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the $p^e$-th Frobenius root $I^{[1/p^e]}$ of an ideal $I$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(p^e, J)}).   
+            In a polynomial ring $R = k[x_1, \ldots, x_n]$ with cofficients in a field of positive characteristic $p$, the $p^e$-th Frobenius root $I^{[1/p^e]}$ of an ideal $I$ is the smallest ideal $J$ such that $I\subseteq J^{[p^e]}$ ({\tt = frobeniusPower(p^e, J)}).
             Similarly, if $M$ is a submodule of $R^k$, the $p^e$-th Frobenius root of $M$, denoted $M^{[1/p^e]}$, is the smallest submodule $V$ of $R^k$ such that $M\subseteq V^{[p^e]}$.
 	    The function {\tt frobeniusRoot} computes such ideals and submodules.
 
@@ -177,11 +184,15 @@ doc ///
             I = ideal(a^(2*p)*x^p + y*z^p + x^p*y^p);
             frobeniusRoot(1, I)
         Text
-            For the matrix $A$ below, {\tt frobeniusRoot(1, A)} computes a matrix whose image is the smallest submodule $V$ of $R^2$ such that the image of $A$ is in $V^{[2]}$.
+            For the matrix $A$ below, {\tt frobeniusRoot(1, A)} computes a matrix
+            whose image is the smallest submodule $V$ of $R^2$ such that the image
+            of $A$ is in $V^{[2]}$.  One can also pass the image of the matrix $A$
+            (a submodule of a free module) to accomplish the same thing.
         Example
             R = ZZ/2[a,b,c,d];
-            A = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3}}
+            A = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3}};
             frobeniusRoot(1, A)
+            frobeniusRoot(1, image A)
         Text
             Often, one wants to compute a Frobenius root of some product of powers of ideals, $I_1^{a_1}\cdots I_n^{a_n}$. This is best accomplished by calling {\tt frobeniusRoot(e, \{a_1,\ldots,a_n\}, \{I_1,\ldots,I_n\})}.
         Example
@@ -191,17 +202,17 @@ doc ///
             I3 = ideal(x^50*y^50*z^50);
             time J1 = frobeniusRoot(1, {8, 10, 12}, {I1, I2, I3});
             time J2 = frobeniusRoot(1, I1^8*I2^10*I3^12);
-	    J1 == J2  
+	    J1 == J2
         Text
             For legacy reasons, the last ideal in the list can be specified separately, using {\tt frobeniusRoot(e, \{a_1,\ldots,a_n\}, \{I_1,\ldots,I_n\}, I)}. The last ideal, {\tt I}, is just raised to the first power.
         Text
             The following are additional ways of calling {\tt frobeniusRoot}:
 
 	    $\bullet$ {\tt frobeniusRoot(e, m, I)} computes the $p^e$-th Frobenius root of the ideal $I^m$.
-	    
-	    $\bullet$ {\tt frobeniusRoot(e, a, f)} computes the $p^e$-th Frobenius root of the principal ideal ($f^a$). 
-	    	    
-	    $\bullet$ {\tt frobeniusRoot(e, a, f, I)} computes the $p^e$-th Frobenius root of the product $f^aI$. 
+
+	    $\bullet$ {\tt frobeniusRoot(e, a, f)} computes the $p^e$-th Frobenius root of the principal ideal ($f^a$).
+
+	    $\bullet$ {\tt frobeniusRoot(e, a, f, I)} computes the $p^e$-th Frobenius root of the product $f^aI$.
         Text
             There are two valid inputs for the option {\tt FrobeniusRootStrategy}, namely {\tt Substitution} and {\tt MonomialBasis}.  In the computation of the $p^e$-th Frobenius root of an ideal $I$, each generator $f$ of $I$ is written in the form $f = \sum a_i^{p^e} m_i$, where each $m_i$ is a monomial whose exponents are less than $p^e$; then the collection of all the $a_i$, obtained for all generators of $I$, generates the Frobenius root $I^{[1/p^e]}$. {\tt Substitution} and {\tt MonomialBasis} use different methods for gathering these $a_i$, and sometimes one method is faster than the other.
     SeeAlso
