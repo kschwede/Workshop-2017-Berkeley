@@ -112,7 +112,7 @@ frobeniusRoot( ZZ, List, List, Ideal) := Ideal => opts -> (e, exponentList, idea
 frobeniusRoot ( ZZ, Module ) := Matrix => opts -> ( e, A ) ->
 (
     if (isFreeModule super A) then (
-        return frobeniusRoot(e, generators A, opts);
+        return image frobeniusRoot(e, generators A, opts);
     ) else (
         error "frobeniusRoot: Expected the second argument to be a submodule of a free module.";
     );
@@ -496,7 +496,7 @@ ascendModule = method()
 ascendModule(ZZ, Module, Matrix) := (e, A, U) ->
 (
     if (isFreeModule super A) then (
-        return ascendModule(e, generators A, U);
+        return image ascendModule(e, generators A, U);
     ) else (
         error "ascendModule: Expected the second argument to be a submodule of a free module.";
     );
