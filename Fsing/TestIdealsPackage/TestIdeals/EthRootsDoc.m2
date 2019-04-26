@@ -86,26 +86,36 @@ doc ///
     Headline
         find the smallest submodule of free module containing a given submodule which is compatible with a given Cartier linear map
     Usage
-        ascendModule(e, A, U)
+        V = ascendModule(e, M, U)
+        B = ascendModule(e, A, U)
     Inputs
+        M:Module
+            a submodule of a free module {\tt R^n}, where {\tt R} is a polynomial ring over a finite field of characteristic {\tt p}
         A:Matrix
-        A:Module
+	    an {n\times m} matrix with entries in {\tt R}
         U:Matrix
+	    an {n\times n} matrix with entries in {\tt R}
         e:ZZ
     Outputs
-        :Matrix
+        V:Module
+	    the smallest submodule of {\tt R^n} containing {\tt M} such that {\tt U^{1+p+\ldots+p^{e-1}} V \subseteq V^{[p^e]}}
+        B:Matrix
+	    whose image is the smallest submodule {\tt V} of {\tt R^n} containing the image of {\tt A} such that {\tt U^{1+p+\ldots+p^{e-1}} V \subseteq V^{[p^e]}}
     Description
         Text
-            Given an $n \times n$ matrix $U$ and a submodule $A$ of a free module $R^n$, {\tt ascendModule} finds the smallest submodule $V$ of $R^n$ containing $A$ and which satisfies $U^{1 + p + \cdots + p^{e-1}} V\subset V^{[p^e]}$.
-            Instead of passing the matrix $A$, one can instead pass the matrix which $A$ in the image of.
+            Given an $n\times n$ matrix $U$ and a submodule $M$ of a free module $R^n$, {\tt ascendModule} finds the smallest submodule $V$ of $R^n$ containing $M$ and which satisfies $U^{1 + p + \cdots + p^{e-1}} V\subseteq V^{[p^e]}$.
         Example
             R = ZZ/2[a,b,c,d];
             A = matrix {{b*c, a, 0}, {a^2* d, d^2 , c + d}};
+	    M = image A;
             U = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3}};
-            V = ascendModule(1, A, U)
-            W = ascendModule(1, image A, U)
+            ascendModule(1, M, U)
         Text
-            This method is described in M Katzman and W. Zhang's "Annihilators of Artinian modules compatible with a Frobenius map"
+            For ease of use, instead of passing the module $M$, one can instead pass a matrix $A$ whose image is $M$, and {\tt ascendModule} will return a matrix whose image is $V$.
+        Example
+            ascendModule(1, A, U)
+        Text
+            This method is described in M. Katzman and W. Zhang's "Annihilators of Artinian modules compatible with a Frobenius map",
             under the name "star-closure".
 ///
 
@@ -126,13 +136,14 @@ doc ///
         (frobeniusRoot, ZZ, ZZ, RingElement)
         (frobeniusRoot, ZZ, ZZ, Ideal)
         (frobeniusRoot, ZZ, List, List, Ideal)
-        (frobeniusRoot, ZZ, Matrix)
         (frobeniusRoot, ZZ, Module)
+        (frobeniusRoot, ZZ, Matrix)
         [frobeniusRoot, FrobeniusRootStrategy]
     Headline
         compute a Frobenius root
     Usage
         frobeniusRoot(e, I)
+        frobeniusRoot(e, M)
         frobeniusRoot(e, A)
         frobeniusRoot(e, expList, idealList)
         frobeniusRoot(e, expList, idealList, I)
@@ -143,11 +154,11 @@ doc ///
         e:ZZ
             the order of the Frobenius root
         I:Ideal
-            an ideal in a polynomial ring over a finite field of characteristic {\tt p}
-        A:Matrix
-	        with entries in a polynomial ring over a finite field of characteristic {\tt p}
-        A:Module
+            in a polynomial ring over a finite field of characteristic {\tt p}
+        M:Module
             a submodule of a free module of a polynomial ring over a finite field of characteristic {\tt p}
+        A:Matrix
+	    with entries in a polynomial ring over a finite field of characteristic {\tt p}
         idealList:List
             containing ideals {\tt I_1,\ldots,I_n}
         expList:List
@@ -162,7 +173,9 @@ doc ///
             controls the strategy for this function
     Outputs
         :Ideal
-	    the {\tt p^e}-th Frobenius root of {\tt I} (or {\tt I_1^{a_1}\cdots I_n^{a_n}}, {\tt I_1^{a_1}\cdots I_n^{a_n}I}, {\tt I^m}, {\tt (f^a)}, {\tt f^aI}, depending on the arguments passed)
+	    the {\tt p^e}-th Frobenius root of {\tt I} (or {\tt I_1^{a_1}\ldots I_n^{a_n}}, {\tt I_1^{a_1}\ldots I_n^{a_n}I}, {\tt I^m}, {\tt (f^a)}, {\tt f^aI}, depending on the arguments passed)
+        :Module
+	    the {\tt p^e}-th Frobenius root of the module {\tt M}
         :Matrix
 	    whose image is the {\tt p^e}-th Frobenius root of the image of the matrix {\tt A}
     Description
@@ -184,15 +197,16 @@ doc ///
             I = ideal(a^(2*p)*x^p + y*z^p + x^p*y^p);
             frobeniusRoot(1, I)
         Text
-            For the matrix $A$ below, {\tt frobeniusRoot(1, A)} computes a matrix
-            whose image is the smallest submodule $V$ of $R^2$ such that the image
-            of $A$ is in $V^{[2]}$.  One can also pass the image of the matrix $A$
-            (a submodule of a free module) to accomplish the same thing.
+            In the following example, for a submodule $M$ of $R^2$, {\tt frobeniusRoot(1, M)} computes the smallest submodule $V$ of $R^2$ such that $M \subseteq V^{[2]}$.  
         Example
             R = ZZ/2[a,b,c,d];
             A = matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3}};
-            frobeniusRoot(1, A)
-            frobeniusRoot(1, image A)
+	    M = image A;
+            frobeniusRoot(1, M)
+        Text
+	    For ease of use, one can also simply pass a matrix $A$ whose image is $M$, and {\tt frobeniusRoot(1, A)} returns a matrix whose image is $V$.
+        Example    
+	    frobeniusRoot(1, A)
         Text
             Often, one wants to compute a Frobenius root of some product of powers of ideals, $I_1^{a_1}\cdots I_n^{a_n}$. This is best accomplished by calling {\tt frobeniusRoot(e, \{a_1,\ldots,a_n\}, \{I_1,\ldots,I_n\})}.
         Example
@@ -210,9 +224,9 @@ doc ///
 
 	    $\bullet$ {\tt frobeniusRoot(e, m, I)} computes the $p^e$-th Frobenius root of the ideal $I^m$.
 
-	    $\bullet$ {\tt frobeniusRoot(e, a, f)} computes the $p^e$-th Frobenius root of the principal ideal ($f^a$).
+	    $\bullet$ {\tt frobeniusRoot(e, a, f)} computes the $p^e$-th Frobenius root of the principal ideal ($f^{ a}$).
 
-	    $\bullet$ {\tt frobeniusRoot(e, a, f, I)} computes the $p^e$-th Frobenius root of the product $f^aI$.
+	    $\bullet$ {\tt frobeniusRoot(e, a, f, I)} computes the $p^e$-th Frobenius root of the product $f^{ a}I$.
         Text
             There are two valid inputs for the option {\tt FrobeniusRootStrategy}, namely {\tt Substitution} and {\tt MonomialBasis}.  In the computation of the $p^e$-th Frobenius root of an ideal $I$, each generator $f$ of $I$ is written in the form $f = \sum a_i^{p^e} m_i$, where each $m_i$ is a monomial whose exponents are less than $p^e$; then the collection of all the $a_i$, obtained for all generators of $I$, generates the Frobenius root $I^{[1/p^e]}$. {\tt Substitution} and {\tt MonomialBasis} use different methods for gathering these $a_i$, and sometimes one method is faster than the other.
     SeeAlso
