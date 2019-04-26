@@ -241,7 +241,8 @@ doc ///
         an option for various functions
     Description
         Text
-            An option for various functions and in particular for frobeniusRoot.  The valid options are {\tt Substitution} and {\tt MonomialBasis}.
+            An option for various functions, and in particular for @TO frobeniusRoot@.  
+	    The valid values are {\tt Substitution} and {\tt MonomialBasis}.
 ///
 
 doc ///

@@ -131,10 +131,8 @@ doc ///
 	    the {\tt n^{th}} or {\tt t^{th}} Frobenius power of {\tt I}
     Description
         Text
-	        {\tt frobeniusPower(t, I)} computes the generalized Frobenius power
-            $I^{[t]}$, as introduced by Hernandez, Teixeira, and Witt.
-            If the exponent is a power of the characteristic, this is just the
-            usual Frobenius power.
+	    If $I$ is an ideal in a ring of positive characteristic $p$, then {\tt frobeniusPower(t, I)} computes the generalized Frobenius power $I^{[t]}$, as introduced by Hernandez, Teixeira, and Witt.
+            If the exponent is a power of the characteristic, this is just the usual Frobenius power.
         Example
             R = ZZ/5[x,y];
             I = ideal(x, y);
@@ -142,7 +140,7 @@ doc ///
         Text
             If $n$ is an arbitrary nonnegative integer, then write the base $p$
             expansion of $n$ as follows: $n = a_0 + a_1 p + a_2 p^2 + ... + a_r p^r$.
-            Then the $n$th Frobenius power of $I$ is defined as follows:
+            Then the $n^{th}$ Frobenius power of $I$ is defined as follows:
             $I^{[n]} = (I^{a_0})(I^{a_1})^{[p]}(I^{a_2})^{[p^2]}\cdots(I^{a_r})^{[p^r]}$.
         Example
             R = ZZ/3[x,y];
@@ -161,9 +159,9 @@ doc ///
             frobeniusRoot(2, frobeniusPower(4, I))
         Text
             If $t$ is an arbitrary nonegative rational number, and
-            $\{ t_n \} = \{ a_n/p^{e_n} \}$ is a sequence of rational numbers
+            \{$t_n$\} = \{$a_n/p^{e_n}$\}\ is a sequence of rational numbers
             converging to $t$ from above, then $I^{[t]}$ is the largest ideal
-            in the increasing chain of ideals $\{ I^{[t_n]} \}$.
+            in the increasing chain of ideals \{$I^{[t_n]}$\}.
         Example
             p = 7;
             R = ZZ/p[x,y];
@@ -206,5 +204,5 @@ doc ///
         an option for frobeniusPower
     Description
         Text
-            Valid options are {\tt Naive} and {\tt Safe}.
+            Valid values are {\tt Naive} and {\tt Safe}.
 ///

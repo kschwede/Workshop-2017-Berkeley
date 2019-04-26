@@ -45,17 +45,18 @@ doc ///
     Headline
         find an element of a polynomial ring that determines the Frobenius trace on the canonical module of a quotient of that ring
     Usage
-        frobeniusTraceOnCanonicalModule(defIdeal, canIdeal)
+        frobeniusTraceOnCanonicalModule(I, canIdeal)
     Inputs
-        defIdeal:Ideal
-            the defining ideal of the ring
+        I:Ideal
+            of a polynomial ring {\tt S}; the defining ideal of a ring {\tt R}
         canIdeal:Ideal
-            an ideal representing the canonical ideal
+            an ideal of {\tt S} whose image in {\tt R = S/I} is a canonical module of {\tt R}
     Outputs
         :List
+	    consisting of elements of the ambient polynomial ring {\tt S}, a linear combination of which determines the Frobenius trace on the canonical module of the quotient ring {\tt R = S/I}
     Description
         Text
-            Given $R = S/I$, where $S$ is a polynomial ring, there is a map $\omega_R^{1/p^e} \to \omega_R$ dual to the Frobenius map on $R$.
+            Given $R = S/I$, where $S$ is a polynomial ring over a field of positive characteristic $p$, there is a map $\omega_R^{1/p^e} \to \omega_R$ dual to the Frobenius map on $R$.
             By embedding $\omega_R$ as an ideal of $R$, one can interpret this map as a $p^{-e}$-linear map on $S$.  But every $p^{-e}$-linear map on $S$ is a premultiple of the dual to Frobenius on $S$, by some element of $S$. This function finds such an element.
 
             However, because {\it Macaulay2} does not always properly identify an ideal as principal (even though it is), sometimes the function cannot find this single element, but instead finds a list of elements of $S$, a linear combination of which is the desired one.

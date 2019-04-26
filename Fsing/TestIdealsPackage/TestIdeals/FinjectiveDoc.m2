@@ -24,71 +24,71 @@ doc ///
         FPureModule(e, expList, fList)
     Inputs
         R:RingMap
-            a ring
         f:RingElement
-            a ring element, to make a pair
+            to make a pair
         t:Number
-            a formal exponent
-        tList:List
-            a list of formal exponents for ring elements, for pairs
+            the formal exponent to which {\tt f} is raised
         fList:List
-            a list of ring elements, for pairs
-        expList:List
-            a list of formal exponents
+            consisting of ring elements {\tt f_1,\ldots,f_n}, for a pair
+        tList:List
+            consisting of formal exponents {\tt t_1,\ldots,t_n} for the elements of {\tt fList}
         e:ZZ
-            an integer, what root of Frobenius to take
+            the order of the Frobenius root to take
         FrobeniusRootStrategy => Symbol
-            choose the strategy for internal frobeniusRoot calls
+            selects the strategy for internal {\tt frobeniusRoot} calls
         CanonicalIdeal => Ideal
-            specify the canonical ideal (so the function doesn't recompute it)
+            specifies the canonical ideal (so the function does not recompute it)
         CurrentRing => Ring
-            specify the current ring to work with
+            specifies the ring to work with
         GeneratorList => List
-            specify the action on the canonical module
+            specifies the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module
     Outputs
         :Sequence
+	    consisting of four elements: the HSLG module of {\tt R}, {\tt (R,f^t)}, or {\tt (R,f_1^{t_1}\ldots f_n^{t_n})}, represented as a submodule of a canonical module; the canonical module of which it is a submodule (given as an ideal of {\tt R}); the element (or elements) of the ambient polynomial ring that determines the Frobenius trace on the canonical module; the number of times the trace of Frobenius was computed before the image stabilized.
     Description
         Text
-            Given a ring $R$ with canonical module $\omega$, this computes the image of $F^e_* \omega \to \omega$ for $e >> 0$.
-	    This image is sometimes called the HSLG-module (named for Hartshorne-Speiser, Lyubeznik and Gabber), and it roughly tells us where a ring is non-$F$-injective.
+            Given a ring $R$ with canonical module $\omega$, this function computes the image of $F^e_* \omega \to \omega$ for $e >> 0$.  
+	    This image is sometimes called the {\it HSLG module} (named for Hartshorne-Speiser, Lyubeznik, and Gabber), and it roughly tells us where a ring is non-$F$-injective.
             It can also be used to compute the maximal $F$-pure sub-Cartier module of a given rank-1 Cartier module (represented as an ideal).
             The name of the function is based on this interpretation.
-        Text
-            Specifically, this function returns a list of the following entries.  {\tt FPureModule, canonicalModule, u, HSLCount} where {\tt canonicalModule} is the canonical module of the ring (expressed as an ideal), {\tt FPureModule} is a submodule of that canonical module, {\tt u} is a list of elements of the ambient polynomial ring representing the trace of Frobenius on the canonical module and {\tt HSLCount} is how many times the trace of Frobenius was computed before the image stabilized.
+
+            Specifically, this function returns a sequence {\tt (FPMod, canMod, frobTrace, count)}, where {\tt canMod} is a canonical module of the ring (expressed as an ideal), {\tt FPMod} is the HSLG module, given as a submodule of {\tt canMod}, {\tt frobTrace} is a list of elements of the ambient polynomial ring representing the trace of Frobenius on the canonical module, and {\tt count} is the number of times the trace of Frobenius was computed before the image stabilized, sometimes called the {\it HSLG number} of the canonical module as a Cartier module.
         Example
             R = ZZ/7[x,y,z]/(x^5 + y^5 + z^5);
-            ( FPMod, canMod, frobTrace, count ) = FPureModule(CurrentRing => R);
+            (FPMod, canMod, frobTrace, count) = FPureModule(R);
             canMod --the ambient canonical module
             FPMod --the F-pure submodule of the canonical module
             frobTrace --the element representing trace of Frobenius
             count --how many times it took until the image stabilized
         Text
-            If you do not want the function to compute the canonical module, you can also pass the canonical module as an ideal via the {\tt CanonicalModule} option.
-            You could also pass it something other than the canonical module as well (for example, a submodule of the canonical module).
-            Likewise you can use the {\tt GeneratorList} option to specify the dual Frobenius action on the canonical module (or ideal playing the role of the canonical module).
+            Sometimes it is convenient to specify the ambient canonical module across multiple calls of {\tt FPureModule}.  
+	    This can be done by using the option {\tt CanonicalIdeal}.
+            One can also pass it something other than the canonical module as well (for example, a submodule of the canonical module).
+
+            Likewise, one can use the {\tt GeneratorList} option to specify the dual Frobenius action on the canonical module (or ideal playing the role of the canonical module).
+
             In the following example, the non-$F$-pure ideal of a $\mathbb{Q}$-Gorenstein ring is computed by hijacking this functionality.
         Example
             T = ZZ/7[a,b];
             S = ZZ/7[x,y,z,w];
             f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
-            I = ker f;
-            R = S/I;
-            J = ideal(sub(1, R));
+            R = S/(ker f);
+            J = ideal 1_R;
             u = QGorensteinGenerator(1, R);
             FPureModule(CanonicalIdeal => J, GeneratorList => {u})
         Text
-            Additionally, one can specify a pair $(R, f^t)$, as long as $t$ is a rational number without $p$ in its denominator.
+            Additionally, one can specify a pair ($R$, $f^{ t}$), as long as $t$ is a rational number with a denominator prime to the characteristic of the ring.
         Example
             R = ZZ/7[x,y];
-            M = FPureModule(5/6, y^2-x^3);
-            M#1 --the canonical module
-            M#0
-            N = FPureModule(9/10, y^2-x^3);
-            N#0
+            M = FPureModule(5/6, y^2 - x^3);
+            M#1 -- the canonical module
+            M#0 -- the F-pure submodule
+            N = FPureModule(9/10, y^2 - x^3);
+            N#0 -- the F-pure submodule
         Text
-            Additionally, we can compute F-pure submodules of the canonical module of things like $(R, f^s g^t)$ even when $R$ is not regular.
+            Finally, one can specify a pair ($R$, $f_1^{t_1}\cdots f_n^{t_n}$), even when $R$ is not regular (although $R$ is required to be $\mathbb{Q}$-Gorenstein, with index not divisible by the characteristic).
         Example
-            R = ZZ/3[x,y,z]/(x^2-y*z);
+            R = ZZ/3[x,y,z]/(x^2 - y*z);
             f = y;
             g = z;
             FPureModule({1/2, 1/2, 1/2}, {y, z, y + z})
