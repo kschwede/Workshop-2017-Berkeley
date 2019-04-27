@@ -21,7 +21,6 @@ doc ///
         FPureModule(R)
         FPureModule(t, f)
         FPureModule(tList, fList)
-        FPureModule(e, expList, fList)
     Inputs
         R:RingMap
         f:RingElement
@@ -32,8 +31,6 @@ doc ///
             consisting of ring elements {\tt f_1,\ldots,f_n}, for a pair
         tList:List
             consisting of formal exponents {\tt t_1,\ldots,t_n} for the elements of {\tt fList}
-        e:ZZ
-            the order of the Frobenius root to take
         FrobeniusRootStrategy => Symbol
             selects the strategy for internal {\tt frobeniusRoot} calls
         CanonicalIdeal => Ideal
@@ -108,40 +105,37 @@ doc ///
     Headline
         finds the maximal F-pure Cartier submodule of an ideal viewed as a Cartier module
     Usage
-        descendIdeal(e, expList, fList, J)
+        descendIdeal(e, tList, fList, J)
     Inputs
         e:ZZ
-            an integer, what root of Frobenius to take
+            the order of the Frobenius root to take
         fList:List
-            a list of ring elements, for pairs
-        expList:List
-            a list of formal exponents
+            consisting of ring elements {\tt f_1,\ldots,f_n}, for a pair
+        tList:List
+            consisting of formal exponents {\tt t_1,\ldots,t_n} for the elements of {\tt fList}
         J:Ideal
-            the Cartier module which to study
+            the Cartier module to study
         FrobeniusRootStrategy => Symbol
-            choose the strategy for internal frobeniusRoot calls
+            selects the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Sequence
+            whose first entry is the maximal $F$-pure Cartier submodule of {\tt J} under the dual-{\tt e}-iterated Frobenius induced by {\tt f_1^{t_1}\ldots f_n^{t_n}}, and the second entry is the number of times {\tt frobeniusRoot} was applied
     Description
         Text
-            This command will compute the maximal $F$-pure Cartier submodule of {\tt J}
-            under the dual-{\tt e}-iterated Frobenius induced induced by the elements
-            in {\tt fList} raised to the exponents in {\tt expList}.
-        Text
-            The function returns a list where the first entry is the descended ideal.
-            The second entry is how many applications of {\tt frobeniusRoot} were applied (ie, the HSL number).
+            This command computes the maximal $F$-pure Cartier submodule of an ideal $J$ under the dual-$e$-iterated Frobenius induced by ${\tt f_1^{t_1}\ldots f_n^{t_n}}$.
+        
+            The function returns a sequence, where the first entry is the descended ideal, and the second entry is the number of times {\tt frobeniusRoot} was applied (i.e., the HSL number).
         Example
             R = ZZ/7[x,y,z];
-            f = y^2-x^3;
-            u = 1_R;
-            descendIdeal(1, {5}, {f}, ideal(u)) --this computes the non-F-pure ideal of (R, f^{5/6})
-            descendIdeal(2, {41}, {f}, ideal(u)) --this computes the non-F-pure ideal of (R, f^{41/48})
-            (FPureModule(5/6, f, CanonicalIdeal => ideal(u), GeneratorList => {u}))#0
-            (FPureModule(41/48, f, CanonicalIdeal => ideal(u), GeneratorList => {u}))#0
+            f = y^2 - x^3;
+            descendIdeal(1, {5}, {f}, ideal 1_R) --this computes the non-F-pure ideal of (R, f^{5/6})
+            descendIdeal(2, {41}, {f}, ideal 1_R) --this computes the non-F-pure ideal of (R, f^{41/48})
         Text
-            The same two examples could also be accomplished via the calls of {\tt FPureModule} as illustrated above.
-            However, the {\tt ascendIdeal} construction gives the user more direct control.
-        Text
+            The same two examples could also be accomplished via calls of {\tt FPureModule}, as illustrated below; however, the {\tt descendIdeal} construction gives the user more direct control.
+        Example
+            first FPureModule(5/6, f, CanonicalIdeal => ideal 1_R, GeneratorList => {1_R})
+            first FPureModule(41/48, f, CanonicalIdeal => ideal 1_R, GeneratorList => {1_R})
+        Text	
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
         FPureModule
@@ -254,7 +248,7 @@ doc ///
         an option to specify that a certain ring is used
     Description
         Text
-            {\tt CurrentRing} is an option used in various functions specify a ring to work with.
+            {\tt CurrentRing} is an option used in various functions to specify a ring to work with.
 ///
 
 doc ///

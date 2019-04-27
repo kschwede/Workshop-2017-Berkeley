@@ -216,10 +216,8 @@ doc ///
             (a, b, c) = decomposeFraction(3, 4/45)
             4/45 == a/(3^b * (3^c - 1))
         Text
-            If the number $t$ is of the form $a/p^b$, then there is no valid value of $c$ and the
-            function returns $c = 0$. Setting the option {\tt NoZeroC => true}
-            forces the third entry of the output list to be nonzero, even if
-            that means increasing the first entry.
+            If the number $t$ is of the form $a/p^b$, then the function returns ($a$,$b$,$0$). 
+	    Setting the option {\tt NoZeroC => true} forces the third entry of the output sequence to be nonzero, even if that means increasing the first entry.
         Example
             decomposeFraction(3, 4/27)
             (a, b, c) = decomposeFraction(3, 4/27, NoZeroC => true)

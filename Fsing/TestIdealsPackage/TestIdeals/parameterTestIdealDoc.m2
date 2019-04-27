@@ -123,7 +123,7 @@ doc ///
 	        Likewise, the parameter test module is viewed as a subideal of that ideal of $R$.
         Text
             Because the ring in the example above is a Gorenstein ring, the ambient canonical module is the unit ideal.
-	        In contrast, the ring in our next example is not Gorenstein.
+	        In contrast, the ring in the next example is not Gorenstein.
         Example
             S = ZZ/3[x,y,u,v];
             T = ZZ/3[a,b];

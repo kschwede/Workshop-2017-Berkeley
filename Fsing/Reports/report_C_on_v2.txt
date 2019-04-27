@@ -48,7 +48,7 @@ is "the smallest ideal containing a given ideal which is compatible with a
 isFInjective, etc.
 
 --------------------------------------
-[Pedro] Almost done...
+[Pedro] Done.
 --------------------------------------
 
 *****************************************************************************
@@ -59,9 +59,7 @@ well in Macaulay2, so it would be good to make the code conform to the
 documentation, rather than the other way around.
 
 --------------------------------------
-[Pedro] There's also ascendModule, and frobeniusRoot of a matrix.
-Should these take and return modules, instead of matrices? Or maybe both?
-I'll wait until I hear from others before making any changes.
+Done.
 --------------------------------------
 
 *****************************************************************************
@@ -148,11 +146,7 @@ or
 Avoid personal pronouns.
 
 --------------------------------------
-[Pedro] Done. Fixed also a couple other occurences of "our" or "your".
-However, there are *many* "you"s throughout the documentation
-("if you pass this...", "if you do that..."). I've been slowly working on this.
-
-You's and your's and our's are gone.
+[Pedro] Done. 
 --------------------------------------
 
 *****************************************************************************
@@ -169,7 +163,7 @@ to
 for other constructions of this type.
 
 --------------------------------------
-[Pedro] Rephrased this one, but have not yet looked for others.
+[Pedro] Done (I think).
 --------------------------------------
 
 *****************************************************************************
