@@ -266,7 +266,7 @@ doc ///
     Key
         GeneratorList
     Headline
-        an option to specify that a certain list of elements are used to describe a Cartier action
+        an option to specify that a certain list of elements is used to describe a Cartier action
     Description
         Text
             {\tt GeneratorList} is an option used in various functions to specify a Cartier action, particularly on the canonical module.  In particular, if it is not specified, typically the Cartier action on the canonical module will need to be recomputed.
