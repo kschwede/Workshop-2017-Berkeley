@@ -260,7 +260,7 @@ i1 : S = ZZ/5[x,y,z];
 
 i2 : f = x^3 + y^3 + z^3;
 
-i3 : u = f^(5-1);
+i3 : u = f^(5 - 1);
 
 i4 : frobeniusRoot(1, ideal u)
 
@@ -272,7 +272,7 @@ i5 : S = ZZ/7[x,y,z];
 
 i6 : f = x^3 + y^3 + z^3;
 
-i7 : u = f^(7-1);
+i7 : u = f^(7 - 1);
 
 i8 : frobeniusRoot(1, ideal u)
 
@@ -555,13 +555,18 @@ The function \texttt{isFInjective} determines whether the ring $R = S/I$ is
 $F$-injective, where $S$ is a polynomial ring.
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i1 : R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
+
 i2 : isFInjective R
+
 o2 = true
+
 i3 : R = ZZ/5[x,y,z]/(x^3 + y^3 + z^3);
+
 i4 : isFInjective R
+
 o4 = false
 \end{MyVerbatim}
 }\medskip
@@ -616,12 +621,16 @@ can choose to check $F$-injectivity only at the origin by setting the
 option \texttt{IsLocal} to  \texttt{true}.
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i1 : R = ZZ/7[x,y,z]/((x - 1)^5 + (y + 1)^5 + z^5);
+
 i2 : isFInjective R -- R is not globally F-injective...
+
 o2 = false
+
 i3 : isFInjective(R, IsLocal => true) -- but is F-injective at the origin
+
 o3 = true
 \end{MyVerbatim}
 }\medskip
@@ -638,13 +647,18 @@ $F$-regular. Below are two examples, one of which is $F$-regular and the other o
 
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i1 : R = ZZ/5[x,y,z]/(x^2 + y*z);
+
 i2 : isFRegular R
+
 o2 = true
+
 i3 : R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
+
 i4 : isFRegular R
+
 o4 = false
 \end{MyVerbatim}
 }\medskip
@@ -652,17 +666,26 @@ o4 = false
 We can also check whether a pair $(R, f^t)$ is $F$-regular.
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i1 : R = ZZ/5[x,y];
+
 i2 : f = y^2 - x^3;
+
 i3 : isFRegular(1/2, f)
+
 o3 = true
+
 i4 : isFRegular(5/6, f)
+
 o4 = false
+
 i5 : isFRegular(4/5, f)
+
 o5 = false
+
 i6 : isFRegular(4/5 - 1/100000, f)
+
 o6 = true
 \end{MyVerbatim}
 }\medskip
@@ -708,18 +731,28 @@ Below are examples for both a ring and a pair.
 
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i1 : R = ZZ/7[x,y,z]/((x - 1)^3 + (y + 1)^3 + z^3);
+
 i2 : isFRegular R -- R is not globally F-regular...
+
 o2 = false
+
 i3 : isFRegular(R, IsLocal => true) -- but is F-regular at the origin
+
 o3 = true
+
 i4 : R = ZZ/13[x,y];
+
 i5 : f = (y - 2)^2 - (x - 3)^3;
+
 i6 : isFRegular(5/6, f) -- (R,f^(5/6)) is not F-regular...
+
 o6 = false
+
 i7 : isFRegular(5/6, f, IsLocal => true) -- but is F-regular at the origin
+
 o7 = true
 \end{MyVerbatim}
 }\medskip
@@ -736,18 +769,28 @@ Either a ring or a defining ideal can be input, as seen in the following example
 
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i1 : R = ZZ/5[x,y,z]/(x^2 + y*z);
+
 i2 : isFPure R
+
 o2 = true
+
 i3 : R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
+
 i4 : isFPure R
+
 o4 = true
+
 i5 : S = ZZ/2[x,y,z];
+
 i5 : isFPure ideal(y^2 - x^3)
+
 o5 = false
+
 i6 : isFPure ideal(z^2 - x*y*z + x*y^2 + x^2*y)
+
 o6 = true
 \end{MyVerbatim}
 }\medskip
@@ -776,16 +819,24 @@ $T_{R}(M^{1/p}) \subseteq M$.
 The command \texttt{isFRational} checks if a ring is $F$-rational.
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i1 : S = ZZ/3[a,b,c,d,t];
-i2 : m = 4;
-i3 : n = 3;
-i4 : M = matrix{{ a^2 + t^m, b, d }, { c, a^2, b^n - d }};
-i5 : I = minors(2, M);
-i6 : R = S/I;
-i7 : isFRational R
-o7 = true
+
+i2 : M = matrix{{ a^2 + t^4, b, d }, { c, a^2, b^3 - d }};
+
+             2       3
+o2 : Matrix S  <--- S
+
+i3 : I = minors(2, M);
+
+o3 : Ideal of S
+
+i4 : R = S/I;
+
+i5 : isFRational R
+
+o5 = true
 \end{MyVerbatim}
 }\medskip
 
@@ -826,21 +877,28 @@ for some $e > 0$ (or equivalently for all $e > 0$).
 Using \emph{Macaulay2}, we can compute this using the \texttt{testModule} command as follows.
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i1 : R = ZZ/5[x,y,z]/(x^4 + y^4 + z^4);
+
 i2 : N = testModule R;
+
 i3 : N#0
+
              2             2        2
 o3 = ideal (z , y*z, x*z, y , x*y, x )
+
 o3 : Ideal of R
+
 i4 : N#1
+
 o4 = ideal 1
+
 o4 : Ideal of R
 \end{MyVerbatim}
 }\medskip
 
-The output of \texttt{testModule} is a list, consisting of three items:
+The output of \texttt{testModule} is a sequence, consisting of three items:
 \begin{enumerate}[(1)]
 \item The test module itself, given as an ideal of $R$.
 \item The canonical module that contains the test module, given as an ideal of $R$.  (Note the representation of the canonical module as an ideal is not unique, it is only unique up to isomorphism, hence it is important to return this module as well).
@@ -850,16 +908,23 @@ The output of \texttt{testModule} is a list, consisting of three items:
 Note since this ring is Gorenstein, the canonical module is simply represented as the unit ideal. Here is another example, where the ring is not Gorenstein.
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i1 : R = ZZ/5[x,y,z]/(y*z, x*z, x*y);
+
 i2 : N = testModule R;
+
 i3 : N#0
+
              2   2   2
 o3 = ideal (z , y , x )
+
 o3 : Ideal of R
+
 i4 : N#1
-o4 = ideal (y - z, x + z)
+
+o4 = ideal (y + 2z, x - z)
+
 o4 : Ideal of R
 \end{MyVerbatim}
 }\medskip
@@ -920,22 +985,35 @@ where $I$ varies over ideals defined by a partial system of parameters, and $I^*
 In this example we repeat the calculation in \cite[\S 9]{KatzmanParameterTestIdealOfCMRings}.
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i1 : R = ZZ/2[a..e];
+
 i2 : E = matrix {{a, b, b, e}, {d, d, c, a}};
+
              2       4
 o2 : Matrix R  <--- R
+
 i3 : I = minors(2, E);
+
 o3 : Ideal of R
+
 i4 : S = R/I;
+
 i5 : J = parameterTestIdeal S
+
 o5 = ideal (c + d, b, a)
+
 o5 : Ideal of S
+
 i6 : J = substitute(J, R);
+
 o6 : Ideal of R
+
 i7 : mingens(J + I)
+
 o7 = | c+d b a de |
+
              1       4
 o7 : Matrix R  <--- R
 \end{MyVerbatim}
@@ -971,15 +1049,22 @@ etc.
 Here is an example (a $\bZ/3\bZ$-quotient, where $3 | (7-1)$), where exactly this logic occurs.
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i1 : T = ZZ/7[x,y];
+
 i2 : S = ZZ/7[a,b,c,d];
+
 i3 : f = map(T, S, {x^3, x^2*y, x*y^2, y^3});
+
 i4 : I = ker f;
+
 i5 : R = S/I;
+
 i6 : testIdeal R
+
 o6 = ideal 1
+
 o6 : Ideal of R
 \end{MyVerbatim}
 }\medskip
@@ -987,9 +1072,10 @@ o6 : Ideal of R
 However, the term $u$ constructed above can be quite complicated if $e > 1$ (which happens exactly when $(p -1)K_R$ is not Cartier).  For instance, even in the above example we have an extremely complex $u$:
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
 i7 : toString QGorensteinGenerator(1, R)
+   
 o7 = a^2*b^6*c^12+a^3*b^4*c^13+a^3*b^5*c^11*d+a^4*b^3*c^12*d+a^5*b*c^13*d+b^
      12*c^6*d^2+a^3*b^6*c^9*d^2+a^4*b^4*c^10*d^2+a^5*b^2*c^11*d^2+a^6*c^12*d
      ^2+b^13*c^4*d^3+a*b^11*c^5*d^3+a^2*b^9*c^6*d^3+a^4*b^5*c^8*d^3+a^5*b^3*
