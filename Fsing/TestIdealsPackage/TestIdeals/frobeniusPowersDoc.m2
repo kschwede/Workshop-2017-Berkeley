@@ -55,7 +55,7 @@ doc ///
         M:Matrix
             with entries in a ring of characteristic $p > 0$
         FrobeniusRootStrategy => Symbol
-            chooses the strategy for internal {\tt frobeniusRoot} calls
+            selects the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Ideal
 	    the {\tt p^e}-th Frobenius power of {\tt I} (with {\tt e = 1}, if {\tt e} is not specified)
@@ -113,7 +113,7 @@ doc ///
         FrobeniusPowerStrategy => Symbol
             selects the strategy for {\tt frobeniusPower}
         FrobeniusRootStrategy => Symbol
-            chooses the strategy for internal {\tt frobeniusRoot} calls
+            selects the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Ideal
 	    the {\tt n^{th}} or {\tt t^{th}} Frobenius power of {\tt I}

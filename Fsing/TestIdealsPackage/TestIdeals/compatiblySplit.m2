@@ -26,11 +26,9 @@
 ---	(b) the action of uT on the the annihilator of P on the injective hull of the residue field of R 
 ---	is not the zero Frobenius map.
 
-compatibleIdeals = method(Options => {FrobeniusRootStrategy => Substitution});
+compatibleIdeals = method( Options => { FrobeniusRootStrategy => Substitution } )
 
-
-
-compatibleIdeals(RingElement) := o -> u ->
+compatibleIdeals RingElement := o -> u ->
 (
     if not isPolynomialOverPrimeField( u ) then 
         error "compatibleIdeals: expected an element of a polynomial ring over a prime field ZZ/p";
@@ -39,25 +37,24 @@ compatibleIdeals(RingElement) := o -> u ->
     P := ideal 0_R;
     J:=frobeniusRoot( 1, ideal u );
     t := 1_R % ( gens J );
-    if t != 0_R then print "*** WARNING *** Frobenius action has nilpotent elements";
+    if t != 0_R then print "compatibleIdeals: *** WARNING *** Frobenius action has nilpotent elements";
     compatibleIdealsInnards ( u, L, P )
-);
+)
 
-compatibleIdealsInnards = method(Options => {FrobeniusRootStrategy => Substitution});
+compatibleIdealsInnards = method(Options => {FrobeniusRootStrategy => Substitution})
 
-compatibleIdealsInnards(RingElement, List, Ideal) := o->( u, L, P ) ->
+compatibleIdealsInnards(RingElement, List, Ideal) := o-> ( u, L, P ) ->
 (
     local f;
-    P1 := frobenius(P);
+    P1 := frobenius P;
 --    C1 := ideal( ( singularLocus( P ) ).relations );
-    C1 := ideal testElement((ring P)/P, AssumeDomain=>true);
+    C1 := ideal testElement((ring P)/P, AssumeDomain => true);
     ---tau=ideal mingens star(C1,u,1) ; ---OLD VERSION
     tau := ideal mingens ascendIdeal( 1, u, C1, o );
     Plist := minimalPrimes tau;
     apply( Plist, Q ->
         (
     	    f = any( L, T -> T == Q );
----print(L,Q,f);
             if not f then
 	    (
 	        L = append( L, Q );
@@ -75,7 +72,6 @@ compatibleIdealsInnards(RingElement, List, Ideal) := o->( u, L, P ) ->
     apply( Plist, Q ->
 	(
 	    f = any( L, T -> T == Q );
-	---print(L,Q,f);
 	    if not f then
 	    (
 		L = append( L, Q );
@@ -83,6 +79,5 @@ compatibleIdealsInnards(RingElement, List, Ideal) := o->( u, L, P ) ->
 	    );
 	)
     );
-    ---
     L
-);
+)

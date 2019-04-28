@@ -16,13 +16,14 @@ doc ///
     Inputs
         R:Ring
         Attempts => ZZ
-            specify how many times the function should try to embed the canonical module as an ideal before giving up
+            specifies how many times the function should try to embed the canonical module as an ideal before giving up
     Outputs
         :Ideal
 	    isomorphic to the canonical module of {\tt R}
     Description
         Text
-            Given a ring $R$, typically a domain, this produces an ideal isomorphic to the canonical module of $R$.  This will not always produce the same ideal, especially in a non-domain.  It uses the function {\tt embedAsIdeal} from {\tt Divisor.m2}.
+            Given a ring $R$, typically a domain, {\tt canonicalIdeal(R)} produces an ideal isomorphic to the canonical module of $R$.  
+	    It uses the function {\tt embedAsIdeal} from {\tt Divisor.m2}.
         Example
             S = QQ[x,y,u,v];
             T = QQ[a,b];
@@ -30,12 +31,12 @@ doc ///
             R = S/(ker f);
             canonicalIdeal(R)
         Text
-            Here is an example in a non-domain.
+	    The function {\tt canonicalIdeal} will not always produce the same ideal, especially in a non-domain.  
         Example
             R = ZZ/13[x,y,z]/(x*y, x*z, y*z);
-            canonicalIdeal(R)
+            print \ unique apply(10, i -> canonicalIdeal(R));
         Text
-            The option {\tt Attempts} is passed to {\tt embedAsIdeal}, and tells it how many times to try before giving up.
+            The option {\tt Attempts} is passed to {\tt embedAsIdeal}, and tells it how many times to try to embed the canonical module as an ideal before giving up.
 ///
 
 doc ///
@@ -183,7 +184,7 @@ doc ///
         R:Ring
 	    a Cohen-Macaulay ring
         FrobeniusRootStrategy => Symbol
-            specifies the strategy for internal {\tt frobeniusRoot} calls
+            selects the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Ideal
 	    the parameter test ideal of {\tt R}

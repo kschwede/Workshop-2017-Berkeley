@@ -297,7 +297,7 @@ ascendIdeal ( ZZ, List, List, Ideal ) := o -> ( ek, akList,  hkList, Jk ) ->
     );
 
     --trim the output
-    if not o.AscentCount then trim (IP*Rk) else { trim (IP*Rk), i1 }
+    if not o.AscentCount then trim (IP*Rk) else ( trim (IP*Rk), i1 )
 )
 
 -----------------------------------------------------------------------------

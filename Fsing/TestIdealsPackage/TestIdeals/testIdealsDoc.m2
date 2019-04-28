@@ -76,6 +76,9 @@ doc ///
         AssumeDomain
     Headline
         an option to assume a ring is a domain
+    Description
+        Text
+            {\tt AssumeDomain} is an option used in various functions, to assume that a ring is an integral domain.
 ///
 
 doc ///

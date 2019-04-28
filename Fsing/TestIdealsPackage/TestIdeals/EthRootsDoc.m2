@@ -20,38 +20,44 @@ doc ///
         ascendIdeal(e, expList, hList, J)
     Inputs
         J:Ideal
-            the ideal to ascend
-        h:RingElement
-            the element to multiply by at each step of the ascent
+            in a polynomial ring {\tt S} of characteristic {\tt p > 0}, or in a quotient of {\tt S}; the ideal to ascend
         e:ZZ
-            the Frobenius root to take at each step of the ascent
+            the order of the Frobenius root to take at each step of the ascent
+        h:RingElement
+            the polynomial in {\tt S} to multiply by at each step of the ascent
         a:ZZ
             the power to raise {\tt h} to at each step of the ascent
-        expList:List
-            consisting of the powers to raise the elements of {\tt hList} to, at each step of the ascent
         hList:List
-            consisting of the elements to multiply by, at each step of the ascent
+            consisting elements {\tt h_1,\ldots,h_n} of {\tt S} to multiply by at each step of the ascent
+        expList:List
+            consisting of the powers {\tt a_1,\ldots,a_n} to raise the elements of {\tt hList} to, at each step of the ascent
         AscentCount => Boolean
             tells the function to return the number of steps it took before the ascent of the ideal stabilized
         FrobeniusRootStrategy => Symbol
             selects the strategy for internal {\tt frobeniusRoot} calls
     Outputs
         :Ideal
-	    the stable ideal in the ascending chain $J\subseteq J + \phi(J)\subseteq J + \phi(J) + \phi^2(J)\subseteq \cdots$, where $\phi$ is the $p^{-e}$ linear map obtained by multiplying the $e$th Frobenius trace on a polynomial ring by $h$, or $h^a$, or {\tt product(hList,expList,(h,a)->h^a)}
+	    the stable ideal in the ascending chain {\tt J \subseteq\ J + \phi(J) \subseteq\ J + \phi(J) + \phi^2(J) \subseteq\ \ldots}, where {\tt \phi} is the {\tt p^{-e}}-linear map obtained by premultiplying the {\tt e^{th}} Frobenius trace on {\tt S} by {\tt h}, or {\tt h^a}, or {\tt h_1^{a_1}\ldots h_n^{a_n}}, depending on the arguments passed
+	:Sequence
+	    consisting of the stable (ascended) ideal and the number of steps it took before the ascent of the ideal stabilized (when the option {\tt AscentCount} is set to {\tt true})
     Description
         Text
-            Let $\phi$ be the $p^{-e}$ linear map obtained by multiplying the $e$th Frobenius trace on a polynomial ring by the polynomial $h$  (or $h^a$, if $a$ is given).
-            This function finds the smallest $\phi$-stable ideal containing $J$, which is the stable value of the ascending chain $J\subseteq J + \phi(J)\subseteq J + \phi(J) + \phi^2(J)\subseteq \cdots$.
-            Note that if the ideal $J$ is not an ideal in a polynomial ring, but in a quotient of a polynomial ring, the function will do the computation with the $e$th Frobenius trace in the ambient polynomial ring, but will do the comparison, to see if stabilization has occured, inside the quotient ring.
+	    Let $J$ be an ideal in a polynomial ring $S$ of characteristic $p>0$.
+	    An element $h$ of $S$ determines a $p^{-e}$-linear map $\phi: S \to\ S$, obtained by premultiplying the $e^{th}$ Frobenius trace on $S$ by $h$. 
+            The function {\tt ascendIdeal} finds the smallest $\phi$-stable ideal of $S$ containing $J$, which is the stable value of the ascending chain $J\subseteq J + \phi(J)\subseteq J + \phi(J) + \phi^2(J)\subseteq \cdots$.
+
+            If $J$ is not an ideal of a polynomial ring, but of a quotient of a polynomial ring, {\tt ascendIdeal} will do the computation with the $e^{th}$ Frobenius trace in the ambient polynomial ring, but will do the comparison, to see if stabilization has occured, inside the quotient ring.
         Example
             S = ZZ/5[x,y,z];
             g = x^4 + y^4 + z^4;
             h = g^4;
             R = S/(g);
             ascendIdeal(1, h, ideal y^3)
-            ascendIdeal(1, h, ideal (sub(y, S))^3)
+            ascendIdeal(1, h, ideal (sub(y, S))^3) 
         Text
-            The alternate ways to call the function allow the function to behave in a more efficient way. Indeed, frequently the polynomial passed is a power, $h^a$.  If $a$ is large, it is more efficient not to compute $h^a$, but instead, to keep the exponent small by only raising $h$ to the minimal power needed to do the computation at that time.
+            The alternate ways to call the function allow the function to behave more efficiently. 
+	    Indeed, frequently the polynomial passed is a power, $h^a$.  
+	    If $a$ is large, it is more efficient not to compute $h^a$, but instead, to keep the exponent small by only raising $h$ to the minimal power needed to do the computation at that time.
         Example
             S = ZZ/5[x,y,z];
             g = x^4 + y^4 + z^4;
@@ -59,11 +65,10 @@ doc ///
             ascendIdeal(1, 4, g, ideal y^3)
             ascendIdeal(1, 4, g, ideal (sub(y, S))^3)
         Text
-            More generally, if $h$ is a product of powers, $h = h_1^{a_1}\cdots h_n^{a_n}$, then it is more efficient to pass {\tt ascendIdeal} the lists {\tt expList = \{a_1,\ldots,a_n\}} and {\tt hList = \{h_1,\ldots,h_n\}} of exponents and bases.
-        Text
-            The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
-        Text
-            By default (when {\tt AscentCount => false}), {\tt ascendIdeal} just returns the stable (ascended) ideal.  If, instead, {\tt AscentCount} is set to {\tt true}, then {\tt ascendIdeal} returns a list, where the first value is the stable ideal, and the second is the number of steps it took for the ascending chain to stabilize and reach that ideal.
+            More generally, if $h$ is a product of powers, $h = h_1^{a_1}\ldots h_n^{a_n}$, then it is more efficient to pass {\tt ascendIdeal} the lists {\tt expList = \{a_1,\ldots,a_n\}} and {\tt hList = \{h_1,\ldots,h_n\}} of exponents and bases.
+
+            By default (when {\tt AscentCount => false}), {\tt ascendIdeal} just returns the stable (ascended) ideal.  
+	    If, instead, {\tt AscentCount} is set to {\tt true}, then {\tt ascendIdeal} returns a sequence whose first entry is the stable ideal, and the second is the number of steps it took for the ascending chain to stabilize and reach that ideal.
         Example
             R = ZZ/5[x,y,z];
             J = ideal(x^12, y^15, z^21);
@@ -71,7 +76,9 @@ doc ///
             ascendIdeal(1, f^4, J)
             ascendIdeal(1, f^4, J, AscentCount => true)
         Text
-            This method is described in M. Katzman's "Parameter-test-ideals of Cohen–Macaulay rings" (Compositio Mathematica 144 (4), 933-948) under the name "star-closure".
+            The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
+
+            This method is described in M. Katzman's {\it Parameter-test-ideals of Cohen–Macaulay rings} (Compositio Mathematica 144 (4), 933-948), under the name "star-closure".
             It is a key tool in computing test ideals and test modules.
     SeeAlso
         testIdeal
@@ -124,6 +131,9 @@ doc ///
         AscentCount
     Headline
         an option for ascendIdeal
+    Description
+        Text
+            {\tt AscentCount} is an option for {\tt ascendIdeal}, that tells the function to return the number of steps it took before the ascent of the ideal stabilized.
 ///
 
 doc ///
@@ -170,7 +180,7 @@ doc ///
         a:ZZ
             the exponent to which {\tt f} will be raised, before taking the Frobenius root
         FrobeniusRootStrategy => Symbol
-            controls the strategy for this function
+            controls the strategy used by this function
     Outputs
         :Ideal
 	    the {\tt p^e}-th Frobenius root of {\tt I} (or {\tt I_1^{a_1}\ldots I_n^{a_n}}, {\tt I_1^{a_1}\ldots I_n^{a_n}I}, {\tt I^m}, {\tt (f^a)}, {\tt f^aI}, depending on the arguments passed)

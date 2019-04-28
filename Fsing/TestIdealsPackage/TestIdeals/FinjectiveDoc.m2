@@ -255,10 +255,11 @@ doc ///
     Key
         CanonicalIdeal
     Headline
-        an option to specify that a certain ideal should be used as the canonical ideal
+        an option to specify that a certain ideal be used as the canonical ideal
     Description
         Text
-            {\tt CanonicalIdeal} is an option used in various functions specify an ideal to use as the canonical ideal.  In this way, the canonical ideal does not have to be recomputed and one can use a single fixed choice.
+            {\tt CanonicalIdeal} is an option used in various functions to specify an ideal to be used as the canonical ideal.  
+	    In this way, the canonical ideal does not have to be recomputed, and one can use a single fixed choice across multiple calls of a function.
 ///
 
 doc ///
