@@ -4,34 +4,63 @@ installPackage "TestIdeals"
 loadPackage "TestIdeals"
 viewHelp "TestIdeals"
 
-R=ZZ/5[x,y,z]
-I=ideal(x^6*y*z+x^2*y^12*z^3+x*y*z^18)
-frobeniusPower(1/5,I)
+------------------------------------------------------------------------------------------
+R = ZZ/5[x,y,z];
+I = ideal(x^6*y*z + x^2*y^12*z^3 + x*y*z^18);
+frobeniusPower(1/5, I)
 
-frobeniusPower(1/2, ideal(y^2-x^3))
-frobeniusPower(5/6, ideal(y^2-x^3))
-
+------------------------------------------------------------------------------------------
 restart; 
 loadPackage "TestIdeals";
 
+S = ZZ/5[x,y,z];
+f = x^3 + y^3 + z^3;
+u = f^(5-1);
+frobeniusRoot(1, ideal u)
+S = ZZ/7[x,y,z];
+f = x^3 + y^3 + z^3;
+u = f^(7-1);
+frobeniusRoot(1, ideal u)
 
-R=ZZ/5[x,y,z]
-
-g=x^3+y^3+z^3
-u=g^(5-1)
-
-frobeniusPower(1/5,ideal(u))
-
-
-R=ZZ/7[x,y,z]
-
-g=x^3+y^3+z^3
-u=g^(7-1)
-
-frobeniusPower(1/7,ideal(u))
-
+------------------------------------------------------------------------------------------
 restart; 
 loadPackage "TestIdeals"
+p = 3;
+R = ZZ/p[x,y];
+m = monomialIdeal(x, y);
+I = m^5;
+t = 3/5 - 1/(5*p^3);
+frobeniusPower(t, I)
+frobeniusPower(t - 1/p^5, I)
+
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
+R = ZZ/2[a,b,c,d];
+I = intersect(ideal(a, b),ideal(a, c),ideal(c, d),ideal(c + d, a^3 + b*d^2));
+f = inducedMap(R^1/I, R^1/frobenius(I));
+E2 = Ext^2(f, R^1)
+target E2
+source E2
+
+U = matrix entries E2;
+A = matrix entries relations source E2;
+frobeniusRoot(1, U)
+
+V = ascendModule(1, A, U)
+
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
+
+
+S = ZZ/3[a..f,x,y];
+G = a*x^5 + b*x^4*y + c*x^3*y^2 + d*x^2*y^3 + e*x*y^4 + f*y^5;
+testIdeal(t, G)
+testIdeal(t - 1/p^5, G)
+
+
+
 
 R = ZZ/3[u,v];
 
@@ -172,8 +201,6 @@ frobeniusRoot(1,U)
 
 -----------------------------------------------------------------------------------------------
 restart; 
-uninstallPackage "TestIdeals"
-installPackage "TestIdeals"
 loadPackage "TestIdeals"
 p=2;
 R=ZZ/p[a,b,c,d];
@@ -185,11 +212,8 @@ resf=res f
 G=Hom(resf, R^1)
 E2=HH^2 G
 
-source E2
-target E2
-
-U=matrix entries E2;
-A=matrix entries relations source E2;
+U=matrix entries E2
+A=matrix entries relations source E2
 frobeniusRoot(1,U)
 
 V=ascendModule (1,A,U) 
@@ -197,14 +221,3 @@ V=ascendModule (1,A,U)
 
 
 ----------------------------------------------------------------------------------
-restart; 
-loadPackage "TestIdeals"
-
-R=ZZ/2[a,b,c,d];
-
-U= matrix {{a^4  + a*b*c^2  + a*b*c*d, a^2* b}, {a^2*c*d^3 , a^3* c*d + a^3 *d^2  + b*c*d^3 }}
-frobeniusRoot(1,U)
-
-A= matrix {{b*c, a, 0}, {a^2* d, d^2 , c + d}}
-
-V=ascendModule (1,A,U) 

@@ -1,5 +1,5 @@
 \documentclass{amsart}
-\usepackage{calc,amssymb,amsthm,amsmath}
+\usepackage{calc,amssymb,amsthm,amsmath,setspace}
 %\usepackage{mathtools}
 \RequirePackage[dvipsnames,usenames]{xcolor}
 
@@ -167,13 +167,19 @@ In \autoref{ss: math behind} we describe the main ideas behind such computations
 
 \medskip
 {\small
+\setstretch{.7}
 \begin{MyVerbatim}
 i1 : R = ZZ/5[x,y,z];
+
 i2 : I = ideal(x^6*y*z + x^2*y^12*z^3 + x*y*z^18);
+
 o2 : Ideal of R
+
 i3 : frobeniusPower(1/5, I)
+
                 2   3
 o3 = ideal (x, y , z )
+
 o3 : Ideal of R
 \end{MyVerbatim}
 }
@@ -248,19 +254,30 @@ Here we compute two examples.
 
 \medskip
 {\small
+   \setstretch{.7}
 \begin{MyVerbatim}
 i1 : S = ZZ/5[x,y,z];
+
 i2 : f = x^3 + y^3 + z^3;
-i3 : u = f^(5 - 1);
+
+i3 : u = f^(5-1);
+
 i4 : frobeniusRoot(1, ideal u)
+
 o4 = ideal (z, y, x)
+
 o4 : Ideal of S
 
 i5 : S = ZZ/7[x,y,z];
+
 i6 : f = x^3 + y^3 + z^3;
-i7 : u = f^(7 - 1)
+
+i7 : u = f^(7-1);
+
 i8 : frobeniusRoot(1, ideal u)
+
 o8 = ideal 1
+
 o8 : Ideal of S
 \end{MyVerbatim}
 }\medskip
@@ -285,20 +302,33 @@ Let  $I\subseteq R$ be an ideal.
 
 \medskip
 {\small
+   \setstretch{.7}
 \begin{MyVerbatim}
 i1 : p = 3;
+
 i2 : R = ZZ/p[x,y];
+
 i3 : m = monomialIdeal(x, y);
+
 o3 : MonomialIdeal of R
+
 i4 : I = m^5;
+
 o4 : MonomialIdeal of R
+
 i5 : t = 3/5 - 1/(5*p^3);
+
 i6 : frobeniusPower(t, I)
+
              2        2
 o6 = ideal (y , x*y, x )
+
 o6 : Ideal of R
+
 i7 : frobeniusPower(t - 1/p^5, I)
+
 o7 = ideal (y, x)
+
 o7 : Ideal of R
 \end{MyVerbatim}
 }
@@ -310,15 +340,23 @@ To illustrate, compare the computations above with the following.
 
 \medskip
 {\small
+   \setstretch{.7}
 \begin{MyVerbatim}
 i8 : S = ZZ/3[a..f,x,y];
+
 i9 : G = a*x^5 + b*x^4*y + c*x^3*y^2 + d*x^2*y^3 + e*x*y^4 + f*y^5;
+
 i10 : testIdeal(t, G)
+
               2        2
 o10 = ideal (y , x*y, x )
+
 o10 : Ideal of S
+
 i11 : testIdeal(t - 1/p^5, G)
+
 o11 = ideal (y, x)
+
 o11 : Ideal of S
 \end{MyVerbatim}
 }
@@ -351,27 +389,40 @@ yields a $p^{-1}$-linear map $U$ on $\Ext^2_R(R/ I, R)$.
 
 \medskip
 {\small
+   \setstretch{.7}
 \begin{MyVerbatim}
-i1 : p = 2;
-i2 : R = ZZ/p[a,b,c,d];
-i3 : I = intersect(ideal(a, b),ideal(a, c),ideal(c, d),ideal(c + d, a^3 + b*d^2));
-o3 : Ideal of R
-i4 : f = inducedMap(R^1/I, R^1/frobenius(I));
-o4 : Matrix
-i5 : E2 = Ext^2(f, R^1)
-o5 = {-8}  | a4+abc2+abcd a2b            |
+i1 : R = ZZ/2[a,b,c,d];
+
+i2 : I = intersect(ideal(a,b),ideal(a,c),ideal(c,d),ideal(c+d,a^3+b*d^2));
+
+o2 : Ideal of R
+
+i3 : f = inducedMap(R^1/I, R^1/frobenius(I));
+
+o3 : Matrix
+
+i4 : E2 = Ext^2(f, R^1)
+
+o4 = {-8}  | a4+abc2+abcd a2b            |
      {-10} | a2cd3        a3cd+a3d2+bcd3 |
-o5 : Matrix
-i6 : target E2
-o6 = cokernel {-8}  | 0     a2 b2c2 |
+
+o4 : Matrix
+
+i5 : target E2
+
+o5 = cokernel {-8}  | 0     a2 b2c2 |
               {-10} | c2+d2 d4 a4d2 |
+
+                            2
+o5 : R-module, quotient of R
+
+i6 : source E2
+
+o6 = cokernel {-4} | 0   a  bc  |
+              {-5} | c+d d2 a2d |
+
                             2
 o6 : R-module, quotient of R
-i7 : source E2
-o7 = cokernel {-4} | 0   a  bc  |
-              {-5} | c+d d2 a2d |
-                            2
-o7 : R-module, quotient of R
 \end{MyVerbatim}
 }
 \medskip
@@ -382,19 +433,25 @@ $(\Image U)^{[1/p]}$ in $\Ext^2_R(R/ I, R)$
 as computed above is the whole of $R^2$.
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
-i8 : U = matrix entries E2;
+i7 : U = matrix entries E2;
+
              2       2
-o8 : Matrix R  <--- R
-i9 : A = matrix entries relations source E2;
+o7 : Matrix R  <--- R
+
+i8 : A = matrix entries relations source E2;
+
              2       3
-o9 : Matrix R  <--- R
-i10 : frobeniusRoot(1, U)
-o10 = {-2} | 1 0 0 |
-      {0}  | 0 d a |
+o8 : Matrix R  <--- R
+
+i9 : frobeniusRoot(1, U)
+
+o9 = {-2} | 1 0 0 |
+     {0}  | 0 d a |
+
               2       3
-o10 : Matrix R  <--- R
+o9 : Matrix R  <--- R
 \end{MyVerbatim}
 }\medskip
 
@@ -408,13 +465,15 @@ given by $\Ann_{E^2} B^t$, where $B$ is the smallest submodule of $R^2$ containi
 The method \texttt{ascendModule} can be used to calculate  $B$ (see a detailed description of the similar method \texttt{ascendIdeal} in \autoref{Section: Test Ideals}).
 
 \medskip
-{\small
+{\small\setstretch{.7}
 \begin{MyVerbatim}
-i11 : V = ascendModule(1, A, U)
-o11 = | 0   a  bc  |
+i10 : V = ascendModule(1, A, U)
+
+o10 = | 0   a  bc  |
       | c+d d2 a2d |
+
               2       3
-o11 : Matrix R  <--- R
+o10 : Matrix R  <--- R
 \end{MyVerbatim}
 }\medskip
 
