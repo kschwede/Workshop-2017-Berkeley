@@ -258,13 +258,23 @@ comments on the paper:
 
 The authors may wish to cite Macaulay2 in the bibliography.
 
+--------------------------
+Done
+--------------------------
+
 The Macaulay2 example output involving exponents would look better if the
 baselineskip were reduced and the extra blank lines in the output were
 restored, for that would put the exponents nearer the corresponding variables.
+
+--------------------------
+--------------------------
 
 In "finding the summands in (2)" the traditional word would be "terms", not
 "summands".  And actually, it would be better to say "finding the terms in the
 right hand side of (2)", since (2) is an equation.
 
+--------------------------
+Done
+--------------------------
 
 =============================================================================

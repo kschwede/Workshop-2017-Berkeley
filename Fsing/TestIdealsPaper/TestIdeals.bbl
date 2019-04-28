@@ -68,6 +68,10 @@
   Dwork theory. Vol. I, II, Walter de Gruyter GmbH \& Co. KG, Berlin, 2004,
   pp.~711--734.
 
+\bibitem[GS]{M2}
+{\sc D.~R. Grayson and M.~E. Stillman}: \emph{Macaulay2, a software system for
+  research in algebraic geometry}.
+
 \bibitem[HW02]{HaraWatanabeFRegFPure}
 {\sc N.~Hara and K.-I. Watanabe}: \emph{{$F$}-regular and {$F$}-pure rings vs.\
   log terminal and log canonical singularities}, J. Algebraic Geom. \textbf{11}
@@ -98,7 +102,7 @@
 
 \bibitem[HTW18b]{hernandez+etal.frobenius_examples}
 {\sc D.~J. Hern\'andez, P.~Teixeira, and E.~E. Witt}: \emph{Frobenius powers of
-  some monomial ideals}, preprint,
+  some monomial ideals}, to appear in J. Pure Appl. Algebra,
   \href{https://arxiv.org/abs/1808.09508}{arXiv:1808.09508 [math.AC]}, 2018.
 
 \bibitem[Hoc07]{HochsterFoundations}
