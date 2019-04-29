@@ -960,7 +960,7 @@ Throughout the computations described above, we very frequently use the followin
 (f^p \cdot J)^{[1/p]} = f \cdot (J^{[1/p]}).
 \]
 To access this enhancement, one should try to pass functions like \texttt{ascendIdeal} and \texttt{frobeniusRoot} the elements and their exponents (see the documentation).
-In particular, when computing the $p^e$-th Frobenius root of an ideal of the form $f^n \cdot J$, one should not multiply out $f^n$ and $J$, nor even raise $f$ to the $n^\mathrm{th}$ power, but rather call \texttt{frobeniusRoot(e,n,f,J)}.
+In particular, when computing the $p^e$-th Frobenius root of an ideal of the form $f^n \cdot J$, one should not multiply out $f^n$ and $J$, nor even raise $f$ to the $n^\mathrm{th}$ power, but rather call \texttt{frobeniusRoot(e, n, f, J)}.
 \end{remark}
 
 \subsection{Parameter test ideals}
@@ -1145,7 +1145,7 @@ Again, consider the maps $T^e : \omega_{R^{1/p^e}} \to \omega_R$ we have conside
 stabilize for $e \gg 0$.
 The function \texttt{FPureModule} computes the stable submodule in this chain, called the \emph{HSLG module}, and returns a sequence containing the following items:
 \begin{enumerate}[(1)]
-   \item The HSLGmodule;
+   \item The HSLG module;
    \item The canonical module, embedded (non-uniquely) as an ideal;
    \item The element $u$ representing the map on the canonical module (see
    \autoref{subsec.DualToFrobeniusOnQuotientRings});
