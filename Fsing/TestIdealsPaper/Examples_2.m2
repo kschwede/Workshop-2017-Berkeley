@@ -1,10 +1,7 @@
-restart; 
-uninstallPackage "TestIdeals"
-installPackage "TestIdeals"
-loadPackage "TestIdeals"
-viewHelp "TestIdeals"
-
 ------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
+
 R = ZZ/5[x,y,z];
 I = ideal(x^6*y*z + x^2*y^12*z^3 + x*y*z^18);
 frobeniusPower(1/5, I)
@@ -33,6 +30,11 @@ t = 3/5 - 1/(5*p^3);
 frobeniusPower(t, I)
 frobeniusPower(t - 1/p^5, I)
 
+S = ZZ/3[a..f,x,y];
+G = a*x^5 + b*x^4*y + c*x^3*y^2 + d*x^2*y^3 + e*x*y^4 + f*y^5;
+testIdeal(t, G)
+testIdeal(t - 1/p^5, G)
+
 ------------------------------------------------------------------------------------------
 restart; 
 loadPackage "TestIdeals"
@@ -44,180 +46,146 @@ target E2
 source E2
 
 U = matrix entries E2;
-A = matrix entries relations source E2;
-frobeniusRoot(1, U)
+A = image matrix entries relations source E2;
+frobeniusRoot(1, image U)
 
-V = ascendModule(1, A, U)
+B = ascendModule(1, A, U)
 
 ------------------------------------------------------------------------------------------
 restart; 
 loadPackage "TestIdeals"
 
+R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
+isFInjective R
+R = ZZ/5[x,y,z]/(x^3 + y^3 + z^3);
+isFInjective R
 
-S = ZZ/3[a..f,x,y];
-G = a*x^5 + b*x^4*y + c*x^3*y^2 + d*x^2*y^3 + e*x*y^4 + f*y^5;
-testIdeal(t, G)
-testIdeal(t - 1/p^5, G)
-
-
-
-
-R = ZZ/3[u,v];
-
-u = u^2*v^2;
-
-compatibleIdeals(u)
-
-
-
-restart;
-
-p=2;
-m=5;
-R=ZZ/pp[x_1..x_m]; 
-E=matrix {{x_1,x_2,x_2,x_5},{x_4,x_4,x_3,x_1}};
-I=minors(2,E);
-I=gens I;
-u=x_1^3*x_2*x_3 + x_1^3*x_2*x_4+x_1^2*x_3*x_4*x_5+ x_1*x_2*x_3*x_4*x_5+ x_1*x_2*x_4^2*x_5+ x_2^2*x_4^2*x_5+x_3*x_4^2*x_5^2+ x_4^3*x_5^2;
-
-
+------------------------------------------------------------------------------------------
 restart; 
 loadPackage "TestIdeals"
 
-R=ZZ/2[x_1..x_5]; 
-E=matrix {{x_1,x_2,x_2,x_5},{x_4,x_4,x_3,x_1}};
-I=minors(2,E);
-J=parameterTestIdeal(R/I)
-J=substitute(J,R);
-mingens(J+I)
+R = ZZ/7[x,y,z]/((x - 1)^5 + (y + 1)^5 + z^5);
+isFInjective R -- R is not globally F-injective...
+isFInjective(R, IsLocal => true) -- but is F-injective at the origin
 
-omega=canonicalIdeal(R/I)
-omega=substitute(omega,R)+I
-u1=(frobeniusPower(2,I)):I;
-u2=(frobeniusPower(2,omega)):omega;
-u=intersect(u1,u2)
-u=first first entries mingens u
-
-
-
-
-restart; 
-loadPackage "TestIdeals"
-p=2;
-R=ZZ/p[a,b,c,d]
-I=intersect( ideal(a,b), ideal(a,c), ideal(c,d), ideal(c+d, a^3+b*d^2))
-J=parameterTestIdeal(R/I)
-J=substitute(J,R);
-mingens(I+J)
-
-
-
-restart;
-
-p=11;
-m=5;
-R=ZZ/p[x,y,z]; 
-u=7*x^(3+11^2)
-
-
-
-e=1
-L1=apply(exponents(u),exponent->{coefficient(R_exponent,u)*R_(exponent //p^e),exponent%p^e})
-
-
-
-
-
+------------------------------------------------------------------------------------------
 restart; 
 loadPackage "TestIdeals"
 
-printWidth=80
+R = ZZ/5[x,y,z]/(x^2 + y*z);
+isFRegular R
+R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
+isFRegular R
 
-R=ZZ/2[x_1..x_5]; 
-E=matrix {{x_1,x_2,x_2,x_5},{x_4,x_4,x_3,x_1}};
-I=minors(2,E);
-
-isCohenMacaulay(R/I)
-
-omega=canonicalIdeal(R/I)
-omega=substitute(omega,R)+I;
-u=intersect((frobeniusPower(2,I)):I,(frobeniusPower(2,omega)):omega);
-u=compress((gens u)%(gens(frobeniusPower(2,I))));
-u=first first entries  u
-L=compatibleIdeals(u)
-unique apply(L, J-> (J:omega))
-
-
-
+------------------------------------------------------------------------------------------
 restart; 
 loadPackage "TestIdeals"
 
-p=3
-F = GF(p^2,Variable=>a)
-R=F[x,y,z]
-I=ideal(a^(2*p)*x^p+y*z^p+x^p*y^p)
-frobeniusRoot(1,I)
+R = ZZ/5[x,y];
+f = y^2 - x^3;
+isFRegular(1/2, f)
+isFRegular(5/6, f)
+isFRegular(4/5, f)
+isFRegular(4/5 - 1/100000, f)
 
-frobeniusPower(1/p,I)
-
-
-
------------------------------------------------------------------------------------------------
-
+------------------------------------------------------------------------------------------
 restart; 
 loadPackage "TestIdeals"
 
-printWidth=80
-p=2;
-R=ZZ/p[x_1..x_5]; 
-E=matrix {{x_1,x_2,x_2,x_5},{x_4,x_4,x_3,x_1}};
-I=minors(2,E);
+R = ZZ/7[x,y,z]/((x - 1)^3 + (y + 1)^3 + z^3);
+isFRegular R -- R is not globally F-regular...
+isFRegular(R, IsLocal => true) -- but is F-regular at the origin
+R = ZZ/13[x,y];
+f = (y - 2)^2 - (x - 3)^3;
+isFRegular(5/6, f) -- (R,f^(5/6)) is not F-regular...
+isFRegular(5/6, f, IsLocal => true) -- but is F-regular at the origin
 
-dim coker gens I
-
-codim I
-
-f=inducedMap (coker gens I, coker gens frobeniusPower(p,I) );
-resf=res f
-G=Hom(resf, R^1)
-E3=HH^3 G
-
-U=matrix entries E3
-A=matrix entries relations source E3
-frobeniusRoot(1,U)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------
 restart; 
 loadPackage "TestIdeals"
-p=2;
-R=ZZ/p[a,b,c,d];
-I=intersect( ideal(a,b), ideal(a,c), ideal(c,d), ideal(c+d, a^3+b*d^2));
 
+R = ZZ/5[x,y,z]/(x^2 + y*z);
+isFPure R
+R = ZZ/7[x,y,z]/(x^3 + y^3 + z^3);
+isFPure R
+S = ZZ/2[x,y,z];
+isFPure ideal(y^2 - x^3)
+isFPure ideal(z^2 - x*y*z + x*y^2 + x^2*y)
 
-f=inducedMap (coker gens I, coker gens frobeniusPower(p,I) );
-resf=res f
-G=Hom(resf, R^1)
-E2=HH^2 G
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
 
-U=matrix entries E2
-A=matrix entries relations source E2
-frobeniusRoot(1,U)
+S = ZZ/3[a,b,c,d,t];
+M = matrix{{ a^2 + t^4, b, d }, { c, a^2, b^3 - d }};
+I = minors(2, M);
+R = S/I;
+isFRational R
 
-V=ascendModule (1,A,U) 
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
 
+R = ZZ/5[x,y,z]/(x^4 + y^4 + z^4);
+N = testModule R;
+N#0
+N#1
 
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
 
-----------------------------------------------------------------------------------
+R = ZZ/5[x,y,z]/(y*z, x*z, x*y);
+N = testModule R;
+N#0
+N#1
+
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
+
+R = ZZ/2[a..e];
+E = matrix {{a, b, b, e}, {d, d, c, a}};
+I = minors(2, E);
+S = R/I;
+J = parameterTestIdeal S
+J = substitute(J, R);
+mingens(J + I)
+
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
+
+T = ZZ/7[x,y];
+S = ZZ/7[a,b,c,d];
+f = map(T, S, {x^3, x^2*y, x*y^2, y^3});
+I = ker f;
+R = S/I;
+testIdeal R
+
+toString QGorensteinGenerator(1, R)
+
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
+
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
+
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
+
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
+
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
+
+------------------------------------------------------------------------------------------
+restart; 
+loadPackage "TestIdeals"
+
