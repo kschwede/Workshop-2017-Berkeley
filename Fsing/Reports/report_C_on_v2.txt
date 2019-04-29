@@ -267,6 +267,7 @@ baselineskip were reduced and the extra blank lines in the output were
 restored, for that would put the exponents nearer the corresponding variables.
 
 --------------------------
+Done
 --------------------------
 
 In "finding the summands in (2)" the traditional word would be "terms", not
