@@ -768,7 +768,7 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
         J1 := testElement R1;
         try h1 = QGorensteinGenerator( 1, R1 ) then
 	(
-            computedTau = testModule( tList, fList, ideal 1_R1, { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain );
+            computedTau = testModule( tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain );
             if isUnitIdeal computedTau#0 then return -1
 	    --at this point we know that this is not the FPT
         )
@@ -790,7 +790,7 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
     for x in gensList do
     (
         f2 = append( fList, x );
-        runningIdeal = runningIdeal + (testModule( t2, f2, canIdeal, u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain ) )#0;
+        runningIdeal = runningIdeal + (testModule( t2, f2, CanonicalIdeal => canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain ) )#0;
     );
 
     newDenom := reflexify( canIdeal * dualCanIdeal );
@@ -801,7 +801,7 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
     --now we have to run the sigma computation
     if h1 != 0_S1 then
     (
-        baseTau:= testModule( 0/1, 1_R1, ideal 1_R1, { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain );
+        baseTau:= testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain );
         if isProper baseTau#0 then
 	    error "compareFPT: The ambient ring must be F-regular.";
 	    --the ambient isn't even F-regular
@@ -844,7 +844,7 @@ compareFPTPoly(Number, RingElement) := o -> (t, f) -> (
 
     h1 := 1_S1;
     --first we do a quick check to see if the test ideal is easy to compute
-    computedTau = testModule( tList, fList, ideal 1_S1, { h1 }, o, AssumeDomain => true );
+    computedTau = testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, AssumeDomain => true );
     if isUnitIdeal computedTau#0 then return -1;
     --at this point we know that this is not the FPT
 
@@ -966,7 +966,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
     (
         J1 := testElement R1;
         try h1 = QGorensteinGenerator( 1, R1 ) then
-            computedTau = testModule(tList, fList, ideal 1_R1, {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain)
+            computedTau = testModule(tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain)
         else h1 = 0_S1
     )
     else--there should be an algorithm that works here
@@ -989,7 +989,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 
         for x in gensList do (
             f2 = append(fList, x);
-            runningIdeal = runningIdeal + (testModule(t2, f2, canIdeal, u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain))#0;
+            runningIdeal = runningIdeal + (testModule(t2, f2, CanonicalIdeal=>canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain))#0;
         );
 
         newDenom := reflexify(canIdeal*dualCanIdeal);
@@ -998,7 +998,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
     --now we have to run the sigma computation
     if h1 != 0_S1 then
     (
-        baseTau := testModule(0/1, 1_R1, ideal 1_R1, {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
+        baseTau := testModule(0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
         (a1,b1,c1) := decomposeFraction( pp, t, NoZeroC => true );
         if a1 > (pp^c1-1) then
 	(
@@ -1035,7 +1035,7 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
 
     h1 := sub(1, S1);
     --first we do a quick check to see if the test ideal is easy to compute
-    computedTau = (testModule(tList, fList, ideal(sub(1, S1)), {h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>true))#0;
+    computedTau = (testModule(tList, fList, CanonicalIdeal=>ideal(sub(1, S1)), GeneratorList=>{h1}, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>true))#0;
 
     --now we have to run the sigma computation
     (a1,b1,c1) := decomposeFraction( pp, t, NoZeroC => true );
