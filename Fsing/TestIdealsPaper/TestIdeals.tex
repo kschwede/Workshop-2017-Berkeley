@@ -142,7 +142,7 @@ Algorithms for computing $F$-pure thresholds from \cite{HernandezFInvariantsOfDi
 \subsection*{Acknowledgements}
 The authors thank other contributors of the \texttt{TestIdeals.m2} package, namely
 Erin Bela, Juliette Bruce, Drew Ellingson, Matthew Mastroeni, and Maral Mostafazadehfard.
-This paper, and the finishing touches to the package \texttt{TestIdeals.m2}, were made at the University of Utah in 2018, and the visiting authors thank the Department of Mathematics for its hospitality.
+This paper, and the finishing touches to the package \texttt{TestIdeals.m2}, were made at the University of Utah in 2018, and the visiting authors thank the Department of Mathematics for its hospitality.  The authors also thank the referees for their numerous useful comments on both this paper and the code.
 
 \section{Frobenius powers and Frobenius roots}\label{Section: Frobenius powers and Frobenius roots}
 
@@ -203,8 +203,9 @@ $T(I^{1/p^e})=I^{[1/p^e]}$,
 where $I^{1/p^e} \subseteq R^{1/p^e}$ is simply the ideal of $p^e$-th roots of the elements of $I$.
 In the case that
 \[
-R = \bF_{p^e}[x_1, \ldots, x_d],
+R = \mathbb{K}[x_1, \ldots, x_d],
 \]
+where $\mathbb{K}$ is a perfect field,
 $R^{1/p^e}$ is a free $R$-module with basis consisting of the monomials
 \[
 \mathbf{x}^{\boldsymbol{\lambda}/p^e}= x_1^{\lambda_1/p^e} \cdots x_d^{\lambda_d/p^e},
@@ -229,7 +230,7 @@ Hence it is important to understand how this is implemented, and its computation
 
 The computation of Frobenius roots of ideals reduces to the case of principal ideals, and its complexity grows linearly with the number of generators of the ideal.
 Furthermore the calculation of  $(f)^{[1/p^e]}$ reduces to finding the terms in the right hand side of (\ref{eqn1}), which essentially amounts to
-taking each term in $f$, computing the $p^e$-th root of the coefficient in $\mathbb{K}$, and dividing the monomial exponent vector by $p^e$ with remainder.
+taking each term in $f$, computing the $p^e$-th root of its coefficient, and dividing the monomial exponent vector by $p^e$ with remainder.
 Hence the complexity of computing $(f)^{[1/p^e]}$ is proportional to the number of terms in $f$, and is independent of its degree.
 We emphasize that the calculation of Frobenius roots \emph{does not involve the calculation of Gr\"obner bases.}
 
@@ -253,8 +254,7 @@ where $\Omega$ is an ideal of $S$ with $I\subseteq \Omega$ and whose image in $R
 Here we compute two examples.
 
 \medskip
-{\small
-   \setstretch{.67}
+{\small\setstretch{.67}
 \begin{MyVerbatim}
 i1 : S = ZZ/5[x,y,z];
 
@@ -301,8 +301,7 @@ Let  $I\subseteq R$ be an ideal.
 \end{definition}
 
 \medskip
-{\small
-   \setstretch{.67}
+{\small\setstretch{.67}
 \begin{MyVerbatim}
 i1 : p = 3;
 
@@ -339,8 +338,7 @@ Thus, the ideals computed above are test ideals of generic quintics in two varia
 To illustrate, compare the computations above with the following.
 
 \medskip
-{\small
-   \setstretch{.67}
+{\small\setstretch{.67}
 \begin{MyVerbatim}
 i8 : S = ZZ/3[a..f,x,y];
 
@@ -388,8 +386,7 @@ yields a $p^{-1}$-linear map $U$ on $\Ext^2_R(R/ I, R)$.
 %$\Ext^2(R/ I, R) \xrightarrow{U} \Ext^2(R/I, R)$.
 
 \medskip
-{\small
-   \setstretch{.67}
+{\small\setstretch{.67}
 \begin{MyVerbatim}
 i1 : R = ZZ/2[a,b,c,d];
 
@@ -440,18 +437,15 @@ i7 : U = matrix entries E2;
              2       2
 o7 : Matrix R  <--- R
 
-i8 : A = matrix entries relations source E2;
+i8 : A = image matrix entries relations source E2;
 
-             2       3
-o8 : Matrix R  <--- R
+i9 : frobeniusRoot(1, image U)
 
-i9 : frobeniusRoot(1, U)
+o9 = image {-2} | 1 0 0 |
+           {0}  | 0 d a |
 
-o9 = {-2} | 1 0 0 |
-     {0}  | 0 d a |
-
-              2       3
-o9 : Matrix R  <--- R
+                             2
+o9 : R-module, submodule of R
 \end{MyVerbatim}
 }\medskip
 
@@ -467,13 +461,13 @@ The method \texttt{ascendModule} can be used to calculate  $B$ (see a detailed d
 \medskip
 {\small\setstretch{.67}
 \begin{MyVerbatim}
-i10 : V = ascendModule(1, A, U)
+i10 : B = ascendModule(1, A, U)
 
-o10 = | 0   a  bc  |
-      | c+d d2 a2d |
+o10 = image | 0   a  bc  |
+            | c+d d2 a2d |
 
-              2       3
-o10 : Matrix R  <--- R
+                              2
+o10 : R-module, submodule of R
 \end{MyVerbatim}
 }\medskip
 
@@ -966,7 +960,7 @@ Throughout the computations described above, we very frequently use the followin
 (f^p \cdot J)^{[1/p]} = f \cdot (J^{[1/p]}).
 \]
 To access this enhancement, one should try to pass functions like \texttt{ascendIdeal} and \texttt{frobeniusRoot} the elements and their exponents (see the documentation).
-In particular, when computing the $p^e$-th Frobenius root of an ideal of the form $f^n \cdot J$, one should not multiply out $f^n$ and $J$, nor even raise $f$ to the $n^\mathrm{th}$ power, but rather call \texttt{frobeniusRoot(e,n,f,J)}.
+In particular, when computing the $p^e$-th Frobenius root of an ideal of the form $f^n \cdot J$, one should not multiply out $f^n$ and $J$, nor even raise $f$ to the $n^\mathrm{th}$ power, but rather call \texttt{frobeniusRoot(e, n, f, J)}.
 \end{remark}
 
 \subsection{Parameter test ideals}
@@ -1042,9 +1036,6 @@ The $e$ here means all Frobenius roots are taken as multiples of $e$.  In other 
 {\tt I_0 +  (u\cdot I_0)^{1/p^{[e]}} + (u^{p^e + 1} \cdot I_0)^{1/p^{[2e]}} }
 \]
 etc.
-%
-%\pedro{I am not sure what this last sentence is saying}
-%
 
 Here is an example (a $\bZ/3\bZ$-quotient, where $3 | (7-1)$), where exactly this logic occurs.
 
@@ -1072,7 +1063,7 @@ o6 : Ideal of R
 However, the term $u$ constructed above can be quite complicated if $e > 1$ (which happens exactly when $(p -1)K_R$ is not Cartier).  For instance, even in the above example we have an extremely complex $u$:
 
 \medskip
-{\small\setstretch{.67}
+{\small\setstretch{.8}
 \begin{MyVerbatim}
 i7 : toString QGorensteinGenerator(1, R)
 
@@ -1106,21 +1097,21 @@ Thus we directly compute $\tau(\omega_R, f^{1/n})$ via the command \texttt{testM
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i2 : T = ZZ/3[x,y];
+i1 : T = ZZ/3[x,y];
 
-i3 : S = ZZ/3[a,b,c,d];
+i2 : S = ZZ/3[a,b,c,d];
 
-i4 : f = map(T, S, {x^3, x^2*y, x*y^2, y^3});
+i3 : f = map(T, S, {x^3, x^2*y, x*y^2, y^3});
 
-o4 : RingMap T <--- S
+o3 : RingMap T <--- S
 
-i5 : I = ker f;
+i4 : I = ker f;
 
-o5 : Ideal of S
+o4 : Ideal of S
 
-i6 : R = S/I;
+i5 : R = S/I;
 
-i7 : testIdeal R
+i6 : testIdeal R
 
 o7 = ideal 1
 
@@ -1152,9 +1143,9 @@ Again, consider the maps $T^e : \omega_{R^{1/p^e}} \to \omega_R$ we have conside
 \omega_R \supseteq T(\omega_{R^{1/p}}) \supseteq \dots \supseteq T^e(\omega_{R^{1/p^e}}) \supseteq T^{e+1}(\omega_{R^{1/p^{e+1}}}) \supseteq \cdots
 \end{equation}
 stabilize for $e \gg 0$.
-The function \texttt{FPureModule} computes the stable submodule in this chain, called the \emph{HSLG module}, and returns a list containing the following items:
+The function \texttt{FPureModule} computes the stable submodule in this chain, called the \emph{HSLG module}, and returns a sequence containing the following items:
 \begin{enumerate}[(1)]
-   \item The HSLGmodule;
+   \item The HSLG module;
    \item The canonical module, embedded (non-uniquely) as an ideal;
    \item The element $u$ representing the map on the canonical module (see
    \autoref{subsec.DualToFrobeniusOnQuotientRings});
@@ -1165,52 +1156,52 @@ The function \texttt{FPureModule} computes the stable submodule in this chain, c
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i2 : R = ZZ/3[x,y,z]/ideal( x^3 + y^4 + z^5 );
+i1 : R = ZZ/3[x,y,z]/(x^3 + y^4 + z^5);
 
-i3 : L = FPureModule R;
+i2 : L = FPureModule R;
 
-i4 : L#0
+i3 : L#0
 
                        2        2   3
-o4 = ideal (y*z, x*z, y , x*y, x , z )
+o3 = ideal (y*z, x*z, y , x*y, x , z )
+
+o3 : Ideal of R
+
+i4 : L#1
+
+o4 = ideal 1
 
 o4 : Ideal of R
 
-i5 : L#1
+i5 : L#3
 
-o5 = ideal 1
+o5 = 1
 
-o5 : Ideal of R
+i6 : R = ZZ/3[x,y,z]/(x^3 + y^4 + z^5);
 
-i6 : L#3
+i7 : L = FPureModule R;
 
-o6 = 1i2 : R = ZZ/3[x,y,z]/ideal( x^3 + y^4 + z^5 );
-
-i3 : L = FPureModule R;
-
-i4 : L#0
+i8 : L#0
 
                        2        2   3
-o4 = ideal (y*z, x*z, y , x*y, x , z )
+o8 = ideal (y*z, x*z, y , x*y, x , z )
 
-o4 : Ideal of R
+o8 : Ideal of R
 
-i5 : L#1
+i9 : L#1
 
-o5 = ideal 1
+o9 = ideal 1
 
-o5 : Ideal of R
+o9 : Ideal of R
 
-i6 : L#3
+i10 : L#3
 
-o6 = 1
+o10 = 1
 \end{MyVerbatim}
 }\medskip
 
-
 %\bigskip\sout{In a Gorenstein ring, this submodule coincides philosophically with the maximal non-LC ideal of Fujino-Schwede-Takagi.}
 %\marginnote{Can someone explain this without recourse to philosophy or morality?}
-
 
 More generally, for any ideal $J$ with a map $\phi : J^{1/p^e} \to J$, we have that the images
 \[
@@ -1252,27 +1243,27 @@ of the following examples.
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i2 : R = ZZ/2[x,y,z];
+i1 : R = ZZ/2[x,y,z];
 
-i3 : f = x^3 + y^2*z + y*z^2;
+i2 : f = x^3 + y^2*z + y*z^2;
 
-i4 : frobeniusPower(1/2, ideal f)
+i3 : frobeniusPower(1/2, ideal f)
 
-o4 = ideal (z, y, x)
+o3 = ideal (z, y, x)
 
-o4 : Ideal of R
+o3 : Ideal of R
 
-i5 : u=f^3;
+i4 : u = f^3;
 
-i6 : frobeniusPower(1/4, ideal u)
+i5 : frobeniusPower(1/4, ideal u)
 
-o6 = ideal (z, y, x)
+o5 = ideal (z, y, x)
 
-o6 : Ideal of R
+o5 : Ideal of R
 
-i7 : ((FPureModule(1, f))#3) + 1
+i6 : ((FPureModule(1, f))#3) + 1
 
-o7 = 2
+o6 = 2
 \end{MyVerbatim}
 }\medskip
 
@@ -1283,27 +1274,27 @@ shows a non-ordinary hyperelliptic curve of genus $2$ with level $2$.
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i2 : R = ZZ/11[x,y,z];
+i1 : R = ZZ/11[x,y,z];
 
-i3 : f = y^2*z^3 - x^5 - 2*z^5;
+i2 : f = y^2*z^3 - x^5 - 2*z^5;
 
-i4 : frobeniusPower(1/11, ideal f^10)
+i3 : frobeniusPower(1/11, ideal f^10)
+
+             2        3
+o3 = ideal (z , x*z, x )
+
+o3 : Ideal of R
+
+i4 : frobeniusPower(1/121, ideal f^120)
 
              2        3
 o4 = ideal (z , x*z, x )
 
 o4 : Ideal of R
 
-i5 : frobeniusPower(1/121, ideal f^120)
+i5 : ((FPureModule(1, f))#3) + 1
 
-             2        3
-o5 = ideal (z , x*z, x )
-
-o5 : Ideal of R
-
-i6 : ((FPureModule(1, f))#3) + 1
-
-o6 = 2
+o5 = 2
 \end{MyVerbatim}
 }\medskip
 
@@ -1342,15 +1333,15 @@ The method \texttt{compatibleIdeals} produces the finite set of $\phi$-compatibl
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i2 : R = ZZ/3[u,v];
+i1 : R = ZZ/3[u,v];
 
-i3 : u = u^2*v^2;
+i2 : u = u^2*v^2;
 
-i4 : compatibleIdeals u
+i3 : compatibleIdeals u
 
-o4 = {ideal v, ideal (v, u), ideal u}
+o3 = {ideal v, ideal (v, u), ideal u}
 
-o4 : List
+o3 : List
 \end{MyVerbatim}
 }\medskip
 
@@ -1374,22 +1365,22 @@ and the $p^1$-linear map $u \Theta$ on $\Ann_E I$, where $u$ is computed as foll
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i2 : R = ZZ/2[a..f];
+i1 : R = ZZ/2[a..f];
 
-i3 : E = matrix {{a, b, b, e}, {d, d, c, a}};
+i2 : E = matrix {{a, b, b, e}, {d, d, c, a}};
 
              2       4
-o3 : Matrix R  <--- R
+o2 : Matrix R  <--- R
 
-i4 : I = minors(2, E);
+i3 : I = minors(2, E);
 
-o4 : Ideal of R
+o3 : Ideal of R
 
-i5 : S = R/I;
+i4 : S = R/I;
 
-i6 : isCohenMacaulay S
+i5 : isCohenMacaulay S
 
-o6 = true
+o5 = true
 \end{MyVerbatim}
 }\medskip
 
@@ -1402,33 +1393,33 @@ where $\Omega \subseteq R$ is an ideal whose image in $R/I$ is a canonical modul
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i7 : omega = canonicalIdeal S
+i6 : omega = canonicalIdeal S
 
-o7 = ideal (e, d, a)
+o6 = ideal (e, d, a)
 
-o7 : Ideal of S
+o6 : Ideal of S
 
-i8 : omega = substitute(omega, R) + I;
+i7 : omega = substitute(omega, R) + I;
+
+o7 : Ideal of R
+
+i8 : u = intersect((frobenius I):I, (frobenius omega) : omega);
 
 o8 : Ideal of R
 
-i9 : u = intersect((frobenius I):I, (frobenius omega) : omega);
+i9 : u = compress((gens u) % gens(frobenius I))
 
-o9 : Ideal of R
+o9 = | a3bc+a3bd+a2cde+abcde+abd2e+b2d2e+cd2e2+d3e2 |
 
-i10 : u = compress((gens u) % gens(frobenius I))
+             1       1
+o9 : Matrix R  <--- R
 
-o10 = | a3bc+a3bd+a2cde+abcde+abd2e+b2d2e+cd2e2+d3e2 |
-
-              1       1
-o10 : Matrix R  <--- R
-
-i11 :  u = first first entries u
+i10 :  u = first first entries u
 
        3       3       2                         2     2 2       2 2    3 2
-o11 = a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  + d e
+o10 = a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  + d e
 
-o11 : R
+o10 : R
 \end{MyVerbatim}
 }
 \medskip
@@ -1439,24 +1430,37 @@ Now we can compute all annihilators of $R$-submodules of $E$ stable under the $p
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-L = compatibleIdeals u;
+i11 : L = compatibleIdeals u;
 
-i13 : print \ L;
+i12 : print \ L;
+
        3       3       2                         2     2 2       2 2    3 2
 ideal(a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  + d e )
+
                2
 ideal (a + b, a  + d*e)
+
 ideal (e, a, d)
+
 ideal (e, d, a, c)
+
 ideal (e, d, c, b, a)
+
 ideal (e, d, b, a)
+
 ideal (e, b, a)
+
 ideal (e, b, a, c + d)
+
                       2
 ideal (c + d, a + b, b  + d*e)
+
 ideal (d, a)
+
 ideal (d, a, c)
+
 ideal (d, c, b, a)
+
 ideal (d, b, a)
 \end{MyVerbatim}
 }
@@ -1468,20 +1472,31 @@ We can also compute  all annihilators of $R$-submodules of $H^2_{\mathfrak{m}} (
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
- print \ unique apply(L, J -> J : omega);
+i13 : print \ unique apply(L, J -> J : omega);
+
        3       3       2                         2     2 2       2 2    3 2
 ideal(a b*c + a b*d + a c*d*e + a*b*c*d*e + a*b*d e + b d e + c*d e  + d e )
+
                2
 ideal (a + b, b  + d*e)
+
 ideal (e, d, a)
+
 ideal 1
+
 ideal (e, b, a)
+
 ideal (e, c + d, b, a)
+
                       2
 ideal (c + d, a + b, b  + d*e)
+
 ideal (d, a)
+
 ideal (d, c, a)
+
 ideal (d, c, b, a)
+
 ideal (d, b, a)
 \end{MyVerbatim}
 }
