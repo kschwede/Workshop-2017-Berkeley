@@ -52,7 +52,7 @@ urlcolor=OliveGreen
 \newtheorem*{caveat}{Caveat}
 
 \begin{document}
-\title{The  {TestIdeals} package for \emph{Macaulay2}}
+\title{The  \emph{TestIdeals} package for \emph{Macaulay2}}
 \author[Alberto F.\ Boix et al.]{Alberto F.\ Boix}
 \address{Department of Mathematics, Ben-Gurion University of the Negev, Beer-Sheva 8410501, Israel}
 \email{fernanal@post.bgu.ac.il}
@@ -114,7 +114,7 @@ urlcolor=OliveGreen
 
 \section{Introduction}
 
-This paper describes methods for computing objects and numerical invariants in prime characteristic commutative algebra, implemented in the \texttt{TestIdeals.m2} package for the computer algebra system \emph{Macaulay2} \cite{M2}.
+This paper describes methods for computing objects and numerical invariants in prime characteristic commutative algebra, implemented in the package \emph{TestIdeals} for the computer algebra system \emph{Macaulay2} \cite{M2}.
 A ring $R$ of prime characteristic $p$ comes equipped with the Frobenius endomorphism
 \[ F: R \to R \ \text{ given by } F(x) =  x^p,\]
 which is the basis for many constructions and methods.
@@ -126,9 +126,9 @@ and the resulting theory of test ideals
 (see the survey \cite{SchwedeTuckerTestIdealSurvey}).  These methods are used by a wide group of commutative algebraists and algebraic geometers.
 %That said, it remains a fundamental tool in the expanding area of prime characteristic commutative algebra.
 
-The \texttt{TestIdeals.m2} package was started during a \emph{Macaulay2} development workshop in 2012, hosted by Wake Forest University.
-The package, at that time called \texttt{PosChar.m2}, aimed at providing a unified and efficient set of tools to study singularities in characteristic $p > 0$, and in particular, collecting and implementing several algorithms that had been described in research papers.
-Since then, \texttt{PosChar.m2} was split into two packages, \texttt{TestIdeals.m2} and \texttt{FThresholds.m2}, and
+The \emph{TestIdeals} package was started during a \emph{Macaulay2} development workshop in 2012, hosted by Wake Forest University.
+The package, at that time called \emph{PosChar}, aimed at providing a unified and efficient set of tools to study singularities in characteristic $p > 0$, and in particular, collecting and implementing several algorithms that had been described in research papers.
+Since then, \emph{PosChar} was split into two packages, \emph{TestIdeals} and \emph{FThresholds}, and
 much more functionality has been added by many contributors, during several more \emph{Macaulay2} development workshops.\footnote{Development workshops hosted by the University of California, Berkeley (2014, 2017), Boise State University (2015), and the University of Utah (2016).}
 
 %{\color{blue} [Maybe we don't need to list all examples?  Several other algorithms were implemented independently and incorporated into the package.]}
@@ -136,13 +136,13 @@ Starting at least with Kunz \cite{KunzCharacterizationsOfRegularLocalRings} and 
 However, the algorithms that form the basis of this package are the methods for computing Frobenius roots, $\star$-closures, and parameter test ideals.
 These first appeared in \cite{KatzmanParameterTestIdealOfCMRings,BlickleMustataSmithDiscretenessAndRationalityOfFThresholds,BlickleMustataSmithFThresholdsOfHypersurfaces,KatzmanFrobeniusMapsOnInjectiveHulls}.
 Another algorithm in \cite{KatzmanSchwedeAlgorithm} for computing prime ideals compatible with a given $p^{-e}$-linear map was implemented and used to produce the examples in that paper.  The methods for computing test ideals and test modules that were used implicitly in papers such as \cite{BlickleSchwedeTakagiZhang,KatzmanLyubeznikZhangOnDiscretenessAndRationality,SchwedeTuckerTestIdealFiniteMaps} became implementable via the Frobenius roots functionality.
-Algorithms for computing $F$-pure thresholds from \cite{HernandezFInvariantsOfDiagonalHyp}, \cite{HernandezFPureThresholdOfBinomial}, and \cite{HernandezTeixeiraFThresholdFunctions} form some of the key methods in the forthcoming \texttt{FThresholds.m2} package.
+Algorithms for computing $F$-pure thresholds from \cite{HernandezFInvariantsOfDiagonalHyp}, \cite{HernandezFPureThresholdOfBinomial}, and \cite{HernandezTeixeiraFThresholdFunctions} form some of the key methods in the forthcoming \emph{FThresholds} package.
 %{\hfill\large\color{red} [Expand: how were the test module methods conceived?]}\\
 
 \subsection*{Acknowledgements}
-The authors thank other contributors of the \texttt{TestIdeals.m2} package, namely
+The authors thank other contributors of the \emph{TestIdeals} package, namely
 Erin Bela, Juliette Bruce, Drew Ellingson, Matthew Mastroeni, and Maral Mostafazadehfard.
-This paper, and the finishing touches to the package \texttt{TestIdeals.m2}, were made at the University of Utah in 2018, and the visiting authors thank the Department of Mathematics for its hospitality.  The authors also thank the referees for their numerous useful comments on both this paper and the code.
+This paper, and the finishing touches to the \emph{TestIdeals} package, were made at the University of Utah in 2018, and the visiting authors thank the Department of Mathematics for its hospitality.  The authors also thank the referees for their numerous useful comments on both this paper and the code.
 
 \section{Frobenius powers and Frobenius roots}\label{Section: Frobenius powers and Frobenius roots}
 
@@ -225,7 +225,7 @@ $(f)^{[1/p^e]} = T( (f)^{1/p^e})$ is the ideal generated by the $f_{\boldsymbol{
 We can then compute $I^{[1/p^e]}$ for more general $I$ by linearity: if $I=(f_1,\ldots,f_m)$, then $I^{[1/p^e]}= \sum(f_i)^{[1/p^e]}$.
 
 \subsubsection{Complexity}
-The computation of Frobenius roots is the workhorse behind many of the methods in \texttt{TestIdeals.m2}.
+The computation of Frobenius roots is the workhorse behind many of the methods in \emph{TestIdeals}.
 Hence it is important to understand how this is implemented, and its computational complexity.
 
 The computation of Frobenius roots of ideals reduces to the case of principal ideals, and its complexity grows linearly with the number of generators of the ideal.
@@ -534,7 +534,7 @@ o10 : R-module, submodule of R
 
 \section{$F$-singularities}\label{Section: F-singularities}
 
-The \texttt{TestIdeals.m2} package includes methods for determining if a ring is $F$-injective, $F$-pure, $F$-rational, or $F$-regular.
+The \emph{TestIdeals} package includes methods for determining if a ring is $F$-injective, $F$-pure, $F$-rational, or $F$-regular.
 
 \subsection{$F$-injectivity}
 
@@ -578,33 +578,18 @@ The algorithm used by \texttt{isFInjective} works by checking the surjectivity o
 %using the fact that the Matlist dual of \Ext^{i}(\blank, S)$ \cong H^{\dim S -
 %i}_{\mathfrak{m}}(\blank) $.
 We begin by computing the map $R
-\rightarrow R^{1/p}$ using the \texttt{PushForward.m2} package \cite{PushForward}.
+\rightarrow R^{1/p}$ using the \emph{PushForward} package \cite{PushForward}.
 Next the algorithm computes
 $\Ext^{i}( \blank, S)$ applied to the map from the previous step.  Then $R$ is $F$-injective precisely when the
 cokernel of $\Ext^{i}( \blank, S)$ is trivial for $i$.
 
 The Frobenius action on top local cohomology (dual to $\omega_R$) is usually computed in a different (faster) way than the other cohomologies, and this is modified by the \texttt{CanonicalStrategy} option.
-The default value for this option is \texttt{Katzman}, which instead of using the \texttt{PushForward.m2} package, relies on the fact that we already know how to compute the Frobenius action on the canonical module, as described in \autoref{subsec.DualToFrobeniusOnQuotientRings}.
-
-
-%The \texttt{CanonicalStrategy} tag can be used to modify the strategy the
-%algorithm uses to check the Frobenius action on the top local cohomology.
-%By default the algorithm is set to \texttt{CanonicalStrategy => Katzman} which
-%then uses the strategy of Katzman {\hfill\large\color{red} [Add
-%references]}. If the tag is set to anything else \texttt{CanonicalStrategy =>
-%null} the algorithm checks the top local cohomology using the same brute
-%force strategy used to check the injectivity at lower degrees. The Katzman
-%strategy is typically much faster.
+The default value for this option is \texttt{Katzman}, which instead of using the \emph{PushForward} package, relies on the fact that we already know how to compute the Frobenius action on the canonical module, as described in \autoref{subsec.DualToFrobeniusOnQuotientRings}.
 
 The performance of the algorithm can be improved if the ring of interest is
 nice enough. If the ring is Cohen--Macaulay, then setting \texttt{AssumeCM =>
 true} (the default value is \texttt{false}) lets the algorithm check the Frobenius action only on top cohomology
 (which is typically much faster, as explained above).
-%The default value for the option \texttt{AssumeCM} is \texttt{false}.
-%Of
-%course, telling the algorithm to assume the ring is Cohen--Macaulay when it
-%is not can lead to an incorrect answer if the non-injective Frobenius
-%occurs in a lower degree. For an example of this see the documentation.
 When studying a reduced ring,  setting \texttt{AssumeReduced => true} (the default value) avoids
 computing the bottom local cohomology, and when studying a normal ring, setting
 \texttt{AssumeNormal => true} (the default is \texttt{false}) avoids computing the bottom two local
@@ -1512,7 +1497,7 @@ This would require, among other things, a faster implementation of our method fo
 
 On the other hand, it should be possible to compute test ideals of pairs $(R, \fra^t)$ even when $\fra$ is not principal.  One strategy to do this is outlined in \cite{SchwedeTuckerTestIdealsOfNonPrincipal} although certain improvement can be made.
 
-We hope to achieve all these things during a future \emph{Macaulay2} workshop.  We also want to bring to the reader's attention the package \texttt{FThresholds.m2} which computes $F$-pure thresholds, $F$-thresholds, $F$-jumping numbers and more!
+We hope to achieve all these things during a future \emph{Macaulay2} workshop.  We also want to bring to the reader's attention the package \emph{FThresholds}, which computes $F$-pure thresholds, $F$-thresholds, $F$-jumping numbers and more!
 
 \bibliographystyle{skalpha}
 \bibliography{MainBib}
