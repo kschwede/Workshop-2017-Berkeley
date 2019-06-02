@@ -472,7 +472,7 @@ guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
 	if comp == 0 then  -- found exact FPT!
 	(
 	    if o.Verbose then
-	        print( "\nguessFPT found the exact value for fpt(f) in try number " | toString( counter ) | "." );
+	        print( "\nguessFPT found the exact value for fpt(f) in try number " | toString counter | "." );
 	    return t
 	);
         if comp == 1 then B = t; -- fpt < t
@@ -480,7 +480,7 @@ guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
 	counter = counter + 1
     );
     if o.Verbose then
-        print( "\nguessFPT narrowed the interval down to ( " | toString( A ) | ", " | toString( B ) | " ) ..." );
+        print( "\nguessFPT narrowed the interval down to ( " | toString A | ", " | toString B | " ) ..." );
     { A, B }
 )
 
@@ -727,7 +727,7 @@ getDivisorIndex := ( maxIndex, divisorialIdeal ) ->
         if locPrincList#0 then fflag = true
     );
     if cartIndex <= 0 or not fflag then
-        error "getDivisorIndex: Ring does not appear to be Q-Gorenstein; perhaps increase the option MaxCartierIndex. Also see the documentation for isFRegular.";
+        error "getDivisorIndex: Ring does not appear to be Q-Gorenstein; perhaps increase the option MaxCartierIndex. Also see the documentation for isFRegular";
     cartIndex
 )
 
@@ -801,7 +801,7 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
     (
         baseTau:= testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain );
         if isProper baseTau#0 then
-	    error "compareFPT: The ambient ring must be F-regular.";
+	    error "compareFPT: The ambient ring must be F-regular";
 	    --the ambient isn't even F-regular
         ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
         if a1 > pp^c1 - 1 then
@@ -821,7 +821,7 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
     )
     else
     --there should be an algorithm that works here
-        error "compareFPT:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of.";
+        error "compareFPT:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of";
     0
     --it is the FPT!
 )
@@ -969,7 +969,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
         else h1 = 0_S1
     )
     else--there should be an algorithm that works here
-        error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of.";
+        error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of";
 
     --now compute the test ideal in the general way (if the index does not divide...)
     if computedTau =!= null then
@@ -1013,7 +1013,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
         )
     )
     else--there should be an algorithm that works here
-        error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of.";
+        error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of";
     not isSubset( computedHSLG, I1 + sub( computedTau, S1 ) )
 )
 

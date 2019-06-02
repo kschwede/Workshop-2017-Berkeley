@@ -25,10 +25,10 @@ carryTest = ( p, w ) ->
     if any( w, x -> x < 0 or x > 1 ) then 
         error "carryTest: Expected the second argument to be a list of rational numbers in [0,1]";
      div := apply( w, x -> toList decomposeFraction( p, x ) );
-     c := max (transpose div)#1; --max of second components of div
-     v := selectNonzero (transpose div)#2; -- nonzero third components of div
-     d := if v === {} then 1 else lcm v;
-     c+d+1
+     c := max ( transpose div )#1; --max of second components of div
+     v := selectNonzero ( transpose div )#2; -- nonzero third components of div
+     d := if v === { } then 1 else lcm v;
+     c + d + 1
 )
 
 --===============================================================================
@@ -39,16 +39,16 @@ firstCarry = ( p, w ) ->
 (   
     if any( w, x -> x < 0 or x > 1 ) then 
         error "firstCarry: Expected the second argument to be a list of rational numbers in [0,1]";
-    if product( w ) == 0 then -1 else
+    if product w == 0 then -1 else
     (
 	i := 0;	
 	d := 0;
-	while d < p and i < carryTest(p,w) do 
+	while d < p and i < carryTest( p, w ) do 
 	(
 	    i = i + 1;
 	    d = sum adicDigit( p, i, w )
 	);
-        if i == carryTest(p,w) then -1 else i
+        if i == carryTest( p, w ) then -1 else i
      )
 )
 
@@ -63,12 +63,13 @@ diagonalFPT RingElement := QQ => f ->
 (
 --    if not isDiagonal f then 
 --        error "diagonalFPT: expected a diagonal polynomial over a field of positive characteristic";
+-- -- (Being verified already by fpt) 
     p := char ring f;
     w := apply( terms f, g -> 1/( first degree g ) );  
-      -- w = list of reciprocals of the powers of the variables appearing in f
+    -- w = list of reciprocals of the powers of the variables appearing in f
     fc := firstCarry( p, w );
     if fc == -1 then sum w
-    else sum( adicTruncation( p, fc-1, w ) ) + 1/p^( fc-1 )
+    else sum( adicTruncation( p, fc - 1, w ) ) + 1/p^( fc - 1 )
 )
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -81,13 +82,13 @@ diagonalFPT RingElement := QQ => f ->
 --corresponding vectors that omit all a_i and b_i such that a_i=b_i
 factorOutMonomial = ( v, w ) ->
 (
-    diffCoords := nonzeroPositions( v-w );
+    diffCoords := nonzeroPositions( v - w );
     ( v_diffCoords, w_diffCoords )
 )
 
 --Given input vectors v={a_1,...,a_n} and w={b_1,...,b_n}, gives the
 --vector of the a_i for which a_i=b_i
-monomialFactor = ( v, w ) -> v_( zeroPositions( v-w ) )
+monomialFactor = ( v, w ) -> v_( zeroPositions( v - w ) )
 
 --Given two vectors v={v0,v1} and w={w0,w1} in the real plane, finds 
 --the intersection of the associated lines v0*x+w0*y=1 and v1*x+w1*y=1, if it exists
@@ -103,17 +104,17 @@ allIntersections = ( v, w ) ->
     L1 = select( L1, x -> x =!= null );
     L2 := apply( selectNonzero v, x -> { 1/x, 0 } );
     L3 := apply( selectNonzero w, x -> { 0, 1/x } );
-    select( join( L1, L2, L3 ), x -> ( x#0 >= 0 and x#1 >= 0 ) )
+    select( join( L1, L2, L3 ), x -> x#0 >= 0 and x#1 >= 0 )
 )
 
 --Given a point a=(x,y) in the real plane and two vectors v={v0,...,vn} and 
 -- w={w0,...,wn}, checks whether a is in the polytope defined by the equations vi*x+wi*y<=1
-isInPolytope = ( a, v, w ) -> all( v, w, (i,j) -> i*a#0 + j*a#1 <= 1 ) 
+isInPolytope = ( a, v, w ) -> all( v, w, ( i, j ) -> i*a#0 + j*a#1 <= 1 ) 
 
 --Given a point a=(x,y) in the real plane and two vectors
 --v={v0,...,vn} and w={w0,...,wn}, checks whether a is in
 --the interion of the polytope defined by the equations vi*x+wi*y<=1
-isInInteriorPolytope = ( a, v, w ) -> all( v, w, (i,j) -> i*a#0 + j*a#1 < 1 )
+isInInteriorPolytope = ( a, v, w ) -> all( v, w, ( i, j ) -> i*a#0 + j*a#1 < 1 )
 
 --Given two vectors v and w of the same length, outputs 
 --a list of the defining vectors of the polytope as in isInPolytope
@@ -122,11 +123,7 @@ polytopeDefiningPoints = ( v, w ) ->
 
 --Given a list of coordinates in the real plane, 
 --outputs the one with the largest coordinate sum
-maxCoordinateSum = L ->
-(
-     maxSum := max apply( L, sum );
-     first select( L, v -> sum v == maxSum )
-)
+maxCoordinateSum = L -> L#( maxPosition( sum \ L ) )
 
 --Finds the "delta" in Daniel Hernandez's algorithm
 --for F-pure thresholds of binomials
@@ -171,7 +168,7 @@ binomialFPT RingElement := QQ => g ->
     FPT := 0;
     mon := monomialFactor( v, w );
     ( v, w ) = factorOutMonomial( v, w );
-    maxPt := maxCoordinateSum( polytopeDefiningPoints( v, w ) );
+    maxPt := maxCoordinateSum polytopeDefiningPoints( v, w );
     if sum maxPt > 1 then FPT = 1 else
     (
 	L := firstCarry( p, maxPt );
@@ -181,7 +178,7 @@ binomialFPT RingElement := QQ => g ->
 	    P := adicTruncation( p, d, maxPt );
 	    P1 := P + { 0, 1/p^d };
 	    P2 := P + { 1/p^d, 0 };
-	    FPT = adicTruncation(p, L-1, sum maxPt) + calculateEpsilon(P1,P2,v,w)
+	    FPT = adicTruncation( p, L - 1, sum maxPt ) + calculateEpsilon( P1, P2, v, w )
      	 )
      );
      monFPT := min apply( selectNonzero mon, x -> 1/x );
@@ -198,7 +195,7 @@ binomialFPT RingElement := QQ => g ->
 ---------------------------------------------------------------------------------
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
--- Based on the work of Hernandez and Teixeira, and implemented by Teixeira
+-- Based on the work of Hernandez and Teixeira
 
 -*
     Remark: At this point, only commands for computations of F-pure thresholds 
@@ -267,8 +264,8 @@ isInUpperRegion = method( TypicalValue => Boolean )
 isInUpperRegion ( List, ZZ, FTData ) := Boolean => ( a, q, S ) -> 
 (
     frob := frobeniusPower( q, S#"ideal" );
-    F := product( a, S#"polylist", (i,f) -> fastExponentiation(i,f) );
-    (F % frob) == 0
+    F := product( a, S#"polylist", ( i, f ) -> fastExponentiation( i, f ) );
+    F % frob == 0
 )
 
 isInUpperRegion ( List, FTData ) := Boolean => ( u, S ) ->
@@ -300,7 +297,7 @@ neighborInUpperRegion ( List, ZZ, FTData ) := Sequence => ( a, q, S ) ->
     if isInLowerRegion( a, q, S ) then 
         error "neighborInUpperRegion: expected point in the upper region";
     n := S#"numpolys";
-    posEntries := positions( a, k -> k > 0 );
+    posEntries := positivePositions a;
     local candidate;
     for i in posEntries do
     (
@@ -354,11 +351,11 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     -- If some multiplicity a_i is "too big", return 1/a_i
     deg := sum a;
     pos := positions( a, k -> k >= deg/2 );
-    if pos != {} then
+    if pos != { } then
     (
 	if opt#Verbose then
-	    print( "\nOne of the multiplicities, a_i = " | toString a_(pos_0) | ", is >= degree(F)/2, so fpt(F) = 1/a_i.");
-	return  1/a_(pos_0)
+	    print( "\nOne of the multiplicities, a_i = " | toString a_pos_0 | ", is >= degree(F)/2, so fpt(F) = 1/a_i.");
+	return  1/a_pos_0
     );
 
     p := S#"char";
@@ -372,7 +369,7 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     	if gcd( S#"char", den) == 1 then mult = multiplicativeOrder( p, den )
 	else
 	(
-	    F := product( S#"polylist", a, (f,i) -> f^i );
+	    F := product( S#"polylist", a, ( f, i ) -> f^i );
 	    if isFPT( 2/deg, F ) then 
 	    (
 		if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
@@ -391,9 +388,9 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     u := 2*a/deg;
     while isProper I and e < mult do 
     (
-	e = e+1;
+	e = e + 1;
 	dgt = adicDigit( p, e, u );
-	I = frobenius( I ) : product( polys, dgt, (f,k) -> f^k );
+	I = frobenius I : product( polys, dgt, ( f, k ) -> f^k );
 	ideals = append( ideals, I )
     );
     if isProper I and e == mult then 
@@ -405,21 +402,21 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     (
 	if opt#Verbose then print "\nThe fpt is NOT the lct, 2/deg(F).";	
     );
-    e0 := e-1;
+    e0 := e - 1;
     S1 := setFTData( ideals_e0, polys );
     cp := findCPBelow( dgt/p, S1 ); 
     	--if some coordinate of cp is 0, its magnification may not be a CP
     while product cp == 0 and e0 > 0 do 
     (
-	e0 = e0-1;
+	e0 = e0 - 1;
         -- zoom out one step and look for CP again
     	S1 = setFTData( ideals_e0, polys );
-	cp = findCPBelow( cp/p + adicDigit( p, e0+1, u )/p, S1 ) 
+	cp = findCPBelow( cp/p + adicDigit( p, e0 + 1, u )/p, S1 ) 
     );
     cp = cp/p^e0 + adicTruncation( p, e0, u ); -- "zoom out"
     if opt#Verbose then 
         print ( "\nThe fpt is determined by the critical point " | toString cp );
-    max apply( cp, a, (c,k) -> c/k )
+    max apply( cp, a, ( c, k ) -> c/k )
 )
 
 -----------------------
@@ -449,7 +446,7 @@ binaryFormFPT RingElement :=  QQ => opt ->  F ->
     R := ring F;
     vv := R_*;
     kk := splittingField F;
-    S := kk( monoid[getSymbol "a", getSymbol "b"] );
+    S := kk( monoid[ getSymbol "a", getSymbol "b" ] );
     G := sub( F, { vv#0 => (S_*)#0, vv#1 => (S_*)#1 } );
     ( L, m ) := toSequence transpose factorsAndMultiplicities G;
     binaryFormFPTInternal( 
@@ -484,4 +481,3 @@ binaryFormFPT ( List, List ) := QQ => opt -> ( L, m ) ->
 	Verbose => opt#Verbose
     )
 )
-
