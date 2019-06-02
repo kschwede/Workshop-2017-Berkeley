@@ -1,13 +1,9 @@
 --*************************************************
 --*************************************************
---*************************************************
---*************************************************
---This file is used for doing basic computations 
---i.e. things using only lists, numbers, etc.
--- that support other functions in the Fsing
---package.  
---*************************************************
---*************************************************
+-- This file is used for doing basic computations 
+-- i.e. things using only lists, numbers, etc.
+-- that support other functions in the FThresholds
+-- package.  
 --*************************************************
 --*************************************************
 
@@ -16,14 +12,15 @@
 --*************************************************
 --===============================================================================
 
-denominator ZZ := x -> 1
-numerator ZZ := x -> x
+-- denominator ZZ := x -> 1
+-- numerator ZZ := x -> x
 
 --===============================================================================
 
 --Finds the fractional part of a number.
-fracPart = x -> x - floor x
+-- fracPart = x -> x - floor x
 
+-*
 --===============================================================================
 
 --*************************************************
@@ -41,7 +38,7 @@ numberToPrimeFactorList = n ->
 
 --===============================================================================
 
---Returns a list of all factors of number.
+--Returns a list of all factors of a number.
 --Has funny order...
 allFactors = n ->
 (
@@ -87,6 +84,7 @@ findNumberBetween = ( maxDenom, a, b ) ->
 
 --for backwards compatibility
 --findNumberBetween( ZZ, List ) := ( maxDenom, myInterv )-> findNumberBetween( maxDenom, myInterv#0, myInterv#1);
+*-
 
 --===============================================================================
 
@@ -140,38 +138,46 @@ isPolynomialOverPosCharField = method( TypicalValue => Boolean )
 isPolynomialOverPosCharField RingElement := Boolean => F ->
     isPolynomial F and isField( kk := coefficientRing ring F ) and ( char kk ) > 0
 
+-*
 --===============================================================================
 
 --isPolynomialOverFiniteField(F) checks if F is a polynomial over a finite field.
 isPolynomialOverFiniteField = method( TypicalValue => Boolean )
 
--- This was reverted so that users with older M2 version could load 
-
---isPolynomialOverFiniteField (RingElement) := Boolean => F ->
---    isPolynomialOverPosCharField( F ) and isFinitePrimeField(coefficientRing ring F)
+-- isPolynomialOverFiniteField (RingElement) := Boolean => F ->
+--     isPolynomialOverPosCharField( F ) and isFinitePrimeField coefficientRing ring F
 
 isPolynomialOverFiniteField RingElement := Boolean => F ->
     isPolynomialOverPosCharField F and  ( try (coefficientRing ring F)#order then true else false )
+*-
 
 --===============================================================================
 
---isPolynomialRingOverFiniteField(R) checks if R is a polynomial over a 
--- finite field.
-isPolynomialRingOverFiniteField = method( TypicalValue => Boolean )
+-- isDefinedOverFiniteField checks if the ring, polynomial, or ideal is defined
+-- over a finite field.
+isDefinedOverFiniteField = method( TypicalValue => Boolean )
 
-isPolynomialRingOverFiniteField Ring := Boolean => R ->
+isDefinedOverFiniteField Ring := Boolean => R ->
     isPolynomialRing R and  (try (coefficientRing R)#order then true else false)
 
+isDefinedOverFiniteField Ideal := Boolean => I ->
+    isDefinedOverFiniteField ring I 
+
+isDefinedOverFiniteField RingElement := Boolean => f ->
+    isDefinedOverFiniteField ring f 
+
 --===============================================================================
+
 
 --Determines whether a polynomial f is a diagonal polynomial (i.e., of the form 
 --x_1^(a_1)+...+x_n^(a_n)) over a field of positive characteristic 
 isDiagonal = method( TypicalValue => Boolean )
 
 isDiagonal RingElement := Boolean => f ->
-    isPolynomialOverPosCharField( f ) and 
-    ( product( exponents( f ), v -> #(positions( v, x -> x != 0 )) ) == 1 )
+    isPolynomialOverPosCharField f  and 
+    product( exponents f, v -> #(positions( v, x -> x != 0 )) ) == 1
 
+-*
 --===============================================================================
 
 --Returns true if the polynomial is a monomial
@@ -181,6 +187,7 @@ isMonomial RingElement := Boolean => f ->
     isPolynomial f and #( terms f ) == 1
 
 --===============================================================================
+*-
 
 --Returns true if the polynomial is a binomial over a field of positive characteristic
 isBinomial = method( TypicalValue => Boolean )
@@ -199,6 +206,7 @@ isBinaryForm = method( TypicalValue => Boolean )
 isBinaryForm RingElement := Boolean => F ->
     isPolynomial F and numgens ring F == 2 and isHomogeneous F 
 
+-*
 --===============================================================================
 
 --isNonconstantBinaryForm(F) checks if F is a nonconstant homogeneous polynomial 
@@ -209,6 +217,7 @@ isNonConstantBinaryForm RingElement := Boolean => F ->
     isBinaryForm F  and ( degree F )#0 > 0
 
 --===============================================================================
+*-
 
 --isLinearBinaryForm(F) checks if F is a linearform in two variables. See warning 
 --under "isBinaryForm".
@@ -274,7 +283,7 @@ splittingField = method( TypicalValue => GaloisField )
 
 splittingField RingElement := GaloisField => F -> 
 (
-    if not isPolynomialOverFiniteField F 
+    if not isDefinedOverFiniteField F 
         then error "splittingField expects a polynomial over a finite field";
     p := char ring F;
     ord := ( coefficientRing ring F )#order;

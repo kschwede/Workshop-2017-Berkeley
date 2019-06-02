@@ -61,8 +61,8 @@ diagonalFPT = method( TypicalValue => QQ )
 
 diagonalFPT RingElement := QQ => f ->
 (
-    if not isDiagonal f then 
-        error "diagonalFPT: expected a diagonal polynomial over a field of positive characteristic";
+--    if not isDiagonal f then 
+--        error "diagonalFPT: expected a diagonal polynomial over a field of positive characteristic";
     p := char ring f;
     w := apply( terms f, g -> 1/( first degree g ) );  
       -- w = list of reciprocals of the powers of the variables appearing in f
@@ -164,8 +164,8 @@ binomialFPT = method( TypicalValue => QQ )
 
 binomialFPT RingElement := QQ => g ->
 (
-    if not isBinomial g then 
-        error "binomialFPT: expected a binomial over a field of positive characteristic";
+--    if not isBinomial g then 
+--        error "binomialFPT: expected a binomial over a field of positive characteristic";
     p := char ring g;
     ( v, w ) := toSequence exponents g;
     FPT := 0;
@@ -435,8 +435,8 @@ binaryFormFPT = method(
 *-
 binaryFormFPT RingElement :=  QQ => opt ->  F ->
 (    
-   if not isNonConstantBinaryForm F then
-       error "binaryFormFPT: a nonconstant homogeneous polynomial in 2 variables is expected";
+--   if not isNonConstantBinaryForm F then
+--       error "binaryFormFPT: a nonconstant homogeneous polynomial in 2 variables is expected";
     -- because factoring is the weakness of this algorithm, we try to avoid it
     -- by first checking if fpt=lct
     deg := (degree F)_0;
