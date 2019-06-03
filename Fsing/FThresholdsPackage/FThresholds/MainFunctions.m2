@@ -15,8 +15,8 @@
 ---------------------------------------------------------------------------------
 -- FThreshold approximations
 
--- Main functions: fptApproximation, ftApproximation,
---     criticalExponentApproximation
+-- Main functions: approximateFPT, approximateFT,
+--     approximateCriticalExponent
 
 ---------------------------------------------------------------------------------
 -- FThreshold computations and estimates
@@ -352,48 +352,48 @@ mu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) ->
 
 --Approximates the F-pure Threshold
 --Gives a list of nu_I(p^d)/p^d for d=1,...,e
-fptApproximation = method( TypicalValue => List )
+approximateFPT = method( TypicalValue => List )
 
-fptApproximation ( ZZ, Ideal ) := List => ( e, I ) ->
+approximateFPT ( ZZ, Ideal ) := List => ( e, I ) ->
 (
      p := char ring I;
      nus := nuList( e, I );
      apply( nus, 0..e, (n,k) -> n/p^k )
 )
 
-fptApproximation ( ZZ, RingElement ) := List => ( e, f ) ->
-    fptApproximation( e, ideal f )
+approximateFPT ( ZZ, RingElement ) := List => ( e, f ) ->
+    approximateFPT( e, ideal f )
 
 --Approximates the F-Threshold with respect to an ideal J
 --More specifically, this gives a list of nu_I^J(p^d)/p^d for d=1,...,e
 
-ftApproximation = method( TypicalValue => List )
+approximateFT = method( TypicalValue => List )
 
-ftApproximation ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
+approximateFT ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
 (
     if not isSubset( I, radical J ) then
-        error "ftApproximation: F-threshold undefined";
+        error "approximateFT: F-threshold undefined";
     p := char ring I;
     nus := nuList( e, I, J );
     apply( nus, 0..e, (n,k) -> n/p^k )
 )
 
-ftApproximation ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
-   ftApproximation( e, ideal(f), J )
+approximateFT ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
+   approximateFT( e, ideal(f), J )
 
-criticalExponentApproximation = method( TypicalValue => List )
+approximateCriticalExponent = method( TypicalValue => List )
 
-criticalExponentApproximation ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
+approximateCriticalExponent ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
 (
     if not isSubset( I, radical J ) then
-        error "criticalExponentApproximation: critical exponent undefined";
+        error "approximateCriticalExponent: critical exponent undefined";
     p := char ring I;
     mus := muList( e, I, J );
     apply( mus, 0..e, (n,k) -> n/p^k )
 )
 
-criticalExponentApproximation ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
-    criticalExponentApproximation( e, ideal f, J )
+approximateCriticalExponent ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
+    approximateCriticalExponent( e, ideal f, J )
 
 -- OBSOLETE
 --Gives a list of guesses for the F-pure threshold of f.  It returns a list of all numbers in
@@ -758,21 +758,19 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
     if o.QGorensteinIndex > 0 then cartIndex = o.QGorensteinIndex
     else cartIndex = getDivisorIndex( o.MaxCartierIndex, canIdeal );
     h1 := 0_S1;
-
     --first we do a quick check to see if the test ideal is easy to compute
     if ( pp - 1 ) % cartIndex == 0 then
     (
         J1 := testElement R1;
         try h1 = QGorensteinGenerator( 1, R1 ) then
-        (
+	(
             computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain );
             if isUnitIdeal computedTau then return -1
 	    --at this point we know that this is not the FPT
         )
         else h1 = 0_S1
     );
-
-    --now compute the test ideal in the general way (if the index does not divide at least...)
+    --now compute the test ideal in the general way (if the index does not divide...)
     gg := first (trim canIdeal)_*;
     dualCanIdeal :=  ideal gg : canIdeal;
     nMinusKX := reflexivePower( cartIndex, dualCanIdeal );
@@ -805,7 +803,7 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
 	    --the ambient isn't even F-regular
         ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
         if a1 > pp^c1 - 1 then
-	    (
+	(
             a1quot := floor( ( a1 - 1 )/( pp^c1 - 1 ) );
             a1rem := a1 - ( pp^c1 - 1 )*a1quot;
             computedHSLGInitial = first FPureModule( { a1rem/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => baseTau, GeneratorList => { h1 } );
@@ -819,13 +817,11 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         if isProper( computedHSLG + I1 ) then return 1;
 	--the fpt we picked is too big
     )
-    else (
+    else
     --there should be an algorithm that works here
-        --STEP 1, compute
         error "compareFPT:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of";
-    );
+    0
     --it is the FPT!
-    return 0;
 )
 
 compareFPTPoly = method( Options => { FrobeniusRootStrategy => Substitution } )
@@ -881,8 +877,6 @@ isInForbiddenInterval ( ZZ, QQ ) := Boolean => ( p, t ) ->
     e := 1;
     while valid and e <= b + c do
     (
-     --the following comes from Proposition 4.1 and Corollary 4.1(1) in
-     --[Hernandez, F-purity of hypersurfaces]
         if floor( ( p^e - 1 )*t ) != p^e * adicTruncation( p, e, t ) then
 	    valid = false;
 	e = e + 1
@@ -920,6 +914,7 @@ isFPT ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 --This needs to be speeded up, like the above function
 --***************************************************************************
 
+-- Dan: isn't is safer to have AssumeDomain default to "false" here?
 isFJumpingExponent = method(
     Options =>
     {
@@ -1013,9 +1008,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
         )
     )
     else--there should be an algorithm that works here
-    (
-        error "isFJumpingExponent:  The current version requires that (p^E-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of";
-    );
+        error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of";
     not isSubset( computedHSLG, I1 + sub( computedTau, S1 ) )
 )
 
