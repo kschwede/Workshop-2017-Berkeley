@@ -119,10 +119,10 @@ M=ideal(x,y);
 D=ideal(x^3,y^3);
 f=x^3+y^3; -- generic element of D
 g=x^3+x^2*y + x*y^2 + y^3; -- generic element of M^3
-assert(criticalExponentApproximation(1,M^3,M)=={0,2/5})
-assert(criticalExponentApproximation(2,M^3,M)=={0,2/5,14/25})
-assert(criticalExponentApproximation(1,D,M)=={0,2/5})
-assert(criticalExponentApproximation(2,D,M)=={0,2/5,14/25})
+assert(approximateCriticalExponent(1,M^3,M)=={0,2/5})
+assert(approximateCriticalExponent(2,M^3,M)=={0,2/5,14/25})
+assert(approximateCriticalExponent(1,D,M)=={0,2/5})
+assert(approximateCriticalExponent(2,D,M)=={0,2/5,14/25})
 assert(approximateFPT(1,f)=={0,2/5})
 assert(approximateFPT(2,f)=={0,2/5,14/25})
 assert(approximateFPT(1,g)=={0,2/5})
@@ -136,14 +136,14 @@ D=ideal(x^4,y^4);
 I=ideal(x^2,y);
 f=x^4+y^4; -- generic element of D
 g=x^4+x^3*y+x^2*y^2+x*y^3+y^4; -- generic element of M^4
-assert(criticalExponentApproximation(1,M^4,I)=={0,4/7})
-assert(criticalExponentApproximation(2,M^4,I)=={0,4/7,34/49})
-assert(criticalExponentApproximation(1,D,I)=={0,4/7})
-assert(criticalExponentApproximation(2,D,I)=={0,4/7,34/49})
-assert(ftApproximation(1,f,I)=={0,4/7})
-assert(ftApproximation(2,f,I)=={0,4/7,34/49})
-assert(ftApproximation(1,g,I)=={0,4/7})
-assert(ftApproximation(2,g,I)=={0,4/7,34/49})
+assert(approximateCriticalExponent(1,M^4,I)=={0,4/7})
+assert(approximateCriticalExponent(2,M^4,I)=={0,4/7,34/49})
+assert(approximateCriticalExponent(1,D,I)=={0,4/7})
+assert(approximateCriticalExponent(2,D,I)=={0,4/7,34/49})
+assert(approximateFT(1,f,I)=={0,4/7})
+assert(approximateFT(2,f,I)=={0,4/7,34/49})
+assert(approximateFT(1,g,I)=={0,4/7})
+assert(approximateFT(2,g,I)=={0,4/7,34/49})
 ///
 
 --Here, we test F-pure threshold approximation computations for polynomials
@@ -171,9 +171,7 @@ I=ideal(x+y^2,y+z^2,z+x^2);
 J=ideal(x^3,y^3,z^3);
 time assert( nu(1,I,J,ContainmentTest => FrobeniusRoot) == 42 )
 time assert( nu(1,I,J, ContainmentTest => FrobeniusPower) == 30 )
-time assert( mu(1,I,J) == 30 )
 time assert( nuList(1,I,J,ContainmentTest=> FrobeniusPower) == {6, 30} )
-time assert( muList(1,I,J) == {6, 30} )
 ///
 
 TEST ///
