@@ -2,7 +2,7 @@ doc ///
     Key
         BinaryRecursive
     Headline
-        an valid value for the option Search
+        a valid value for the option Search
     SeeAlso
         Search
 ///
@@ -338,30 +338,30 @@ doc ///
 ///
 
 doc ///
-     Key
+    Key
         isFJumpingExponent
         (isFJumpingExponent,Number,RingElement)
         [isFJumpingExponent, AssumeDomain]
         [isFJumpingExponent, FrobeniusRootStrategy]
         [isFJumpingExponent, MaxCartierIndex]
         [isFJumpingExponent, QGorensteinIndex]
-     Headline
-        Checks whether a given number is an F-jumping number
-     Usage
-         isFJumpingExponent(t,f,Verbose=>V)
-     Inputs
-         t:QQ
-         f:RingElement
+    Headline
+        whether a given number is an F-jumping number
+    Usage
+        isFJumpingExponent(t,f,Verbose=>V)
+    Inputs
+        t:QQ
+        f:RingElement
             an element of a $\mathbb{Q}$-Gorenstein ring
-         V:Boolean
-         AssumeDomain => Boolean
-         FrobeniusRootStrategy => Symbol
+        V:Boolean
+        AssumeDomain => Boolean
+        FrobeniusRootStrategy => Symbol
             an option passed to computations in the TestIdeals package
-         MaxCartierIndex => ZZ
-         QGorensteinIndex => ZZ
-     Outputs
+        MaxCartierIndex => ZZ
+        QGorensteinIndex => ZZ
+    Outputs
         :Boolean
-     Description
+    Description
         Text
             Returns true if {\tt t} is an F-jumping number of {\tt f}, otherwise it returns false. This function only works if the ambient ring of $R$ is $\mathbb{Q}$-Gorenstein
 
@@ -531,8 +531,8 @@ doc ///
         Text
             The function {\tt nu} works by searching through list of integers $n$ and checking containments of $I^n$ in a specified Frobenius power of $J$.
             
-There are two valid values for the option {\tt Search}, namely, {\tt Binary} (the default value), {\tt BinaryRecursive}, and {\tt Linear}.
-The value {\tt Binary} checks containments in a binary search order, {\tt BinaryRecursive} in a binary recursive search method, and {\tt Linear} in a linear order. 
+            There are two valid values for the option {\tt Search}, namely, {\tt Binary} (the default value), {\tt BinaryRecursive}, and {\tt Linear}.
+            The value {\tt Binary} checks containments in a binary search order, {\tt BinaryRecursive} in a binary recursive search method, and {\tt Linear} in a linear order. 
 
         Example
             ZZ/17[x,y];
