@@ -35,7 +35,7 @@ doc ///
         Text
             This function can be used in a singular ring that is strongly $F$-regular, as long as the ring is $\mathbb{Q}$-Gorenstein of index dividing $p-1$, where $p>0$ is the characteristic of the ring. 
 
-For instance, in the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
+            For instance, in the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/ideal(x*y-z^2);
              f = x;
@@ -328,34 +328,36 @@ doc ///
 ///
 
 doc ///
-     Key
-         nu
-         (nu,ZZ,Ideal,Ideal)
-         (nu,ZZ,Ideal)
-         (nu,ZZ,RingElement,Ideal)
-         (nu,ZZ,RingElement)
-         [nu, ContainmentTest]
-         [nu, Search]
-     Headline
+    Key
+        nu
+        (nu,ZZ,Ideal,Ideal)
+        (nu,ZZ,Ideal)
+        (nu,ZZ,RingElement,Ideal)
+        (nu,ZZ,RingElement)
+        [nu, ContainmentTest]
+        [nu, Search]
+    Headline
         computes the largest power of an ideal not contained in a specified Frobenius power
-     Usage
-          nu(e,I,J)
-          nu(e,I)
-          nu(e,f,J)
-          nu(e,f)
-     Inputs
-         e:ZZ
-         I:Ideal
-         J:Ideal
-         f:RingElement
-         ContainmentTest => Symbol
-             specifies the manner in which to verify the containment of a power of $I$ in some specified Frobenius power of $J$
-         Search => Symbol
-            specifies the strategy in which to search for the largest integer $n$ such that $I^n$ is not contained in some specified Frobenius power of $J$.
-     Outputs
+    Usage
+        nu(e,I,J)
+        nu(e,I)
+        nu(e,f,J)
+        nu(e,f)
+    Inputs
+        e:ZZ
+        I:Ideal
+        J:Ideal
+        f:RingElement
+        ContainmentTest => Symbol
+            specifies the manner in which to verify the containment of a power of $I$ in some specified Frobenius power of $J$
+        Search => Symbol
+            specifies the strategy in which to search for the largest integer $n$ such that $I^n$ is not contained in some specified Frobenius power of $J$
+    Outputs
         :ZZ
-          the $nu$-invarants whose normalized limits compute the $F$-pure threshold, and more generally, $F$-thresholds.
-     Description
+            $nu$ invariants whose normalized limits compute the $F$-pure threshold, and more generally, $F$-thresholds
+        :InfiniteNumber
+            the $nu$ invariant, if {\tt I} or {\tt f} is not contained in the radical of $J$
+    Description
         Text
             Consider a field $k$ of characteristic $p>0$, and an ideal $J$ in the polynomial ring $S = k[x_1, \ldots, x_d]$.
             If $f$ is a polynomial contained in the radical of $J$, then the command {\tt nu(e, f, J)} outputs the maximal exponent

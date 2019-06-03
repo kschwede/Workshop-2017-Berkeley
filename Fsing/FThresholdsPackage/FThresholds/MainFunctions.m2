@@ -126,7 +126,13 @@ search := new HashTable from
 -- OPTION PACKAGES
 ---------------------------------------------------------------------------------
 
-optNu:= {Search => Binary, ContainmentTest => null, UseSpecialAlgorithms => true}
+optNu:= 
+{ 
+    Search => Binary, 
+    ContainmentTest => null, 
+    UseSpecialAlgorithms => true, 
+    Verbose => false 
+}
 
 ---------------------------------------------------------------------------------
 -- INTERNAL FUNCTION
@@ -208,7 +214,8 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     local N;
     nu := nu1( g, J ); 
     theList := { nu };
-
+    if o.Verbose then print( "\nnu(1) = " | toString nu );
+   
     ----------------------
     -- EVERY OTHER CASE --
     ----------------------
@@ -218,6 +225,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     scan( 1..n, e ->
         (
            nu = searchFct( g, J, e, p*nu, (nu+1)*N, testFct );
+           if o.Verbose then print( "\nnu(p^" | toString e | ") = " | toString nu );
            theList = append( theList, nu )
         )
     )
@@ -244,17 +252,17 @@ nuList ( ZZ, Ideal ) :=  List => o -> ( e, I ) ->
 nuList ( ZZ, RingElement ) := List => o -> ( e, f ) ->
     nuList( e, f, maxIdeal f, o )
 
-nu = method( Options => optNu, TypicalValue => ZZ );
+nu = method( Options => optNu );
 
-nu ( ZZ, Ideal, Ideal ) := ZZ => o -> ( e, I, J ) ->
+nu ( ZZ, Ideal, Ideal ) := o -> ( e, I, J ) ->
     last nuInternal( e, I, J, o )
 
-nu ( ZZ, RingElement, Ideal ) := ZZ => o -> ( e, f, J ) ->
+nu ( ZZ, RingElement, Ideal ) := o -> ( e, f, J ) ->
     last nuInternal( e, f, J, o )
 
-nu ( ZZ, Ideal ) := ZZ => o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
+nu ( ZZ, Ideal ) := o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
 
-nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
+nu ( ZZ, RingElement ) := o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
