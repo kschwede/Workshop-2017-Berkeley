@@ -96,14 +96,14 @@ doc ///
 
 doc ///
     Key
-        criticalExponentApproximation
-        (criticalExponentApproximation,ZZ,Ideal,Ideal)
-        (criticalExponentApproximation,ZZ,RingElement,Ideal)
+        approximateCriticalExponent
+        (approximateCriticalExponent,ZZ,Ideal,Ideal)
+        (approximateCriticalExponent,ZZ,RingElement,Ideal)
     Headline
         gives a list of approximates of a critical exponent
     Usage
-        criticalExponentApproximation(e,I,J)
-        criticalExponentApproximation(e,f,J)
+        approximateCriticalExponent(e,I,J)
+        approximateCriticalExponent(e,f,J)
     Inputs
         e:ZZ
         I:Ideal
@@ -120,12 +120,12 @@ doc ///
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
              m = ideal(x,y);
-             criticalExponentApproximation(2,I,m)
+             approximateCriticalExponent(2,I,m)
              f = x^2 + y^3;
-             criticalExponentApproximation(2,f,m)
+             approximateCriticalExponent(2,f,m)
     SeeAlso
-        ftApproximation
-        fptApproximation
+        approximateFT
+        approximateFPT
         mu
         muList
 ///
@@ -159,7 +159,7 @@ doc ///
          MaxChecks => ZZ
              specifies the number of "guess and check" attempts to make
          UseFSignature => Boolean
-             specifies whether to use the $F$-signature function and a secant line argument to attempt to improve the $F$-pure threshold estimate 
+             specifies whether to use the $F$-signature function and a secant line argument to attempt to improve the $F$-pure threshold estimate
          UseSpecialAlgorithms => Boolean
              specifies whether to check if $f$ is diagonal, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
 	 Verbose => Boolean
@@ -187,8 +187,8 @@ doc ///
              fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
          Text
              When no special algorithm is available or @TO UseSpecialAlgorithms@ is set to @TO false@, {\tt fpt} computes $\nu = \nu_f(p^e)$ (see @ TO nu@), where $e$ is the value of the option @TO DepthOfSearch@, which conservatively defaults to 1.
-              At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval. 
-	      
+              At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval.
+
 	      The number of "guesses" is controlled by the option @TO MaxChecks@, which conservatively defaults to 3.
 	      If @TO MaxChecks@ is set to 0, {\tt guessFPT} is bypassed.
 	      If @TO MaxChecks@ is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval is the $F$-pure threshold.
@@ -205,7 +205,7 @@ doc ///
 	      fpt( f, MaxChecks => 2, DepthOfSearch => 3 ) -- the left-hand endpoint is the fpt
 	 Text
 	      If neither endpoint is the $F$-pure threshold, and @TO MaxChecks@ is set to more than 2, additional checks are performed at numbers in the interval.
-	      A number in the interval with minimal denominator is selected, and @TO compareFPT@ is used to test that number. 
+	      A number in the interval with minimal denominator is selected, and @TO compareFPT@ is used to test that number.
 	      If that "guess" is correct, its value is returned; otherwise, the information returned by @TO compareFPT@ is used to narrow down the interval, and this process is repeated as many times as specified by @TO MaxChecks@.
 	 Example
               f = x^3*y^11*(x+y)^8*(x^2+y^3)^8;
@@ -217,8 +217,8 @@ doc ///
          Example
               f = x^5*y^6*(x+y)^9*(x^2+y^3)^4;
 	      fpt( f, DepthOfSearch => 3 )
-	      fpt( f, DepthOfSearch => 3, UseFSignature => true ) 
-	      numeric ooo 
+	      fpt( f, DepthOfSearch => 3, UseFSignature => true )
+	      numeric ooo
 	      numeric ooo -- UseFSignature sharpened the estimate a bit
 	 Text
               When @TO FRegularityCheck@ is set to @TO true@ and no exact answer has been found, a final check is run (if necessary) to verify whether the final lower bound for the $F$-pure threshold is the exact answer.
@@ -229,10 +229,10 @@ doc ///
  	      fpt( f, MaxChecks => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) -- FRegularityCheck finds the answer
          Text
 	      The computations performed when @TO UseFSignature@ and @TO FRegularityCheck@ are set to @TO true@ are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
-	      It is often more effective to increase the values of @TO MaxChecks@ or @TO DepthOfSearch@, instead. 
+	      It is often more effective to increase the values of @TO MaxChecks@ or @TO DepthOfSearch@, instead.
          Example
               f = x^7*y^5*(x+y)^5*(x^2+y^3)^4;
- 	      timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) 
+ 	      timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true )
 	      timing numeric fpt( f, MaxChecks => 5, DepthOfSearch => 3 ) -- a better answer in less time
 	      timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less time
 	 Text
@@ -240,7 +240,7 @@ doc ///
               Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option @TO Verbose@ is set to @TO true@, the precise interval will be printed.
          Example
               f = x^7*y^5*(x+y)^5*(x^2+y^3)^4;
-              fpt( f, DepthOfSearch => 3, UseFSignature => true, Verbose => true ) 
+              fpt( f, DepthOfSearch => 3, UseFSignature => true, Verbose => true )
 	 Text
               The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization. For this reason, when a factorization is already known, the user can pass to fpt a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
          Example
@@ -249,21 +249,21 @@ doc ///
               fpt(L, m)
 	      fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 )
     SeeAlso
-              fptApproximation
+              approximateFPT
               nu
               nuList
 ///
 
 doc ///
      Key
-         fptApproximation
-         (fptApproximation,ZZ,Ideal)
-         (fptApproximation,ZZ,RingElement)
+         approximateFPT
+         (approximateFPT,ZZ,Ideal)
+         (approximateFPT,ZZ,RingElement)
      Headline
          gives a list of terms in the sequence whose limit defines the F-pure threshold
      Usage
-          fptApproximation(e,I)
-          fptApproximation(e,f)
+          approximateFPT(e,I)
+          approximateFPT(e,f)
      Inputs
          e:ZZ
          I:Ideal
@@ -278,15 +278,15 @@ doc ///
         Example
             R = ZZ/13[x,y];
             I = ideal(x^2, y);
-            fptApproximation(2,I)
+            approximateFPT(2,I)
             f = x^5 + x^2*y^3;
-            fptApproximation(2,f)
+            approximateFPT(2,f)
     SeeAlso
         fpt
-        ftApproximation
+        approximateFT
         nu
         nuList
-        criticalExponentApproximation
+        approximateCriticalExponent
 ///
 
 doc ///
@@ -330,14 +330,14 @@ doc ///
 
 doc ///
      Key
-         ftApproximation
-         (ftApproximation,ZZ,Ideal,Ideal)
-         (ftApproximation,ZZ,RingElement,Ideal)
+         approximateFT
+         (approximateFT,ZZ,Ideal,Ideal)
+         (approximateFT,ZZ,RingElement,Ideal)
      Headline
          gives a list of terms in the sequence whose limit defines an F-threshold
      Usage
-         ftApproximation(e,I,J)
-         ftApproximation(e,f,J)
+         approximateFT(e,I,J)
+         approximateFT(e,f,J)
      Inputs
          e:ZZ
          I:Ideal
@@ -354,9 +354,9 @@ doc ///
               R = ZZ/7[x,y];
               I = ideal(x^5, y^5);
               J = ideal(x^2, y^3);
-              ftApproximation(2,I,J)
+              approximateFT(2,I,J)
               f = x^3*y^2+x^5*y;
-              ftApproximation(2,f,J)
+              approximateFT(2,f,J)
 ///
 
 doc ///
@@ -451,7 +451,7 @@ doc ///
           specifies the number of "guess and check" attempts to make in an F-pure threshold computation
      Description
           Text
-              an option for function @TO fpt@, which specifies the number of "guess and check" tries to be performed. 
+              an option for function @TO fpt@, which specifies the number of "guess and check" tries to be performed.
 	      The first number checked is always the upper bound $(\nu+1)/p^e$, where $e$ is the value of the option @TO DepthOfSearch@ and $\nu=\nu_f(p^e)$.
 	      The second number checked is always the lower bound $\nu/(p^e-1)$.
      SeeAlso
@@ -784,7 +784,7 @@ doc ///
     Description
         Text
             This option for the function @TO fpt@ specifies that the convexity of the $F$-signature function and a secant line argument be used, in an attempt to narrow down the interval bounding the $F$-pure threshold.
-            Only takes on Boolean values.             
+            Only takes on Boolean values.
     SeeAlso
         fpt
 ///
