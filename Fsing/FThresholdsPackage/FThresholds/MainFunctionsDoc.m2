@@ -2,13 +2,9 @@ doc ///
     Key
         BinaryRecursive
     Headline
-        an option value specifying a binary recursive search method
-    Description
-        Text
-            a value for the option {\tt Search} to specify a binary recursive search method
+        an valid value for the option Search
     SeeAlso
-        nu
-        nuList
+        Search
 ///
 
 doc ///
@@ -534,8 +530,10 @@ doc ///
             nu(3,M^5,ContainmentTest=>FrobeniusPower)
         Text
             The function {\tt nu} works by searching through list of integers $n$ and checking containments of $I^n$ in a specified Frobenius power of $J$.
-            The option {\tt Search} specifies the search algorithm used to do so search for the exponent $n$ among a list of possibilities.
-            Valid values for {\tt Search} are {\tt Binary}, the default value, {\tt BinaryRecursive}, and {\tt Linear}.
+            
+There are two valid values for the option {\tt Search}, namely, {\tt Binary} (the default value), {\tt BinaryRecursive}, and {\tt Linear}.
+The value {\tt Binary} checks containments in a binary search order, {\tt BinaryRecursive} in a binary recursive search method, and {\tt Linear} in a linear order. 
+
         Example
             ZZ/17[x,y];
             M=ideal(x,y);
