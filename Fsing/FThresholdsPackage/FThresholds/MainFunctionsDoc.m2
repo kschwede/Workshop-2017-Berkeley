@@ -97,14 +97,14 @@ doc ///
 	     requests verbose feedback
      Outputs
         :List
-            containing the endpoints of an interval containing lower and upper bounds for the $F$-pure threshold of $f$
+            containing lower and upper bounds for the $F$-pure threshold of {\tt f}
         :QQ
-            the $F$-pure threshold of $f$
+            the $F$-pure threshold of {\tt f}
 	:InfiniteNumber
-	    the $F$-pure threshold of $f$, if $f$ is {\it not} in the homogeneous maximal ideal
+	    the $F$-pure threshold of {\tt f}, if {\tt f} is {\it not} in the homogeneous maximal ideal
      Description
           Text
-              The function {tt fpt} attempts to find the exact value for the $F$-pure threshold of a polynomial $f$ at the origin, and returns that value, if possible.
+              The function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of a polynomial $f$ at the origin, and returns that value, if possible.
               Otherwise, it returns lower and upper bounds for the $F$-pure threshold.
          Example
               ZZ/5[x,y,z];
@@ -112,14 +112,14 @@ doc ///
               fpt( x^5+y^6+z^7+(x*y*z)^3 )
          Text
               If the option @TO UseSpecialAlgorithms@ is set to @TO true@ (the default value), then {\tt fpt} first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, respectively.
-              If it is one of these, algorithms of D. Hernandez, or D. Hernandez and P. Teixeira, are executed to compute the $F$-pure threshold of $f$.
+              If it is one of these, algorithms of Hernandez, or Hernandez and Teixeira, are executed to compute the $F$-pure threshold of $f$.
          Example
              fpt( x^17+y^20+z^24 ) -- a diagonal polynomial
              fpt( x^2*y^6*z^10+x^10*y^5*z^3 ) -- a binomial
              ZZ/5[x,y];
              fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
          Text
-             When no special algorithm is available or @TO UseSpecialAlgorithms@ is set to @TO false@, {\tt fpt} computes $\nu = \nu_f(p^e)$ (see @ TO nu@), where $e$ is the value of the option @TO DepthOfSearch@, which conservatively defaults to 1.
+             When no special algorithm is available or @TO UseSpecialAlgorithms@ is set to @TO false@, {\tt fpt} computes {\tt nu}$(e,f)$ (see @TO nu@), where $e$ is the value of the option @TO DepthOfSearch@, which conservatively defaults to 1.
               At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval.
 
 	      The number of "guesses" is controlled by the option @TO MaxChecks@, which conservatively defaults to 3.
