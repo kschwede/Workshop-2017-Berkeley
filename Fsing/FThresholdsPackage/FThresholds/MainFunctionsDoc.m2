@@ -93,7 +93,7 @@ doc ///
          m:List
              containing positive integers
          DepthOfSearch => ZZ
-             specifies the power of the characteristic to be used in a search for the F-pure threshold
+             specifies the power of the characteristic to be used in a search for the $F$-pure threshold
          FRegularityCheck => Boolean
              specifies whether to check if the final lower bound is the $F$-pure threshold of $f$
          MaxChecks => ZZ
@@ -260,7 +260,7 @@ doc ///
         :Boolean
     Description
         Text
-            Returns true if {\tt t} is an F-jumping number of {\tt f}, otherwise it returns false. This function only works if the ambient ring of $R$ is $\mathbb{Q}$-Gorenstein
+            Returns true if {\tt t} is an $F$-jumping number of {\tt f}, otherwise it returns false. This function only works if the ambient ring of $R$ is $\mathbb{Q}$-Gorenstein
 
             If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order
             to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
@@ -372,7 +372,7 @@ doc ///
 	    More generally, if $I$ is an ideal contained in the radical of $J$, then {\tt nu(e, I, J)} outputs the maximal integer exponent $n$ such that $I^n$ is not contained in the $p^e$-th Frobenius power of $J$.
 
             These numbers are denoted $\nu_f^J(p^e)$ and $\nu_I^J(p^e)$, respectively, in the literature, and were originally defined in the paper
-            "F-thresholds and Bernstein-Sato Polynomials" by Mustata, Takagi, and Watanabe.
+            "$F$-thresholds and Bernstein-Sato Polynomials" by Mustata, Takagi, and Watanabe.
         Example
             S=ZZ/11[x,y];
             I=ideal(x^2+y^3, x*y);
