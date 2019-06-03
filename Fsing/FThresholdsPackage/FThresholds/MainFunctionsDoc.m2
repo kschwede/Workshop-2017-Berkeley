@@ -1,4 +1,3 @@
-
 doc ///
     Key
         BinaryRecursive
@@ -62,24 +61,7 @@ doc ///
 
 doc ///
     Key
-        ComputePreviousNus
-    Headline
-        an option to compute nu-values recursively
-    Description
-        Text
-            An option for the function @TO nu@ (or @TO mu@) to compute its values recursively.
 
-            If {\tt true}, then $\nu$-values (or $\mu$-values) are computed in succession.
-            Otherwise, another method can be applied.
-
-            Can take on only Boolean values. Default value is {\tt true}.
-    SeeAlso
-        mu
-        nu
-///
-
-doc ///
-    Key
         ContainmentTest
     Headline
         an option to specify the containment test used
