@@ -101,7 +101,6 @@ export{
     "Substitution",
 
 --Frobenius Powers (frobeniusPowers.m2)
-    "fastExponentiation",
     "frobenius",
     "frobeniusPower",
     "FrobeniusPowerStrategy",

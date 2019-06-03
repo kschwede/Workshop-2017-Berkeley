@@ -53,15 +53,7 @@ nu1 ( Ideal, Ideal ) :=  ZZ => ( I, J ) ->
     d - 1
 )
 
--- for polynomials, we use fastExponentiation
-nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) ->
-(
-    if not isSubset( ideal f, radical J ) then
-        error "nu1: The polynomial is not contained in the radical of the ideal";
-    d := 1;
-    while not isSubset( ideal fastExponentiation( d, f ), J ) do d = d + 1;
-    d - 1
-)
+nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) -> nu1( ideal f, J )
 
 ---------------------------------------------------------------------------------
 -- TESTS
@@ -71,16 +63,6 @@ nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) ->
 
 -- testRoot(J,a,I,e) checks whether J^a is a subset of I^[p^e] by checking whether (J^a)^[1/p^e] is a subset of I
 testRoot = ( J, a, I, e ) -> isSubset( frobeniusRoot( e, a, J ), I )
-
--- testPower(J,a,I,e) checks whether J^a is  a subset of I^[p^e], directly
-testPower = method( TypicalValue => Boolean )
-
-testPower ( Ideal, ZZ, Ideal, ZZ ) := Boolean => ( J, a, I, e ) ->
-    isSubset( J^a, frobenius( e, I ) )
-
--- for polynomials, use fastExponentiation
-testPower ( RingElement, ZZ, Ideal, ZZ ) := Boolean => ( f, a, I, e ) ->
-    isSubset( ideal fastExponentiation( a, f ), frobenius( e, I ) )
 
 -- testFrobeniusPower(J,a,I,e) checks whether J^[a] is a subset of I^[p^e]
 testFrobeniusPower = method( TypicalValue => Boolean )
@@ -174,7 +156,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     checkOptions( o,
 	{
 	    ComputePreviousNus => Boolean,
-	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null },
+	    ContainmentTest => { FrobeniusRoot, FrobeniusPower, null },
 	    Search => { Binary, Linear, BinaryRecursive },
 	    UseColonIdeals => Boolean,
 	    UseSpecialAlgorithms => Boolean
@@ -191,8 +173,8 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     (
         if numgens( g = trim g ) == 1 then
         (
-	    isPrincipal = true;
-	    g = g_*_0
+	        isPrincipal = true;
+	        g = g_*_0
         )
     )
     else isPrincipal = true;
@@ -226,57 +208,26 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     searchFct := search#(o.Search);
     conTest := o.ContainmentTest;
     -- choose appropriate containment test, if not specified by user
-    if conTest === null then
-	conTest = if isPrincipal then FrobeniusRoot else StandardPower;
+    if conTest === null then conTest = FrobeniusRoot;
     testFct := test#(conTest);
     local N;
     nu := nu1( g, J ); -- if f is not in rad(J), nu1 will return an error
     theList := { nu };
 
-    --------------------------------------
-    -- WHEN COMPUTE PREVIOUS NUS IS OFF --
-    --------------------------------------
-    if not o.ComputePreviousNus then
-    (
-	-- This computes nu in a non-recursive way
-	if n == 0 then return theList;
- 	N = if isPrincipal or conTest === FrobeniusPower
-	     then p^n else (numgens trim J)*(p^n-1)+1;
-     	return { searchFct( g, J, n, nu*p^n, (nu+1)*N, testFct ) }
-    );
-    ---------------------------------
-    -- WHEN USE COLON IDEALS IS ON --
-    ---------------------------------
-    if o.UseColonIdeals and isPrincipal then
-    -- colon ideals only work for polynomials
-    (
-	-- This computes nu recursively, using colon ideals.
-	-- Only nu(p)'s are computed, but with respect to ideals other than J
-	I := J;
-	scan( 1..n, e ->
-	    (
-		I = I : ideal( fastExponentiation( nu, g ) );
-		nu =  last nuInternal( 1, g, I, ContainmentTest => conTest );
-	      	theList = append( theList, p*(last theList) + nu );
-	      	I = frobenius I
-	    )
-	)
-    )
-    else
     ----------------------
     -- EVERY OTHER CASE --
     ----------------------
     (
 	N = if isPrincipal or conTest === FrobeniusPower
-	     then p else (numgens trim J)*(p-1)+1;
-	scan( 1..n, e ->
-	    (
-		nu = searchFct( g, J, e, p*nu, (nu+1)*N, testFct );
-    	       	theList = append( theList, nu )
-    	    )
-    	)
-     );
-     theList
+	   then p else (numgens trim J)*(p-1)+1;
+    scan( 1..n, e ->
+        (
+           nu = searchFct( g, J, e, p*nu, (nu+1)*N, testFct );
+           theList = append( theList, nu )
+        )
+    )
+    );
+    theList
 )
 
 ---------------------------------------------------------------------------------
@@ -389,7 +340,7 @@ fSig := ( f, a, e ) ->
 (
      R := ring f;
      p := char R;
-     1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal( fastExponentiation( a, f ) ) )
+     1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal f^a )
 )
 
 -- isInteger checks if a rational number is an integer

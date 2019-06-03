@@ -64,7 +64,7 @@ PackageExports => {"TestIdeals"}
 )
 
 export{
-    "Attempts",
+    --"Attempts",
 --F-thresholds computations (MainFunctions.m2)
     "BinaryRecursive",
     "compareFPT",
