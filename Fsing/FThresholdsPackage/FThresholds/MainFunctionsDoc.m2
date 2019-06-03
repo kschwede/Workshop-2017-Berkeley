@@ -16,7 +16,7 @@ doc ///
         [compareFPT, AssumeDomain]
         [compareFPT, QGorensteinIndex]
     Headline
-        determines whether a given number is less than, greater than, or equal to the F-pure threshold
+        determines whether a given number is less than, greater than, or equal to the $F$-pure threshold
     Usage
         compareFPT(t, f)
     Inputs
@@ -30,10 +30,10 @@ doc ///
         QGorensteinIndex => ZZ
     Outputs
         :ZZ
-            returns {\tt - 1} if {\tt t} is less than the F-pure threshold of {\tt f}, {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}, or returns {\tt 0} if it is equal to the F-pure threshold.
+            returns value {\tt - 1} if {\tt t} is less than the $F$-pure threshold of {\tt f}, returns {\tt 1} if {\tt t} is greater than the $F$-pure threshold {\tt f}, and returns {\tt 0} if it is equal to the $F$-pure threshold.
     Description
         Text
-            Let $f$ be a ring element, and $t$ a rational number.  The function {\tt compareFPT} returns {\tt - 1} if {\tt t} is less than the F-pure threshold of {\tt f}, {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}, or returns {\tt 0} if {\tt t} equals the F-pure threshold.
+            Let $f$ be a ring element, and $t$ a rational number.  The function {\tt compareFPT} returns $-1$ if $t$ is less than the $F$-pure threshold of $f$, $1$ if $t$ is greater than the $F$-pure threshold $f$, or $0$ if $t$ equals the $F$-pure threshold.
         Example
             R = ZZ/7[x,y];
             f = y^2-x^3;
@@ -41,7 +41,7 @@ doc ///
             compareFPT(5/6, f)
             compareFPT(6/7, f)
         Text
-            This function can be used in singular rings that are strongly $F$-regular,
+            This function can be used in a singular ring that is strongly $F$-regular,
             as long as the ring is also $\mathbb{Q}$-Gorenstein of index dividing $p-1$, where $p>0$ is the characteristic of the ring. 
 
 In the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
