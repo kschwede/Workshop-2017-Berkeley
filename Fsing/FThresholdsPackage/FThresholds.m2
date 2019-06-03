@@ -71,6 +71,7 @@ export{
     "fpt",
     "approximateFPT",
     "FRegularityCheck",
+    "StandardPower",
     "FrobeniusPower",
     "FrobeniusRoot",
     "approximateFT",

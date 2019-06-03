@@ -193,3 +193,28 @@ assert(compareFPT(113/342, g) == -1)
 assert(compareFPT(1/3, g) == 0)
 assert(compareFPT(17/49, g) == 1)
 ///
+
+TEST ///--(p+1) lines through the origin
+p = 13;
+R = ZZ/p[x,y];
+f = x^p*y + y^p*x;
+assert(isFPT(1/p, f))
+assert(not isFPT(2/p, f))
+assert(not isFPT(1/(p+1), f))
+///
+
+TEST /// --an F-jumping number that is not the FPT, taken from a paper of Hernandez and Teixeira
+p = 5;
+R = ZZ/p[x,y];
+f = x^7*y^10*(x+y)^13*(x+2*y)^16;
+assert(isFJumpingExponent(1/16, f));
+assert(not isFPT(1/16, f));
+///
+
+TEST ///--a set of jumping Numbers, taken from a paper of Kevin Tucker (for multiplier ideals)
+p = 131;
+R =ZZ/p[x,y];
+f = x^13-y^5;
+assert(isFJumpingExponent(36/65, f));
+assert(not isFJumpingExponent(37/65, f));
+///

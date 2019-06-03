@@ -516,7 +516,7 @@ doc ///
             {\tt nu(e,I,J, ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$-th Frobenius power of $I$ is not contained in the $p^e$-th Frobenius
             power of $J$.  Here, the $n$-th Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper "Frobenius Powers" by
             Hernandez, Teixeira, and Witt.  In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J, ContainmentTest => FrobeniusPower)} need not agree!  However,
-            they will when $I$ is a principal ideal. 
+            they will when $I$ is a principal ideal.
         Example
             ZZ/3[x,y];
             M=ideal(x,y);
