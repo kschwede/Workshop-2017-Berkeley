@@ -2,13 +2,9 @@ doc ///
     Key
         BinaryRecursive
     Headline
-        an option value specifying a binary recursive search method
-    Description
-        Text
-            a value for the option {\tt Search} to specify a binary recursive search method
+        an valid value for the option Search
     SeeAlso
-        nu
-        nuList
+        Search
 ///
 
 doc ///
