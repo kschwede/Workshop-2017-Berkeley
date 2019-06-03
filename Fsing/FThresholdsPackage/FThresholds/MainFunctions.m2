@@ -78,7 +78,6 @@ test := new HashTable from
     {
 	FrobeniusPower => testFrobeniusPower,
 	FrobeniusRoot => testRoot,
-	StandardPower => testPower
     }
 
 ---------------------------------------------------------------------------------
@@ -794,7 +793,7 @@ isInForbiddenInterval ( ZZ, QQ ) := Boolean => ( p, t ) ->
     while valid and e <= b + c do
     (
       --The following comes from Proposition 4.1 and Corollary 4.1(1) in
-      --[Hernandez, F-purity of hypersurfaces]
+      --"F-purity of hypersurfaces" by Hernandez
         if floor( ( p^e - 1 )*t ) != p^e * adicTruncation( p, e, t ) then
 	    valid = false;
 	e = e + 1
