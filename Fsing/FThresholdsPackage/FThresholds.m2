@@ -64,7 +64,6 @@ PackageExports => {"TestIdeals"}
 )
 
 export{
-    "BinaryRecursive",
     "compareFPT",
     "ContainmentTest",
     "approximateCriticalExponent",

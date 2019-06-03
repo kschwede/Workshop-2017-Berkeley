@@ -13,12 +13,6 @@
 --     testPower, testRoot, testFrobeniusPower, nuInternal
 
 ---------------------------------------------------------------------------------
--- FThreshold approximations
-
--- Main functions: approximateFPT, approximateFT,
---     approximateCriticalExponent
-
----------------------------------------------------------------------------------
 -- FThreshold computations and estimates
 
 -- Main function: fpt
@@ -46,8 +40,6 @@ nu1 = method( TypicalValue => ZZ )
 
 nu1 ( Ideal, Ideal ) :=  ZZ => ( I, J ) ->
 (
-    if not isSubset( I, radical J ) then
-        error "nu1: The first ideal is not contained in the radical of the second";
     d := 1;
     while not isSubset( I^d, J ) do d = d + 1;
     d - 1
@@ -127,7 +119,6 @@ linearSearch = ( I, J, e, a, b, testFunction ) ->
 search := new HashTable from
     {
 	Binary => binarySearch,
-	BinaryRecursive => binarySearchRecursive,
 	Linear => linearSearch
     }
 
@@ -135,7 +126,13 @@ search := new HashTable from
 -- OPTION PACKAGES
 ---------------------------------------------------------------------------------
 
-optNu:= {Search => Binary, ContainmentTest => null, UseSpecialAlgorithms => true}
+optNu:= 
+{ 
+    Search => Binary, 
+    ContainmentTest => null, 
+    UseSpecialAlgorithms => true, 
+    Verbose => false 
+}
 
 ---------------------------------------------------------------------------------
 -- INTERNAL FUNCTION
@@ -143,12 +140,6 @@ optNu:= {Search => Binary, ContainmentTest => null, UseSpecialAlgorithms => true
 
 nuInternal = optNu >> o -> ( n, f, J ) ->
 (
-    --------------------
-    -- A TRIVIAL CASE --
-    --------------------
-    -- Return answer in a trivial case (per Blickle-Mustata-Smith convention)
-    if f == 0 then return toList( (n+1):0 );
-
     -----------------
     -- SOME CHECKS --
     -----------------
@@ -156,13 +147,26 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     checkOptions( o,
 	{
 	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null },
-	    Search => { Binary, Linear, BinaryRecursive },
+	    Search => { Binary, Linear },
 	    UseSpecialAlgorithms => Boolean
 	}
     );
     -- Check if f is defined over a finite field
     if not isDefinedOverFiniteField f then
         error "nuInternal: expected polynomial or ideal in a polynomial ring over a finite field";
+
+    -------------------
+    -- TRIVIAL CASES --
+    -------------------
+    -- Return list with zeros if f is 0 (per Blickle-Mustata-Smith convention)
+    if f == 0 then return toList( (n+1):0 );
+    -- Return list with infinities if f is not in the radical of J 
+    inRadical := if isIdeal f then isSubset( f, radical J ) else isSubset( ideal f, radical J ); 
+    if not inRadical then return toList( (n+1):infinity );
+
+    --------------------------------
+    -- DEAL WITH PRINCIPAL IDEALS --
+    --------------------------------
     -- Check if f is a principal ideal; if so, replace it with its generator,
     isPrincipal := false;
     g := f;
@@ -208,9 +212,10 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     if conTest === null then conTest = (if isPrincipal then FrobeniusRoot else StandardPower);
     testFct := test#(conTest);
     local N;
-    nu := nu1( g, J ); -- if f is not in rad(J), nu1 will return an error
+    nu := nu1( g, J ); 
     theList := { nu };
-
+    if o.Verbose then print( "\nnu(1) = " | toString nu );
+   
     ----------------------
     -- EVERY OTHER CASE --
     ----------------------
@@ -220,6 +225,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     scan( 1..n, e ->
         (
            nu = searchFct( g, J, e, p*nu, (nu+1)*N, testFct );
+           if o.Verbose then print( "\nnu(p^" | toString e | ") = " | toString nu );
            theList = append( theList, nu )
         )
     )
@@ -246,82 +252,26 @@ nuList ( ZZ, Ideal ) :=  List => o -> ( e, I ) ->
 nuList ( ZZ, RingElement ) := List => o -> ( e, f ) ->
     nuList( e, f, maxIdeal f, o )
 
-nu = method( Options => optNu, TypicalValue => ZZ );
+nu = method( Options => optNu );
 
-nu ( ZZ, Ideal, Ideal ) := ZZ => o -> ( e, I, J ) ->
+nu ( ZZ, Ideal, Ideal ) := o -> ( e, I, J ) ->
     last nuInternal( e, I, J, o )
 
-nu ( ZZ, RingElement, Ideal ) := ZZ => o -> ( e, f, J ) ->
+nu ( ZZ, RingElement, Ideal ) := o -> ( e, f, J ) ->
     last nuInternal( e, f, J, o )
 
-nu ( ZZ, Ideal ) := ZZ => o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
+nu ( ZZ, Ideal ) := o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
 
-nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
+nu ( ZZ, RingElement ) := o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
--- Functions for approximating, guessing, estimating F-Thresholds and crit exps
+-- Functions for guessing and estimating F-Thresholds
 ---------------------------------------------------------------------------------
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
---Approximates the F-pure Threshold
---Gives a list of nu_I(p^d)/p^d for d=1,...,e
-approximateFPT = method( TypicalValue => List )
-
-approximateFPT ( ZZ, Ideal ) := List => ( e, I ) ->
-(
-     p := char ring I;
-     nus := nuList( e, I );
-     apply( nus, 0..e, (n,k) -> n/p^k )
-)
-
-approximateFPT ( ZZ, RingElement ) := List => ( e, f ) ->
-    approximateFPT( e, ideal f )
-
---Approximates the F-Threshold with respect to an ideal J
---More specifically, this gives a list of nu_I^J(p^d)/p^d for d=1,...,e
-
-approximateFT = method( TypicalValue => List )
-
-approximateFT ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
-(
-    if not isSubset( I, radical J ) then
-        error "approximateFT: F-threshold undefined";
-    p := char ring I;
-    nus := nuList( e, I, J );
-    apply( nus, 0..e, (n,k)  -> n/p^k )
-)
-
-approximateFT ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
-   approximateFT( e, ideal(f), J )
-
-approximateCriticalExponent = method( TypicalValue => List )
-
-approximateCriticalExponent ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
-(
-    if not isSubset( I, radical J ) then
-        error "approximateCriticalExponent: critical exponent undefined";
-    p := char ring I;
-    mus := nuList( e, I, J, ContainmentTest => FrobeniusPower );
-    apply( mus, 0..e, (n,k) -> n/p^k )
-)
-
-approximateCriticalExponent ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
-    approximateCriticalExponent( e, ideal f, J )
-
--- OBSOLETE
---Gives a list of guesses for the F-pure threshold of f.  It returns a list of all numbers in
---the range suggested by nu(e,  ) with maxDenom as the maximum denominator
--- fptGuessList = ( f, e, maxDenom ) ->
--- (
---     n := nu(e,f);
---     p := char ring f;
---     findNumberBetween( maxDenom, n/(p^e-1), (n+1)/p^e )
--- )
-
 ----------------------------------------------------------------
 --************************************************************--
---Auxiliary functions for F-signature and Fpt computations.   --
+--Auxiliary functions for F-signature and FPT computations.   --
 --************************************************************--
 ----------------------------------------------------------------
 
@@ -446,7 +396,7 @@ fpt RingElement := o -> f ->
     M := maxIdeal f;   -- The maximal ideal we are computing the fpt at
     p := char ring f;
     if not isSubset( ideal f, M ) then return infinity;
-
+        
     ----------------------
     -- CHECK IF FPT = 1 --
     ----------------------

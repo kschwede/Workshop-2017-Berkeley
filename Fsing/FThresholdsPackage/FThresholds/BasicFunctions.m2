@@ -321,5 +321,3 @@ checkOptions ( OptionTable, List ) := ( o, L ) ->
     )
 )
 
-
-

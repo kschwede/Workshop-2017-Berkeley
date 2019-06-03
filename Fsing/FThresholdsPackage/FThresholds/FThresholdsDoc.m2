@@ -9,7 +9,7 @@ doc ///
         Text
             The Frobenius endomorphism on a ring of prime characteristic $p$, which sends a ring element to
             its $p$-th power, is a fundamental tool in prime characteristic commutative algebra.
-            Kunz has shown that regularity is characterized
+            Kunz showed that regularity is characterized
             by the behavior of this map, and since then, many other properties of Frobenius have been used to
             measure how {\em far} a ring is from being regular.
 
