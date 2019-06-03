@@ -826,7 +826,7 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
 
 compareFPTPoly = method( Options => { FrobeniusRootStrategy => Substitution } )
 
-compareFPTPoly(Number, RingElement) := o -> ( t, f ) -> 
+compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
 (
     --first we gather background info on the ring (QGorenstein generators, etc.)
     S1 := ring f;
@@ -981,7 +981,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
         t2 := append( tList, 1/cartIndex );
         f2 := fList;
 
-        for x in gensList do 
+        for x in gensList do
 	(
             f2 = append( fList, x );
             runningIdeal = runningIdeal + first testModule( t2, f2, CanonicalIdeal => canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain )
