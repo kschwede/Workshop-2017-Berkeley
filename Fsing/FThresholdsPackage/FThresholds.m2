@@ -91,10 +91,6 @@ export{
     "UseSpecialAlgorithms"
 }
 
-
---loadPackage("TestIdeals", LoadDocumentation => true, Reload=>true);
-
-
 --*************************************************
 
 load "./FThresholds/DivisorPatch.m2" --some helper functions
@@ -105,6 +101,8 @@ load "./FThresholds/MainFunctions.m2"
 
 load "./FThresholds/SpecialFThresholds.m2"
 
+-- DOCUMENTATION
+
 beginDocumentation()
 
 load "./FThresholds/FThresholdsDoc.m2"
@@ -113,7 +111,7 @@ load "./FThresholds/MainFunctionsDoc.m2"
 
 -- TESTS
 
--- load "./FThresholds/MainFunctionsTest.m2" 
+load "./FThresholds/MainFunctionsTest.m2" 
 
 load "./FThresholds/SpecialFThresholdsTest.m2"
 

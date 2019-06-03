@@ -53,7 +53,7 @@ ZZ/5[x,y];
 M=ideal(x,y);
 D=ideal(x^3,y^3);
 f=x^3+y^3; -- generic element of D
-g=x^3+x^2*y + x*y^2 + y^3 -- generic element of M^3
+g=x^3+x^2*y + x*y^2 + y^3; -- generic element of M^3
 assert(criticalExponentApproximation(1,M^3,M)=={0,2/5})
 assert(criticalExponentApproximation(2,M^3,M)=={0,2/5,14/25})
 assert(criticalExponentApproximation(1,D,M)=={0,2/5})
@@ -150,9 +150,9 @@ time assert( muList(1,I,J) == {6, 48} )
 TEST ///
 R = ZZ/11[x,y,z]/ideal(x*y-z^2);
 f = sub(x, R);
-assert(compareFPT(5/11, f) < 0);
-assert(compareFPT(1/2, f) == 0);
-assert(compareFPT(61/120, f) > 0);
+assert(compareFPT(5/11, f) == -1)
+assert(compareFPT(1/2, f) == 0)
+assert(compareFPT(61/120, f) == 1)
 ///
 
 TEST ///
@@ -162,7 +162,7 @@ f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
 I = ker f;
 R = S/I;
 g = sub(x, R);
-assert(compareFPT(113/342, g) < 0);
-assert(compareFPT(1/3, g) == 0);
-assert(compareFPT(17/49, g) > 0);
+assert(compareFPT(113/342, g) == -1)
+assert(compareFPT(1/3, g) == 0)
+assert(compareFPT(17/49, g) == 1)
 ///
