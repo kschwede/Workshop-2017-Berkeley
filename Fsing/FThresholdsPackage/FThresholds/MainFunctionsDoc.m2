@@ -95,25 +95,25 @@ doc ///
          DepthOfSearch => ZZ
              specifies the power of the characteristic to be used in a search for the $F$-pure threshold
          FRegularityCheck => Boolean
-             specifies whether to check if the final lower bound is the $F$-pure threshold of $f$
+             specifies whether to check if the final lower bound is the $F$-pure threshold of {\tt f}
          MaxChecks => ZZ
              specifies the number of "guess and check" attempts to make
          UseFSignature => Boolean
              specifies whether to use the $F$-signature function and a secant line argument to attempt to improve the $F$-pure threshold estimate
          UseSpecialAlgorithms => Boolean
-             specifies whether to check if $f$ is diagonal, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
+             specifies whether to check if {\tt f} is a diagonal polynomial, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
 	 Verbose => Boolean
 	     requests verbose feedback
      Outputs
         :List
-            which contains the endpoints of an interval containing lower and upper bounds for the $F$-pure threshold of $f$
+            containing the endpoints of an interval containing lower and upper bounds for the $F$-pure threshold of $f$
         :QQ
             the $F$-pure threshold of $f$
 	:InfiniteNumber
 	    the $F$-pure threshold of $f$, if $f$ is {\it not} in the homogeneous maximal ideal
      Description
           Text
-              The function fpt tries to find the exact value for the $F$-pure threshold of a polynomial $f$ at the origin, and returns that value, if possible.
+              The function {tt fpt} attempts to find the exact value for the $F$-pure threshold of a polynomial $f$ at the origin, and returns that value, if possible.
               Otherwise, it returns lower and upper bounds for the $F$-pure threshold.
          Example
               ZZ/5[x,y,z];
