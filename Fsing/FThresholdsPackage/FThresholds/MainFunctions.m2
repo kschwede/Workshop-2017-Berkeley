@@ -64,6 +64,8 @@ nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) -> nu1( ideal f, J )
 -- testRoot(J,a,I,e) checks whether J^a is a subset of I^[p^e] by checking whether (J^a)^[1/p^e] is a subset of I
 testRoot = ( J, a, I, e ) -> isSubset( frobeniusRoot( e, a, J ), I )
 
+testPower = ( J, a, I, e ) -> isSubset( if (isIdeal J) then J^a else ideal(J)^a, frobenius(e,I) )
+
 -- testFrobeniusPower(J,a,I,e) checks whether J^[a] is a subset of I^[p^e]
 testFrobeniusPower = method( TypicalValue => Boolean )
 
@@ -78,6 +80,7 @@ test := new HashTable from
     {
 	FrobeniusPower => testFrobeniusPower,
 	FrobeniusRoot => testRoot,
+    StandardPower => testPower
     }
 
 ---------------------------------------------------------------------------------
@@ -152,7 +155,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- Verify if option values are valid
     checkOptions( o,
 	{
-	    ContainmentTest => { FrobeniusRoot, FrobeniusPower, null },
+	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null },
 	    Search => { Binary, Linear, BinaryRecursive },
 	    UseSpecialAlgorithms => Boolean
 	}
@@ -202,7 +205,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     searchFct := search#(o.Search);
     conTest := o.ContainmentTest;
     -- choose appropriate containment test, if not specified by user
-    if conTest === null then conTest = FrobeniusRoot;
+    if conTest === null then conTest = (if isPrincipal then FrobeniusRoot else StandardPower);
     testFct := test#(conTest);
     local N;
     nu := nu1( g, J ); -- if f is not in rad(J), nu1 will return an error
