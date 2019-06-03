@@ -45,8 +45,8 @@ doc ///
             compareFPT(6/7, f)
         Text
             This function can also check the FPT in singular (but still strongly $F$-regular) ring,
-            so long as the ring is also Q-Gorenstein of index dividing $p-1$.  In the future we hope
-            that this functionality will be extended to all Q-Gorenstein rings.  In the following exam,
+            so long as the ring is also Q-Gorenstein of index dividing $p-1$. In the future we hope
+            that this functionality will be extended to all Q-Gorenstein rings. In the following exam,
             $x$ defines a Cartier divisor which is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/ideal(x*y-z^2);
@@ -61,14 +61,13 @@ doc ///
 
 doc ///
     Key
-
         ContainmentTest
     Headline
         an option to specify the containment test used
     Description
         Text
             Specifies which test is used to check containment of powers of ideals.
-            Valid values are {\tt FrobeniusPower} and {\tt FrobeniusRoot}.
+            Valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
     SeeAlso
         nu
         nuList
@@ -373,8 +372,9 @@ doc ///
             If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order
             to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
 
-            Let $R$ be the ambient ring of $f$. If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. Otherwise
-            the function attempts find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
+            Let $R$ be the ambient ring of $f$. 
+	    If the Gorenstein index of $R$ is known, one should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$. 
+	    Otherwise the function attempts find the Gorenstein index of $R$, assuming it is between 1 and {\tt MaxCartierIndex}. By default, {\tt MaxCartierIndex} is set to {\tt 10}.
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
         Example
@@ -414,7 +414,8 @@ doc ///
         :Boolean
      Description
         Text
-            Returns true if t is the $F$-pure threshold, otherwise it returns false.  If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
+            Returns true if t is the $F$-pure threshold, otherwise it returns false.
+	    If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
 
             The options are the same as in @TO compareFPT@.
         Example
@@ -474,9 +475,8 @@ doc ///
         Text
             Consider a field $k$ of characteristic $p>0$, and an ideal $J$ in the polynomial ring $S = k[x_1, \ldots, x_d]$.
             If $f$ is a polynomial contained in the radical of $J$, then the command {\tt nu(e, f, J)} outputs the maximal exponent
-            $n$ such that $f^n$ is not contained in the $p^e$-th Frobenius power of $J$.  More generally, if $I$ is an ideal contained in the
-            radical of $J$, then {\tt nu(e, I, J)} outputs the maximal integer exponent $n$ such that $I^n$ is not contained in the
-            $p^e$-th Frobenius power of $J$.
+            $n$ such that $f^n$ is not contained in the $p^e$-th Frobenius power of $J$.  
+	    More generally, if $I$ is an ideal contained in the radical of $J$, then {\tt nu(e, I, J)} outputs the maximal integer exponent $n$ such that $I^n$ is not contained in the $p^e$-th Frobenius power of $J$.
 
             These numbers are denoted $\nu_f^J(p^e)$ and $\nu_I^J(p^e)$, respectively, in the literature, and were originally defined in the paper
             "F-thresholds and Bernstein-Sato Polynomials" by Mustata, Takagi, and Watanabe.
@@ -498,25 +498,37 @@ doc ///
         Text
             It is well-known that if $q=p^e$ for some nonnegative integer $e$, then $\nu_I^J(qp) = \nu_I^J(q) p + L$, where
             the error term $L$ is nonnegative, and can explicitly bounded from above in terms of $p$, and the number of
-            generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).  This relation implies that when searching
+            generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).  
+	    This relation implies that when searching
             for {\tt nu(e+1,I,J)}, it is always safe to start at $p$ times {\tt nu(e,I,J)}, and one needn't search too far past this number.
 
-            The valid values for the option {\tt ContainmentTest} are {\tt FrobeniusPower}, and {\tt FrobeniusRoot}.
+            The valid values for the option {\tt ContainmentTest} are {\tt FrobeniusPower, FrobeniusRoot}, and {\tt StandardPower}.
+            The default value of this option depends on what is passed to {\tt nu}.  
+	    Indeed, by default, {\tt ContainmentTest} is set to {\tt FrobeniusRoot} if {\tt nu} is passed a ring element $f$, and is set to {\tt StandardPower} if {\tt nu} is passed an ideal $I$.
             We describe the consequences of setting {\tt ContainmentTest} to each of these values below.
 
-            If {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the ideal containments that occur when computing
+            First, if {\tt ContainmentTest} is set to {\tt StandardPower}, then the ideal containments that occur when computing
+            {\tt nu(e,I,J)} are verified directly.  
+	    That is, the standard power $I^n$ is first computed, and a check is then run to see if
+            it lies in the $p^e$-th Frobenius power of $J$.
+
+            Alternately, if {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the ideal containments that occur when computing
             {\tt nu(e,I,J)} are verified using Frobenius Roots.  That is, the $p^e$-th Frobenius root of $I^n$ is first computed, and
-            a check is then run to see if it lies in $J$.  The output is unaffected, but this option often speeds up computations.
+            a check is then run to see if it lies in $J$.  
+	    The output is unaffected, but this option often speeds up computations.
         Example
             ZZ/11[x,y,z];
             f=x^3+y^3+z^3+x*y*z;
             time nu(3,f) -- ContainmentTest is set to frobeniusRoot, by default
-         Text
-            When {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above,
+            time nu(3,f,ContainmentTest=>StandardPower)
+        Text
+            Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above,
             {\tt nu(e,I,J, ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$-th Frobenius power of $I$ is not contained in the $p^e$-th Frobenius
-            power of $J$.  Here, the $n$-th Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper "Frobenius Powers" by
-            Hernandez, Teixeira, and Witt.  In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J, ContainmentTest => FrobeniusPower)} need not agree!  However,
-            they will when $I$ is a principal ideal. 
+            power of $J$.  
+	    Here, the $n$-th Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper "Frobenius Powers" by
+            Hernandez, Teixeira, and Witt.  
+	    In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J, ContainmentTest => FrobeniusPower)} need not agree.  
+	    However, they will when $I$ is a principal ideal. 
         Example
             ZZ/3[x,y];
             M=ideal(x,y);
@@ -588,11 +600,24 @@ doc ///
               An option for functions @TO nu@ and @TO nuList@ to specify
               the order in which ideal the containment of powers are computed.
 
-              Valid values are
-              {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
+              Valid values are {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
      SeeAlso
           nu
           nuList
+///
+
+doc ///
+    Key
+        StandardPower
+    Headline
+        an option value to consider containment of standard power of an ideal in Frobenius power of another ideal
+    Description
+        Text
+            A value for the option {\tt ContainmentTest} to consider containment of the standard power of an ideal in the
+            Frobenius power of another ideal
+    SeeAlso
+        nu
+        nuList
 ///
 
 doc ///
@@ -619,11 +644,10 @@ doc ///
               or a binary form.
               If {\tt true}, the function @TO fpt@ first checks whether the input
               is a diagonal polynomial, a binomial, or a binary form (i.e., a homogeneous polynomial in two variables).
-              If it is,
-              the function @TO fpt@ applies specialized algorithms of D. Hernandez, or D. Hernandez and P. Teixeira.
+              If it is, the function @TO fpt@ applies specialized algorithms of D. Hernandez, or D. Hernandez and P. Teixeira.
 
               Can take on only Boolean values.
-              Default value is {\tt true}.
+              The default value is {\tt true}.
      SeeAlso
           fpt
 ///
