@@ -1,4 +1,3 @@
-
 doc ///
     Key
         BinaryRecursive
@@ -62,6 +61,7 @@ doc ///
 
 doc ///
     Key
+
         ContainmentTest
     Headline
         an option to specify the containment test used
@@ -95,10 +95,8 @@ doc ///
         :List
     Description
         Text
-
---NEED TO UPDATE THE FOLLOWING TO REMOVE REFERENCE TO "mu"
-
             This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
+
             As $d$ approaches $\infty$, the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
         Example
              R = ZZ/5[x,y];
@@ -110,6 +108,8 @@ doc ///
     SeeAlso
         approximateFT
         approximateFPT
+        mu
+        muList
 ///
 
 doc ///
@@ -443,6 +443,107 @@ doc ///
 
 doc ///
      Key
+         mu
+         (mu,ZZ,Ideal,Ideal)
+         (mu,ZZ,Ideal)
+         (mu,ZZ,RingElement,Ideal)
+         (mu,ZZ,RingElement)
+         [mu, ComputePreviousNus]
+         [mu, Search]
+         [mu, UseColonIdeals]
+     Headline
+        computes the largest Frobenius power of an ideal not contained in a specified Frobenius power
+     Usage
+          mu(e,I,J)
+          mu(e,I)
+          mu(e,f,J)
+          mu(e,f)
+          ComputePreviousNus => Boolean
+          Search => Symbol
+          UseColonIdeals => Boolean
+     Inputs
+         e:ZZ
+         I:Ideal
+         J:Ideal
+         f:RingElement
+         ComputePreviousNus => Boolean
+             specifies whether to compute {\tt nu(d,I,J)} for $d = 0, \cdots, e-1$ to aid in the computation of {\tt mu(e,I,J)}
+         Search => Symbol
+            specifies the strategy in which to search for the largest integer $n$
+            such that the $n$-th generalized Frobenius power of $I$ is not contained in some specified Frobenius power of $J$.
+         UseColonIdeals => Boolean
+             specifies whether to use colon ideals in a recursive manner when computing {\tt mu(e,I,J)}
+     Outputs
+        :ZZ
+          the $e$-th value $\mu$ associated to the $F$-threshold or $F$-pure threshold
+     Description
+        Text
+            Given an ideal $I$ in a polynomial ring $k[x_1, \ldots, x_n]$, {\tt mu(e, I, J)} or {\tt mu(e, f, J)} outputs the
+            maximal integer $N$ such that the $N$-th generalized Frobenius power of $I$, or $f^N$,
+            is not contained in the $p^e$-th Frobenius power of $J$.
+        Example
+            R = ZZ/3[x,y];
+            I = ideal(x^2, x+y);
+            J = ideal(x, y^2);
+            mu(2,I,J)
+            mu(3,I)
+            mu(3,x^3+y^3,J)
+     SeeAlso
+        nu
+        muList
+///
+
+doc ///
+     Key
+         muList
+         (muList,ZZ,Ideal,Ideal)
+         (muList,ZZ,Ideal)
+         (muList,ZZ,RingElement,Ideal)
+         (muList,ZZ,RingElement)
+         [muList, Search]
+         [muList, UseColonIdeals]
+     Headline
+          computes a list of mu-values associated to a given F-threshold or F-pure threshold
+     Usage
+          muList(e,I,J)
+          muList(e,I)
+          muList(e,f,J)
+          muList(e,f)
+          Search => Symbol
+          UseColonIdeals => Boolean
+     Inputs
+         e:ZZ
+         I:Ideal
+         J:Ideal
+         f:RingElement
+         Search => Symbol
+            specifies the strategy in which to search for the largest integer $n$
+            such that the $n$-th generalized Frobenius power of $I$ is not contained in some specified Frobenius power of $J$.
+         UseColonIdeals => Boolean
+             specifies whether to use colon ideals in a recursive manner when computing {\tt mu(e,I,J)}
+     Outputs
+        :List
+          a list of the $e$-th $\nu$-values for $e = 0,\ldots,d$
+     Description
+        Text
+            Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes {\tt mu(d, I, J)}
+            or {\tt mu(d,f,J)} recursively for $d = 0,\ldots,e$.
+            In other words, calling {\tt muList} is the same as calling @TO nuList@ with the option {\tt ComparisonTest}
+            set to {\tt FrobeniusPower}.
+        Example
+            R = ZZ/3[x,y];
+            I = ideal(x^2, x+y);
+            J = ideal(x, y^2);
+            muList(2,I,J)
+            muList(3,I)
+            muList(3,x^3+y^3,J)
+     SeeAlso
+        mu
+        nuList
+///
+
+doc ///
+     Key
          nu
          (nu,ZZ,Ideal,Ideal)
          (nu,ZZ,Ideal)
@@ -522,12 +623,14 @@ doc ///
             {\tt nu(e,I,J, ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$-th Frobenius power of $I$ is not contained in the $p^e$-th Frobenius
             power of $J$.  Here, the $n$-th Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper "Frobenius Powers" by
             Hernandez, Teixeira, and Witt.  In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J, ContainmentTest => FrobeniusPower)} need not agree!  However,
-            they will when $I$ is a principal ideal.  
+            they will when $I$ is a principal ideal.  We note that the output of {\tt nu(e,I,J, ContainmentTest => FrobeniusPower)} is the same as that of
+            {\tt mu(e,I,J)}.
         Example
             ZZ/3[x,y];
             M=ideal(x,y);
             nu(3,M^5)
             nu(3,M^5,ContainmentTest=>FrobeniusPower)
+            mu(3,M^5) -- should produce the same output as preceding command
         Text
             The function {\tt nu} works by searching through list of integers $n$ and checking containments of $I^n$ in a specified Frobenius power of $J$.
             The option {\tt Search} specifies the search algorithm used to do so search for the exponent $n$ among a list of possibilities.
@@ -539,6 +642,7 @@ doc ///
             time nu(2,M,M^2,Search=>BinaryRecursive)
             time nu(2,M,M^2,Search=>Linear)
     SeeAlso
+        mu
         nuList
 ///
 
@@ -591,7 +695,7 @@ doc ///
           an option to specify the search method
      Description
           Text
-              An option for functions @TO nu@ and @TO nuList@ to specify
+              An option for functions @TO nu@ and @TO nuList@ (and @TO mu@ and @TO muList@) to specify
               the order in which ideal the containment of powers are computed.
 
               Valid values are

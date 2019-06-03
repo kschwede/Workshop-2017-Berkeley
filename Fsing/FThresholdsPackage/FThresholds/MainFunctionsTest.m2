@@ -15,7 +15,7 @@ assert(nu(3,f)==19466)
 assert(nu(3,f, UseSpecialAlgorithms => false)==19466)
 assert(nu(3,f, UseSpecialAlgorithms => false, Search=>BinaryRecursive)==19466)
 assert(nu(3,f, UseSpecialAlgorithms => false, Search=>Linear)==19466)
-assert(fptApproximation(2,f)=={0,8/47,414/2209})
+assert(approximateFPT(2,f)=={0,8/47,414/2209})
 ///
 
 --binomial test 2
@@ -29,7 +29,7 @@ assert(nu(3,f)==14791)
 assert(nu(3,f, UseSpecialAlgorithms => false)==14791)
 assert(nu(3,f, UseSpecialAlgorithms => false, Search=>BinaryRecursive)==14791)
 assert(nu(3,f, UseSpecialAlgorithms => false, Search=>Linear)==14791)
-assert(fptApproximation(2,f)=={0,7/43,343/43^2})
+assert(approximateFPT(2,f)=={0,7/43,343/43^2})
 ///
 
 --binomial test 3
@@ -42,7 +42,7 @@ assert(nu(3,f)==9494)
 assert(nu(3,f, UseSpecialAlgorithms => false)==9494)
 assert(nu(3,f, UseSpecialAlgorithms => false, Search=>BinaryRecursive)==9494)
 assert(nu(3,f, UseSpecialAlgorithms => false, Search=>Linear)==9494)
-assert(fptApproximation(2,f)=={0,6/37,256/1369})
+assert(approximateFPT(2,f)=={0,6/37,256/1369})
 ///
 
 -- tests for fpt computations that call special algorithms
@@ -123,10 +123,10 @@ assert(criticalExponentApproximation(1,M^3,M)=={0,2/5})
 assert(criticalExponentApproximation(2,M^3,M)=={0,2/5,14/25})
 assert(criticalExponentApproximation(1,D,M)=={0,2/5})
 assert(criticalExponentApproximation(2,D,M)=={0,2/5,14/25})
-assert(fptApproximation(1,f)=={0,2/5})
-assert(fptApproximation(2,f)=={0,2/5,14/25})
-assert(fptApproximation(1,g)=={0,2/5})
-assert(fptApproximation(2,g)=={0,2/5,14/25})
+assert(approximateFPT(1,f)=={0,2/5})
+assert(approximateFPT(2,f)=={0,2/5,14/25})
+assert(approximateFPT(1,g)=={0,2/5})
+assert(approximateFPT(2,g)=={0,2/5,14/25})
 ///
 
 TEST ///
