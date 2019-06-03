@@ -877,6 +877,8 @@ isInForbiddenInterval ( ZZ, QQ ) := Boolean => ( p, t ) ->
     e := 1;
     while valid and e <= b + c do
     (
+     --the following comes from Proposition 4.1 and Corollary 4.1(1) in
+     --[Hernandez, F-purity of hypersurfaces]
         if floor( ( p^e - 1 )*t ) != p^e * adicTruncation( p, e, t ) then
 	    valid = false;
 	e = e + 1
