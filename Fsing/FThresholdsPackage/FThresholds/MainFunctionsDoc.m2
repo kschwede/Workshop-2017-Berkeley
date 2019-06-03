@@ -61,11 +61,11 @@ doc ///
     Key
         ContainmentTest
     Headline
-        an option to specify the containment test used
+        an option for nu and nuList 
     Description
         Text
-            Specifies which test is used to check containment of powers of ideals.
-            Valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
+            {\tt ContainmentTest} is an option for @TO nu@ and @TO nuList@, that tells the function which type of containment test to use.  
+            The valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
     SeeAlso
         nu
         nuList
