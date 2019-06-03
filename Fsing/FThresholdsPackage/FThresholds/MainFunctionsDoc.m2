@@ -68,9 +68,7 @@ doc ///
     Description
         Text
             Specifies which test is used to check containment of powers of ideals.
-            Valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
-            Default for @TO nu@ and @TO nuList@ applied to a polynomial is {\tt FrobeniusRoot},
-            and applied to an ideal is {\tt StandardPower}.
+            Valid values are {\tt FrobeniusPower} and {\tt FrobeniusRoot}.
     SeeAlso
         nu
         nuList
@@ -503,25 +501,18 @@ doc ///
             generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).  This relation implies that when searching
             for {\tt nu(e+1,I,J)}, it is always safe to start at $p$ times {\tt nu(e,I,J)}, and one needn't search too far past this number.
 
-            The valid values for the option {\tt ContainmentTest} are {\tt FrobeniusPower, FrobeniusRoot}, and {\tt StandardPower}.
-            The default value of this option depends on what is passed to {\tt nu}.  Indeed, by default, {\tt ContainmentTest} is set to
-            {\tt FrobeniusRoot} if {\tt nu} is passed a ring element $f$, and is set to {\tt StandardPower} if {\tt nu} is passed an ideal $I$.
+            The valid values for the option {\tt ContainmentTest} are {\tt FrobeniusPower}, and {\tt FrobeniusRoot}.
             We describe the consequences of setting {\tt ContainmentTest} to each of these values below.
 
-            First, if {\tt ContainmentTest} is set to {\tt StandardPower}, then the ideal containments that occur when computing
-            {\tt nu(e,I,J)} are verified directly.  That is, the standard power $I^n$ is first computed, and a check is then run to see if
-            it lies in the $p^e$-th Frobenius power of $J$.
-
-            Alternately, if {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the ideal containments that occur when computing
+            If {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the ideal containments that occur when computing
             {\tt nu(e,I,J)} are verified using Frobenius Roots.  That is, the $p^e$-th Frobenius root of $I^n$ is first computed, and
             a check is then run to see if it lies in $J$.  The output is unaffected, but this option often speeds up computations.
         Example
             ZZ/11[x,y,z];
             f=x^3+y^3+z^3+x*y*z;
             time nu(3,f) -- ContainmentTest is set to frobeniusRoot, by default
-            time nu(3,f,ContainmentTest=>StandardPower)
-        Text
-            Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above,
+         Text
+            When {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above,
             {\tt nu(e,I,J, ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$-th Frobenius power of $I$ is not contained in the $p^e$-th Frobenius
             power of $J$.  Here, the $n$-th Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper "Frobenius Powers" by
             Hernandez, Teixeira, and Witt.  In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J, ContainmentTest => FrobeniusPower)} need not agree!  However,
@@ -602,20 +593,6 @@ doc ///
      SeeAlso
           nu
           nuList
-///
-
-doc ///
-    Key
-        StandardPower
-    Headline
-        an option value to consider containment of standard power of an ideal in Frobenius power of another ideal
-    Description
-        Text
-            a value for the option {\tt ContainmentTest} to consider containment of the standard power of an ideal in the
-            Frobenius power of another ideal
-    SeeAlso
-        nu
-        nuList
 ///
 
 doc ///
