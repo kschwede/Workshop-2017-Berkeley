@@ -262,7 +262,7 @@ maxIdeal Ideal := MonomialIdeal => I -> maxIdeal ring I
 -- isProper and isUnitIdeal check if an ideal is proper or the unit ideal 
 isUnitIdeal = method( TypicalValue => Boolean )
 
-isUnitIdeal Ideal := Boolean => I ->  isSubset( ideal 1_(ring I), I )
+isUnitIdeal Ideal := Boolean => I ->  dim I == -1
 
 isProper = method( TypicalValue => Boolean )
 
