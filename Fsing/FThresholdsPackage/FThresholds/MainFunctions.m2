@@ -119,7 +119,6 @@ linearSearch = ( I, J, e, a, b, testFunction ) ->
 search := new HashTable from
     {
 	Binary => binarySearch,
-	BinaryRecursive => binarySearchRecursive,
 	Linear => linearSearch
     }
 
@@ -142,7 +141,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     checkOptions( o,
 	{
 	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null },
-	    Search => { Binary, Linear, BinaryRecursive },
+	    Search => { Binary, Linear },
 	    UseSpecialAlgorithms => Boolean
 	}
     );
