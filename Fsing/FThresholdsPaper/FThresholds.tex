@@ -195,7 +195,7 @@ There is one more option that deserves mentioning, {\tt ContainmentTest}.  There
 \[
 I^a \subseteq J^{[p^e]} \text{ $\Leftrightarrow$ } (I^a)^{[1/p^e]} \subseteq J
 \]
-where $\bullet^{[1/p^e]}$ is defined as in the {\tt TestIdeals} package.  These are controlled by {\tt ContainmentTest => StandardPower} and {\tt ContainmentTest => FrobeniusRoot} respectively.
+where $\bullet^{[1/p^e]}$ is defined as in the {\tt TestIdeals} package.  Which of these two strategies to use is controlled by the option {\tt ContainmentTest => StandardPower} and {\tt ContainmentTest => FrobeniusRoot} respectively.
 For principal $I$, the command on the right is generally faster (and so {\tt FrobeniusRoot} is the default strategy for computing $\nu$).  For non-principal $I$, frequently the command on the left is quicker, and so {\tt StandardPower} is default strategy. 
 
 Finally, the option {\tt ContainmentTest => FrobeniusPower}, then ${\tt \nu(e, I, A)}$ computes the largest integer $n$ such that
