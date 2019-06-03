@@ -64,20 +64,15 @@ PackageExports => {"TestIdeals"}
 )
 
 export{
-    "BinaryRecursive",
     "compareFPT",
     "ContainmentTest",
-    "approximateCriticalExponent",
     "fpt",
-    "approximateFPT",
     "FRegularityCheck",
     "StandardPower",
     "FrobeniusPower",
     "FrobeniusRoot",
-    "approximateFT",
     "isFJumpingExponent",
     "isFPT",
-    "MaxChecks",
     "nu",
     "nuList",
     "Search",
