@@ -7,7 +7,7 @@
 ---------------------------------------------------------------------------------
 -- Nu computations
 
--- Main functions: nuList, nu
+-- Main function: nu
 
 -- Auxiliary Functions: nu1, binarySearch, binarySearchRecursive, linearSearch,
 --     testPower, testRoot, testFrobeniusPower, nuInternal
@@ -97,16 +97,6 @@ binarySearch = ( I, J, e, startPt, endPt, testFunction ) ->
     a
 )
 
--- Recursive binary search
-binarySearchRecursive = ( I, J, e, a, b, testFunction ) ->
-(
-    if b <= a + 1 then return a;
-    c := floor( ( a + b )/2 );
-    if testFunction( I, c, J, e )
-        then binarySearchRecursive( I, J, e, a, c, testFunction )
-	else binarySearchRecursive( I, J, e, c, b, testFunction )
-)
-
 -- Linear search
 linearSearch = ( I, J, e, a, b, testFunction ) ->
 (
@@ -128,10 +118,11 @@ search := new HashTable from
 
 optNu:= 
 { 
-    Search => Binary, 
     ContainmentTest => null, 
+    ReturnList => false,
+    Search => Binary, 
     UseSpecialAlgorithms => true, 
-    Verbose => false 
+    Verbose => false
 }
 
 ---------------------------------------------------------------------------------
@@ -147,8 +138,10 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     checkOptions( o,
 	{
 	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null },
+	    ReturnList => Boolean,
 	    Search => { Binary, Linear },
-	    UseSpecialAlgorithms => Boolean
+	    UseSpecialAlgorithms => Boolean,
+	    Verbose => Boolean
 	}
     );
     -- Check if f is defined over a finite field
@@ -230,35 +223,18 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
         )
     )
     );
-    theList
+    if o.ReturnList then theList else last theList
 )
 
 ---------------------------------------------------------------------------------
 -- EXPORTED METHODS
 ---------------------------------------------------------------------------------
 
-nuList = method( Options => optNu, TypicalValue => List );
+nu = method( Options => optNu )
 
-nuList ( ZZ, Ideal, Ideal ) := List => o -> ( e, I, J ) ->
-    nuInternal( e, I, J, o )
--- the second ideal could be an optional argument, to reduce the number of methods
+nu ( ZZ, Ideal, Ideal ) := o -> ( e, I, J ) -> nuInternal( e, I, J, o )
 
-nuList ( ZZ, RingElement, Ideal ) := List => o -> ( e, I, J ) ->
-    nuInternal( e, I, J, o )
-
-nuList ( ZZ, Ideal ) :=  List => o -> ( e, I ) ->
-    nuList( e, I, maxIdeal I, o )
-
-nuList ( ZZ, RingElement ) := List => o -> ( e, f ) ->
-    nuList( e, f, maxIdeal f, o )
-
-nu = method( Options => optNu );
-
-nu ( ZZ, Ideal, Ideal ) := o -> ( e, I, J ) ->
-    last nuInternal( e, I, J, o )
-
-nu ( ZZ, RingElement, Ideal ) := o -> ( e, f, J ) ->
-    last nuInternal( e, f, J, o )
+nu ( ZZ, RingElement, Ideal ) := o -> ( e, f, J ) -> nuInternal( e, f, J, o )
 
 nu ( ZZ, Ideal ) := o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
 

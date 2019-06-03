@@ -51,14 +51,13 @@ doc ///
     Key
         ContainmentTest
     Headline
-        an option for nu and nuList 
+        an option for nu 
     Description
         Text
-            {\tt ContainmentTest} is an option for @TO nu@ and @TO nuList@, that tells the function which type of containment test to use.  
+            {\tt ContainmentTest} is an option for @TO nu@ that tells the function which type of containment test to use.  
             The valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
     SeeAlso
         nu
-        nuList
 ///
 
 doc ///
@@ -183,7 +182,6 @@ doc ///
 	      fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 )
     SeeAlso
               nu
-              nuList
 ///
 
 doc ///
@@ -209,7 +207,6 @@ doc ///
             a value for the option {\tt ContainmentTest} to consider containment of Frobenius powers of ideals
     SeeAlso
         nu
-        nuList
 ///
 
 doc ///
@@ -222,7 +219,6 @@ doc ///
             a value for the option {\tt ContainmentTest} to consider containment of Frobenius roots of ideals
     SeeAlso
         nu
-        nuList
 ///
 
 doc ///
@@ -320,6 +316,7 @@ doc ///
         (nu, ZZ, RingElement, Ideal)
         (nu, ZZ, RingElement)
         [nu, ContainmentTest]
+	[nu, ReturnList]
         [nu, Search]
 	[nu, Verbose]
     Headline
@@ -336,6 +333,8 @@ doc ///
         f:RingElement
         ContainmentTest => Symbol
             specifies the manner in which to verify the containment of a power of $I$ in some specified Frobenius power of $J$
+	ReturnList => Boolean
+	    specifies whether the list of presceding {\tt \nu}s should be returned
         Search => Symbol
             specifies the strategy in which to search for the largest integer $n$ such that $I^n$ is not contained in some specified Frobenius power of $J$
         Verbose => Boolean
@@ -345,6 +344,8 @@ doc ///
             $nu$ invariants whose normalized limits compute the $F$-pure threshold, and more generally, $F$-thresholds
         :InfiniteNumber
             the $nu$ invariant, if {\tt I} or {\tt f} is not contained in the radical of $J$
+	:List
+            a list of the $i$-th $\nu$-values for $i = 0,\ldots,e$
     Description
         Text
             Consider a field $k$ of characteristic $p>0$, and an ideal $J$ in the polynomial ring $S = k[x_1, \ldots, x_d]$.
@@ -417,50 +418,6 @@ doc ///
             M=ideal(x,y);
             time nu(2,M,M^2,Search=>Binary)
             time nu(2,M,M^2,Search=>Linear)
-    SeeAlso
-        nuList
-///
-
-doc ///
-     Key
-         nuList
-         (nuList,ZZ,Ideal,Ideal)
-         (nuList,ZZ,Ideal)
-         (nuList,ZZ,RingElement,Ideal)
-         (nuList,ZZ,RingElement)
-         [nuList, ContainmentTest]
-         [nuList, Search]
-     Headline
-          computes a list of nu-values associated to a given F-threshold or F-pure threshold
-     Usage
-          nuList(e,I,J)
-          nuList(e,I)
-          nuList(e,f,J)
-          nuList(e,f)
-          ContainmentTest => Symbol
-              specifies the containment test used
-          Search => Symbol
-     Inputs
-         e:ZZ
-         I:Ideal
-         J:Ideal
-         f:RingElement
-     Outputs
-        :List
-          a list of the $e$-th $\nu$-values for $e = 0,\ldots,d$
-     Description
-        Text
-            Given an ideal $I$ in a polynomial ring $k[x_1,\ldots,x_n]$, this function computes a list with indices
-            $e = 0,\ldots,d$, and whose $e$-th entry is the function @TO nu@ applied to the input.
-        Example
-            S=ZZ/7[x,y];
-            I=ideal(x^3+y, x^2*y);
-            J=ideal(x^2,y);
-            nuList(2,I,J)
-            f=y + x^3;
-            nuList(2,f,J)
-     SeeAlso
-        nu
 ///
 
 doc ///
@@ -470,13 +427,11 @@ doc ///
           an option to specify the search method
      Description
           Text
-              An option for functions @TO nu@ and @TO nuList@ to specify
-              the order in which ideal the containment of powers are computed.
+              An option for function @TO nu@ to specify the order in which ideal the containment of powers are computed.
 
               Valid values are {\tt Binary} and {\tt Linear}.
      SeeAlso
           nu
-          nuList
 ///
 
 doc ///
@@ -490,7 +445,6 @@ doc ///
             Frobenius power of another ideal
     SeeAlso
         nu
-        nuList
 ///
 
 doc ///

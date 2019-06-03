@@ -153,7 +153,7 @@ f = 2*x^7*y^3*z^8+2*x^4*z^9+2*x*y^7*z^4;
 assert( nu(6,f) == 2968 )
 assert( nu(6,f,Search => BinaryRecursive) == 2968 )
 assert( nu(6,f,Search => Linear) == 2968 )
-assert( nuList(6,f) == {0, 0, 4, 23, 118, 593, 2968} )
+assert( nu(6,f,ReturnList => true) == {0, 0, 4, 23, 118, 593, 2968} )
 ///
 
 TEST ///
@@ -171,7 +171,7 @@ I=ideal(x+y^2,y+z^2,z+x^2);
 J=ideal(x^3,y^3,z^3);
 time assert( nu(1,I,J,ContainmentTest => FrobeniusRoot) == 42 )
 time assert( nu(1,I,J, ContainmentTest => FrobeniusPower) == 30 )
-time assert( nuList(1,I,J,ContainmentTest=> FrobeniusPower) == {6, 30} )
+time assert( nu(1,I,J,ContainmentTest=> FrobeniusPower,ReturnList => true) == {6, 30} )
 ///
 
 TEST ///

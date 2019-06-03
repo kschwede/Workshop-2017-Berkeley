@@ -75,6 +75,7 @@ export{
     "isFPT",
     "nu",
     "nuList",
+    "ReturnList",
     "Search",
     "UseFSignature",
     "UseSpecialAlgorithms"
