@@ -704,12 +704,12 @@ isLocallyPrincipalIdeal := I ->
 (
     localGen := getNonzeroGenerator I;
     R := ring I;
-    if localGen === null then return { false, 0_R };
+    if localGen === null then return ( false, 0_R );
     inverseIdeal := ideal localGen : I;
     idealProduct := inverseIdeal * I;
     if reflexify idealProduct  == idealProduct then
-        { true, inverseIdeal }
-    else { false, 0_R }
+        ( true, inverseIdeal )
+    else ( false, 0_R )
 )
 
 --helper function for compareFPT
@@ -754,7 +754,7 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
     local computedTau;
     local computedHSLGInitial;
     local computedHSLG;
-    --computedTau := ideal(sub(0, R1));
+
     if o.QGorensteinIndex > 0 then cartIndex = o.QGorensteinIndex
     else cartIndex = getDivisorIndex( o.MaxCartierIndex, canIdeal );
     h1 := 0_S1;
@@ -764,8 +764,8 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         J1 := testElement R1;
         try h1 = QGorensteinGenerator( 1, R1 ) then
 	(
-            computedTau = testModule( tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain );
-            if isUnitIdeal computedTau#0 then return -1
+            computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain );
+            if isUnitIdeal computedTau then return -1
 	    --at this point we know that this is not the FPT
         )
         else h1 = 0_S1
@@ -837,12 +837,11 @@ compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
     local computedTau;
     local computedHSLG;
     local computedHSLGInitial;
-    --computedTau := ideal(sub(0, R1));
 
     h1 := 1_S1;
     --first we do a quick check to see if the test ideal is easy to compute
-    computedTau = testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => true );
-    if isUnitIdeal computedTau#0 then return -1;
+    computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => true );
+    if isUnitIdeal computedTau then return -1;
     --at this point we know that this is not the FPT
 
     --now we have to run the sigma computation
@@ -952,7 +951,6 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
     computedTau := null;
     computedHSLG := null;
     computedHSLGInitial := null;
-    --computedTau := ideal(sub(0, R1));
 
     if o.QGorensteinIndex > 0 then cartIndex = o.QGorensteinIndex
     else cartIndex = getDivisorIndex( o.MaxCartierIndex, canIdeal );
@@ -962,7 +960,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
     (
         J1 := testElement R1;
         try h1 = QGorensteinGenerator( 1, R1 ) then
-            computedTau = testModule(tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain)
+            computedTau = first testModule(tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain)
         else h1 = 0_S1
     )
     else--there should be an algorithm that works here
@@ -990,7 +988,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
         );
 
         newDenom := reflexify( canIdeal * dualCanIdeal );
-        computedTau = runningIdeal*R1 : newDenom;
+        computedTau = runningIdeal * R1 : newDenom;
     );
     --now we have to run the sigma computation
     if h1 != 0_S1 then
@@ -1026,7 +1024,6 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
     computedTau := null;
     computedHSLG := null;
     computedHSLGInitial := null;
-    --computedTau := ideal(sub(0, R1));
 
     h1 := sub( 1, S1 );
     --first we do a quick check to see if the test ideal is easy to compute

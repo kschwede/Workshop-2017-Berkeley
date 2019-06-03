@@ -66,7 +66,7 @@ PackageExports => {"TestIdeals"}
 export{
     "Attempts",
 --F-thresholds computations (MainFunctions.m2)
-    "BinaryRecursive",
+    "BinaryRecursive", 
     "compareFPT",
     "ComputePreviousNus",
     "ContainmentTest",
@@ -111,8 +111,10 @@ load "./FThresholds/FThresholdsDoc.m2"
 
 load "./FThresholds/MainFunctionsDoc.m2"
 
-load "./FThresholds/SpecialFThresholdsDoc.m2"
-
 -- TESTS
 
+-- load "./FThresholds/MainFunctionsTest.m2" 
+
 load "./FThresholds/SpecialFThresholdsTest.m2"
+
+
