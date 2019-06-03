@@ -21,6 +21,7 @@ doc ///
         compareFPT(t, f)
     Inputs
         t:QQ
+            a rational number to compare to the $F$-pure threshold
         f:RingElement
             an element of a $\mathbb{Q}$-Gorenstein ring
         FrobeniusRootStrategy => Symbol
@@ -79,23 +80,24 @@ doc ///
     Headline
         gives a list of approximates of a critical exponent
     Usage
-        approximateCriticalExponent(e,I,J)
-        approximateCriticalExponent(e,f,J)
+        approximateCriticalExponent(e,f,J)   
+        approximateCriticalExponent(e,I,J)                  
     Inputs
         e:ZZ
+            an integer determining the number of approximates of the critical exponent that will be calculated
         I:Ideal
-        J:Ideal
+            an ideal in a polynomial ring over a field of characteristic {\tt p} contained in the radical of {\tt J}
         f:RingElement
+            a polynomial over a field of characteristic {\tt p} contained in the radical of {\tt J}
+        J:Ideal
+            an ideal in a polynomial ring over a field of characteristic {\tt p}
     Outputs
         :List
+            containing {\tt e} approximates of the critical exponent of $f$ or $I$ with respect to $J$
     Description
         Text
-
--- FIX THE FOLLOWING TO REMOVE REFERENCE TO "mu"
-
-            This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
-
-            As $d$ approaches $\infty$, the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
+            Fix an ideal $J$ of a polynomial ring over a ring of characteristic $p>0$.  Moreover, fix either a polynomial $f$ in this ring, or an ideal $I$, contained in the radical of $J$.  The function {\tt approximateCriticalExponent} gives a list whose $d$-th entry, for $0 \leq d \leq e$, the maximum power $N$ for which the $N$-th Frobenius power of $f$ or $I$ is contained in the $p^d$-th Frobenius power of $J$, scaled by $1/p^d$. 
+            As $d$ approaches $\infty$, the sequence of these terms converges to the critical exponent of $f$, or of $I$ with respect to $J$.
         Example
              R = ZZ/5[x,y];
              I = ideal(x^2,x*y,y^2);
@@ -104,8 +106,8 @@ doc ///
              f = x^2 + y^3;
              approximateCriticalExponent(2,f,m)
     SeeAlso
-        approximateFT
         approximateFPT
+        approximateFT
         nu
         nuList
 ///
