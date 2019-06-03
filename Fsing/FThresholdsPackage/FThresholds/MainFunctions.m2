@@ -237,7 +237,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	I := J;
 	scan( 1..n, e ->
 	    (
-		I = I : ideal( fastExponentiation( nu, g ) );
+		I = I : ideal g^nu;
 		nu =  last nuInternal( 1, g, I, ContainmentTest => conTest );
 	      	theList = append( theList, p*(last theList) + nu );
 	      	I = frobenius I
