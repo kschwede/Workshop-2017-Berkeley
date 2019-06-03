@@ -218,3 +218,36 @@ f = x^13-y^5;
 assert(isFJumpingExponent(36/65, f));
 assert(not isFJumpingExponent(37/65, f));
 ///
+
+TEST ///
+R = ZZ/11[x,y,z]/ideal(x*y-z^2);
+f = x^2;
+assert(isFJumpingExponent(1/4, f));
+assert(isFJumpingExponent(1/2, f));
+assert(not isFJumpingExponent(1/3, f));
+///
+
+TEST /// --degenerate cases
+R = ZZ/101[x,y];
+f = sub(0, R);
+assert(fpt(f) == 0);
+g= sub(1, R);
+assert(fpt(g) == infinity);
+///
+
+TEST /// -- a cusp by any other name
+R = ZZ/5[x,y];
+f = x^2 - y^3;
+g = (x+3*y)^2 - (x+y)^3;
+assert(fpt(f) == 4/5);
+assert(fpt(g) == 4/5);
+///
+
+TEST /// --an example from Canton-Hernandez-Schwede-Witt
+ n = 3; d = 5;
+ p = 19;
+ N = d*(n*(d-2)-d);
+ R = ZZ/p[x,y,z];
+ f = x^d+y^d+z^d+(x*y*z)^(d-2);
+ assert(fpt(f) == (n*(p-d+1)+d)/(d*(p-1)))
+///
