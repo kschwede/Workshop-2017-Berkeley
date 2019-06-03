@@ -177,7 +177,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     checkOptions( o,
 	{
 	    ComputePreviousNus => Boolean,
-	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null },
+	    ContainmentTest => { FrobeniusRoot, FrobeniusPower, null },
 	    Search => { Binary, Linear, BinaryRecursive },
 	    UseColonIdeals => Boolean,
 	    UseSpecialAlgorithms => Boolean
@@ -194,8 +194,8 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     (
         if numgens( g = trim g ) == 1 then
         (
-	    isPrincipal = true;
-	    g = g_*_0
+	        isPrincipal = true;
+	        g = g_*_0
         )
     )
     else isPrincipal = true;
@@ -229,57 +229,26 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     searchFct := search#(o.Search);
     conTest := o.ContainmentTest;
     -- choose appropriate containment test, if not specified by user
-    if conTest === null then
-	conTest = if isPrincipal then FrobeniusRoot else StandardPower;
+    if conTest === null then conTest = FrobeniusRoot;
     testFct := test#(conTest);
     local N;
     nu := nu1( g, J ); -- if f is not in rad(J), nu1 will return an error
     theList := { nu };
 
-    --------------------------------------
-    -- WHEN COMPUTE PREVIOUS NUS IS OFF --
-    --------------------------------------
-    if not o.ComputePreviousNus then
-    (
-	-- This computes nu in a non-recursive way
-	if n == 0 then return theList;
- 	N = if isPrincipal or conTest === FrobeniusPower
-	     then p^n else (numgens trim J)*(p^n-1)+1;
-     	return { searchFct( g, J, n, nu*p^n, (nu+1)*N, testFct ) }
-    );
-    ---------------------------------
-    -- WHEN USE COLON IDEALS IS ON --
-    ---------------------------------
-    if o.UseColonIdeals and isPrincipal then
-    -- colon ideals only work for polynomials
-    (
-	-- This computes nu recursively, using colon ideals.
-	-- Only nu(p)'s are computed, but with respect to ideals other than J
-	I := J;
-	scan( 1..n, e ->
-	    (
-		I = I : ideal( fastExponentiation( nu, g ) );
-		nu =  last nuInternal( 1, g, I, ContainmentTest => conTest );
-	      	theList = append( theList, p*(last theList) + nu );
-	      	I = frobenius I
-	    )
-	)
-    )
-    else
     ----------------------
     -- EVERY OTHER CASE --
     ----------------------
     (
 	N = if isPrincipal or conTest === FrobeniusPower
-	     then p else (numgens trim J)*(p-1)+1;
-	scan( 1..n, e ->
-	    (
-		nu = searchFct( g, J, e, p*nu, (nu+1)*N, testFct );
-    	       	theList = append( theList, nu )
-    	    )
-    	)
-     );
-     theList
+	   then p else (numgens trim J)*(p-1)+1;
+    scan( 1..n, e ->
+        (
+           nu = searchFct( g, J, e, p*nu, (nu+1)*N, testFct );
+           theList = append( theList, nu )
+        )
+    )
+    );
+    theList
 )
 
 ---------------------------------------------------------------------------------
