@@ -149,8 +149,10 @@ doc ///
      Outputs
         :List
             which contains the endpoints of an interval containing lower and upper bounds for the $F$-pure threshold of $f$
-        Q:QQ
+        :QQ
             the $F$-pure threshold of $f$
+	:InfiniteNumber
+	    the $F$-pure threshold of $f$, if $f$ is {\it not} in the homogeneous maximal ideal
      Description
           Text
               The function fpt tries to find the exact value for the $F$-pure threshold of a polynomial $f$ at the origin, and returns that value, if possible.

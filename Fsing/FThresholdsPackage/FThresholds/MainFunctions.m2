@@ -46,8 +46,6 @@ nu1 = method( TypicalValue => ZZ )
 
 nu1 ( Ideal, Ideal ) :=  ZZ => ( I, J ) ->
 (
-    if not isSubset( I, radical J ) then
-        error "nu1: The first ideal is not contained in the radical of the second";
     d := 1;
     while not isSubset( I^d, J ) do d = d + 1;
     d - 1
@@ -143,12 +141,6 @@ optNu:= {Search => Binary, ContainmentTest => null, UseSpecialAlgorithms => true
 
 nuInternal = optNu >> o -> ( n, f, J ) ->
 (
-    --------------------
-    -- A TRIVIAL CASE --
-    --------------------
-    -- Return answer in a trivial case (per Blickle-Mustata-Smith convention)
-    if f == 0 then return toList( (n+1):0 );
-
     -----------------
     -- SOME CHECKS --
     -----------------
@@ -163,6 +155,19 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- Check if f is defined over a finite field
     if not isDefinedOverFiniteField f then
         error "nuInternal: expected polynomial or ideal in a polynomial ring over a finite field";
+
+    -------------------
+    -- TRIVIAL CASES --
+    -------------------
+    -- Return list with zeros if f is 0 (per Blickle-Mustata-Smith convention)
+    if f == 0 then return toList( (n+1):0 );
+    -- Return list with infinities if f is not in the radical of J 
+    inRadical := if isIdeal f then isSubset( f, radical J ) else isSubset( ideal f, radical J ); 
+    if not inRadical then return toList( (n+1):infinity );
+
+    --------------------------------
+    -- DEAL WITH PRINCIPAL IDEALS --
+    --------------------------------
     -- Check if f is a principal ideal; if so, replace it with its generator,
     isPrincipal := false;
     g := f;
@@ -208,7 +213,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     if conTest === null then conTest = (if isPrincipal then FrobeniusRoot else StandardPower);
     testFct := test#(conTest);
     local N;
-    nu := nu1( g, J ); -- if f is not in rad(J), nu1 will return an error
+    nu := nu1( g, J ); 
     theList := { nu };
 
     ----------------------
@@ -445,9 +450,8 @@ fpt RingElement := o -> f ->
     -- Check if polynomial is in the homogeneous maximal ideal
     M := maxIdeal f;   -- The maximal ideal we are computing the fpt at
     p := char ring f;
-    if not isSubset( ideal f, M ) then
-        error "fpt: polynomial is not in the homogeneous maximal ideal";
-
+    if not isSubset( ideal f, M ) then return infinity;
+        
     ----------------------
     -- CHECK IF FPT = 1 --
     ----------------------
