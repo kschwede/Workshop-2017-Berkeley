@@ -133,7 +133,13 @@ search := new HashTable from
 -- OPTION PACKAGES
 ---------------------------------------------------------------------------------
 
-optNu:= {Search => Binary, ContainmentTest => null, UseSpecialAlgorithms => true}
+optNu:= 
+{ 
+    Search => Binary, 
+    ContainmentTest => null, 
+    UseSpecialAlgorithms => true, 
+    Verbose => false 
+}
 
 ---------------------------------------------------------------------------------
 -- INTERNAL FUNCTION
@@ -215,7 +221,8 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     local N;
     nu := nu1( g, J ); 
     theList := { nu };
-
+    if o.Verbose then print( "\nnu(1) = " | toString nu );
+   
     ----------------------
     -- EVERY OTHER CASE --
     ----------------------
@@ -225,6 +232,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     scan( 1..n, e ->
         (
            nu = searchFct( g, J, e, p*nu, (nu+1)*N, testFct );
+           if o.Verbose then print( "\nnu(p^" | toString e | ") = " | toString nu );
            theList = append( theList, nu )
         )
     )
