@@ -1,0 +1,34 @@
+\def\cfudot#1{\ifmmode\setbox7\hbox{$\accent"5E#1$}\else
+  \setbox7\hbox{\accent"5E#1}\penalty 10000\relax\fi\raise 1\ht7
+  \hbox{\raise.1ex\hbox to 1\wd7{\hss.\hss}}\penalty 10000 \hskip-1\wd7\penalty
+  10000\box7}
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR}
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{MTW05}
+
+\bibitem[Her14]{HernandezFPureThresholdOfBinomial}
+{\sc D.~J. Hern\'andez}: \emph{{$F$}-pure thresholds of binomial
+  hypersurfaces}, Proc. Amer. Math. Soc. \textbf{142} (2014), no.~7,
+  2227--2242.
+
+\bibitem[Her15]{HernandezFInvariantsOfDiagonalHyp}
+{\sc D.~J. Hern\'andez}: \emph{{$F$}-invariants of diagonal hypersurfaces},
+  Proc.\ Amer.\ Math.\ Soc. \textbf{143} (2015), no.~1, 87--104.
+
+\bibitem[HTW18]{HernandezTeixeiraWittFrobeniusPowers}
+{\sc D.~J. Hern\'andez, P.~Teixeira, and E.~E. Witt}: \emph{Frobenius powers},
+  preprint, \href{https://arxiv.org/abs/1802.02705}{arXiv:1802.02705
+  [math.AC]}, 2018.
+
+\bibitem[MTW05]{MustataTakagiWatanabeFThresholdsAndBernsteinSato}
+{\sc M.~Musta{\c{t}}{\v{a}}, S.~Takagi, and K.-i. Watanabe}: \emph{F-thresholds
+  and {B}ernstein-{S}ato polynomials}, European Congress of Mathematics, Eur.
+  Math. Soc., Z\"urich, 2005, pp.~341--364. {\sf\scriptsize MR2185754
+  (2007b:13010)}
+
+\end{thebibliography}

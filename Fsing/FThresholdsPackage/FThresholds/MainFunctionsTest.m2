@@ -13,9 +13,7 @@ assert(nu(1,f)==8)
 assert(nu(2,f)==414)
 assert(nu(3,f)==19466)
 assert(nu(3,f, UseSpecialAlgorithms => false)==19466)
-assert(nu(3,f, UseSpecialAlgorithms => false, Search=>BinaryRecursive)==19466)
 assert(nu(3,f, UseSpecialAlgorithms => false, Search=>Linear)==19466)
-assert(approximateFPT(2,f)=={0,8/47,414/2209})
 ///
 
 --binomial test 2
@@ -27,9 +25,7 @@ assert(nu(1,f)==7)
 assert(nu(2,f)==343)
 assert(nu(3,f)==14791)
 assert(nu(3,f, UseSpecialAlgorithms => false)==14791)
-assert(nu(3,f, UseSpecialAlgorithms => false, Search=>BinaryRecursive)==14791)
 assert(nu(3,f, UseSpecialAlgorithms => false, Search=>Linear)==14791)
-assert(approximateFPT(2,f)=={0,7/43,343/43^2})
 ///
 
 --binomial test 3
@@ -40,9 +36,7 @@ assert(nu(1,f)==6)
 assert(nu(2,f)==256)
 assert(nu(3,f)==9494)
 assert(nu(3,f, UseSpecialAlgorithms => false)==9494)
-assert(nu(3,f, UseSpecialAlgorithms => false, Search=>BinaryRecursive)==9494)
 assert(nu(3,f, UseSpecialAlgorithms => false, Search=>Linear)==9494)
-assert(approximateFPT(2,f)=={0,6/37,256/1369})
 ///
 
 -- tests for fpt computations that call special algorithms
@@ -117,16 +111,10 @@ TEST ///
 ZZ/5[x,y];
 M=ideal(x,y);
 D=ideal(x^3,y^3);
-f=x^3+y^3; -- generic element of D
-g=x^3+x^2*y + x*y^2 + y^3; -- generic element of M^3
-assert(approximateCriticalExponent(1,M^3,M)=={0,2/5})
-assert(approximateCriticalExponent(2,M^3,M)=={0,2/5,14/25})
-assert(approximateCriticalExponent(1,D,M)=={0,2/5})
-assert(approximateCriticalExponent(2,D,M)=={0,2/5,14/25})
-assert(approximateFPT(1,f)=={0,2/5})
-assert(approximateFPT(2,f)=={0,2/5,14/25})
-assert(approximateFPT(1,g)=={0,2/5})
-assert(approximateFPT(2,g)=={0,2/5,14/25})
+assert(nu(1,M^3,M, ContainmentTest => FrobeniusPower)== 2)
+assert(nu(2,M^3,M, ContainmentTest => FrobeniusPower) == 14)
+assert(nu(1,D,M, ContainmentTest => FrobeniusPower) == 2)
+assert(nu(2,D,M, ContainmentTest => FrobeniusPower) == 14)
 ///
 
 TEST ///
@@ -136,14 +124,14 @@ D=ideal(x^4,y^4);
 I=ideal(x^2,y);
 f=x^4+y^4; -- generic element of D
 g=x^4+x^3*y+x^2*y^2+x*y^3+y^4; -- generic element of M^4
-assert(approximateCriticalExponent(1,M^4,I)=={0,4/7})
-assert(approximateCriticalExponent(2,M^4,I)=={0,4/7,34/49})
-assert(approximateCriticalExponent(1,D,I)=={0,4/7})
-assert(approximateCriticalExponent(2,D,I)=={0,4/7,34/49})
-assert(approximateFT(1,f,I)=={0,4/7})
-assert(approximateFT(2,f,I)=={0,4/7,34/49})
-assert(approximateFT(1,g,I)=={0,4/7})
-assert(approximateFT(2,g,I)=={0,4/7,34/49})
+assert(nu(1,M^4,I,ContainmentTest => FrobeniusPower)==4 )
+assert(nu(2,M^4,I, ContainmentTest => FrobeniusPower)== 34)
+assert(nu(1,D,I, ContainmentTest => FrobeniusPower)== 4)
+assert(nu(2,D,I, ContainmentTest => FrobeniusPower)== 34)
+assert(nu(1,f,I)==4)
+assert(nu(2,f,I)==34)
+assert(nu(1,g,I)==4)
+assert(nu(2,g,I)==34)
 ///
 
 --Here, we test F-pure threshold approximation computations for polynomials
@@ -151,7 +139,6 @@ TEST ///
 ZZ/5[x,y,z];
 f = 2*x^7*y^3*z^8+2*x^4*z^9+2*x*y^7*z^4;
 assert( nu(6,f) == 2968 )
-assert( nu(6,f,Search => BinaryRecursive) == 2968 )
 assert( nu(6,f,Search => Linear) == 2968 )
 assert( nu(6,f,ReturnList => true) == {0, 0, 4, 23, 118, 593, 2968} )
 ///
@@ -160,7 +147,6 @@ TEST ///
 ZZ/17[x,y,z,w];
 F = -5*x*y^4*z^3-2*x^4*z^3*w+6*y*z^3*w^4+7*z*w^3-6*w^2;
 assert( nu(2,F) == 220 )
-assert( nu(2,F,Search => BinaryRecursive) == 220 )
 ///
 
 
