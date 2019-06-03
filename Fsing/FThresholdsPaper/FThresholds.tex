@@ -113,11 +113,21 @@ urlcolor=OliveGreen
 
 \section{Introduction}
 
-This paper describes a Macaulay2 package which provides tools to compute, $F$-pure thresholds, $F$-thresholds and $F$-jumping numbers.  We begin with some history
+This paper describes a Macaulay2 package which provides tools to compute, $F$-pure thresholds, $F$-thresholds and $F$-jumping exponents.  Recall first that a ring $R$ is $F$-pure if the Frobenius morphism $F : R \to R$ is a pure morphism (under geometric hypotheses, this is equivalent to Frobenius being split).  The notion of $F$-purity appeared first in the work of Hochster and Roberts in \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in \cite{FedderFPureRat} and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.  After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of Frobenius to measure singularities proliferated and based on a tight connection discovered between $F$-pure and log canonical singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$ where $f \in R$ and $t \in \bQ_{\geq 0}$ is a formal exponent.  Along these lines the notion of the \emph{$F$-pure threshold} (or $\fpt$) was defined in analogy with the log canonical threshold (or $\lct$) \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  The $\fpt$ of $(R, f)$ is the supremum over all $t$ such that $(R, f^t)$ is $F$-pure, and the functionality computing this number is the core of this package.    As a further generalization, the notion of \emph{$F$-threshold} was also introduced.  All of these \emph{thresholds} have been the focus of intense study over the past 15 years.
 
-{\it Acknowledgements}  The authors thank...
+There are three main sections in this paper
+\begin{itemize}
+\item{} \autoref{sec.Nu} which describes how to first approximate the $\fpt$ and other $F$-thresholds.  
+\item{} \autoref{sec.IsFPT} describes functionality which can determine whether a given number is the FPT (or more generally, an $F$-jumping exponent).
+\item{} \autoref{sec.FPT} describes the {\tt fpt} function and how it works.
+\end{itemize}
+
+This package builds heavily upon the {\tt TestIdeals} package.  
+
+{\it Acknowledgements}  The authors thank...  Thank the IMA...
 
 \section{The $F$-pure threshold limit and {\tt nu}}
+\label{sec.Nu}
 
 Suppose $R = k[x_1, \dots, x_n]$ is a polynomial ring over a finite field and $f \in R$.    If $f^a \notin \langle x_1^{p^e}, \dots, x_n^{p^e} \rangle = \fram^{[p^e]}$ then the pair $(R, f^{a/(p^e -1)})$ is $F$-pure at the origin, whereas if $f^a \in \fram^{[p^e]}$, then the pair $(R, f^{a/p^e})$ is not $F$-pure at the origin.  By finding the $a \in \bZ$ where that transition happens, and then limiting over $e$, one can compute the $F$-pure threshold.  See \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
 
@@ -194,23 +204,56 @@ I^{[p^n]} \subseteq J^{[p^e]}.
 \]
 See \cite{HernandezTeixeiraWittFrobeniusPowers} for more discussion of this.  
 
-\section{{\tt isFPT} and {\tt isFJumpingExponent}}
+\section{{\tt isFPT}, {\tt compareFPT} and {\tt isFJumpingExponent}}
+\label{sec.IsFPT}
 
 The command {\tt isFPT(t, f)} checks whether $t$ is the $F$-pure threshold of $f$.  In general this does this by computing two test ideals:
 \[
 \tau(R, f^t) \text{ and } \tau(R, f^{t-\epsilon}).
 \]
-It follows that $\fpt(f) = t$ if and only if $\tau(R, f^t) \neq R$ and $\tau(R, f^{t-\epsilon}) = R$.  The function computes these two values by using the {\tt testIdeal} and {\tt FPureModule} commands from the {\tt TestIdeals} package.  Note that in a strongly $F$-regular Gorenstein ambient ring, {\tt FPureModule(t, f)} computes exactly $\tau(R, f^{t-\epsilon})$.  These commands work more generally, but they \emph{only} currently work when $R$ is $\bQ$-Gorenstein with index not divisible by the characteristic $p > 0$.
+It follows that $\fpt(f) = t$ if and only if $\tau(R, f^t) \neq R$ and $\tau(R, f^{t-\epsilon}) = R$.  The function computes these two values by using the {\tt testIdeal} and {\tt FPureModule} commands from the {\tt TestIdeals} package.  Note that in a strongly $F$-regular Gorenstein ambient ring, {\tt FPureModule(t, f)} computes exactly $\tau(R, f^{t-\epsilon})$.  These commands work more generally, but they \emph{only} currently work when $R$ is $\bQ$-Gorenstein with index not divisible by the characteristic $p > 0$.  A more general version of this command is {\tt compareFPT(t, f)} which returns $-1$ if $t < \fpt(f)$, $0$ if $t = \fpt(f)$ and $1$ if $t > \fpt(f)$.  
 
-The command {\tt isFJumpingExponent} works similarly, a value $t$ is an $F$-jumping exponent if and only if
+Consider the following example which has $F$-pure threshold equal to {1/2}, see \cite[Example 4.3]{MustataYoshidaTestIdealVsMultiplierIdeals}.
+\medskip
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+i1 : loadPackage "FThresholds"
+
+o1 = FThresholds
+
+o1 : Package
+
+i2 : R = ZZ/2[x,y,z];
+
+i3 : f = x^2+y^5+z^5;
+
+i4 : isFPT(1/2, f)
+
+o4 = true
+
+i5 : isFPT(1/3, f)
+
+o5 = false
+
+i6 : compareFPT(3/4, f)
+
+o6 = 1
+\end{MyVerbatim}
+}
+\medskip
+
+The command {\tt isFJumpingExponent} is implemented similarly, a value $t$ is an $F$-jumping exponent if and only if
 \[
 \tau(R, f^t) \neq \tau(R, f^{t-\epsilon}).  
 \]
 Again, this command works as long as $R$ is $\bQ$-Gorenstein with index not divisible by $p$. 
 
-\section{\tt fpt}
 
-The core function in this package is the {\tt fpt} function.
+\section{\tt fpt}
+\label{sec.FPT}
+
+The core function in this package is the {\tt fpt} function.  Given an element $f \in R = k[x_1, \dots, x_n]$, the {\tt fpt} function tries to compute the $F$-pure threshold of $f$.  It does this in the following way:
 
 \section{}
 
