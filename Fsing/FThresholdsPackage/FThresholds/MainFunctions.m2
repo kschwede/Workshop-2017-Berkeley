@@ -152,10 +152,10 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- TRIVIAL CASES --
     -------------------
     -- Return list with zeros if f is 0 (per Blickle-Mustata-Smith convention)
-    if f == 0 then return toList( (n+1):0 );
+    if f == 0 then return if o.ReturnList then toList( (n+1):0 ) else 0;
     -- Return list with infinities if f is not in the radical of J 
     inRadical := if isIdeal f then isSubset( f, radical J ) else isSubset( ideal f, radical J ); 
-    if not inRadical then return toList( (n+1):infinity );
+    if not inRadical then return if o.ReturnList then toList( (n+1):infinity ) else infinity;
 
     --------------------------------
     -- DEAL WITH PRINCIPAL IDEALS --
@@ -185,14 +185,18 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	if not isSubset( ideal g, J ) then
 	    error "nuInternal: the polynomial is not in the homogeneous maximal ideal";
         if not isSubset( ideal g^(p-1), frobenius J ) then -- fpt = 1
-	    return apply( n+1, i -> p^i-1 );
+	    return if o.ReturnList then apply( n+1, i -> p^i-1 ) else p^n-1;
         if o.UseSpecialAlgorithms then
         (
 	    fpt := null;
 	    if isDiagonal g then fpt = diagonalFPT g;
             if isBinomial g then fpt = binomialFPT g;
 	    if fpt =!= null then
-	        return apply( n+1, i -> p^i*adicTruncation( p, i, fpt ) )
+	        return 
+		(
+		    if o.ReturnList then apply( n+1, i -> p^i*adicTruncation( p, i, fpt ) )
+		    else p^n*adicTruncation( p, n, fpt )
+		)
         )
     );
 
