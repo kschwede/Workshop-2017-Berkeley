@@ -31,7 +31,7 @@ doc ///
         QGorensteinIndex => ZZ
     Outputs
         :ZZ
-            returns value {\tt - 1} if {\tt t} is less than the $F$-pure threshold of {\tt f}, returns {\tt 1} if {\tt t} is greater than the $F$-pure threshold {\tt f}, and returns {\tt 0} if it is equal to the $F$-pure threshold.
+            outputs {\tt - 1} if {\tt t} is less than the $F$-pure threshold of {\tt f}, outputs {\tt 1} if {\tt t} is greater than the $F$-pure threshold {\tt f}, or outputs {\tt 0} if it is equal to the $F$-pure threshold.
     Description
         Text
             Let $f$ be a ring element, and $t$ a rational number.  The function {\tt compareFPT} returns $-1$ if $t$ is less than the $F$-pure threshold of $f$, $1$ if $t$ is greater than the $F$-pure threshold $f$, or $0$ if $t$ equals the $F$-pure threshold.
@@ -42,10 +42,9 @@ doc ///
             compareFPT(5/6, f)
             compareFPT(6/7, f)
         Text
-            This function can be used in a singular ring that is strongly $F$-regular,
-            as long as the ring is also $\mathbb{Q}$-Gorenstein of index dividing $p-1$, where $p>0$ is the characteristic of the ring. 
+            This function can be used in a singular ring that is strongly $F$-regular, as long as the ring is $\mathbb{Q}$-Gorenstein of index dividing $p-1$, where $p>0$ is the characteristic of the ring. 
 
-In the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
+For instance, in the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/ideal(x*y-z^2);
              f = x;
@@ -54,7 +53,6 @@ In the following example, $x$ defines a Cartier divisor that is twice one of the
              compareFPT(13/25, f)
     SeeAlso
         fpt
-        approximateFPT
         isFPT
 ///
 
@@ -68,46 +66,6 @@ doc ///
             {\tt ContainmentTest} is an option for @TO nu@ and @TO nuList@, that tells the function which type of containment test to use.  
             The valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
     SeeAlso
-        nu
-        nuList
-///
-
-doc ///
-    Key
-        approximateCriticalExponent
-        (approximateCriticalExponent,ZZ,Ideal,Ideal)
-        (approximateCriticalExponent,ZZ,RingElement,Ideal)
-    Headline
-        gives a list of approximates of a critical exponent
-    Usage
-        approximateCriticalExponent(e,f,J)   
-        approximateCriticalExponent(e,I,J)                  
-    Inputs
-        e:ZZ
-            an integer determining the number of approximates of the critical exponent that will be calculated
-        I:Ideal
-            an ideal in a polynomial ring over a field of characteristic {\tt p} contained in the radical of {\tt J}
-        f:RingElement
-            a polynomial over a field of characteristic {\tt p} contained in the radical of {\tt J}
-        J:Ideal
-            an ideal in a polynomial ring over a field of characteristic {\tt p}
-    Outputs
-        :List
-            containing {\tt e} approximates of the critical exponent of $f$ or $I$ with respect to $J$
-    Description
-        Text
-            Fix an ideal $J$ of a polynomial ring over a ring of characteristic $p>0$.  Moreover, fix either a polynomial $f$ in this ring, or an ideal $I$, contained in the radical of $J$.  The function {\tt approximateCriticalExponent} gives a list whose $d$-th entry, for $0 \leq d \leq e$, the maximum power $N$ for which the $N$-th Frobenius power of $f$ or $I$ is contained in the $p^d$-th Frobenius power of $J$, scaled by $1/p^d$. 
-            As $d$ approaches $\infty$, the sequence of these terms converges to the critical exponent of $f$, or of $I$ with respect to $J$.
-        Example
-             R = ZZ/5[x,y];
-             I = ideal(x^2,x*y,y^2);
-             m = ideal(x,y);
-             approximateCriticalExponent(2,I,m)
-             f = x^2 + y^3;
-             approximateCriticalExponent(2,f,m)
-    SeeAlso
-        approximateFPT
-        approximateFT
         nu
         nuList
 ///
@@ -129,7 +87,7 @@ doc ///
          fpt(L, m)
      Inputs
          f:RingElement
-             a polynomial with coefficients in a finite field
+             a polynomial with coefficients in a finite field of prime characteristic
          L:List
              containing forms in two variables
          m:List
@@ -233,44 +191,8 @@ doc ///
               fpt(L, m)
 	      fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 )
     SeeAlso
-              approximateFPT
               nu
               nuList
-///
-
-doc ///
-     Key
-         approximateFPT
-         (approximateFPT,ZZ,Ideal)
-         (approximateFPT,ZZ,RingElement)
-     Headline
-         gives a list of terms in the sequence whose limit defines the F-pure threshold
-     Usage
-          approximateFPT(e,I)
-          approximateFPT(e,f)
-     Inputs
-         e:ZZ
-         I:Ideal
-         f:RingElement
-     Outputs
-         :List
-     Description
-        Text
-            This returns a list consisting of terms whose limit defines the $F$-pure threshold of $I$, or of $f$.
-
-            This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$.
-        Example
-            R = ZZ/13[x,y];
-            I = ideal(x^2, y);
-            approximateFPT(2,I)
-            f = x^5 + x^2*y^3;
-            approximateFPT(2,f)
-    SeeAlso
-        fpt
-        approximateFT
-        nu
-        nuList
-        approximateCriticalExponent
 ///
 
 doc ///
@@ -310,37 +232,6 @@ doc ///
     SeeAlso
         nu
         nuList
-///
-
-doc ///
-     Key
-         approximateFT
-         (approximateFT,ZZ,Ideal,Ideal)
-         (approximateFT,ZZ,RingElement,Ideal)
-     Headline
-         gives a list of terms in the sequence whose limit defines an F-threshold
-     Usage
-         approximateFT(e,I,J)
-         approximateFT(e,f,J)
-     Inputs
-         e:ZZ
-         I:Ideal
-         J:Ideal
-         f:RingElement
-     Outputs
-         :List
-     Description
-         Text
-            This returns a list of terms of the sequence whose limit defines the $F$-threshold of $I$, or of $f$, with respect to $J$.
-
-            This list consists of $\nu_I^J(p^d)/p^d$, or $\nu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
-         Example
-              R = ZZ/7[x,y];
-              I = ideal(x^5, y^5);
-              J = ideal(x^2, y^3);
-              approximateFT(2,I,J)
-              f = x^3*y^2+x^5*y;
-              approximateFT(2,f,J)
 ///
 
 doc ///
