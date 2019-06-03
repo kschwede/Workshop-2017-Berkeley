@@ -2,7 +2,7 @@ doc ///
     Key
         BinaryRecursive
     Headline
-        an valid value for the option Search
+        a valid value for the option Search
     SeeAlso
         Search
 ///
@@ -16,7 +16,7 @@ doc ///
         [compareFPT, AssumeDomain]
         [compareFPT, QGorensteinIndex]
     Headline
-        checks whether a given number is less than, greater than, or equal to the F-pure threshold
+        determines whether a given number is less than, greater than, or equal to the $F$-pure threshold
     Usage
         compareFPT(t, f)
     Inputs
@@ -28,11 +28,12 @@ doc ///
         AssumeDomain => Boolean
         MaxCartierIndex => ZZ
         QGorensteinIndex => ZZ
+    Outputs
+        :ZZ
+            returns value {\tt - 1} if {\tt t} is less than the $F$-pure threshold of {\tt f}, returns {\tt 1} if {\tt t} is greater than the $F$-pure threshold {\tt f}, and returns {\tt 0} if it is equal to the $F$-pure threshold.
     Description
         Text
-            This function returns {\tt -1} if {\tt t} is less than the F-pure threshold of {\tt f}.
-            It returns {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}.
-            Finally, it returns {\tt 0} if it is equal to the F-pure threshold.
+            Let $f$ be a ring element, and $t$ a rational number.  The function {\tt compareFPT} returns $-1$ if $t$ is less than the $F$-pure threshold of $f$, $1$ if $t$ is greater than the $F$-pure threshold $f$, or $0$ if $t$ equals the $F$-pure threshold.
         Example
             R = ZZ/7[x,y];
             f = y^2-x^3;
@@ -40,10 +41,10 @@ doc ///
             compareFPT(5/6, f)
             compareFPT(6/7, f)
         Text
-            This function can also check the FPT in singular (but still strongly $F$-regular) ring,
-            so long as the ring is also Q-Gorenstein of index dividing $p-1$. In the future we hope
-            that this functionality will be extended to all Q-Gorenstein rings. In the following exam,
-            $x$ defines a Cartier divisor which is twice one of the rulings of the cone.
+            This function can be used in a singular ring that is strongly $F$-regular,
+            as long as the ring is also $\mathbb{Q}$-Gorenstein of index dividing $p-1$, where $p>0$ is the characteristic of the ring. 
+
+In the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/ideal(x*y-z^2);
              f = x;
@@ -52,6 +53,7 @@ doc ///
              compareFPT(13/25, f)
     SeeAlso
         fpt
+        approximateFPT
         isFPT
 ///
 
@@ -59,11 +61,11 @@ doc ///
     Key
         ContainmentTest
     Headline
-        an option to specify the containment test used
+        an option for nu and nuList 
     Description
         Text
-            Specifies which test is used to check containment of powers of ideals.
-            Valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
+            {\tt ContainmentTest} is an option for @TO nu@ and @TO nuList@, that tells the function which type of containment test to use.  
+            The valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
     SeeAlso
         nu
         nuList
@@ -338,30 +340,30 @@ doc ///
 ///
 
 doc ///
-     Key
+    Key
         isFJumpingExponent
         (isFJumpingExponent,Number,RingElement)
         [isFJumpingExponent, AssumeDomain]
         [isFJumpingExponent, FrobeniusRootStrategy]
         [isFJumpingExponent, MaxCartierIndex]
         [isFJumpingExponent, QGorensteinIndex]
-     Headline
-        Checks whether a given number is an F-jumping number
-     Usage
-         isFJumpingExponent(t,f,Verbose=>V)
-     Inputs
-         t:QQ
-         f:RingElement
+    Headline
+        whether a given number is an F-jumping number
+    Usage
+        isFJumpingExponent(t,f,Verbose=>V)
+    Inputs
+        t:QQ
+        f:RingElement
             an element of a $\mathbb{Q}$-Gorenstein ring
-         V:Boolean
-         AssumeDomain => Boolean
-         FrobeniusRootStrategy => Symbol
+        V:Boolean
+        AssumeDomain => Boolean
+        FrobeniusRootStrategy => Symbol
             an option passed to computations in the TestIdeals package
-         MaxCartierIndex => ZZ
-         QGorensteinIndex => ZZ
-     Outputs
+        MaxCartierIndex => ZZ
+        QGorensteinIndex => ZZ
+    Outputs
         :Boolean
-     Description
+    Description
         Text
             Returns true if {\tt t} is an F-jumping number of {\tt f}, otherwise it returns false. This function only works if the ambient ring of $R$ is $\mathbb{Q}$-Gorenstein
 
@@ -531,8 +533,8 @@ doc ///
         Text
             The function {\tt nu} works by searching through list of integers $n$ and checking containments of $I^n$ in a specified Frobenius power of $J$.
             
-There are two valid values for the option {\tt Search}, namely, {\tt Binary} (the default value), {\tt BinaryRecursive}, and {\tt Linear}.
-The value {\tt Binary} checks containments in a binary search order, {\tt BinaryRecursive} in a binary recursive search method, and {\tt Linear} in a linear order. 
+            There are two valid values for the option {\tt Search}, namely, {\tt Binary} (the default value), {\tt BinaryRecursive}, and {\tt Linear}.
+            The value {\tt Binary} checks containments in a binary search order, {\tt BinaryRecursive} in a binary recursive search method, and {\tt Linear} in a linear order. 
 
         Example
             ZZ/17[x,y];
