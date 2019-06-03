@@ -113,9 +113,9 @@ binarySearch = ( I, J, e, startPt, endPt, testFunction ) ->
     a := startPt;
     b := endPt;
     local c;
-    while b > a+1 do
+    while b > a + 1 do
     (
-	c = floor( (a+b)/2 );
+	c = floor( ( a + b )/2 );
 	if testFunction( I, c, J, e ) then b = c else a = c
     );
     a
@@ -124,8 +124,8 @@ binarySearch = ( I, J, e, startPt, endPt, testFunction ) ->
 -- Recursive binary search
 binarySearchRecursive = ( I, J, e, a, b, testFunction ) ->
 (
-    if b <= a+1 then return a;
-    c := floor( (a+b)/2 );
+    if b <= a + 1 then return a;
+    c := floor( ( a + b )/2 );
     if testFunction( I, c, J, e )
         then binarySearchRecursive( I, J, e, a, c, testFunction )
 	else binarySearchRecursive( I, J, e, c, b, testFunction )
@@ -134,8 +134,8 @@ binarySearchRecursive = ( I, J, e, a, b, testFunction ) ->
 -- Linear search
 linearSearch = ( I, J, e, a, b, testFunction ) ->
 (
-    c := a+1;
-    while not testFunction( I, c, J, e ) do c = c+1;
+    c := a + 1;
+    while not testFunction( I, c, J, e ) do c = c + 1;
     c-1
 )
 
@@ -697,7 +697,7 @@ compareFPT = method(
 getNonzeroGenerator := I ->
 (
     gen := select( 1, I_*, x -> x != 0 );
-    if gen === {} then null else first gen
+    if gen === { } then null else first gen
 )
 
 isLocallyPrincipalIdeal := I ->
@@ -705,7 +705,7 @@ isLocallyPrincipalIdeal := I ->
     localGen := getNonzeroGenerator I;
     R := ring I;
     if localGen === null then return { false, 0_R };
-    inverseIdeal := ideal( localGen ) : I;
+    inverseIdeal := ideal localGen : I;
     idealProduct := inverseIdeal * I;
     if reflexify idealProduct  == idealProduct then
         { true, inverseIdeal }
@@ -715,23 +715,21 @@ isLocallyPrincipalIdeal := I ->
 --helper function for compareFPT
 getDivisorIndex := ( maxIndex, divisorialIdeal ) ->
 (
-    fflag := false;
     cartIndex := 0;
     curIdeal := null;
-    locPrincList := null;
-    while not fflag and cartIndex < maxIndex do
+    locallyPrincipal := false;
+    while not locallyPrincipal and cartIndex < maxIndex do
     (
         cartIndex = cartIndex + 1;
         curIdeal = reflexivePower( cartIndex, divisorialIdeal );
-        locPrincList = isLocallyPrincipalIdeal curIdeal;
-        if locPrincList#0 then fflag = true
+        locallyPrincipal = first isLocallyPrincipalIdeal curIdeal
     );
-    if cartIndex <= 0 or not fflag then
+    if cartIndex <= 0 or not locallyPrincipal then
         error "getDivisorIndex: Ring does not appear to be Q-Gorenstein; perhaps increase the option MaxCartierIndex. Also see the documentation for isFRegular";
     cartIndex
 )
 
-compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
+compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
 (
     -- Check if option values are valid
     checkOptions( o,
@@ -761,7 +759,7 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
     else cartIndex = getDivisorIndex( o.MaxCartierIndex, canIdeal );
     h1 := 0_S1;
     --first we do a quick check to see if the test ideal is easy to compute
-    if ( pp-1 ) % cartIndex == 0 then
+    if ( pp - 1 ) % cartIndex == 0 then
     (
         J1 := testElement R1;
         try h1 = QGorensteinGenerator( 1, R1 ) then
@@ -788,7 +786,7 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
     for x in gensList do
     (
         f2 = append( fList, x );
-        runningIdeal = runningIdeal + (testModule( t2, f2, CanonicalIdeal => canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain ) )#0;
+        runningIdeal = runningIdeal + first testModule( t2, f2, CanonicalIdeal => canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain )
     );
 
     newDenom := reflexify( canIdeal * dualCanIdeal );
@@ -799,22 +797,22 @@ compareFPT(Number, RingElement) := ZZ => o -> (t, f) ->
     --now we have to run the sigma computation
     if h1 != 0_S1 then
     (
-        baseTau:= testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain );
-        if isProper baseTau#0 then
+        baseTau:= first testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
+        if isProper baseTau then
 	    error "compareFPT: The ambient ring must be F-regular";
 	    --the ambient isn't even F-regular
         ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
         if a1 > pp^c1 - 1 then
 	(
-            a1quot := floor( ( a1-1 )/( pp^c1-1 ) );
-            a1rem := a1 - ( pp^c1-1 )*a1quot;
-            computedHSLGInitial = FPureModule( { a1rem/( pp^c1-1 ) }, { f }, CanonicalIdeal=>baseTau#0, GeneratorList=>{ h1 } );
-            computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1-1 )/( pp-1 ) ), a1quot }, { h1, sub( f, S1 ) }, sub( computedHSLGInitial#0, S1 ) );
+            a1quot := floor( ( a1 - 1 )/( pp^c1 - 1 ) );
+            a1rem := a1 - ( pp^c1 - 1 )*a1quot;
+            computedHSLGInitial = first FPureModule( { a1rem/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => baseTau, GeneratorList => { h1 } );
+            computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1quot }, { h1, sub( f, S1 ) }, sub( computedHSLGInitial, S1 ) );
         )
         else (
-            computedHSLGInitial = FPureModule( { a1/( pp^c1-1 ) }, { f }, CanonicalIdeal=>baseTau#0, GeneratorList=>{ h1 } );
+            computedHSLGInitial = first FPureModule( { a1/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => baseTau, GeneratorList => { h1 } );
 	    --the e is assumed to be 1 here since we are implicitly doing stuff
-            computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1-1 )/( pp-1 ) ), h1, sub( computedHSLGInitial#0, S1 ) );
+            computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, sub( computedHSLGInitial, S1 ) );
         );
         if isProper( computedHSLG + I1 ) then return 1;
 	--the fpt we picked is too big
@@ -843,7 +841,7 @@ compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
 
     h1 := 1_S1;
     --first we do a quick check to see if the test ideal is easy to compute
-    computedTau = testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, AssumeDomain => true );
+    computedTau = testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => true );
     if isUnitIdeal computedTau#0 then return -1;
     --at this point we know that this is not the FPT
 
@@ -851,20 +849,19 @@ compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
     ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
     if a1 > pp^c1 - 1 then
     (
-        a1quot := floor( ( a1-1 )/( pp^c1-1 ) );
-        a1rem := a1 - ( pp^c1-1 )*a1quot;
-        computedHSLGInitial = FPureModule( { a1rem/( pp^c1-1 ) }, { f }, CanonicalIdeal=>ideal 1_S1, GeneratorList=>{ h1 } );
-        computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1-1 )/( pp-1 ) ), a1quot }, { h1, f }, computedHSLGInitial#0 );
+        a1quot := floor( ( a1 - 1 )/( pp^c1 - 1 ) );
+        a1rem := a1 - ( pp^c1 - 1 )*a1quot;
+        computedHSLGInitial = first FPureModule( { a1rem/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 } );
+        computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1quot }, { h1, f }, computedHSLGInitial );
     )
     else
     (
-        computedHSLGInitial = FPureModule( { a1/( pp^c1-1 ) }, { f }, CanonicalIdeal=>ideal 1_S1, GeneratorList=>{ h1 } );
+        computedHSLGInitial = first FPureModule( { a1/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 } );
 	--the e is assumed to be 1 here since we are implicitly doing stuff
-        computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1-1 )/( pp-1 ) ), h1, computedHSLGInitial#0 );
+        computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, computedHSLGInitial );
     );
     if isProper computedHSLG then return 1;
     --the fpt we picked is too small
-
     0 --it is the FPT!
 )
 
@@ -877,13 +874,13 @@ isInForbiddenInterval ( ZZ, QQ ) := Boolean => ( p, t ) ->
 (
     if t < 0 or t > 1 then return true;
     ( a, b, c ) := decomposeFraction( p, t );
-    valid := true;
+    valid := true; -- valid means "valid fpt" (not in forbidden interval)
     e := 1;
-    while valid and e <= b+c do
+    while valid and e <= b + c do
     (
-        if floor( ( p^e-1 )*t ) != p^e * adicTruncation( p, e, t ) then
+        if floor( ( p^e - 1 )*t ) != p^e * adicTruncation( p, e, t ) then
 	    valid = false;
-	e = e+1
+	e = e + 1
     );
     not valid
 )
@@ -958,10 +955,10 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
     --computedTau := ideal(sub(0, R1));
 
     if o.QGorensteinIndex > 0 then cartIndex = o.QGorensteinIndex
-    else cartIndex = getDivisorIndex(o.MaxCartierIndex, canIdeal);
+    else cartIndex = getDivisorIndex( o.MaxCartierIndex, canIdeal );
     h1 := 0_S1;
     --first we do a quick check to see if the test ideal is easy to compute
-    if ( pp-1 ) % cartIndex == 0 then
+    if ( pp - 1 ) % cartIndex == 0 then
     (
         J1 := testElement R1;
         try h1 = QGorensteinGenerator( 1, R1 ) then
@@ -969,7 +966,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
         else h1 = 0_S1
     )
     else--there should be an algorithm that works here
-        error "isFJumpingExponent:  The current version requires that (p-1)K_R is Cartier (at least for the sigma part of the computation).  This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of";
+        error "isFJumpingExponent: The current version requires that (p-1)K_R be Cartier (at least for the sigma part of the computation). This error can also occur for non-graded rings that are Q-Gorenstein if there is a principal ideal that Macaulay2 cannot find the generator of";
 
     --now compute the test ideal in the general way (if the index does not divide...)
     if computedTau =!= null then
@@ -989,7 +986,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
         for x in gensList do 
 	(
             f2 = append( fList, x );
-            runningIdeal = runningIdeal + ( testModule( t2, f2, CanonicalIdeal => canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain ) )#0;
+            runningIdeal = runningIdeal + first testModule( t2, f2, CanonicalIdeal => canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain )
         );
 
         newDenom := reflexify( canIdeal * dualCanIdeal );
@@ -998,18 +995,18 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
     --now we have to run the sigma computation
     if h1 != 0_S1 then
     (
-        baseTau := testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
+        baseTau := first testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
         ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
         if a1 > pp^c1 -1 then
 	(
-            a1quot := floor( ( a1-1 )/( pp^c1 - 1));
-            a1rem := a1 - ( pp^c1-1 )*a1quot;
-            computedHSLGInitial = FPureModule({ a1rem/( pp^c1-1 ) }, { f }, CanonicalIdeal => baseTau#0, GeneratorList => { h1 } );
-            computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1-1 )/( pp-1 ) ), a1quot}, { h1, sub( f, S1 ) }, sub( computedHSLGInitial#0, S1 ) )
+            a1quot := floor( ( a1 - 1 )/( pp^c1 - 1));
+            a1rem := a1 - ( pp^c1 - 1 )*a1quot;
+            computedHSLGInitial = first FPureModule({ a1rem/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => baseTau, GeneratorList => { h1 } );
+            computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1-1 )/( pp-1 ) ), a1quot}, { h1, sub( f, S1 ) }, sub( computedHSLGInitial, S1 ) )
         )
         else (
-            computedHSLGInitial = FPureModule( { a1/( pp^c1-1 ) }, { f }, CanonicalIdeal => baseTau#0, GeneratorList => { h1 } ); --the e is assumed to be 1 here since we are implicitly doing stuff
-            computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1-1 )/( pp-1 ) ), h1, sub( computedHSLGInitial#0, S1 ) )
+            computedHSLGInitial = first FPureModule( { a1/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => baseTau, GeneratorList => { h1 } ); --the e is assumed to be 1 here since we are implicitly doing stuff
+            computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, sub( computedHSLGInitial, S1 ) )
         )
     )
     else--there should be an algorithm that works here
@@ -1033,20 +1030,20 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
 
     h1 := sub( 1, S1 );
     --first we do a quick check to see if the test ideal is easy to compute
-    computedTau = ( testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => true ) )#0;
+    computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => true );
 
     --now we have to run the sigma computation
     ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
     if a1 > pp^c1 - 1 then
     (
-        a1quot := floor( ( a1-1 )/( pp^c1-1 ) );
+        a1quot := floor( ( a1-1 )/( pp^c1 - 1 ) );
         a1rem := a1 - ( pp^c1-1 )*a1quot;
-        computedHSLGInitial = FPureModule( { a1rem/( pp^c1-1 ) }, { f }, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 } );
-        computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1-1 )/( pp-1 ) ), a1quot }, { h1, f }, computedHSLGInitial#0 );
+        computedHSLGInitial = first FPureModule( { a1rem/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 } );
+        computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1quot }, { h1, f }, computedHSLGInitial );
     )
     else (
-        computedHSLGInitial = FPureModule( { a1/( pp^c1-1 ) }, { f }, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 } ); --the e is assumed to be 1 here since we are implicitly doing stuff
-        computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1-1 )/( pp-1 ) ), h1, computedHSLGInitial#0 );
+        computedHSLGInitial = first FPureModule( { a1/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 } ); --the e is assumed to be 1 here since we are implicitly doing stuff
+        computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, computedHSLGInitial );
     );
 
     not isSubset( computedHSLG, computedTau )
