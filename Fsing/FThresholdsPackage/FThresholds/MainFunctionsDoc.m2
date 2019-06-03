@@ -1,14 +1,5 @@
 doc ///
     Key
-        BinaryRecursive
-    Headline
-        a valid value for the option Search
-    SeeAlso
-        Search
-///
-
-doc ///
-    Key
         compareFPT
         (compareFPT, Number, RingElement)
         [compareFPT, MaxCartierIndex]
@@ -428,14 +419,13 @@ doc ///
         Text
             The function {\tt nu} works by searching through list of integers $n$ and checking containments of $I^n$ in a specified Frobenius power of $J$.
             
-            There are two valid values for the option {\tt Search}, namely, {\tt Binary} (the default value), {\tt BinaryRecursive}, and {\tt Linear}.
-            The value {\tt Binary} checks containments in a binary search order, {\tt BinaryRecursive} in a binary recursive search method, and {\tt Linear} in a linear order. 
+            There are two valid values for the option {\tt Search}, either the default value, {\tt Binary}, or the value {\tt Linear}.
+            The value {\tt Binary} checks containments in a binary search order, and {\tt Linear} in a linear order. 
 
         Example
             ZZ/17[x,y];
             M=ideal(x,y);
             time nu(2,M,M^2,Search=>Binary)
-            time nu(2,M,M^2,Search=>BinaryRecursive)
             time nu(2,M,M^2,Search=>Linear)
     SeeAlso
         nuList
@@ -493,7 +483,7 @@ doc ///
               An option for functions @TO nu@ and @TO nuList@ to specify
               the order in which ideal the containment of powers are computed.
 
-              Valid values are {\tt Binary}, {\tt BinaryRecursive}, and {\tt Linear}.
+              Valid values are {\tt Binary} and {\tt Linear}.
      SeeAlso
           nu
           nuList
