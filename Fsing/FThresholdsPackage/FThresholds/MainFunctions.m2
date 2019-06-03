@@ -64,7 +64,7 @@ nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) -> nu1( ideal f, J )
 -- testRoot(J,a,I,e) checks whether J^a is a subset of I^[p^e] by checking whether (J^a)^[1/p^e] is a subset of I
 testRoot = ( J, a, I, e ) -> isSubset( frobeniusRoot( e, a, J ), I )
 
-testPower = ( J, a, I, e ) -> isSubset( J^a, frobenius(e,I) )
+testPower = ( J, a, I, e ) -> isSubset( if (isIdeal J) then J^a else ideal(J)^a, frobenius(e,I) )
 
 -- testFrobeniusPower(J,a,I,e) checks whether J^[a] is a subset of I^[p^e]
 testFrobeniusPower = method( TypicalValue => Boolean )
