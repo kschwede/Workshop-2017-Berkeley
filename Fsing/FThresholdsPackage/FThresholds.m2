@@ -112,5 +112,3 @@ load "./FThresholds/MainFunctionsDoc.m2"
 -- TESTS
 
 load "./FThresholds/MainFunctionsTest.m2"
-
---load "./FThresholds/SpecialFThresholdsTest.m2"
