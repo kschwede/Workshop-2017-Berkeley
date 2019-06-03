@@ -2,7 +2,7 @@ doc ///
     Key
         BinaryRecursive
     Headline
-        an valid value for the option Search
+        a valid value for the option Search
     SeeAlso
         Search
 ///
@@ -16,7 +16,7 @@ doc ///
         [compareFPT, AssumeDomain]
         [compareFPT, QGorensteinIndex]
     Headline
-        checks whether a given number is less than, greater than, or equal to the F-pure threshold
+        determines whether a given number is less than, greater than, or equal to the F-pure threshold
     Usage
         compareFPT(t, f)
     Inputs
@@ -28,11 +28,12 @@ doc ///
         AssumeDomain => Boolean
         MaxCartierIndex => ZZ
         QGorensteinIndex => ZZ
+    Outputs
+        :ZZ
+            returns {\tt - 1} if {\tt t} is less than the F-pure threshold of {\tt f}, {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}, or returns {\tt 0} if it is equal to the F-pure threshold.
     Description
         Text
-            This function returns {\tt -1} if {\tt t} is less than the F-pure threshold of {\tt f}.
-            It returns {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}.
-            Finally, it returns {\tt 0} if it is equal to the F-pure threshold.
+            Let $f$ be a ring element, and $t$ a rational number.  The function {\tt compareFPT} returns {\tt - 1} if {\tt t} is less than the F-pure threshold of {\tt f}, {\tt 1} if {\tt t} is greater than the F-pure threshold {\tt f}, or returns {\tt 0} if {\tt t} equals the F-pure threshold.
         Example
             R = ZZ/7[x,y];
             f = y^2-x^3;
@@ -40,10 +41,10 @@ doc ///
             compareFPT(5/6, f)
             compareFPT(6/7, f)
         Text
-            This function can also check the FPT in singular (but still strongly $F$-regular) ring,
-            so long as the ring is also Q-Gorenstein of index dividing $p-1$. In the future we hope
-            that this functionality will be extended to all Q-Gorenstein rings. In the following exam,
-            $x$ defines a Cartier divisor which is twice one of the rulings of the cone.
+            This function can be used in singular rings that are strongly $F$-regular,
+            as long as the ring is also $\mathbb{Q}$-Gorenstein of index dividing $p-1$, where $p>0$ is the characteristic of the ring. 
+
+In the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/ideal(x*y-z^2);
              f = x;
@@ -52,6 +53,7 @@ doc ///
              compareFPT(13/25, f)
     SeeAlso
         fpt
+        approximateFPT
         isFPT
 ///
 
