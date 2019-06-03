@@ -21,6 +21,7 @@ doc ///
         compareFPT(t, f)
     Inputs
         t:QQ
+            a rational number to compare to the $F$-pure threshold
         f:RingElement
             an element of a $\mathbb{Q}$-Gorenstein ring
         FrobeniusRootStrategy => Symbol
@@ -30,7 +31,7 @@ doc ///
         QGorensteinIndex => ZZ
     Outputs
         :ZZ
-            returns value {\tt - 1} if {\tt t} is less than the $F$-pure threshold of {\tt f}, returns {\tt 1} if {\tt t} is greater than the $F$-pure threshold {\tt f}, and returns {\tt 0} if it is equal to the $F$-pure threshold.
+            outputs {\tt - 1} if {\tt t} is less than the $F$-pure threshold of {\tt f}, outputs {\tt 1} if {\tt t} is greater than the $F$-pure threshold {\tt f}, or outputs {\tt 0} if it is equal to the $F$-pure threshold.
     Description
         Text
             Let $f$ be a ring element, and $t$ a rational number.  The function {\tt compareFPT} returns $-1$ if $t$ is less than the $F$-pure threshold of $f$, $1$ if $t$ is greater than the $F$-pure threshold $f$, or $0$ if $t$ equals the $F$-pure threshold.
@@ -41,10 +42,9 @@ doc ///
             compareFPT(5/6, f)
             compareFPT(6/7, f)
         Text
-            This function can be used in a singular ring that is strongly $F$-regular,
-            as long as the ring is also $\mathbb{Q}$-Gorenstein of index dividing $p-1$, where $p>0$ is the characteristic of the ring. 
+            This function can be used in a singular ring that is strongly $F$-regular, as long as the ring is $\mathbb{Q}$-Gorenstein of index dividing $p-1$, where $p>0$ is the characteristic of the ring. 
 
-            In the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
+            For instance, in the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/ideal(x*y-z^2);
              f = x;
@@ -53,7 +53,6 @@ doc ///
              compareFPT(13/25, f)
     SeeAlso
         fpt
-        approximateFPT
         isFPT
 ///
 
@@ -67,45 +66,6 @@ doc ///
             {\tt ContainmentTest} is an option for @TO nu@ and @TO nuList@, that tells the function which type of containment test to use.  
             The valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
     SeeAlso
-        nu
-        nuList
-///
-
-doc ///
-    Key
-        approximateCriticalExponent
-        (approximateCriticalExponent,ZZ,Ideal,Ideal)
-        (approximateCriticalExponent,ZZ,RingElement,Ideal)
-    Headline
-        gives a list of approximates of a critical exponent
-    Usage
-        approximateCriticalExponent(e,I,J)
-        approximateCriticalExponent(e,f,J)
-    Inputs
-        e:ZZ
-        I:Ideal
-        J:Ideal
-        f:RingElement
-    Outputs
-        :List
-    Description
-        Text
-
--- FIX THE FOLLOWING TO REMOVE REFERENCE TO "mu"
-
-            This returns a list of $\mu_I^J(p^d)/p^d$, or $\mu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
-
-            As $d$ approaches $\infty$, the sequence of these terms converges to the critical exponent of $I$, or of $f$, with respect to $J$.
-        Example
-             R = ZZ/5[x,y];
-             I = ideal(x^2,x*y,y^2);
-             m = ideal(x,y);
-             approximateCriticalExponent(2,I,m)
-             f = x^2 + y^3;
-             approximateCriticalExponent(2,f,m)
-    SeeAlso
-        approximateFT
-        approximateFPT
         nu
         nuList
 ///
@@ -127,33 +87,33 @@ doc ///
          fpt(L, m)
      Inputs
          f:RingElement
-             a polynomial with coefficients in a finite field
+             a polynomial with coefficients in a finite field of prime characteristic
          L:List
              containing forms in two variables
          m:List
              containing positive integers
          DepthOfSearch => ZZ
-             specifies the power of the characteristic to be used in a search for the F-pure threshold
+             specifies the power of the characteristic to be used in a search for the $F$-pure threshold
          FRegularityCheck => Boolean
-             specifies whether to check if the final lower bound is the $F$-pure threshold of $f$
+             specifies whether to check if the final lower bound is the $F$-pure threshold of {\tt f}
          MaxChecks => ZZ
              specifies the number of "guess and check" attempts to make
          UseFSignature => Boolean
              specifies whether to use the $F$-signature function and a secant line argument to attempt to improve the $F$-pure threshold estimate
          UseSpecialAlgorithms => Boolean
-             specifies whether to check if $f$ is diagonal, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
+             specifies whether to check if {\tt f} is a diagonal polynomial, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
 	 Verbose => Boolean
 	     requests verbose feedback
      Outputs
         :List
-            which contains the endpoints of an interval containing lower and upper bounds for the $F$-pure threshold of $f$
+            containing the endpoints of an interval containing lower and upper bounds for the $F$-pure threshold of $f$
         :QQ
             the $F$-pure threshold of $f$
 	:InfiniteNumber
 	    the $F$-pure threshold of $f$, if $f$ is {\it not} in the homogeneous maximal ideal
      Description
           Text
-              The function fpt tries to find the exact value for the $F$-pure threshold of a polynomial $f$ at the origin, and returns that value, if possible.
+              The function {tt fpt} attempts to find the exact value for the $F$-pure threshold of a polynomial $f$ at the origin, and returns that value, if possible.
               Otherwise, it returns lower and upper bounds for the $F$-pure threshold.
          Example
               ZZ/5[x,y,z];
@@ -231,44 +191,8 @@ doc ///
               fpt(L, m)
 	      fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 )
     SeeAlso
-              approximateFPT
               nu
               nuList
-///
-
-doc ///
-     Key
-         approximateFPT
-         (approximateFPT,ZZ,Ideal)
-         (approximateFPT,ZZ,RingElement)
-     Headline
-         gives a list of terms in the sequence whose limit defines the F-pure threshold
-     Usage
-          approximateFPT(e,I)
-          approximateFPT(e,f)
-     Inputs
-         e:ZZ
-         I:Ideal
-         f:RingElement
-     Outputs
-         :List
-     Description
-        Text
-            This returns a list consisting of terms whose limit defines the $F$-pure threshold of $I$, or of $f$.
-
-            This list consists of $\nu_I(p^d)/p^d$, or $\nu_f(p^d)/p^d$, for $d = 0,\ldots,e$.
-        Example
-            R = ZZ/13[x,y];
-            I = ideal(x^2, y);
-            approximateFPT(2,I)
-            f = x^5 + x^2*y^3;
-            approximateFPT(2,f)
-    SeeAlso
-        fpt
-        approximateFT
-        nu
-        nuList
-        approximateCriticalExponent
 ///
 
 doc ///
@@ -311,37 +235,6 @@ doc ///
 ///
 
 doc ///
-     Key
-         approximateFT
-         (approximateFT,ZZ,Ideal,Ideal)
-         (approximateFT,ZZ,RingElement,Ideal)
-     Headline
-         gives a list of terms in the sequence whose limit defines an F-threshold
-     Usage
-         approximateFT(e,I,J)
-         approximateFT(e,f,J)
-     Inputs
-         e:ZZ
-         I:Ideal
-         J:Ideal
-         f:RingElement
-     Outputs
-         :List
-     Description
-         Text
-            This returns a list of terms of the sequence whose limit defines the $F$-threshold of $I$, or of $f$, with respect to $J$.
-
-            This list consists of $\nu_I^J(p^d)/p^d$, or $\nu_f^J(p^d)/p^d$, for $d = 0,\ldots,e$.
-         Example
-              R = ZZ/7[x,y];
-              I = ideal(x^5, y^5);
-              J = ideal(x^2, y^3);
-              approximateFT(2,I,J)
-              f = x^3*y^2+x^5*y;
-              approximateFT(2,f,J)
-///
-
-doc ///
     Key
         isFJumpingExponent
         (isFJumpingExponent,Number,RingElement)
@@ -367,7 +260,7 @@ doc ///
         :Boolean
     Description
         Text
-            Returns true if {\tt t} is an F-jumping number of {\tt f}, otherwise it returns false. This function only works if the ambient ring of $R$ is $\mathbb{Q}$-Gorenstein
+            Returns true if {\tt t} is an $F$-jumping number of {\tt f}, otherwise it returns false. This function only works if the ambient ring of $R$ is $\mathbb{Q}$-Gorenstein
 
             If the ambient ring of {\tt f} is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order
             to speed up the computation. Otherwise {\tt AssumeDomain} should be set to {\tt false}.
@@ -481,7 +374,7 @@ doc ///
 	    More generally, if $I$ is an ideal contained in the radical of $J$, then {\tt nu(e, I, J)} outputs the maximal integer exponent $n$ such that $I^n$ is not contained in the $p^e$-th Frobenius power of $J$.
 
             These numbers are denoted $\nu_f^J(p^e)$ and $\nu_I^J(p^e)$, respectively, in the literature, and were originally defined in the paper
-            "F-thresholds and Bernstein-Sato Polynomials" by Mustata, Takagi, and Watanabe.
+            "$F$-thresholds and Bernstein-Sato Polynomials" by Mustata, Takagi, and Watanabe.
         Example
             S=ZZ/11[x,y];
             I=ideal(x^2+y^3, x*y);
