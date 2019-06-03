@@ -7,7 +7,7 @@
 ---------------------------------------------------------------------------------
 -- Nu computations
 
--- Main functions: nuList, nu, muList, mu
+-- Main functions: nuList, nu
 
 -- Auxiliary Functions: nu1, binarySearch, binarySearchRecursive, linearSearch,
 --     testPower, testRoot, testFrobeniusPower, nuInternal
@@ -15,8 +15,8 @@
 ---------------------------------------------------------------------------------
 -- FThreshold approximations
 
--- Main functions: fptApproximation, ftApproximation,
---     criticalExponentApproximation
+-- Main functions: approximateFPT, approximateFT,
+--     approximateCriticalExponent
 
 ---------------------------------------------------------------------------------
 -- FThreshold computations and estimates
@@ -133,11 +133,8 @@ search := new HashTable from
 -- OPTION PACKAGES
 ---------------------------------------------------------------------------------
 
-optMuList := { UseColonIdeals => false, Search => Binary }
+optNuList := {UseColonIdeals => false, Search => Binary, ContainmentTest => null, UseSpecialAlgorithms => true}
 
-optNuList := optMuList | {ContainmentTest => null, UseSpecialAlgorithms => true}
-
-optMu := optMuList | { ComputePreviousNus => true }
 optNu := optNuList | { ComputePreviousNus => true }
 
 ---------------------------------------------------------------------------------
@@ -295,37 +292,6 @@ nu ( ZZ, Ideal ) := ZZ => o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
 
 nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 
--- Mus can be computed using nus, by using ContainmentTest => FrobeniusPower.
--- For convenience, here are some shortcuts:
-
-muList = method( Options => optMuList, TypicalValue => List )
-
-muList ( ZZ, Ideal, Ideal ) := List => o -> ( e, I, J ) ->
-    nuList( e, I, J, o, ContainmentTest => FrobeniusPower )
-
-muList ( ZZ, Ideal ) := List => o -> ( e, I ) ->
-    nuList( e, I, o, ContainmentTest => FrobeniusPower )
-
-muList ( ZZ, RingElement, Ideal ) := List => o -> ( e, f, J ) ->
-    nuList( e, f, J, o, ContainmentTest => FrobeniusPower )
-
-muList ( ZZ, RingElement ) := List => o -> ( e, f ) ->
-    nuList( e, f, o, ContainmentTest => FrobeniusPower )
-
-mu = method( Options => optMu, TypicalValue => ZZ )
-
-mu ( ZZ, Ideal, Ideal ) := ZZ => o -> ( e, I, J ) ->
-    nu( e, I, J, ContainmentTest => FrobeniusPower )
-
-mu ( ZZ, Ideal ) := ZZ => o -> ( e, I ) ->
-    nu( e, I, ContainmentTest => FrobeniusPower )
-
-mu ( ZZ, RingElement, Ideal ) := ZZ => o -> ( e, f, J ) ->
-    nu( e, f, J, ContainmentTest => FrobeniusPower )
-
-mu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) ->
-    nu( e, f, ContainmentTest => FrobeniusPower )
-
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
 -- Functions for approximating, guessing, estimating F-Thresholds and crit exps
@@ -334,48 +300,48 @@ mu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) ->
 
 --Approximates the F-pure Threshold
 --Gives a list of nu_I(p^d)/p^d for d=1,...,e
-fptApproximation = method( TypicalValue => List )
+approximateFPT = method( TypicalValue => List )
 
-fptApproximation ( ZZ, Ideal ) := List => ( e, I ) ->
+approximateFPT ( ZZ, Ideal ) := List => ( e, I ) ->
 (
      p := char ring I;
      nus := nuList( e, I );
      apply( nus, 0..e, (n,k) -> n/p^k )
 )
 
-fptApproximation ( ZZ, RingElement ) := List => ( e, f ) ->
-    fptApproximation( e, ideal f )
+approximateFPT ( ZZ, RingElement ) := List => ( e, f ) ->
+    approximateFPT( e, ideal f )
 
 --Approximates the F-Threshold with respect to an ideal J
 --More specifically, this gives a list of nu_I^J(p^d)/p^d for d=1,...,e
 
-ftApproximation = method( TypicalValue => List )
+approximateFT = method( TypicalValue => List )
 
-ftApproximation ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
+approximateFT ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
 (
     if not isSubset( I, radical J ) then
-        error "ftApproximation: F-threshold undefined";
+        error "approximateFT: F-threshold undefined";
     p := char ring I;
     nus := nuList( e, I, J );
     apply( nus, 0..e, (n,k) -> n/p^k )
 )
 
-ftApproximation ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
-   ftApproximation( e, ideal(f), J )
+approximateFT ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
+   approximateFT( e, ideal(f), J )
 
-criticalExponentApproximation = method( TypicalValue => List )
+approximateCriticalExponent = method( TypicalValue => List )
 
-criticalExponentApproximation ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
+approximateCriticalExponent ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
 (
     if not isSubset( I, radical J ) then
-        error "criticalExponentApproximation: critical exponent undefined";
+        error "approximateCriticalExponent: critical exponent undefined";
     p := char ring I;
-    mus := muList( e, I, J );
+    mus := nuList( e, I, J, ContainmentTest => FrobeniusPower );
     apply( mus, 0..e, (n,k) -> n/p^k )
 )
 
-criticalExponentApproximation ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
-    criticalExponentApproximation( e, ideal f, J )
+approximateCriticalExponent ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
+    approximateCriticalExponent( e, ideal f, J )
 
 -- OBSOLETE
 --Gives a list of guesses for the F-pure threshold of f.  It returns a list of all numbers in
@@ -808,7 +774,7 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
 
 compareFPTPoly = method( Options => { FrobeniusRootStrategy => Substitution } )
 
-compareFPTPoly(Number, RingElement) := o -> ( t, f ) -> 
+compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
 (
     --first we gather background info on the ring (QGorenstein generators, etc.)
     S1 := ring f;
@@ -859,6 +825,8 @@ isInForbiddenInterval ( ZZ, QQ ) := Boolean => ( p, t ) ->
     e := 1;
     while valid and e <= b + c do
     (
+      --The following comes from Proposition 4.1 and Corollary 4.1(1) in
+      --[Hernandez, F-purity of hypersurfaces]
         if floor( ( p^e - 1 )*t ) != p^e * adicTruncation( p, e, t ) then
 	    valid = false;
 	e = e + 1
@@ -963,7 +931,7 @@ isFJumpingExponent ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
         t2 := append( tList, 1/cartIndex );
         f2 := fList;
 
-        for x in gensList do 
+        for x in gensList do
 	(
             f2 = append( fList, x );
             runningIdeal = runningIdeal + first testModule( t2, f2, CanonicalIdeal => canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain )
