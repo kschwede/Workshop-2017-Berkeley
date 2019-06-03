@@ -360,7 +360,7 @@ fpt = method(
         {
 	    DepthOfSearch => 1,
 	    FRegularityCheck => false,
-	    MaxChecks => maxChecks,
+	    Attempts => maxChecks,
 	    UseSpecialAlgorithms => true,
 	    UseFSignature => false,
 	    Verbose => false
@@ -383,7 +383,7 @@ fpt RingElement := o -> f ->
         {
 	    DepthOfSearch => ( k -> instance( k, ZZ ) and k > 0 ),
 	    FRegularityCheck => Boolean,
-	    MaxChecks => ( k -> instance( k, ZZ ) and k >= 0 ),
+	    Attempts => ( k -> instance( k, ZZ ) and k >= 0 ),
 	    UseSpecialAlgorithms => Boolean,
 	    UseFSignature => Boolean,
 	    Verbose => Boolean
@@ -453,14 +453,14 @@ fpt RingElement := o -> f ->
     --------------------
     -- CALL GUESS FPT --
     --------------------
-    if o.MaxChecks > 0 then
+    if o.Attempts > 0 then
     (
-	guess := guessFPT( f, LB, UB, o.MaxChecks, Verbose => o.Verbose );
+	guess := guessFPT( f, LB, UB, o.Attempts, Verbose => o.Verbose );
 	if class guess =!= List then return guess; -- guessFPT was successful
 	-- if not sucessful, adjust bounds and their strictness
 	( LB, UB ) = toSequence guess;
 	strictUB = true;
-	if o.MaxChecks >= 2 then strictLB = true
+	if o.Attempts >= 2 then strictLB = true
     );
 
     ---------------------------------------
@@ -518,7 +518,7 @@ fpt RingElement := o -> f ->
     );
     if o.Verbose then
     (
-	print "\nfpt failed to find the exact answer; try increasing the value of DepthOfSearch or MaxChecks.";
+	print "\nfpt failed to find the exact answer; try increasing the value of DepthOfSearch or Attempts.";
         print(
 	    "\nfpt lies in the interval " |
 	    ( if strictLB then "( " else "[ " ) |
