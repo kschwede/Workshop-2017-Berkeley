@@ -94,7 +94,7 @@ assert( nu(6,ideal f,UseColonIdeals=>true,ContainmentTest => StandardPower,Searc
 assert( nu(6,ideal f,UseColonIdeals=>true,ContainmentTest => StandardPower,Search => Linear) == 2968 )
 assert( nuList(6,f) == {0, 0, 4, 23, 118, 593, 2968} )
 assert( nuList(6,f,UseColonIdeals => true) == {0, 0, 4, 23, 118, 593, 2968} )
-//
+///
 
 TEST ///
 ZZ/17[x,y,z,w];
