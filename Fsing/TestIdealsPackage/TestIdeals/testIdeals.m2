@@ -304,7 +304,7 @@ isFPure Ideal := o -> I1 ->
 	(
 	    L := flatten entries gens I1;
 	    not isSubset(
-		ideal( product( L, l -> fastExponentiation( p1-1, l ) ) ),
+		ideal( product( L, l -> l^(p1-1) ) ),
 		frobenius maxideal
 	    )
     	)

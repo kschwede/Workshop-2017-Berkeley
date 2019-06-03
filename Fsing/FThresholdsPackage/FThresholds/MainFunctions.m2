@@ -53,15 +53,7 @@ nu1 ( Ideal, Ideal ) :=  ZZ => ( I, J ) ->
     d - 1
 )
 
--- for polynomials, we use fastExponentiation
-nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) ->
-(
-    if not isSubset( ideal f, radical J ) then
-        error "nu1: The polynomial is not contained in the radical of the ideal";
-    d := 1;
-    while not isSubset( ideal fastExponentiation( d, f ), J ) do d = d + 1;
-    d - 1
-)
+nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) -> nu1( ideal f, J )
 
 ---------------------------------------------------------------------------------
 -- TESTS
@@ -71,16 +63,6 @@ nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) ->
 
 -- testRoot(J,a,I,e) checks whether J^a is a subset of I^[p^e] by checking whether (J^a)^[1/p^e] is a subset of I
 testRoot = ( J, a, I, e ) -> isSubset( frobeniusRoot( e, a, J ), I )
-
--- testPower(J,a,I,e) checks whether J^a is  a subset of I^[p^e], directly
-testPower = method( TypicalValue => Boolean )
-
-testPower ( Ideal, ZZ, Ideal, ZZ ) := Boolean => ( J, a, I, e ) ->
-    isSubset( J^a, frobenius( e, I ) )
-
--- for polynomials, use fastExponentiation
-testPower ( RingElement, ZZ, Ideal, ZZ ) := Boolean => ( f, a, I, e ) ->
-    isSubset( ideal fastExponentiation( a, f ), frobenius( e, I ) )
 
 -- testFrobeniusPower(J,a,I,e) checks whether J^[a] is a subset of I^[p^e]
 testFrobeniusPower = method( TypicalValue => Boolean )
@@ -423,7 +405,7 @@ fSig := ( f, a, e ) ->
 (
      R := ring f;
      p := char R;
-     1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal( fastExponentiation( a, f ) ) )
+     1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal f^a )
 )
 
 -- isInteger checks if a rational number is an integer

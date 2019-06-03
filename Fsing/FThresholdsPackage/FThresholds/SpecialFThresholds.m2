@@ -264,7 +264,7 @@ isInUpperRegion = method( TypicalValue => Boolean )
 isInUpperRegion ( List, ZZ, FTData ) := Boolean => ( a, q, S ) -> 
 (
     frob := frobeniusPower( q, S#"ideal" );
-    F := product( a, S#"polylist", ( i, f ) -> fastExponentiation( i, f ) );
+    F := product( a, S#"polylist", ( i, f ) -> f^i );
     F % frob == 0
 )
 
