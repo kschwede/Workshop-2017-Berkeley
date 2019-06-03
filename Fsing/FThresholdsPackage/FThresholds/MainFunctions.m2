@@ -445,9 +445,8 @@ fpt RingElement := o -> f ->
     -- Check if polynomial is in the homogeneous maximal ideal
     M := maxIdeal f;   -- The maximal ideal we are computing the fpt at
     p := char ring f;
-    if not isSubset( ideal f, M ) then
-        error "fpt: polynomial is not in the homogeneous maximal ideal";
-
+    if not isSubset( ideal f, M ) then return infinity;
+        
     ----------------------
     -- CHECK IF FPT = 1 --
     ----------------------
