@@ -78,7 +78,6 @@ test := new HashTable from
     {
 	FrobeniusPower => testFrobeniusPower,
 	FrobeniusRoot => testRoot,
-	StandardPower => testPower
     }
 
 ---------------------------------------------------------------------------------
