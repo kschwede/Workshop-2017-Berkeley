@@ -166,7 +166,6 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     if not isDefinedOverFiniteField f then
         error "nuInternal: expected polynomial or ideal in a polynomial ring over a finite field";
     -- Check if f is a principal ideal; if so, replace it with its generator,
-    --   so that fastExponentiation can be used
     isPrincipal := false;
     g := f;
     if isIdeal g then
