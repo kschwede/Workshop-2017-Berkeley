@@ -289,7 +289,7 @@ approximateFT ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
         error "approximateFT: F-threshold undefined";
     p := char ring I;
     nus := nuList( e, I, J );
-    apply( nus, 0..e, (n,k) -> n/p^k )
+    apply( nus, 0..e, (n,k)  -> n/p^k )
 )
 
 approximateFT ( ZZ, RingElement, Ideal ) := List => ( e, f, J ) ->
@@ -446,7 +446,7 @@ fpt RingElement := o -> f ->
     M := maxIdeal f;   -- The maximal ideal we are computing the fpt at
     p := char ring f;
     if not isSubset( ideal f, M ) then return infinity;
-        
+
     ----------------------
     -- CHECK IF FPT = 1 --
     ----------------------

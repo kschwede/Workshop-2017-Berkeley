@@ -1,0 +1,223 @@
+\documentclass{amsart}
+\usepackage{calc,amssymb,amsthm,amsmath,setspace}
+%\usepackage{mathtools}
+\RequirePackage[dvipsnames,usenames]{xcolor}
+
+\usepackage{fancyvrb}
+\usepackage{hyperref}
+\hypersetup{
+bookmarks,
+bookmarksdepth=3,
+bookmarksopen,
+bookmarksnumbered,
+pdfstartview=FitH,
+colorlinks,backref,hyperindex,
+linkcolor=Sepia,
+anchorcolor=BurntOrange,
+citecolor=MidnightBlue,
+citecolor=OliveGreen,
+filecolor=BlueViolet,
+menucolor=Yellow,
+urlcolor=OliveGreen
+}
+\usepackage{xspace}
+%\usepackage{rotating}
+\interfootnotelinepenalty=100000
+
+\usepackage{mabliautoref}
+\usepackage{colonequals}
+\frenchspacing
+\input{kmacros3.sty}
+\usepackage{stmaryrd}
+
+\usepackage{verbatim}
+\usepackage{enumerate}
+
+\usepackage[normalem]{ulem}
+%\usepackage{marginnote}
+
+\DeclareMathOperator{\HH}{H}
+\newcommand{\fram}{\mathfrak{m}}
+%\DeclareMathOperator{\Image}{image}
+
+\DefineVerbatimEnvironment%
+  {MyVerbatim}{Verbatim}
+  {formatcom=\color{Violet}}
+
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\le}{\leqslant}
+
+\newtheorem*{caveat}{Caveat}
+
+\begin{document}
+\title{The  \emph{TestIdeals} package for \emph{Macaulay2}}
+\author[Alberto F.\ Boix et al.]{Alberto F.\ Boix}
+\address{Department of Mathematics, Ben-Gurion University of the Negev, Beer-Sheva 8410501, Israel}
+\email{fernanal@post.bgu.ac.il}
+\thanks{A.F.\,Boix was supported by Israel Science Foundation (grant No. 844/14) and Spanish Ministerio de Econom\'ia y Competitividad MTM2016-7881-P}
+
+\author[]{Daniel J.\ Hern\'andez}
+\address{Department of Mathematics, University of Kansas, Lawrence, KS~66045, USA}
+\email{hernandez@ku.edu}
+\thanks{D.~J.~Hern\'andez was partially supported by NSF DMS \#1600702.}
+
+\author[]{Zhibek Kadyrsizova}
+\address{School of Science and Technology, Nazarbayev University, Astana, 010000, Republic of Kazakhstan}
+\email{zhibek.kadyrsizova@nu.edu.kz}
+\thanks{Z. Kadyrsizova was partially supported by NSF DMS \#1401384 and the Barbour Scholarship at the University of Michigan.}
+
+\author[]{Mordechai Katzman}
+\address{Department of Pure Mathematics, University of Sheffield, Sheffield S37RH, United Kingdom}
+\email{M.Katzman@sheffield.ac.uk}
+
+\author[]{Sara Malec}
+\address{Department of Mathematics, Hood College, Frederick, MD 21701}
+\email{malec@hood.edu}
+
+\author[]{Marcus Robinson}
+\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
+\email{robinson@math.utah.edu}
+
+\author[]{Karl Schwede}
+\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
+\thanks{K.~Schwede was supported by NSF CAREER Grant DMS \#1252860/1501102, NSF FRG Grant DMS \#1265261/1501115, NSF grant \#1801849 and a Sloan Fellowship.}
+\email{schwede@math.utah.edu}
+
+\author[]{Daniel Smolkin}
+\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
+\email{smolkin@math.utah.edu}
+\thanks{D.~Smolkin was supported by NSF RTG Grant DMS \#1246989, NSF CAREER Grant DMS \#1252860/1501102, and NSF FRG Grant DMS \#1265261/1501115.}
+
+\author[]{Pedro Teixeira}
+\address{Department of Mathematics, Knox College, Galesburg, IL~61401, USA}
+\email{pteixeir@knox.edu}
+
+\author[]{Emily E.\ Witt}
+\address{Department of Mathematics, University of Kansas, Lawrence, KS~66045, USA}
+\email{witt@ku.edu}
+\thanks{E.E.~Witt was partially supported by NSF DMS \#1623035.}
+\date{\today}
+
+\begin{abstract}
+	This note describes a \emph{Macaulay2} package for computations of $F$(-pure) thresholds in characteristic $p > 0$ commutative algebra.  
+\end{abstract}
+
+
+\subjclass[2010]{13A35}%=
+
+\keywords{Macaulay2}
+
+\maketitle
+
+\section{Introduction}
+
+This paper describes a Macaulay2 package which provides tools to compute, $F$-pure thresholds, $F$-thresholds and $F$-jumping numbers.  We begin with some history
+
+{\it Acknowledgements}  The authors thank...
+
+\section{The $F$-pure threshold limit and {\tt nu}}
+
+Suppose $R = k[x_1, \dots, x_n]$ is a polynomial ring over a finite field and $f \in R$.    If $f^a \notin \langle x_1^{p^e}, \dots, x_n^{p^e} \rangle = \fram^{[p^e]}$ then the pair $(R, f^{a/(p^e -1)})$ is $F$-pure at the origin, whereas if $f^a \in \fram^{[p^e]}$, then the pair $(R, f^{a/p^e})$ is not $F$-pure at the origin.  By finding the $a \in \bZ$ where that transition happens, and then limiting over $e$, one can compute the $F$-pure threshold.  See \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
+
+We set $\nu(e, f)$ to be largest $a \in \bZ$ such that $f^a \notin \fram^{[p^e]}$ (note in the literature, it is frequently denoted by $\nu_f(p^e)$.  It immediately follows that 
+\[
+\fpt(f) = \lim_{e \to \infty} {\nu(e, f) \over p^e}.
+\]
+These numbers $\nu(e, f)$ can be computed using the command {\tt nu}, as in the example below.  
+\medskip
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+i1 : loadPackage "FThresholds"
+
+o1 = FThresholds
+
+o1 : Package
+
+i2 : R = ZZ/7[x,y]
+
+o2 = R
+
+o2 : PolynomialRing
+
+i3 : f = y^2 - x^3
+
+        3    2
+o3 = - x  + y
+
+o3 : R
+
+i4 : nu(1, f)
+
+o4 = 5
+
+o4 : QQ
+
+i5 : nu(2, f)
+
+o5 = 40
+
+o5 : QQ
+
+i6 : nu(3, f)
+
+o6 = 285
+
+o6 : QQ
+\end{MyVerbatim}
+}
+\medskip
+The numbers $5/7, 40/49, 285/343$ then approximate the $F$-pure threshold, which in this case happens to equal $5/6$.  By default, if the function $f$ has a special form (is diagonal or binomial), then the function does not check whether $f^a$ is in  $\langle x_1^{p^e}, \dots, x_n^{p^e} \rangle$, but instead uses general formulas for $\nu$s, see \cite{HernandezFPureThresholdOfBinomial,HernandezFInvariantsOfDiagonalHyp}.
+
+In fact, one can make the following more general definition.  If $I$ and $J$ are two ideals (with $I \subseteq \sqrt{J}$), one can define
+\[
+\nu(e, I, J) = \max \{ n \in \bZ \; |\; I^n \not\subseteq J^{[p^e]} \}.
+\]
+This is frequently denoted by $\nu_I^J(p^e)$ in the literature.  In the case that $I = \langle f \rangle$ and $J = \fram$, this just recovers the $\nu$'s defined above; the limit of which is the $F$-pure threshold.  For more general $I$ and $J$, the limit
+\[
+\lim_{e \to \infty} {\nu(e, I, J) \over p^e}
+\]
+is called the \emph{$F$-threshold of $I$ with respect to $J$}.  To compute these values we use a binary search, unless the user specifies that we should use a linear search instead {\tt Search=>Linear}.  
+
+There is one more option that deserves mentioning, {\tt ContainmentTest}.  There are two ways to check whether $f^a$ (or $I^a$) is contained in $J^{[p^e]}$.  In general it is true that
+\[
+I^a \subseteq J^{[p^e]} \text{ $\Leftrightarrow$ } (I^a)^{[1/p^e]} \subseteq J
+\]
+where $\bullet^{[1/p^e]}$ is defined as in the {\tt TestIdeals} package.  These are controlled by {\tt ContainmentTest => StandardPower} and {\tt ContainmentTest => FrobeniusRoot} respectively.
+For principal $I$, the command on the right is generally faster (and so {\tt FrobeniusRoot} is the default strategy for computing $\nu$).  For non-principal $I$, frequently the command on the left is quicker, and so {\tt StandardPower} is default strategy. 
+
+Finally, the option {\tt ContainmentTest => FrobeniusPower}, then ${\tt \nu(e, I, A)}$ computes the largest integer $n$ such that
+\[
+I^{[p^n]} \subseteq J^{[p^e]}.
+\]
+See \cite{HernandezTeixeiraWittFrobeniusPowers} for more discussion of this.  
+
+\section{{\tt isFPT} and {\tt isFJumpingExponent}}
+
+The command {\tt isFPT(t, f)} checks whether $t$ is the $F$-pure threshold of $f$.  In general this does this by computing two test ideals:
+\[
+\tau(R, f^t) \text{ and } \tau(R, f^{t-\epsilon}).
+\]
+It follows that $\fpt(f) = t$ if and only if $\tau(R, f^t) \neq R$ and $\tau(R, f^{t-\epsilon}) = R$.  The function computes these two values by using the {\tt testIdeal} and {\tt FPureModule} commands from the {\tt TestIdeals} package.  Note that in a strongly $F$-regular Gorenstein ambient ring, {\tt FPureModule(t, f)} computes exactly $\tau(R, f^{t-\epsilon})$.  These commands work more generally, but they \emph{only} currently work when $R$ is $\bQ$-Gorenstein with index not divisible by the characteristic $p > 0$.
+
+The command {\tt isFJumpingExponent} works similarly, a value $t$ is an $F$-jumping exponent if and only if
+\[
+\tau(R, f^t) \neq \tau(R, f^{t-\epsilon}).  
+\]
+Again, this command works as long as $R$ is $\bQ$-Gorenstein with index not divisible by $p$. 
+
+\section{\tt fpt}
+
+The core function in this package is the {\tt fpt} function.
+
+\section{}
+
+
+\bibliographystyle{skalpha}
+\bibliography{MainBib}
+
+
+
+\end{document}
