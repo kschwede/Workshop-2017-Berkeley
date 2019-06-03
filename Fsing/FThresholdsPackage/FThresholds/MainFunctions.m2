@@ -7,7 +7,7 @@
 ---------------------------------------------------------------------------------
 -- Nu computations
 
--- Main functions: nuList, nu, muList, mu
+-- Main functions: nuList, nu
 
 -- Auxiliary Functions: nu1, binarySearch, binarySearchRecursive, linearSearch,
 --     testPower, testRoot, testFrobeniusPower, nuInternal
@@ -151,11 +151,8 @@ search := new HashTable from
 -- OPTION PACKAGES
 ---------------------------------------------------------------------------------
 
-optMuList := { UseColonIdeals => false, Search => Binary }
+optNuList := {UseColonIdeals => false, Search => Binary, ContainmentTest => null, UseSpecialAlgorithms => true}
 
-optNuList := optMuList | {ContainmentTest => null, UseSpecialAlgorithms => true}
-
-optMu := optMuList | { ComputePreviousNus => true }
 optNu := optNuList | { ComputePreviousNus => true }
 
 ---------------------------------------------------------------------------------
@@ -313,37 +310,6 @@ nu ( ZZ, Ideal ) := ZZ => o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
 
 nu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 
--- Mus can be computed using nus, by using ContainmentTest => FrobeniusPower.
--- For convenience, here are some shortcuts:
-
-muList = method( Options => optMuList, TypicalValue => List )
-
-muList ( ZZ, Ideal, Ideal ) := List => o -> ( e, I, J ) ->
-    nuList( e, I, J, o, ContainmentTest => FrobeniusPower )
-
-muList ( ZZ, Ideal ) := List => o -> ( e, I ) ->
-    nuList( e, I, o, ContainmentTest => FrobeniusPower )
-
-muList ( ZZ, RingElement, Ideal ) := List => o -> ( e, f, J ) ->
-    nuList( e, f, J, o, ContainmentTest => FrobeniusPower )
-
-muList ( ZZ, RingElement ) := List => o -> ( e, f ) ->
-    nuList( e, f, o, ContainmentTest => FrobeniusPower )
-
-mu = method( Options => optMu, TypicalValue => ZZ )
-
-mu ( ZZ, Ideal, Ideal ) := ZZ => o -> ( e, I, J ) ->
-    nu( e, I, J, ContainmentTest => FrobeniusPower )
-
-mu ( ZZ, Ideal ) := ZZ => o -> ( e, I ) ->
-    nu( e, I, ContainmentTest => FrobeniusPower )
-
-mu ( ZZ, RingElement, Ideal ) := ZZ => o -> ( e, f, J ) ->
-    nu( e, f, J, ContainmentTest => FrobeniusPower )
-
-mu ( ZZ, RingElement ) := ZZ => o -> ( e, f ) ->
-    nu( e, f, ContainmentTest => FrobeniusPower )
-
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
 -- Functions for approximating, guessing, estimating F-Thresholds and crit exps
@@ -388,7 +354,7 @@ approximateCriticalExponent ( ZZ, Ideal, Ideal ) := List => ( e, I, J ) ->
     if not isSubset( I, radical J ) then
         error "approximateCriticalExponent: critical exponent undefined";
     p := char ring I;
-    mus := muList( e, I, J );
+    mus := nuList( e, I, J, ContainmentTest => FrobeniusPower );
     apply( mus, 0..e, (n,k) -> n/p^k )
 )
 
