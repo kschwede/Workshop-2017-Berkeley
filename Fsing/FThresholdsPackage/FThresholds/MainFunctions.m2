@@ -132,9 +132,7 @@ search := new HashTable from
 -- OPTION PACKAGES
 ---------------------------------------------------------------------------------
 
-optNuList := {UseColonIdeals => false, Search => Binary, ContainmentTest => null, UseSpecialAlgorithms => true}
-
-optNu := optNuList | { ComputePreviousNus => true }
+optNu:= {Search => Binary, ContainmentTest => null, UseSpecialAlgorithms => true}
 
 ---------------------------------------------------------------------------------
 -- INTERNAL FUNCTION
@@ -154,10 +152,8 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- Verify if option values are valid
     checkOptions( o,
 	{
-	    ComputePreviousNus => Boolean,
 	    ContainmentTest => { FrobeniusRoot, FrobeniusPower, null },
 	    Search => { Binary, Linear, BinaryRecursive },
-	    UseColonIdeals => Boolean,
 	    UseSpecialAlgorithms => Boolean
 	}
     );
@@ -232,7 +228,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 -- EXPORTED METHODS
 ---------------------------------------------------------------------------------
 
-nuList = method( Options => optNuList, TypicalValue => List );
+nuList = method( Options => optNu, TypicalValue => List );
 
 nuList ( ZZ, Ideal, Ideal ) := List => o -> ( e, I, J ) ->
     nuInternal( e, I, J, o )

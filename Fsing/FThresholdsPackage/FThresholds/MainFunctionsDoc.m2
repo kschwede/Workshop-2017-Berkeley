@@ -448,10 +448,8 @@ doc ///
          (nu,ZZ,Ideal)
          (nu,ZZ,RingElement,Ideal)
          (nu,ZZ,RingElement)
-         [nu, ComputePreviousNus]
          [nu, ContainmentTest]
          [nu, Search]
-         [nu, UseColonIdeals]
      Headline
         computes the largest power of an ideal not contained in a specified Frobenius power
      Usage
@@ -464,14 +462,10 @@ doc ///
          I:Ideal
          J:Ideal
          f:RingElement
-         ComputePreviousNus => Boolean
-             specifies whether to compute {\tt nu(d,I,J)} for $d = 0, \cdots, e-1$ to aid in the computation of {\tt nu(e,I,J)}
          ContainmentTest => Symbol
              specifies the manner in which to verify the containment of a power of $I$ in some specified Frobenius power of $J$
          Search => Symbol
             specifies the strategy in which to search for the largest integer $n$ such that $I^n$ is not contained in some specified Frobenius power of $J$.
-         UseColonIdeals => Boolean
-             specifies whether to use colon ideals in a recursive manner when computing {\tt nu(e,I,J)}
      Outputs
         :ZZ
           the $nu$-invarants whose normalized limits compute the $F$-pure threshold, and more generally, $F$-thresholds.
@@ -506,14 +500,6 @@ doc ///
             generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).  This relation implies that when searching
             for {\tt nu(e+1,I,J)}, it is always safe to start at $p$ times {\tt nu(e,I,J)}, and one needn't search too far past this number.
 
-            The option {\tt ComputePreviousNus}, whose default value is {\tt true}, exploits this observation, and computes {\tt nu(d,I,J)}
-            for $d = 0, \cdots, e-1$ to aid in the computation of {\tt nu(e,I,J)}.  It usually leads to faster computations.
-        Example
-            S=ZZ/79[x,y];
-            f=x^5+x^4*y+x^3*y^2+x^2*y^3+x*y^4+y^5; -- a homogeneous polynomial of degree 5 in x,y
-            time nu(10,f)
-            time nu(10,f, ComputePreviousNus=>false)
-        Text
             The valid values for the option {\tt ContainmentTest} are {\tt FrobeniusPower, FrobeniusRoot}, and {\tt StandardPower}.
             The default value of this option depends on what is passed to {\tt nu}.  Indeed, by default, {\tt ContainmentTest} is set to
             {\tt FrobeniusRoot} if {\tt nu} is passed a ring element $f$, and is set to {\tt StandardPower} if {\tt nu} is passed an ideal $I$.
@@ -552,14 +538,6 @@ doc ///
             time nu(2,M,M^2,Search=>Binary)
             time nu(2,M,M^2,Search=>BinaryRecursive)
             time nu(2,M,M^2,Search=>Linear)
-        Text
-            The option {\tt UseColonIdeals} specifies whether or not {\tt nu} uses colon ideals to compute $\nu$ in an iterative way.
---to do:  Add example that illustrates the difference.  If we can't find one, maybe remove this option.
-        Example
-            ZZ/5[x,y,z];
-            f = 2*x^2*y^3*z^8+2*x^4*z^9+2*x*y^7*z^4;
-            time nu( 5, f ) --Use ColonIdeals is set to false, by default
-            time nu( 5, f, UseColonIdeals => true )
     SeeAlso
         nuList
 ///
@@ -573,7 +551,6 @@ doc ///
          (nuList,ZZ,RingElement)
          [nuList, ContainmentTest]
          [nuList, Search]
-         [nuList, UseColonIdeals]
      Headline
           computes a list of nu-values associated to a given F-threshold or F-pure threshold
      Usage
@@ -584,7 +561,6 @@ doc ///
           ContainmentTest => Symbol
               specifies the containment test used
           Search => Symbol
-          UseColonIdeals => Boolean
      Inputs
          e:ZZ
          I:Ideal
@@ -637,21 +613,6 @@ doc ///
     SeeAlso
         nu
         nuList
-///
-
-doc ///
-     Key
-          UseColonIdeals
-     Headline
-          an option to use colon ideals to compute nus in an iterative way
-     Description
-          Text
-              An option for @TO nu@ and @TO nuList@ to use colon ideals to compute nus in an iterative way.
-
-              Valid values are {\tt true} and {\tt false}.
-     SeeAlso
-          nu
-          nuList
 ///
 
 doc ///
