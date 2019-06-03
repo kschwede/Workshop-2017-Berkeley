@@ -64,11 +64,9 @@ PackageExports => {"TestIdeals"}
 )
 
 export{
-    --"Attempts",
---F-thresholds computations (MainFunctions.m2)
+    --F-thresholds computations (MainFunctions.m2)
     "BinaryRecursive",
     "compareFPT",
-    "ComputePreviousNus",
     "ContainmentTest",
     "approximateCriticalExponent",
     "fpt",
@@ -76,15 +74,13 @@ export{
     "FRegularityCheck",
     "FrobeniusPower",
     "FrobeniusRoot",
-    "approximateft",
+    "approximateFT",
     "isFJumpingExponent",
     "isFPT",
     "MaxChecks",
     "nu",
     "nuList",
     "Search",
-    "StandardPower",
-    "UseColonIdeals",
     "UseFSignature",
     "UseSpecialAlgorithms"
 }
