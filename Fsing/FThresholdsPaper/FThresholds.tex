@@ -105,7 +105,7 @@ urlcolor=OliveGreen
 
 This paper describes the \emph{Macaulay2} package \emph{FThresholds}, which provides tools for computing certain fundamental invariants arising in prime characteristic commutative algebra, namely, \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.  Recall that a ring $R$ of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius morphism $F : R \to R$ sending an element to its $p^\text{th}$ power is a pure morphism (under geometric hypotheses, this is equivalent to the condition that the Frobenius morphism is split).  The notion of $F$-purity appeared first in the work of Hochster and Roberts in \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in \cite{FedderFPureRat}, and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.  
 
-After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of the Frobenius endomorphism to measure singularities proliferated, and based on a strong connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a positive rational number $t$ considered as a formal exponent.  Along these lines, the notion of the \emph{$F$-pure threshold} (or $\fpt$) was defined in analogy with the log canonical threshold (or $\lct$) \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  The $\fpt$ of $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure, and the functionality computing this number is the core of this package.  As a further generalization, the notion of \emph{$F$-threshold} was also introduced.  All of these \emph{thresholds} have been the focus of intense study over the past 15 years.
+After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of the Frobenius endomorphism to measure singularities proliferated, and based on a strong connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a positive rational number $t$ considered as a formal exponent.  Along these lines, the notion of the \emph{$F$-pure threshold} (or $\fpt$) was defined in analogy with the log canonical threshold (or $\lct$) \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  The $\fpt$ of $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure, and the functionality computing this number is the core of this package.  As a further generalization, the notion of \emph{$F$-threshold} was also introduced.  All of these \emph{thresholds} have been the focus of intense study over the past fifteen years.
 
 There are three main sections in this paper, describing the functionality implemented in the \emph{Macaulay2} package \emph{FThresholds}. 
 \begin{itemize}
@@ -116,8 +116,7 @@ There are three main sections in this paper, describing the functionality implem
 
 This package builds heavily upon the \emph{TestIdeals} package, which provides a broad range of functionality in prime characteristic commutative algebra. 
 
-
-\noindent {\it Acknowledgements.}  First and foremost, the authors enthusiastically thank all contributors to the \emph{FThresholds} package:  Erin Bela, Juliette Bruce, Zhibek Kadyrsizova, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Dan Smolkin, and Robert Walker.  We thank the organizers of the five \emph{Macaulay2} workshops where much of the functionality in the package was develope, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016. 
+\subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all contributors to the \emph{FThresholds} package:  Erin Bela, Juliette Bruce, Zhibek Kadyrsizova, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Dan Smolkin, and Robert Walker.  We are also grateful the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016. 
 Finally, we thank the University of Utah for hosting a collaborative development visit in 2018, and the Institute of Mathematics and its Applications for its support for a Coding Sprint in 2019, where the current version of the package was finalized and this paper was completed. 
 
 \section{The $F$-pure threshold limit and {\tt nu}}
@@ -248,12 +247,12 @@ Again, this command works as long as $R$ is $\bQ$-Gorenstein with index not divi
 \section{The {\tt fpt} function}
 \label{sec.FPT}
 
-The core function in this package is the {\tt fpt} function.  Given a polynomial $f$ with coefficients in a finite field, the function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.  Otherwise, it returns lower and upper bounds for the $F$-pure threshold, as demonstrated below.
+The core function in this package is the {\tt fpt} function.  Throughout this section, let $f$ be a polynomial with coefficients in a finite field of characteristic $p$. When passed the polynomial $f$, the function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.  Otherwise, it returns lower and upper bounds for the $F$-pure threshold, as demonstrated below.
      
-\medskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+
 i1 : ZZ/5[x,y,z];
 
 i2 : fpt( x^3 + y^3 + z^3 + x*y*z )
@@ -271,16 +270,17 @@ o3 = {-, -}
       3  5
 
 o3 : List
+
 \end{MyVerbatim}
 }
             
-             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, respectively.
-             If it is one of these, algorithms of Hern\'andez, or Hern\'andez and Teixeira, {\color{red}  References?} are executed to compute the $F$-pure threshold of $f$.
+             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, in that order.
+             If it is one of these, algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.
 
-\medskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+
 i4 : fpt( x^17 + y^20 + z^24 ) -- a diagonal polynomial
 
       94
@@ -297,22 +297,23 @@ o5 : QQ
 
 i6 : ZZ/5[x,y];
 
-i7 : fpt( x^2*y^6*(x + y)^9*(x + 3*y)^10 ) -- a binary form in two variables
+i7 : fpt( x^2*y^6*(x + y)^9*(x + 3*y)^10 ) -- a form in two variables
 
       5787
 o7 = -----
      78125
 
 o7 : QQ
+
 \end{MyVerbatim}
 }
        
-            The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization. For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
+            The above noted algorithm for computing the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and {\tt fpt} can sometimes hang when attempting that factorization. For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$, and a list containing their respective multiplicities.
 
-\medskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+
 i8 : L = {x, y, x + y, x + 3*y};
 
 i9 : m = {2, 6, 9, 10};
@@ -320,85 +321,283 @@ i9 : m = {2, 6, 9, 10};
 i10 : fpt(L, m)==o7
 
 o10 = true
+
 \end{MyVerbatim}
 }
 
-The behavior of the {\tt fpt} function is more involved when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false}.  In the remainder of this section, we describe the behavior of the {\tt fpt} function in this case, as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.
+In the remainder of this section, we describe the {\tt fpt} function when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false},  as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.  
 
-            When no special algorithm is available or , then function {\tt fpt} computes {\tt nu}$(e,f)$, where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to $1$.
-            At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval {\color{red} Elaborate here} [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval.
-	    The number of "guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to 3.
-            If {\tt Attempts} is set to 0, {\tt guessFPT} is bypassed.
-            If  {\tt Attempts} is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval is the $F$-pure threshold.
+In this case, very roughly speaking, the {\tt fpt} function will either compute, and output, the exact value of the $F$-pure threshold of $f$, and otherwise recursively compute a finite sequence of upper and lower bounds for this value, and output the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.  %We note that a pair of bounds will be produced only if the exact value of the $F$-pure threshold remains undetermined.  
+
+In more detail, let $e$ denote the value of the option {\tt DepthofSearch}, which conservatively defaults to $1$.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well-known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval 
+%
+\begin{equation}
+\label{estimating-interval: e}
+\tag{$\dagger$}
+\left[ \frac{\nu}{p^e-1}, \frac{\nu+1}{p^e} \right].
+\end{equation}
+
+With these estimates in hand, the subroutine {\tt guessFPT} is called to make some ``educated guesses" in an attempt to identify the $F$-pure threshold within this interval, or at least narrow down this interval to produce improved estimates.  The number of ``guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to 3.  If {\tt Attempts} is set to 0, then {\tt guessFPT} is bypassed. If  {\tt Attempts} is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval \eqref{estimating-interval: e} the $F$-pure threshold.
  
-\begin{example}
-\[             f = x^2*(x + y)^3*(x + 3*y^2)^5;
-            fpt( f, Attempts => 0 ) -- a bad estimate
-            fpt( f, Attempts => 0, DepthOfSearch => 3 ) -- a better estimate
-            fpt( f, Attempts => 1, DepthOfSearch => 3 ) -- the right-hand endpoint (nu+1)/p^e is the fpt \] 
-\end{example}
+ We illustrate this below.
+ 
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
 
-            If  {\tt Attempts} is set to at least 2 and the right-hand endpoint $(\nu+1)/p^e$ is not the $F$-pure threshold, a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ is the $F$-pure threshold.
+i11 : f = x^2*(x + y)^3*(x + 3*y^2)^5;
 
-\begin{example}
-\[
-	    f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
-            fpt( f, Attempts => 1, DepthOfSearch => 3 )
-            fpt( f, Attempts => 2, DepthOfSearch => 3 ) -- the left-hand endpoint nu/(p^e-1) is the fpt
-\]
-\end{example} 
+i12 : fpt( f, Attempts => 0 ) -- a bad estimate
 
-            If neither endpoint is the $F$-pure threshold, and {\tt Attempts} is set to more than 2, additional checks are performed at numbers in the interval.
-            A number in the interval with minimal denominator is selected, and {\tt compareFPT} is used to test that number.
-            If that ``guess" is correct, its value is returned; otherwise, the information returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
+          1
+o12 = {0, -}
+          5
 
-\begin{example}
-\[             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
-            fpt( f, DepthOfSearch => 3, Attempts => 2 )
-            fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- an additional check sharpens the estimate
-            fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- and one more finds the exact answer
-\]
-\end{example} 
+o12 : List
 
-        
-            If {\tt guessFPT} is unsuccessful and {\tt UseFSignature} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
+i13 : fpt( f, Attempts => 0, DepthOfSearch => 3 ) -- a better estimate
 
-\begin{example}
-\[             f = x^5*y^6*(x + y)^9*(x^2 + y^3)^4;
-            fpt( f, DepthOfSearch => 3 )
-            fpt( f, DepthOfSearch => 3, UseFSignature => true )
-            numeric ooo
-            numeric ooo -- UseFSignature sharpened the estimate a bit \]
-\end{example}
+        21   22
+o13 = {---, ---}
+       124  125
 
-            When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run (if necessary) to verify whether the final lower bound for the $F$-pure threshold is the exact answer.
+o13 : List
 
-\begin{example}
-\[             f = (x + y)^4*(x^2 + y^3)^6;
-            fpt( f, Attempts => 2, DepthOfSearch => 3 )
-            fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) -- using FSignatures the answer improves a bit
-	    fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) -- FRegularityCheck finds the answer \] 
-\end{example}
+i14 : fpt( f, Attempts => 1, DepthOfSearch => 3 ) -- the right-hand endpoint (nu+1)/p^e is the fpt
 
-            The computations performed when {\tt UseFSignature} and {\tt FRegularityCheck} are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
+       22
+o14 = ---
+      125
+
+o14 : QQ
+
+\end{MyVerbatim}
+ 
+
+If  {\tt Attempts} is set to at least 2, and the right-hand endpoint $(\nu+1)/p^e$ of the interval \eqref{estimating-interval: e} is not the $F$-pure threshold, then a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ of this interval is the $F$-pure threshold.
+
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i15 : f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
+
+i16 : fpt( f, Attempts => 1, DepthOfSearch => 3 )
+
+       17   7
+o16 = {--, --}
+       62  25
+
+o16 : List
+
+i17 : fpt( f, Attempts => 2, DepthOfSearch => 3 ) -- the left-hand endpoint nu/(p^e-1) is the fpt
+
+      17
+o17 = --
+      62
+
+o17 : QQ
+
+\end{MyVerbatim}
+}
+
+            If neither endpoint is the $F$-pure threshold, and {\tt Attempts} is set to more than 2, additional checks are performed at certain numbers within the interval .  A number in the interval \eqref{estimating-interval: e} with minimal denominator is selected, and {\tt compareFPT} is used to test that number. If that ``guess" is correct, its value is returned; otherwise, the information returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
+
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i18 : f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
+
+i19 : fpt( f, DepthOfSearch => 3, Attempts => 2 )
+
+        3   7
+o19 = {--, ---}
+       62  125
+
+o19 : List
+
+i20 : fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- an additional check sharpens the estimate
+ 
+        3   1
+o20 = {--, --}
+       62  18
+
+o20 : List
+
+i21 : fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- and one more finds the exact answer
+
+       1
+o21 = --
+      19
+
+o21 : QQ
+
+\end{MyVerbatim}
+}
+
+
+If {\tt guessFPT} is unsuccessful and {\tt UseFSignature} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
+
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i22 : f = x^5*y^6*(x + y)^9*(x^2 + y^3)^4;
+
+i23 : fpt( f, DepthOfSearch => 3 )
+
+        2   1
+o23 = {--, --}
+       31  14
+
+o23 : List
+
+i24 : fpt( f, DepthOfSearch => 3, UseFSignature => true )
+
+        181   1
+o24 = {----, --}
+       2750  14
+
+o24 : List
+
+i25 : numeric o23
+
+o25 = {.0645161, .0714286}
+
+o25 : List
+
+i26 : numeric o24 -- UseFSignature sharpened the estimate a bit
+
+o26 = {.0658182, .0714286}
+
+o26 : List
+
+\end{MyVerbatim}
+}
+
+When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run (if necessary) to verify whether the final lower bound for the $F$-pure threshold is the exact answer.
+
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i27 : f = (x + y)^4*(x^2 + y^3)^6;
+
+i28 : fpt( f, Attempts => 2, DepthOfSearch => 3 )
+
+        3   13
+o28 = {--, ---}
+       31  125
+
+o28 : List
+
+i29 : fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) -- using FSignatures the answer improves a bit
+
+        1   13
+o29 = {--, ---}
+       10  125
+
+o29 : List
+
+i30 : fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) -- FRegularityCheck finds the answer
+
+       1
+o30 = --
+      10
+
+o30 : QQ
+
+\end{MyVerbatim}
+}
+
+The computations performed when {\tt UseFSignature} and {\tt FRegularityCheck} are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
             It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.
             
-\begin{example}            
-\[            f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
-	    timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true )
-            timing numeric fpt( f, Attempts => 5, DepthOfSearch => 3 ) -- a better answer in less time
-            timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less time
-\]
-\end{example} 
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+            
+i31: f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 
-            As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
-            Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
+i32 : timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true )
 
-\begin{example}
- \[           f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
-            fpt( f, DepthOfSearch => 3, UseFSignature => true, Verbose => true )
- \]
-  \end{example}
+o32 = {.0733061, .0769231}
+      -- 2.68899 seconds
+
+o32 : Time
+
+i33 : timing numeric fpt( f, Attempts => 5, DepthOfSearch => 3 ) -- a better answer in less time
+
+o33 = {.075, .0769231}
+      -- .893389 seconds
+
+o33 : Time
+
+i34 : timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less time
+
+       48
+o34 = ---
+      625
+      -- .361882 seconds
+
+o34 : Time
+
+\end{MyVerbatim}
+}            
+            
+As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.  Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
+
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i35 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
+
+i36 :  fpt( f, DepthOfSearch => 3, UseFSignature => true, Verbose => true )
+
+Starting fpt ...
+
+fpt is not 1 ...
+
+Verifying if special algorithms apply...
+
+Special fpt algorithms were not used ...
+
+nu has been computed: nu = nu(3,f) = 9 ...
+
+fpt lies in the interval [ nu/(p^e-1), (nu+1)/p^e ] = [ 9/124, 2/25 ] ...
+
+Starting guessFPT ...
+
+The right-hand endpoint is not the fpt ...
+
+The left-hand endpoint is not the fpt ...
+
+guessFPT narrowed the interval down to ( 9/124, 1/13 ) ...
+
+Beginning F-signature computation ...
+
+First F-signature computed: s(f,(nu-1)/p^e) = 456/15625 ...
+
+Second F-signature computed: s(f,nu/p^e) = 64/15625 ...
+
+Computed F-signature secant line intercept: 449/6125 ...
+
+F-signature intercept is an improved lower bound ...
+
+fpt failed to find the exact answer; try increasing the value of DepthOfSearch or Attempts.
+
+fpt lies in the interval [ 449/6125, 1/13 ).
+
+        449   1
+o36 = {----, --}
+       6125  13
+
+o36 : List
+
+\end{MyVerbatim}
+}
 
 
 \newpage
