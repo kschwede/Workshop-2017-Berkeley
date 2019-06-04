@@ -271,7 +271,8 @@ doc ///
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
 
-            The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}. 
+            The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
     SeeAlso
         compareFPT
         isFPT
@@ -308,11 +309,20 @@ doc ///
     Description
         Text
             Consider an element {\tt f} of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$, and a number {\tt t}. 
-            If {\tt t} is the $F$-pure threshold of {\tt f}, then the command {\tt isFPT(t, f)} outputs {\true}, and otherwise, outputs {\tt false}.         
+            If {\tt t} is the $F$-pure threshold of {\tt f}, then the command {\tt isFPT(t, f)} outputs {\tt true}, and otherwise, outputs {\tt false}.         
         Example
             R = ZZ/11[x,y];
-            f = x^3+y^2;
-            isFPT(9/11,f)
+            f = x^3 + y^2;
+            isFPT(9/11, f)
+        Text
+            If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation. 
+            Otherwise {\tt AssumeDomain} should be set to {\tt false} (its default value).
+
+            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
+            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
+
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}. 
+            The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
     SeeAlso
         compareFPT
         fpt
