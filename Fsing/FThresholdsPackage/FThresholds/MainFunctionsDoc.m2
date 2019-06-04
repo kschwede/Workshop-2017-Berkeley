@@ -58,8 +58,8 @@ doc ///
         an option for nu 
     Description
         Text
-            The option {\tt ContainmentTest} tells the function @TO nu@ which type of containment test to use.  
-            The valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
+            An option for the function @TO nu@ specifies which type of containment test to apply.  
+            Its valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
 ///
 
 doc ///
@@ -195,7 +195,7 @@ doc ///
         an option to use an F-regularity check to find an F-pure threshold
     Description
         Text
-            This option for the function @TO fpt@ specifies that, in a situation where the exact $F$-pure threshold was not found, a final check be run to determine whether the final lower bound for the $F$-pure threshold is actually its exact value.
+            This option for the function @TO fpt@ specifying that, in a situation where the precise value of the $F$-pure threshold has not been not found, a final check is run to determine whether the final lower bound for the $F$-pure threshold itself equals the $F$-pure threshold.
             Only takes on Boolean values.
     SeeAlso
         fpt
@@ -205,10 +205,10 @@ doc ///
     Key
         FrobeniusPower
     Headline
-        an option value to consider containment of Frobenius powers of ideals
+        an option value to consider containments of Frobenius powers of ideals
     Description
         Text
-            a value for the option {\tt ContainmentTest} to consider containment of Frobenius powers of ideals
+            a value for the option {\tt ContainmentTest} specifying that when verifying containments of powers of ideals, Frobenius powers are used. 
     SeeAlso
         nu
 ///
@@ -217,10 +217,10 @@ doc ///
     Key
         FrobeniusRoot
     Headline
-        an option value to consider containment of Frobenius roots of ideals
+        an option value to consider containments of Frobenius roots of ideals
     Description
         Text
-            a value for the option {\tt ContainmentTest} to consider containment of Frobenius roots of ideals
+            a value for the option {\tt ContainmentTest} specifying that when verifying containments of powers of ideals, Frobenius roots of the ideals are used. 
     SeeAlso
         nu
 ///
@@ -432,12 +432,11 @@ doc ///
      Key
           Search
      Headline
-          an option to specify the search method
+          an option to specify the search method for testing containments of powers of ideals
      Description
           Text
-              An option for function @TO nu@ to specify the order in which ideal the containment of powers are computed.
-
-              Valid values are {\tt Binary} and {\tt Linear}.
+              An option for function @TO nu@ specifies the order in which to compute containment of powers of ideals.
+              Its valid values are {\tt Binary} and {\tt Linear}.
      SeeAlso
           nu
 ///
