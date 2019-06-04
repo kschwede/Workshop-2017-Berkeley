@@ -283,35 +283,37 @@ doc ///
 ///
 
 doc ///
-     Key
+    Key
         isFPT
-        (isFPT,Number,RingElement)
-        [isFPT, FrobeniusRootStrategy]
+        (isFPT, Number, RingElement)
         [isFPT, AssumeDomain]
+        [isFPT, FrobeniusRootStrategy]
         [isFPT, MaxCartierIndex]
         [isFPT, QGorensteinIndex]
-     Headline
-        Checks whether a given number is the F-pure threshold
-     Usage
-          isFPT(t,f,Verbose=>V,Origin=>W)
-     Inputs
-        t:QQ
+    Headline
+        checks whether a given rational number is the F-pure threshold
+    Usage
+        isFPT(t, f)
+    Inputs
+        t:Number
+            a number that is a candidate for the $F$-pure threshold of {\tt f}
         f:RingElement
-        V:Boolean
-        W:Boolean
+            an element of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$
         FrobeniusRootStrategy => Symbol
             an option passed to computations in the TestIdeals package
         AssumeDomain => Boolean
+            assumes the ring passed is an integral domain
         MaxCartierIndex => ZZ
+            sets the maximum $\mathbb{Q}$-Gorenstein index to search for 
         QGorensteinIndex => ZZ
-     Outputs
+            specifies the $\mathbb{Q}$-Gorenstein index of the ring
+    Outputs
         :Boolean
-     Description
+            the value {\tt true} if {\tt t} is the $F$-pure threshold of $f$, and {\tt false} otherwise 
+    Description
         Text
-            Returns true if t is the $F$-pure threshold, otherwise it returns false.
-            If {\tt Origin} is true, it only checks it at the homogeneous maximal ideal.
-
-            The options are the same as in @TO compareFPT@.
+            Consider an element {\tt f} of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$, and a number {\tt t}. 
+            If {\tt t} is the $F$-pure threshold of {\tt f}, then the command {\tt isFPT(t, f)} outputs {\true}, and otherwise, outputs {\tt false}.         
         Example
             R = ZZ/11[x,y];
             f = x^3+y^2;

@@ -1,6 +1,5 @@
 \documentclass{amsart}
 \usepackage{calc,amssymb,amsthm,amsmath,setspace}
-%\usepackage{mathtools}
 \RequirePackage[dvipsnames,usenames]{xcolor}
 
 \usepackage{fancyvrb}
@@ -28,67 +27,58 @@ urlcolor=OliveGreen
 \usepackage{colonequals}
 \frenchspacing
 \input{kmacros3.sty}
-\usepackage{stmaryrd}
 
 \usepackage{verbatim}
 \usepackage{enumerate}
-
 \usepackage[normalem]{ulem}
 %\usepackage{marginnote}
-
-\DeclareMathOperator{\HH}{H}
 \newcommand{\fram}{\mathfrak{m}}
-%\DeclareMathOperator{\Image}{image}
-
 \DefineVerbatimEnvironment%
-  {MyVerbatim}{Verbatim}
-  {formatcom=\color{Violet}}
+{MyVerbatim}{Verbatim}
+{formatcom=\color{Violet}}
 
-\renewcommand{\geq}{\geqslant}
-\renewcommand{\leq}{\leqslant}
-\renewcommand{\ge}{\geqslant}
-\renewcommand{\le}{\leqslant}
 
-\newtheorem*{caveat}{Caveat}
+
+
 
 \begin{document}
-\title{The  \emph{TestIdeals} package for \emph{Macaulay2}}
-\author[Alberto F.\ Boix et al.]{Alberto F.\ Boix}
-\address{Department of Mathematics, Ben-Gurion University of the Negev, Beer-Sheva 8410501, Israel}
-\email{fernanal@post.bgu.ac.il}
-\thanks{A.F.\,Boix was supported by Israel Science Foundation (grant No. 844/14) and Spanish Ministerio de Econom\'ia y Competitividad MTM2016-7881-P}
+\title{The  \emph{FThresholds} package for \emph{Macaulay2}}
+%\author[Alberto F.\ Boix et al.]{Alberto F.\ Boix}
+%\address{Department of Mathematics, Ben-Gurion University of the Negev, Beer-Sheva 8410501, Israel}
+%\email{fernanal@post.bgu.ac.il}
+%\thanks{A.F.\,Boix was supported by Israel Science Foundation (grant No. 844/14) and Spanish Ministerio de Econom\'ia y Competitividad MTM2016-7881-P}
 
 \author[]{Daniel J.\ Hern\'andez}
 \address{Department of Mathematics, University of Kansas, Lawrence, KS~66045, USA}
 \email{hernandez@ku.edu}
 \thanks{D.~J.~Hern\'andez was partially supported by NSF DMS \#1600702.}
 
-\author[]{Zhibek Kadyrsizova}
-\address{School of Science and Technology, Nazarbayev University, Astana, 010000, Republic of Kazakhstan}
-\email{zhibek.kadyrsizova@nu.edu.kz}
-\thanks{Z. Kadyrsizova was partially supported by NSF DMS \#1401384 and the Barbour Scholarship at the University of Michigan.}
+%\author[]{Zhibek Kadyrsizova}
+%\address{School of Science and Technology, Nazarbayev University, Astana, 010000, Republic of Kazakhstan}
+%\email{zhibek.kadyrsizova@nu.edu.kz}
+%\thanks{Z. Kadyrsizova was partially supported by NSF DMS \#1401384 and the Barbour Scholarship at the University of Michigan.}
 
-\author[]{Mordechai Katzman}
-\address{Department of Pure Mathematics, University of Sheffield, Sheffield S37RH, United Kingdom}
-\email{M.Katzman@sheffield.ac.uk}
+%\author[]{Mordechai Katzman}
+%\address{Department of Pure Mathematics, University of Sheffield, Sheffield S37RH, United Kingdom}
+%\email{M.Katzman@sheffield.ac.uk}
 
-\author[]{Sara Malec}
-\address{Department of Mathematics, Hood College, Frederick, MD 21701}
-\email{malec@hood.edu}
+%\author[]{Sara Malec}
+%\address{Department of Mathematics, Hood College, Frederick, MD 21701}
+%\email{malec@hood.edu}
 
-\author[]{Marcus Robinson}
-\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
-\email{robinson@math.utah.edu}
+%\author[]{Marcus Robinson}
+%\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
+%\email{robinson@math.utah.edu}
 
 \author[]{Karl Schwede}
 \address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
 \thanks{K.~Schwede was supported by NSF CAREER Grant DMS \#1252860/1501102, NSF FRG Grant DMS \#1265261/1501115, NSF grant \#1801849 and a Sloan Fellowship.}
 \email{schwede@math.utah.edu}
 
-\author[]{Daniel Smolkin}
-\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
-\email{smolkin@math.utah.edu}
-\thanks{D.~Smolkin was supported by NSF RTG Grant DMS \#1246989, NSF CAREER Grant DMS \#1252860/1501102, and NSF FRG Grant DMS \#1265261/1501115.}
+%\author[]{Daniel Smolkin}
+%\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
+%\email{smolkin@math.utah.edu}
+%\thanks{D.~Smolkin was supported by NSF RTG Grant DMS \#1246989, NSF CAREER Grant DMS \#1252860/1501102, and NSF FRG Grant DMS \#1265261/1501115.}
 
 \author[]{Pedro Teixeira}
 \address{Department of Mathematics, Knox College, Galesburg, IL~61401, USA}
@@ -101,7 +91,7 @@ urlcolor=OliveGreen
 \date{\today}
 
 \begin{abstract}
-	This note describes a \emph{Macaulay2} package for computations of $F$(-pure) thresholds in characteristic $p > 0$ commutative algebra.  
+	This note describes a \emph{Macaulay2} package for computations of $F$-pure thresholds, more general $F$-thresholds, and other related numerical invariants, in prime characteristic commutative algebra.  
 \end{abstract}
 
 
@@ -113,7 +103,7 @@ urlcolor=OliveGreen
 
 \section{Introduction}
 
-This paper describes a Macaulay2 package which provides tools to compute, $F$-pure thresholds, $F$-thresholds and $F$-jumping exponents.  Recall first that a ring $R$ is $F$-pure if the Frobenius morphism $F : R \to R$ is a pure morphism (under geometric hypotheses, this is equivalent to Frobenius being split).  The notion of $F$-purity appeared first in the work of Hochster and Roberts in \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in \cite{FedderFPureRat} and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.  After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of Frobenius to measure singularities proliferated and based on a tight connection discovered between $F$-pure and log canonical singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$ where $f \in R$ and $t \in \bQ_{\geq 0}$ is a formal exponent.  Along these lines the notion of the \emph{$F$-pure threshold} (or $\fpt$) was defined in analogy with the log canonical threshold (or $\lct$) \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  The $\fpt$ of $(R, f)$ is the supremum over all $t$ such that $(R, f^t)$ is $F$-pure, and the functionality computing this number is the core of this package.    As a further generalization, the notion of \emph{$F$-threshold} was also introduced.  All of these \emph{thresholds} have been the focus of intense study over the past 15 years.
+This paper describes a Macaulay2 package which provides tools to compute, $F$-pure thresholds, $F$-thresholds and $F$-jumping exponents.  Recall first that a ring $R$ is $F$-pure if the Frobenius morphism $F : R \to R$ is a pure morphism (under geometric hypotheses, this is equivalent to Frobenius being split).  The notion of $F$-purity appeared first in the work of Hochster and Roberts in \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in \cite{FedderFPureRat} and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.  After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of Frobenius to measure singularities proliferated and based on a tight connection discovered between $F$-pure and log canonical singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$ where $f \in R$ and $t \in \bQ_{\geq 0}$ is a formal exponent.  Along these lines the notion of the \emph{$F$-pure threshold} (or $\fpt$) was defined in analogy with the log canonical threshold (or $\lct$) \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  The $\fpt$ of $(R, f)$ is the supremum over all $t$ such that $(R, f^t)$ is $F$-pure, and the functionality computing this number is the core of this package.  As a further generalization, the notion of \emph{$F$-threshold} was also introduced.  All of these \emph{thresholds} have been the focus of intense study over the past 15 years.
 
 There are three main sections in this paper
 \begin{itemize}
@@ -250,14 +240,164 @@ The command {\tt isFJumpingExponent} is implemented similarly, a value $t$ is an
 Again, this command works as long as $R$ is $\bQ$-Gorenstein with index not divisible by $p$. 
 
 
-\section{\tt fpt}
+\newpage
+\section{The {\tt fpt} function}
 \label{sec.FPT}
 
-The core function in this package is the {\tt fpt} function.  Given an element $f \in R = k[x_1, \dots, x_n]$, the {\tt fpt} function tries to compute the $F$-pure threshold of $f$.  It does this in the following way:
+The core function in this package is the {\tt fpt} function.  Given a polynomial $f$ with coefficients in a finite field, the function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.  Otherwise, it returns lower and upper bounds for the $F$-pure threshold, as demonstrated below.
+     
+\medskip
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+i1 : ZZ/5[x,y,z];
 
-\section{}
+i2 : fpt( x^3 + y^3 + z^3 + x*y*z )
+
+     4
+o2 = -
+     5
+
+o2 : QQ
+
+i3 : fpt( x^5 + y^6 + z^7 + (x*y*z)^3 )
+
+      1  2
+o3 = {-, -}
+      3  5
+
+o3 : List
+\end{MyVerbatim}
+}
+            
+             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, respectively.
+             If it is one of these, algorithms of Hern\'andez, or Hern\'andez and Teixeira, {\color{red}  References?} are executed to compute the $F$-pure threshold of $f$.
+
+\medskip
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+i4 : fpt( x^17 + y^20 + z^24 ) -- a diagonal polynomial
+
+      94
+o4 = ---
+     625
+     
+i5 : fpt( x^2*y^6*z^10 + x^10*y^5*z^3 ) -- a binomial
+
+      997
+o5 = ----
+     6250
+
+o5 : QQ     
+
+i6 : ZZ/5[x,y];
+
+i7 : fpt( x^2*y^6*(x + y)^9*(x + 3*y)^10 ) -- a binary form in two variables
+
+      5787
+o7 = -----
+     78125
+
+o7 : QQ
+\end{MyVerbatim}
+}
+       
+            The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization. For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
+
+\medskip
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+i8 : L = {x, y, x + y, x + 3*y};
+
+i9 : m = {2, 6, 9, 10};
+
+i10 : fpt(L, m)==o7
+
+o10 = true
+\end{MyVerbatim}
+}
+
+The behavior of the {\tt fpt} function is more involved when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false}.  In the remainder of this section, we describe the behavior of the {\tt fpt} function in this case, as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.
+
+            When no special algorithm is available or , then function {\tt fpt} computes {\tt nu}$(e,f)$, where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to $1$.
+            At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval {\color{red} Elaborate here} [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval.
+	    The number of "guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to 3.
+            If {\tt Attempts} is set to 0, {\tt guessFPT} is bypassed.
+            If  {\tt Attempts} is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval is the $F$-pure threshold.
+ 
+\begin{example}
+\[             f = x^2*(x + y)^3*(x + 3*y^2)^5;
+            fpt( f, Attempts => 0 ) -- a bad estimate
+            fpt( f, Attempts => 0, DepthOfSearch => 3 ) -- a better estimate
+            fpt( f, Attempts => 1, DepthOfSearch => 3 ) -- the right-hand endpoint (nu+1)/p^e is the fpt \] 
+\end{example}
+
+            If  {\tt Attempts} is set to at least 2 and the right-hand endpoint $(\nu+1)/p^e$ is not the $F$-pure threshold, a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ is the $F$-pure threshold.
+
+\begin{example}
+\[
+	    f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
+            fpt( f, Attempts => 1, DepthOfSearch => 3 )
+            fpt( f, Attempts => 2, DepthOfSearch => 3 ) -- the left-hand endpoint nu/(p^e-1) is the fpt
+\]
+\end{example} 
+
+            If neither endpoint is the $F$-pure threshold, and {\tt Attempts} is set to more than 2, additional checks are performed at numbers in the interval.
+            A number in the interval with minimal denominator is selected, and {\tt compareFPT} is used to test that number.
+            If that ``guess" is correct, its value is returned; otherwise, the information returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
+
+\begin{example}
+\[             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
+            fpt( f, DepthOfSearch => 3, Attempts => 2 )
+            fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- an additional check sharpens the estimate
+            fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- and one more finds the exact answer
+\]
+\end{example} 
+
+        
+            If {\tt guessFPT} is unsuccessful and {\tt UseFSignature} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
+
+\begin{example}
+\[             f = x^5*y^6*(x + y)^9*(x^2 + y^3)^4;
+            fpt( f, DepthOfSearch => 3 )
+            fpt( f, DepthOfSearch => 3, UseFSignature => true )
+            numeric ooo
+            numeric ooo -- UseFSignature sharpened the estimate a bit \]
+\end{example}
+
+            When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run (if necessary) to verify whether the final lower bound for the $F$-pure threshold is the exact answer.
+
+\begin{example}
+\[             f = (x + y)^4*(x^2 + y^3)^6;
+            fpt( f, Attempts => 2, DepthOfSearch => 3 )
+            fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) -- using FSignatures the answer improves a bit
+	    fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) -- FRegularityCheck finds the answer \] 
+\end{example}
+
+            The computations performed when {\tt UseFSignature} and {\tt FRegularityCheck} are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
+            It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.
+            
+\begin{example}            
+\[            f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
+	    timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true )
+            timing numeric fpt( f, Attempts => 5, DepthOfSearch => 3 ) -- a better answer in less time
+            timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less time
+\]
+\end{example} 
+
+            As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
+            Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
+
+\begin{example}
+ \[           f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
+            fpt( f, DepthOfSearch => 3, UseFSignature => true, Verbose => true )
+ \]
+  \end{example}
 
 
+\newpage
 \bibliographystyle{skalpha}
 \bibliography{MainBib}
 
