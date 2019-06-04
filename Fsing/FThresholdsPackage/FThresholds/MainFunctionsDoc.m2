@@ -486,8 +486,6 @@ doc ///
         Text
             An option for function @TO nu@ specifies the order in which to compute containment of powers of ideals.         
             Valid values are {\tt Binary} and {\tt Linear}.  Default value is {\tt Binary}. 
-    SeeAlso
-        nu
 ///
 
 doc ///
@@ -512,8 +510,6 @@ doc ///
         Text
             An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.  
             Takes on Boolean values.
-    SeeAlso
-        fpt
 ///
 
 doc ///
@@ -526,6 +522,4 @@ doc ///
             An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial (i.e., a homogeneous polynomial in two variables), or a binary form, in which case, a specialized algorithm of Hernandez, or Hernandez and Teixeira, is applied. 
             Takes on Boolean values.
             Default value is {\tt true}.
-    SeeAlso
-        fpt
 ///
