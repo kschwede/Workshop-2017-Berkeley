@@ -169,8 +169,9 @@ assert(compareFPT(61/120, f) == 1)
 ///
 
 TEST ///
-T = ZZ/7[a,b];
-S = ZZ/7[x,y,z,w];
+p = 7;
+T = ZZ/p[a,b];
+S = ZZ/p[x,y,z,w];
 f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
 I = ker f;
 R = S/I;
