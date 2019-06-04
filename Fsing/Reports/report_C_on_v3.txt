@@ -1,0 +1,27 @@
+further technical comments on 181019-Schwede-v3
+
+examples run, the package installs, and the tests work
+
+=============================================================================
+comments on the paper:
+
+Change "The TestIdeals.m2 package" to "The package TestIdeals" and put
+"TestIdeals" in italic instead of typewriter font.  Part of the point that a
+package and a file are not necessarily the same thing.  There are other package
+names that have to be fixed, too.  The reason for the face change is that a
+package is an academic work, not just a computer thing.
+
+
+=============================================================================
+comments on the documentation:
+
+
+=============================================================================
+comments on the code:
+
+remove these lines:
+
+    DebuggingMode => true,
+    Reload => true,
+
+=============================================================================
