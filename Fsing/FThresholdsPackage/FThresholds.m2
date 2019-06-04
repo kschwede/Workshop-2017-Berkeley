@@ -68,7 +68,6 @@ export{
     "ContainmentTest",
     "fpt",
     "FRegularityCheck",
-    "StandardPower",
     "FrobeniusPower",
     "FrobeniusRoot",
     "isFJumpingExponent",
@@ -76,6 +75,7 @@ export{
     "nu",
     "ReturnList",
     "Search",
+    "StandardPower",
     "UseFSignature",
     "UseSpecialAlgorithms"
 }
