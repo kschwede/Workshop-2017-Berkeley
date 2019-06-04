@@ -61,11 +61,8 @@ diagonalFPT = method( TypicalValue => QQ )
 
 diagonalFPT RingElement := QQ => f ->
 (
---    if not isDiagonal f then 
---        error "diagonalFPT: expected a diagonal polynomial over a field of positive characteristic";
--- -- (Being verified already by fpt) 
     p := char ring f;
-    w := apply( terms f, g -> 1/( first degree g ) );  
+    w := apply( exponents f, i -> 1/(sum i)); 
     -- w = list of reciprocals of the powers of the variables appearing in f
     fc := firstCarry( p, w );
     if fc == -1 then sum w

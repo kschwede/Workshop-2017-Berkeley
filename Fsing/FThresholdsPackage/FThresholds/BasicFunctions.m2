@@ -205,7 +205,7 @@ isBinomial (RingElement) := Boolean => f ->
 isBinaryForm = method( TypicalValue => Boolean )
 
 isBinaryForm RingElement := Boolean => F ->
-    isPolynomial F and numgens ring F == 2 and isHomogeneous F 
+    isPolynomial F and numgens ring F == 2 and same(apply( exponents F, i -> sum i))
 
 -*
 --===============================================================================

@@ -55,11 +55,12 @@ doc ///
     Key
         ContainmentTest
     Headline
-        an option for nu 
+        an option for nu specifying the type of containment of powers of ideals
     Description
         Text
-            An option for the function @TO nu@ specifies which type of containment test to apply.  
-            Its valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
+            An option for the function @TO nu@ specifying which type of containment test to apply.  
+            Valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
+            Default value is {\tt FrobeniusRoot} when @TO nu@ is passed a ring element, and is {\tt StandardPower} when passed an ideal.
 ///
 
 doc ///
@@ -195,8 +196,9 @@ doc ///
         an option to use an F-regularity check to find an F-pure threshold
     Description
         Text
-            This option for the function @TO fpt@ specifying that, in a situation where the precise value of the $F$-pure threshold has not been not found, a final check is run to determine whether the final lower bound for the $F$-pure threshold itself equals the $F$-pure threshold.
-            Only takes on Boolean values.
+            An option for the function @TO fpt@ specifying that, in a situation where the precise value of the $F$-pure threshold has not been not found, a final check is run to determine whether the final lower bound for the $F$-pure threshold itself equals the $F$-pure threshold.
+        Takes on Boolean values.  
+        Default value is {\tt false}. 
     SeeAlso
         fpt
 ///
@@ -208,8 +210,9 @@ doc ///
         an option value to consider containments of Frobenius powers of ideals
     Description
         Text
-            a value for the option {\tt ContainmentTest} specifying that when verifying containments of powers of ideals, Frobenius powers are used. 
+            A value for the option {\tt ContainmentTest} specifying that when verifying containments of powers of ideals, Frobenius powers are used. 
     SeeAlso
+        ContainmentTest
         nu
 ///
 
@@ -220,8 +223,9 @@ doc ///
         an option value to consider containments of Frobenius roots of ideals
     Description
         Text
-            a value for the option {\tt ContainmentTest} specifying that when verifying containments of powers of ideals, Frobenius roots of the ideals are used. 
+            A value for the option {\tt ContainmentTest} specifying that when verifying containments of powers of ideals, Frobenius roots of the ideals are used. 
     SeeAlso
+        ContainmentTest
         nu
 ///
 
@@ -447,28 +451,28 @@ doc ///
 ///
 
 doc ///
-     Key
-          Search
-     Headline
-          an option to specify the search method for testing containments of powers of ideals
-     Description
-          Text
-              An option for function @TO nu@ specifies the order in which to compute containment of powers of ideals.
-              Its valid values are {\tt Binary} and {\tt Linear}.
-     SeeAlso
-          nu
+    Key
+        Search
+    Headline
+        an option to specify the search method for testing containments of powers of ideals
+    Description
+        Text
+            An option for function @TO nu@ specifies the order in which to compute containment of powers of ideals.         
+            Valid values are {\tt Binary} and {\tt Linear}.  Default value is {\tt Binary}. 
+    SeeAlso
+        nu
 ///
 
 doc ///
     Key
         StandardPower
     Headline
-        an option value to consider containment of standard power of an ideal in Frobenius power of another ideal
+        an option value to consider containment of the standard power of an ideal in the Frobenius power of another ideal
     Description
         Text
-            A value for the option {\tt ContainmentTest} to consider containment of the standard power of an ideal in the
-            Frobenius power of another ideal
+            A value for the option {\tt ContainmentTest} specifying that when verifying containments of powers of ideals, to check whether the standard power of an ideal is contained in the Frobenius power of another ideal. 
     SeeAlso
+        ContainmentTest
         nu
 ///
 
@@ -476,30 +480,25 @@ doc ///
     Key
         UseFSignature
     Headline
-        whether to use the F-signature function in the search for an F-pure threshold
+        an option to specify whether to use the F-signature function in the search for an F-pure threshold
     Description
         Text
-            This option for the function @TO fpt@ specifies that the convexity of the $F$-signature function and a secant line argument be used, in an attempt to narrow down the interval bounding the $F$-pure threshold.
-            Only takes on Boolean values.
+            An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.  
+            Takes on Boolean values.
     SeeAlso
         fpt
 ///
 
 doc ///
-     Key
-          UseSpecialAlgorithms
-     Headline
-          an option to check whether the input is a diagonal polynomial, binomial, or binary form
-     Description
-          Text
-              An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial,
-              or a binary form.
-              If {\tt true}, the function @TO fpt@ first checks whether the input
-              is a diagonal polynomial, a binomial, or a binary form (i.e., a homogeneous polynomial in two variables).
-              If it is, the function @TO fpt@ applies specialized algorithms of D. Hernandez, or D. Hernandez and P. Teixeira.
-
-              Can take on only Boolean values.
-              The default value is {\tt true}.
-     SeeAlso
-          fpt
+    Key
+        UseSpecialAlgorithms
+    Headline
+        an option to check whether the input is a diagonal polynomial, a binomial, or a binary form, in which case appropriate algorithms can be applied toward computing an F-pure threshold
+    Description
+        Text
+            An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial (i.e., a homogeneous polynomial in two variables), or a binary form, in which case, a specialized algorithm of Hernandez, or Hernandez and Teixeira, is applied. 
+            Takes on Boolean values.
+            Default value is {\tt true}.
+        SeeAlso
+            fpt
 ///

@@ -479,7 +479,7 @@ fpt RingElement := o -> f ->
     );
 
     ------------------------------
-    -- FINAL F_REGULARITY CHECK --
+    -- FINAL F-REGULARITY CHECK --
     ------------------------------
     if o.FRegularityCheck and not strictLB then
     (
