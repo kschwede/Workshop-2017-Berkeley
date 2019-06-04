@@ -168,7 +168,7 @@ assert(compareFPT(1/2, f) == 0)
 assert(compareFPT(61/120, f) == 1)
 ///
 
-TEST ///
+TEST /// --checking FPT in an example of a QGorenstein ambient ring
 p = 7;
 T = ZZ/p[a,b];
 S = ZZ/p[x,y,z,w];
@@ -179,6 +179,20 @@ g = sub(x, R);
 assert(compareFPT(113/342, g) == -1)
 assert(compareFPT(1/3, g) == 0)
 assert(compareFPT(17/49, g) == 1)
+///
+
+TEST /// --checking FPT in an example of a QGorenstein ambient ring where the
+--index does not divide p-1
+p = 5;
+T = ZZ/p[a,b];
+S = ZZ/p[x,y,z,w];
+f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
+I = ker f;
+R = S/I;
+g = sub(x, R);
+assert(compareFPT(24/75, g) == -1)
+assert(compareFPT(1/3, g) == 0)
+assert(compareFPT(25/74, g) == 1)
 ///
 
 TEST ///--(p+1) lines through the origin
@@ -204,6 +218,44 @@ R =ZZ/p[x,y];
 f = x^13-y^5;
 assert(isFJumpingExponent(36/65, f));
 assert(not isFJumpingExponent(37/65, f));
+///
+
+TEST ///--we veronese-ify the previous example (for a slightly different function)
+p = 7;
+T = ZZ/p[a,b];
+S = ZZ/p[x,y,z,w];
+f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
+I = ker f;
+R = S/I;
+g = x^7-w^3;
+h = a^21-b^9;
+assert(isFJumpingExponent(2/7, h));
+assert(not isFJumpingExponent(97/343, h));
+assert(isFJumpingExponent(2/7, g));
+assert(not isFJumpingExponent(97/343, g));
+assert(not(preimage(f,testIdeal(2/7, h)) == preimage(f,testIdeal((2*7^5-1)/7^6, h))));
+--verify it really is a jumping exponent
+///
+
+TEST ///--previous example, different characteristic (index does not divide p-1)
+p = 5;
+T = ZZ/p[a,b];
+S = ZZ/p[x,y,z,w];
+f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
+I = ker f;
+R = S/I;
+f2 = map(T, R, {a^3, a^2*b, a*b^2, b^3});
+g = x^7-w^3;
+h = a^21-b^9;
+assert(compareFPT(19/125, g) == 0);
+assert(compareFPT(18/124, g) == -1);
+assert(compareFPT((5*19+1)/625, g) == 1);
+assert(compareFPT(19/125, h) == 0);
+assert(isFJumpingExponent(2/5, h));
+assert(not isFJumpingExponent((2*5^3-1)/5^4, h));
+assert(isFJumpingExponent(2/5, g));
+assert(not isFJumpingExponent((2*5^3-1)/5^4, g));
+assert(not(preimage(f2,testIdeal(2/5, h)) == preimage(f2,testIdeal((2*5^5-1)/5^6, h))));
 ///
 
 TEST ///
