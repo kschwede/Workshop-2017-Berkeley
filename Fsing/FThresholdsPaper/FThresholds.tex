@@ -363,7 +363,9 @@ o13 = {---, ---}
 
 o13 : List
 
-i14 : fpt( f, Attempts => 1, DepthOfSearch => 3 ) -- the right-hand endpoint (nu+1)/p^e is the fpt
+i14 : fpt( f, Attempts => 1, DepthOfSearch => 3 ) -- the right-hand 
+
+      endpoint (nu+1)/p^e is the F-pure threshold
 
        22
 o14 = ---
@@ -390,7 +392,9 @@ o16 = {--, --}
 
 o16 : List
 
-i17 : fpt( f, Attempts => 2, DepthOfSearch => 3 ) -- the left-hand endpoint nu/(p^e-1) is the fpt
+i17 : fpt( f, Attempts => 2, DepthOfSearch => 3 ) -- the left-hand endpoint 
+
+      nu/(p^e-1) is the F-pure threshold
 
       17
 o17 = --
@@ -417,7 +421,9 @@ o19 = {--, ---}
 
 o19 : List
 
-i20 : fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- an additional check sharpens the estimate
+i20 : fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- an additional check 
+
+      sharpens the estimate
  
         3   1
 o20 = {--, --}
@@ -425,7 +431,9 @@ o20 = {--, --}
 
 o20 : List
 
-i21 : fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- and one more finds the exact answer
+i21 : fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- and one more finds 
+
+      the answer
 
        1
 o21 = --
@@ -492,7 +500,9 @@ o28 = {--, ---}
 
 o28 : List
 
-i29 : fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) -- using FSignatures the answer improves a bit
+i29 : fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) -- 
+
+      UseFSignature improves the answer a bit
 
         1   13
 o29 = {--, ---}
@@ -500,7 +510,9 @@ o29 = {--, ---}
 
 o29 : List
 
-i30 : fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) -- FRegularityCheck finds the answer
+i30 : fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, 
+ 
+      FRegularityCheck => true ) -- FRegularityCheck finds the answer
 
        1
 o30 = --
@@ -520,21 +532,26 @@ The computations performed when {\tt UseFSignature} and {\tt FRegularityCheck} a
             
 i31: f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 
-i32 : timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true )
+i32 : timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, 
+
+      FRegularityCheck => true )
 
 o32 = {.0733061, .0769231}
       -- 2.68899 seconds
 
 o32 : Time
 
-i33 : timing numeric fpt( f, Attempts => 5, DepthOfSearch => 3 ) -- a better answer in less time
+i33 : timing numeric fpt( f, Attempts => 5, DepthOfSearch => 3 ) -- a better 
+
+      answer in less time
 
 o33 = {.075, .0769231}
       -- .893389 seconds
 
 o33 : Time
 
-i34 : timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less time
+i34 : timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less 
+      time
 
        48
 o34 = ---
@@ -586,7 +603,9 @@ Computed F-signature secant line intercept: 449/6125 ...
 
 F-signature intercept is an improved lower bound ...
 
-fpt failed to find the exact answer; try increasing the value of DepthOfSearch or Attempts.
+fpt failed to find the exact answer; try increasing the value of 
+
+DepthOfSearch or Attempts.
 
 fpt lies in the interval [ 449/6125, 1/13 ).
 
