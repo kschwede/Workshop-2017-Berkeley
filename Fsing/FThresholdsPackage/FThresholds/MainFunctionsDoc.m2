@@ -308,7 +308,8 @@ doc ///
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
 
-            The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}. 
+            The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
     SeeAlso
         compareFPT
         isFPT
@@ -344,6 +345,7 @@ doc ///
             the value {\tt true} if {\tt t} is the $F$-pure threshold of $f$, and {\tt false} otherwise
     Description
         Text
+<<<<<<< HEAD
             Consider an element {\tt f} of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$ (of $\mathbb{Q}$-Gorenstein index not divisible by $p$),
             and a number {\tt t}.
             If {\tt t} is the $F$-pure threshold of {\tt f}, then the command {\tt isFPT(t, f)} outputs {\tt true}, and otherwise, outputs {\tt false}.
@@ -365,12 +367,27 @@ doc ///
             isFPT(1/3-1/10000, x)
         Text
             If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation.
+=======
+            Consider an element {\tt f} of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$, and a number {\tt t}. 
+            If {\tt t} is the $F$-pure threshold of {\tt f}, then the command {\tt isFPT(t, f)} outputs {\tt true}, and otherwise, outputs {\tt false}.         
+        Example
+            R = ZZ/11[x,y];
+            f = x^3 + y^2;
+            isFPT(9/11, f)
+        Text
+            If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation. 
+>>>>>>> cec12fed06f5a1b2e456f40849b653f75f2728da
             Otherwise {\tt AssumeDomain} should be set to {\tt false} (its default value).
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
 
+<<<<<<< HEAD
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+=======
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}. 
+            The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+>>>>>>> cec12fed06f5a1b2e456f40849b653f75f2728da
     SeeAlso
         compareFPT
         fpt
@@ -532,10 +549,15 @@ doc ///
         an option for the function nu to specify the search method for testing containments of powers of ideals
     Description
         Text
+<<<<<<< HEAD
             An option for function @TO nu@ specifies the order in which to compute containment of powers of ideals.
             Valid values are {\tt Binary} and {\tt Linear}.  Default value is {\tt Binary}.
     SeeAlso
         nu
+=======
+            An option for function @TO nu@ specifies the order in which to compute containment of powers of ideals.         
+            Valid values are {\tt Binary} and {\tt Linear}.  Default value is {\tt Binary}. 
+>>>>>>> cec12fed06f5a1b2e456f40849b653f75f2728da
 ///
 
 doc ///
@@ -560,8 +582,6 @@ doc ///
         Text
             An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.
             Takes on Boolean values.
-    SeeAlso
-        fpt
 ///
 
 doc ///
@@ -574,6 +594,4 @@ doc ///
             An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial (i.e., a homogeneous polynomial in two variables), or a binary form, in which case, a specialized algorithm of Hernandez, or Hernandez and Teixeira, is applied.
             Takes on Boolean values.
             Default value is {\tt true}.
-    SeeAlso
-        fpt
 ///
