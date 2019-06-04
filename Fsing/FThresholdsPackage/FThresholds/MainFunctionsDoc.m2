@@ -380,20 +380,27 @@ doc ///
            nu(1, 0_R, J)
            nu(1, 1_R, J)
         Text
-            When the ideal $J$ is omitted from the argument, it is assumed to be the homogeneous maximal ideal of $R$.
+            When the third argument is ommited, the ideal $J$ is assumed to be the homogeneous maximal ideal of $R$.
         Example
             R = ZZ/17[x,y,z];
             f = x^3 + y^4 + z^5;
-            J = ideal(x, y, z);
+            M = ideal(x, y, z);
             nu(2, f)
-            nu(2, f, J)
+            nu(2, f, M)
         Text
             It is well known that if $q=p^e$ for some nonnegative integer $e$, then $\nu_I^J(qp) = \nu_I^J(q) p + L$, where the error term $L$ is nonnegative, and can explicitly bounded from above in terms of $p$ and the number of generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).
             This relation implies that when searching for {\tt nu(e+1,I,J)}, it is always safe to start at $p$ times {\tt nu(e,I,J)}, and one needn't search too far past this number.
             
-            If $M$ is the homogeneous maximal ideal of $R$ and $f$ is an element of $R$, the numbers $\nu_f^M(p^e)$ determine and are determined by the $F$-pure threshold of $F$ (at the origin). 
+            If $M$ is the homogeneous maximal ideal of $R$ and $f$ is an element of $R$, the numbers $\nu_f^M(p^e)$ determine and are determined by the $F$-pure threshold of $F$ at the origin. 
             Indeed, $\nu_f^M(p^e)$ is $p^e$ times the truncation of the non-terminating base $p$ expansion of fpt($f$) at its $e$^{th} spot.
-
+            This fact is used to speed up the computations for certain polynomials whose $F$-pure thresholds can be quickly computed via special algorithms, namely diagonal polynomials and binomials.
+            This feature can be disabled by setting the option {\tt UseSpecialAlgorithms} (default value {\tt true}) to {\tt false}.
+        Example
+            R = ZZ/17[x,y,z];
+            f = x^3 + y^4 + z^5; -- a diagonal polynomial
+            time nu(3, f)
+            time nu(3, f, UseSpecialAlgorithms => false)
+        Text
             The valid values for the option {\tt ContainmentTest} are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
             The default value of this option depends on what is passed to {\tt nu}.
             Indeed, by default, {\tt ContainmentTest} is set to {\tt FrobeniusRoot} if {\tt nu} is passed a ring element $f$, and is set to {\tt StandardPower} if {\tt nu} is passed an ideal $I$.
@@ -411,8 +418,8 @@ doc ///
             time nu(3, f) -- ContainmentTest is set to FrobeniusRoot, by default
             time nu(3, f, ContainmentTest => StandardPower)
         Text
-            Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above, {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$-th (generalized) Frobenius power of $I$ is not contained in the $p^e$-th Frobenius power of $J$.  
-            Here, the $n$-th Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper {\it Frobenius Powers} by Hernandez, Teixeira, and Witt.  
+            Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above, {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$^{th} (generalized) Frobenius power of $I$ is not contained in the $p^e$-th Frobenius power of $J$.  
+            Here, the $n$^{th} Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper {\it Frobenius Powers} by Hernandez, Teixeira, and Witt.  
             In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} need not agree.  
             However, they will agree when $I$ is a principal ideal.
         Example
@@ -432,11 +439,11 @@ doc ///
             time nu(2, M, M^2) -- uses binary search (default)
             time nu(2, M, M^2, Search => Linear)
         Text
-            The option {\tt ReturnList} (default value {\tt false}) can be used to request that the output be not only $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=1,\ldots,e$.
+            The option {\tt ReturnList} (default value {\tt false}) can be used to request that the output be not only $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=0,\ldots,e$.
         Example
             nu(5, f, ReturnList => true)
         Text
-            Alternatively, the option {\tt Verbose} (default value {\tt false}) can be used to request that the values $\nu_I^J(p^i)$ ($i=1,\ldots,e$) be printed as they are computed, to monitor the progress of the computation. 
+            Alternatively, the option {\tt Verbose} (default value {\tt false}) can be used to request that the values $\nu_I^J(p^i)$ ($i=0,\ldots,e$) be printed as they are computed, to monitor the progress of the computation. 
         Example
             nu(5, f, Verbose => true)
     SeeAlso
