@@ -20,6 +20,8 @@ doc ///
             assumes the ring passed is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the {\it TestIdeals} package
+        IsLocal => Boolean
+            specifies that the function consider the $F$-pure threshold {\it at the origin}    
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
@@ -63,11 +65,10 @@ doc ///
             compareFPT(19/124, g)
             compareFPT(19/125 - 1/1000, g)
         Text
-            Setting the {\tt IsLocal => true} option (default value is {\tt false})
-            will tell the function to only compute the FPT at the origin.
+            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) will tell the function to consider the $F$-pure threshold at the origin.
         Example
             R = ZZ/7[x,y];
-            f = (x+1)^3 - (y+3)^2;
+            f = (x + 1)^3 - (y + 3)^2;
             compareFPT(5/6, f)
             compareFPT(5/6, f, IsLocal=>true)
         Text
@@ -347,6 +348,8 @@ doc ///
             assumes the ring passed is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the {\it TestIdeals} package
+        IsLocal => Boolean
+            specifies that the function consider the $F$-pure threshold {\it at the origin}    
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
@@ -373,12 +376,11 @@ doc ///
             isFPT(1/3 + 1/10000, x)
             isFPT(1/3 - 1/10000, x)
         Text
-            Setting the {\tt IsLocal => true} option (default value is {\tt false})
-            will tell the function to only compute the FPT at the origin.
+            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) will tell the function to consider the $F$-pure threshold at the origin.
         Example
-            R = ZZ/11[x,y,z]/ideal(x^2-y*(z-1));
-            isFPT(1/2, z-1)
-            isFPT(1/2, z-1, IsLocal=>true)
+            R = ZZ/11[x,y,z]/(x^2 - y*(z - 1));
+            isFPT(1/2, z - 1)
+            isFPT(1/2, z - 1, IsLocal => true)
         Text
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
