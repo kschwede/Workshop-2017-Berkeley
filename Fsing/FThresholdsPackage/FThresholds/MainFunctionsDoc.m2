@@ -24,6 +24,8 @@ doc ///
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
+        IsLocal => Boolean
+            tells the function whether to only consider behavior at the origin
     Outputs
         :ZZ
             namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold of {\tt f}.
@@ -241,7 +243,7 @@ doc ///
         a valid value for the option ContainmentTest
     Description
         Text
-            A valid value for the option @TO ContainmentTest@ specifying that Frobenius powers be used when verifying containments of powers of ideals. 
+            A valid value for the option @TO ContainmentTest@ specifying that Frobenius powers be used when verifying containments of powers of ideals.
     SeeAlso
         ContainmentTest
         nu
@@ -268,6 +270,7 @@ doc ///
         [isFJumpingExponent, FrobeniusRootStrategy]
         [isFJumpingExponent, MaxCartierIndex]
         [isFJumpingExponent, QGorensteinIndex]
+        [isFJumpingExponent, IsLocal]
     Headline
         whether a given number is an F-jumping exponent
     Usage
@@ -285,6 +288,8 @@ doc ///
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
+        IsLocal => Boolean
+            tells the function whether to only consider behavior at the origin
     Outputs
         :Boolean
             reporting whether {\tt t} is an $F$-jumping exponent of {\tt f}
@@ -311,6 +316,16 @@ doc ///
             isFJumpingExponent(1/2, f)
             isFJumpingExponent(2/3, f)
             isFJumpingExponent(3/4, f)
+        Text
+            Setting the {\tt IsLocal => true} option (default value is {\tt false})
+            will tell the function to only check whether this is a jumping number at the origin.
+            The following example considers a function that looks locally analytically like two
+            lines at the origin and 4 lines at $(2,0)$.
+        Example
+            R = ZZ/13[x,y];
+            f = y*((y+1)-(x-1)^2)*(x-2)*(x+y-2);
+            isFJumpingExponent(3/4, f)
+            isFJumpingExponent(3/4, f, IsLocal=>true)
         Text
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
@@ -351,6 +366,8 @@ doc ///
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
+        IsLocal => Boolean
+            tells the function whether to only consider behavior at the origin
     Outputs
         :Boolean
             reporting whether {\tt t} is the $F$-pure threshold of {\tt f}
@@ -469,7 +486,7 @@ doc ///
         Text
             It is well known that if $q=p^e$ for some nonnegative integer $e$, then $\nu_I^J(qp) = \nu_I^J(q) p + L$, where the error term $L$ is nonnegative, and can be explicitly bounded from above in terms of $p$ and the number of generators of $I$ and $J$ (e.g., $L$ is at most $p-1$ when $I$ is principal).
             This implies that when searching for {\tt nu(e,I,J)}, it is always safe to start at $p$ times {\tt nu(e-1,I,J)}, and one needn't search too far past this number, and suggests that the most efficient way to compute {\tt nu(e,I,J)} is to compute, successively, {\tt nu(i,I,J)}, for {\tt i = 0,\ldots,e}.
-            This is indeed how the computation is done in most cases. 
+            This is indeed how the computation is done in most cases.
 
             If $M$ is the homogeneous maximal ideal of $R$ and $f$ is an element of $R$, the numbers $\nu_f^M(p^e)$ determine and are determined by the $F$-pure threshold of $f$ at the origin.
             Indeed, $\nu_f^M(p^e)$ is $p^e$ times the truncation of the non-terminating base $p$ expansion of fpt($f$) at its $e$^{th} spot.
@@ -537,8 +554,8 @@ doc ///
         an option for the function nu to return a list of successive nu values
     Description
         Text
-            An option for the function @TO nu@ specifying whether to return all nu values up to the given order. 
-            Takes on {\tt Boolean} values; default value is {\tt false}. 
+            An option for the function @TO nu@ specifying whether to return all nu values up to the given order.
+            Takes on {\tt Boolean} values; default value is {\tt false}.
 ///
 
 doc ///
@@ -548,8 +565,8 @@ doc ///
         an option for the function nu to specify the search method for testing containments of powers of ideals
     Description
         Text
-            An option for the function @TO nu@ that specifies the order in which to compute containment of powers of ideals.         
-            Valid values are {\tt Binary} and {\tt Linear}; default value is {\tt Binary}. 
+            An option for the function @TO nu@ that specifies the order in which to compute containment of powers of ideals.
+            Valid values are {\tt Binary} and {\tt Linear}; default value is {\tt Binary}.
 ///
 
 doc ///
@@ -559,7 +576,7 @@ doc ///
         a valid value for the option ContainmentTest
     Description
         Text
-            A valid value for the option @TO ContainmentTest@, specifying that when verifying containments of powers of ideals, to check whether the standard power of an ideal is contained in the Frobenius power of another ideal. 
+            A valid value for the option @TO ContainmentTest@, specifying that when verifying containments of powers of ideals, to check whether the standard power of an ideal is contained in the Frobenius power of another ideal.
     SeeAlso
         ContainmentTest
         nu
@@ -572,7 +589,7 @@ doc ///
         an option for the function fpt to use the F-signature function in the search for an F-pure threshold
     Description
         Text
-            An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.  
+            An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.
             Takes on {\tt Boolean} values; default value is {\tt false}.
 ///
 
@@ -584,9 +601,9 @@ doc ///
     Description
         Text
             An option for the functions @TO fpt@ and @TO nu@.
-            Takes on {\tt Boolean} values; default value is {\tt true}, in both functions. 
-            
+            Takes on {\tt Boolean} values; default value is {\tt true}, in both functions.
+
             If this option is set to {\tt true} in @TO fpt@, that function checks whether the input is a diagonal polynomial, a binomial, or a binary form (i.e., a homogeneous polynomial in two variables), in which case a specialized algorithm of Hernández, or Hernández and Teixeira, is applied.
 
-            If set to {\tt true} in @TO nu@, that function checks whether the input is a diagonal polynomial or a binomial, in which case it calls a special algorithm to compute the $F$-pure threshold of the polynomial, and uses the $F$-pure threshold to compute the nu invariant.  
+            If set to {\tt true} in @TO nu@, that function checks whether the input is a diagonal polynomial or a binomial, in which case it calls a special algorithm to compute the $F$-pure threshold of the polynomial, and uses the $F$-pure threshold to compute the nu invariant.
 ///
