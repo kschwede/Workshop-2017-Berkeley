@@ -103,23 +103,25 @@ urlcolor=OliveGreen
 
 \section{Introduction}
 
-This paper describes a Macaulay2 package which provides tools to compute, $F$-pure thresholds, $F$-thresholds and $F$-jumping exponents.  Recall first that a ring $R$ is $F$-pure if the Frobenius morphism $F : R \to R$ is a pure morphism (under geometric hypotheses, this is equivalent to Frobenius being split).  The notion of $F$-purity appeared first in the work of Hochster and Roberts in \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in \cite{FedderFPureRat} and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.  After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of Frobenius to measure singularities proliferated and based on a tight connection discovered between $F$-pure and log canonical singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$ where $f \in R$ and $t \in \bQ_{\geq 0}$ is a formal exponent.  Along these lines the notion of the \emph{$F$-pure threshold} (or $\fpt$) was defined in analogy with the log canonical threshold (or $\lct$) \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  The $\fpt$ of $(R, f)$ is the supremum over all $t$ such that $(R, f^t)$ is $F$-pure, and the functionality computing this number is the core of this package.  As a further generalization, the notion of \emph{$F$-threshold} was also introduced.  All of these \emph{thresholds} have been the focus of intense study over the past 15 years.
+This paper describes the \emph{Macaulay2} package \emph{FThresholds}, which provides tools to compute $F$-pure thresholds, $F$-thresholds, and $F$-jumping exponents.  Recall that a ring $R$ of prime characteristic $p>0$ is $F$-pure if the Frobenius morphism $F : R \to R$ is a pure morphism (under geometric hypotheses, this is equivalent to the Frobenius morphism being split).  The notion of $F$-purity appeared first in the work of Hochster and Roberts in \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in \cite{FedderFPureRat}, and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.  
 
-There are three main sections in this paper
+After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of Frobenius to measure singularities proliferated, and based on a tight connection discovered between $F$-pure and log canonical singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$, where $f$ is an element of a ring $R$, and $t$ is a positive rational number $t$ considered as a formal exponent.  Along these lines, the notion of the \emph{$F$-pure threshold} (or $\fpt$) was defined in analogy with the log canonical threshold (or $\lct$) \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  The $\fpt$ of $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure, and the functionality computing this number is the core of this package.  As a further generalization, the notion of \emph{$F$-threshold} was also introduced.  All of these \emph{thresholds} have been the focus of intense study over the past 15 years.
+
+There are three main sections in this paper, describing the functionality implemented in the \emph{Macaulay2} package \emph{FThresholds}. 
 \begin{itemize}
-\item{} \autoref{sec.Nu} which describes how to first approximate the $\fpt$ and other $F$-thresholds.  
-\item{} \autoref{sec.IsFPT} describes functionality which can determine whether a given number is the FPT (or more generally, an $F$-jumping exponent).
-\item{} \autoref{sec.FPT} describes the {\tt fpt} function and how it works.
+\item{} \autoref{sec.Nu} describes methods to to approximate the $\fpt$, and other $F$-thresholds.  
+\item{} \autoref{sec.IsFPT} describes functionality that can determine whether a given number is the fpt, or more generally, an $F$-jumping exponent.
+\item{} \autoref{sec.FPT} describes the {\tt fpt} function, and how it works.
 \end{itemize}
 
-This package builds heavily upon the {\tt TestIdeals} package.  
+This package builds heavily upon the \emph{TestIdeals} package, focused on computing test ideals and related objects in prime characteristic.  
 
-{\it Acknowledgements}  The authors thank...  Thank the IMA...
+\noindent {\it Acknowledgements.}  The authors thank...contributors of the package...organizers of the M2 workshops...Karl's funding that funded the UU visit...  We also extend an enthusiastic thank you to 
 
 \section{The $F$-pure threshold limit and {\tt nu}}
 \label{sec.Nu}
 
-Suppose $R = k[x_1, \dots, x_n]$ is a polynomial ring over a finite field and $f \in R$.    If $f^a \notin \langle x_1^{p^e}, \dots, x_n^{p^e} \rangle = \fram^{[p^e]}$ then the pair $(R, f^{a/(p^e -1)})$ is $F$-pure at the origin, whereas if $f^a \in \fram^{[p^e]}$, then the pair $(R, f^{a/p^e})$ is not $F$-pure at the origin.  By finding the $a \in \bZ$ where that transition happens, and then limiting over $e$, one can compute the $F$-pure threshold.  See \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
+Suppose $R = k[x_1, \dots, x_n]$ is a polynomial ring over a finite field and $f \in R$.    If $f^a \notin \langle x_1^{p^e}, \dots, x_n^{p^e} \rangle = \fram^{[p^e]}$, then the pair $(R, f^{a/(p^e -1)})$ is $F$-pure at the origin, whereas if $f^a \in \fram^{[p^e]}$, then the pair $(R, f^{a/p^e})$ is not $F$-pure at the origin.  By finding the $a \in \bZ$ where that transition happens, and then limiting over $e$, one can compute the $F$-pure threshold.  See \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
 
 We set $\nu(e, f)$ to be largest $a \in \bZ$ such that $f^a \notin \fram^{[p^e]}$ (note in the literature, it is frequently denoted by $\nu_f(p^e)$.  It immediately follows that 
 \[
