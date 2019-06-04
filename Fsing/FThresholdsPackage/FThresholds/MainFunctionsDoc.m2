@@ -20,7 +20,7 @@ doc ///
         AssumeDomain => Boolean
             assumes the ring passed is an integral domain
         MaxCartierIndex => ZZ
-            sets the maximum Gorenstein index to search for when working with a $\mathbb{Q}$-Gorenstein ambient ring
+            sets the maximum $\mathbb{Q}$-Gorenstein index to search for 
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
     Outputs
