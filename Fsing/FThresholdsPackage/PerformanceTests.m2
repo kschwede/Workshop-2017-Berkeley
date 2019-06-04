@@ -36,15 +36,13 @@ time assert( newNu(3,F) == 3756 )
 
 ZZ/3[x,y,z];
 I=ideal(x^2+y^3,y^2+z^3,z^2+x^3);
--- old version
-time assert( nu(3,I) == 39 ) -- lucky
-time assert( nuList(3,I) == {3, 12, 39} ) 
--- powers 
-time assert( newNu(3,I,ComputePreviousNus=>false) == 39 ) 
-time assert( newNuList(3,I) == {0, 3, 12, 39} ) 
-time assert( newNuList(3,I,UseColonIdeals=>true) == {0, 3, 12, 39} ) -- colon ignored
-time assert( newNu(3,I,SearchFunction=>binarySearchRecursive) == 39 ) 
-time assert( newNu(3,I,SearchFunction=>linearSearch) == 39 ) -- lucky
+time assert( nu(3,I) == 39 ) 
+time assert( nu(3,I,Search=>Linear) == 39 ) -- better 
+time assert( nu(3,I,ReturnList=>true) == {0, 3, 12, 39} ) 
+time assert( nu(3,I,ContainmentTest=>FrobeniusRoot) == 39 ) 
+time assert( nu(3,I,ContainmentTest=>FrobeniusRoot,Search=>Linear) == 39 ) 
+time assert( nu(3,I,ContainmentTest=>FrobeniusPower) == 26 ) 
+time assert( nu(3,I,ContainmentTest=>FrobeniusPower,Search=>Linear) == 26 ) -- lucky
 
 -- old version
 time assert( nuHat(5,I) == 242 ) 
@@ -56,11 +54,11 @@ time assert( newNuHat(5,I,UseColonIdeals=>true) == 242 ) -- UseColonIdeals is ig
 
 ZZ/13[x,y,z];
 I=ideal(x^3+y^4,y^6+z^3,z^5+x^7);
-time assert( nu(1,I) == 11 )  -- old version
-time assert( newNu(1,I) == 11 ) 
-time assert( newNu(1,I,SearchFunction=>linearSearch) == 11 ) -- lucky
-time assert( newNu(1,I,ComputePreviousNus=>false) == 11 ) 
-time assert( newNu(1,I,TestFunction=>testRoot) == 11 ) -- bad choice
+time assert( nu(1,I) == 11 )  
+time assert( nu(1,I,Search=>Linear) == 11 ) -- lucky
+time assert( nu(1,I,ContainmentTest=>FrobeniusRoot) == 11 ) -- BAD
+time assert( nu(1,I,ContainmentTest=>FrobeniusRoot,Search=>Linear) == 11 ) -- good
+
 
 time assert( nuHat(2,I) == 154 ) -- slow
 time assert( newNuHat(2,I) == 154 )  -- slow
@@ -69,12 +67,12 @@ ZZ/7[x,y,z];
 I=ideal(x+y^2,y+z^2,z+x^2);
 J=ideal(x^3,y^3,z^3);
 time assert( nu(1,I,J) == 60 ) -- old version
-time assert( newNu(1,I,J) == 60 ) -- slow
-time assert( newNu(1,I,J,TestFunction=>testRoot) == 60 ) -- better
-time assert( newNu(1,I,J,TestFunction=>testRoot,SearchFunction=>linearSearch) == 60 ) 
+time assert( nu(1,I,J,ContainmentTest => StandardPower) == 60 ) -- slow
+time assert( nu(1,I,J,ContainmentTest => FrobeniusRoot) == 60 ) -- better
+time assert( nu(1,I,J,ContainmentTest => FrobeniusRoot, Search => Linear) == 60 ) 
 
-time assert( nuHat(1,I,J) == 48 ) -- old version
-time assert( newNuHat(1,I,J,ComputePreviousNus=>false) == 48 )  
-time assert( newNuHatList(1,I,J) == {6, 48} )  
-time assert( newNuList(1,I,J,TestFunction=>testGenFrobeniusPower) == {6, 48} )  -- same as previous
+time assert( nu(1,I,J,ContainmentTest=>FrobeniusPower) == 48 ) -- old version
+time assert( nu(1,I,J,ContainmentTest=>FrobeniusPower,Search=>Linear) == 48 )  
+time assert( nu(1,I,J,ContainmentTest=>FrobeniusPower,ReturnList=>true) == {6, 48} )  
+time assert( nu(1,I,J,ContainmentTest=>FrobeniusPower) == {6, 48} ) 
 ///

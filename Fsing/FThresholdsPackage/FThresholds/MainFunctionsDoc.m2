@@ -7,7 +7,7 @@ doc ///
         [compareFPT, AssumeDomain]
         [compareFPT, QGorensteinIndex]
     Headline
-        determines whether a given number is less than, greater than, or equal to the $F$-pure threshold
+        determine whether a given number is less than, greater than, or equal to the F-pure threshold
     Usage
         compareFPT(t, f)
     Inputs
@@ -18,14 +18,18 @@ doc ///
         FrobeniusRootStrategy => Symbol
             an option passed to computations in the TestIdeals package
         AssumeDomain => Boolean
+            assumes the ring passed is an integral domain
         MaxCartierIndex => ZZ
+            sets the maximum Gorenstein index to search for when working with a $\mathbb{Q}$-Gorenstein ambient ring
         QGorensteinIndex => ZZ
+            specifies the $\mathbb{Q}$-Gorenstein index of the ring
     Outputs
         :ZZ
-            outputs {\tt - 1} if {\tt t} is less than the $F$-pure threshold of {\tt f}, outputs {\tt 1} if {\tt t} is greater than the $F$-pure threshold {\tt f}, or outputs {\tt 0} if it is equal to the $F$-pure threshold.
+            namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold or {\tt f}.
     Description
         Text
-            Let $f$ be a ring element, and $t$ a rational number.  The function {\tt compareFPT} returns $-1$ if $t$ is less than the $F$-pure threshold of $f$, $1$ if $t$ is greater than the $F$-pure threshold $f$, or $0$ if $t$ equals the $F$-pure threshold.
+            Let $f$ be a ring element, and $t$ a rational number.  
+	    The function {\tt compareFPT} returns $-1$ if $t$ is less than the $F$-pure threshold of $f$, $1$ if $t$ is greater than the $F$-pure threshold $f$, or $0$ if $t$ equals the $F$-pure threshold.
         Example
             R = ZZ/7[x,y];
             f = y^2-x^3;
@@ -34,10 +38,9 @@ doc ///
             compareFPT(6/7, f)
         Text
             This function can be used in a singular ring that is strongly $F$-regular, as long as the ring is $\mathbb{Q}$-Gorenstein of index dividing $p-1$, where $p>0$ is the characteristic of the ring. 
-
             For instance, in the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
-             R = ZZ/5[x,y,z]/ideal(x*y-z^2);
+             R = ZZ/5[x,y,z]/(x*y - z^2);
              f = x;
              compareFPT(1/3, f)
              compareFPT(1/2, f)
@@ -45,6 +48,7 @@ doc ///
     SeeAlso
         fpt
         isFPT
+        isFJumpingExponent
 ///
 
 doc ///
@@ -54,10 +58,8 @@ doc ///
         an option for nu 
     Description
         Text
-            {\tt ContainmentTest} is an option for @TO nu@ that tells the function which type of containment test to use.  
+            The option {\tt ContainmentTest} tells the function @TO nu@ which type of containment test to use.  
             The valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
-    SeeAlso
-        nu
 ///
 
 doc ///
