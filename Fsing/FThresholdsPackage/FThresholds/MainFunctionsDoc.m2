@@ -358,74 +358,85 @@ doc ///
             containing {\tt \nu(p^i)}, for {\tt i = 0,\ldots,e}
     Description
         Text
-            Consider a field $k$ of characteristic $p>0$, and an ideal $J$ in the polynomial ring $S = k[x_1, \ldots, x_d]$.
-            If $f$ is a polynomial contained in the radical of $J$, then the command {\tt nu(e, f, J)} outputs the maximal exponent $n$ such that $f^n$ is not contained in the $p^e$-th Frobenius power of $J$.
-            More generally, if $I$ is an ideal contained in the radical of $J$, then {\tt nu(e, I, J)} outputs the maximal integer exponent $n$ such that $I^n$ is not contained in the $p^e$-th Frobenius power of $J$.
+            Consider a finite field $k$ of characteristic $p>0$, and an ideal $J$ in the polynomial ring $S = k[x_1, \ldots, x_d]$.
+            If $f$ is a polynomial contained in the radical of $J$, then the command {\tt nu(e,f,J)} outputs the maximal exponent $n$ such that $f^n$ is not contained in the $p^e$-th Frobenius power of $J$.
+            More generally, if $I$ is an ideal contained in the radical of $J$, then {\tt nu(e,I,J)} outputs the maximal integer exponent $n$ such that $I^n$ is not contained in the $p^e$-th Frobenius power of $J$.
 
-            These numbers are denoted $\nu_f^J(p^e)$ and $\nu_I^J(p^e)$, respectively, in the literature, and were originally defined in the paper "$F$-thresholds and Bernstein-Sato Polynomials" by Mustata, Takagi, and Watanabe.
+            These numbers are denoted $\nu_f^J(p^e)$ and $\nu_I^J(p^e)$, respectively, in the literature, and were originally defined in the paper {\it $F$-thresholds and Bernstein-Sato Polynomials} by Mustata, Takagi, and Watanabe.
         Example
-            S=ZZ/11[x,y];
-            I=ideal(x^2+y^3, x*y);
-            J=ideal(x^2,y^3);
-            nu(1,I,J)
-            f=x*y*(x^2+y^2);
-            nu(1,f,J)
+            R = ZZ/11[x,y];
+            I = ideal(x^2 + y^3, x*y);
+            J = ideal(x^2, y^3);
+            nu(1, I, J)
+            f = x*y*(x^2 + y^2);
+            nu(1, f, J)
         Text
-            When the ideal $J$ is omitted from the argument, it is assumed to be the homogeneous maximal ideal.
+            If $f$ or $I$ is zero, then {\tt nu} returns {\tt 0}; if $f$ or $I$ is not contained in the radical of $J$, {\tt nu} returns infinity.
         Example
-            S=ZZ/17[x,y,z];
-            f=x^3+y^4+z^5;
-            J=ideal(x,y,z);
-            nu(2,f)
-            nu(2,f,J)
+           nu(1, 0_R, J)
+           nu(1, 1_R, J)
         Text
-            It is well-known that if $q=p^e$ for some nonnegative integer $e$, then $\nu_I^J(qp) = \nu_I^J(q) p + L$, where
-            the error term $L$ is nonnegative, and can explicitly bounded from above in terms of $p$, and the number of
-            generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).
-	    This relation implies that when searching
-            for {\tt nu(e+1,I,J)}, it is always safe to start at $p$ times {\tt nu(e,I,J)}, and one needn't search too far past this number.
+            When the ideal $J$ is omitted from the argument, it is assumed to be the homogeneous maximal ideal of $R$.
+        Example
+            R = ZZ/17[x,y,z];
+            f = x^3 + y^4 + z^5;
+            J = ideal(x, y, z);
+            nu(2, f)
+            nu(2, f, J)
+        Text
+            It is well known that if $q=p^e$ for some nonnegative integer $e$, then $\nu_I^J(qp) = \nu_I^J(q) p + L$, where the error term $L$ is nonnegative, and can explicitly bounded from above in terms of $p$ and the number of generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).
+            This relation implies that when searching for {\tt nu(e+1,I,J)}, it is always safe to start at $p$ times {\tt nu(e,I,J)}, and one needn't search too far past this number.
+            
+            If $M$ is the homogeneous maximal ideal of $R$ and $f$ is an element of $R$, the numbers $\nu_f^M(p^e)$ determine and are determined by the $F$-pure threshold of $F$ (at the origin). 
+            Indeed, $\nu_f^M(p^e)$ is $p^e$ times the truncation of the non-terminating base $p$ expansion of fpt($f$) at its $e$^{th} spot.
 
-            The valid values for the option {\tt ContainmentTest} are {\tt FrobeniusPower, FrobeniusRoot}, and {\tt StandardPower}.
+            The valid values for the option {\tt ContainmentTest} are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
             The default value of this option depends on what is passed to {\tt nu}.
-	    Indeed, by default, {\tt ContainmentTest} is set to {\tt FrobeniusRoot} if {\tt nu} is passed a ring element $f$, and is set to {\tt StandardPower} if {\tt nu} is passed an ideal $I$.
+            Indeed, by default, {\tt ContainmentTest} is set to {\tt FrobeniusRoot} if {\tt nu} is passed a ring element $f$, and is set to {\tt StandardPower} if {\tt nu} is passed an ideal $I$.
             We describe the consequences of setting {\tt ContainmentTest} to each of these values below.
 
-            First, if {\tt ContainmentTest} is set to {\tt StandardPower}, then the ideal containments that occur when computing
-            {\tt nu(e,I,J)} are verified directly.
-	    That is, the standard power $I^n$ is first computed, and a check is then run to see if
-            it lies in the $p^e$-th Frobenius power of $J$.
+            First, if {\tt ContainmentTest} is set to {\tt StandardPower}, then the ideal containments checked when computing {\tt nu(e,I,J)} are verified directly.
+            That is, the standard power $I^n$ is first computed, and a check is then run to see if it lies in the $p^e$-th Frobenius power of $J$.
 
-            Alternately, if {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the ideal containments that occur when computing
-            {\tt nu(e,I,J)} are verified using Frobenius Roots.  That is, the $p^e$-th Frobenius root of $I^n$ is first computed, and
-            a check is then run to see if it lies in $J$.
-	    The output is unaffected, but this option often speeds up computations.
+            Alternately, if {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the ideal containments are verified using Frobenius Roots.  
+            That is, the $p^e$-th Frobenius root of $I^n$ is first computed, and a check is then run to see if it lies in $J$.
+            The output is unaffected, but this option often speeds up computations, specially when a polynomial or principal ideal is passed as the second argument.
         Example
-            ZZ/11[x,y,z];
-            f=x^3+y^3+z^3+x*y*z;
-            time nu(3,f) -- ContainmentTest is set to frobeniusRoot, by default
-            time nu(3,f,ContainmentTest=>StandardPower)
+            R = ZZ/11[x,y,z];
+            f = x^3 + y^3 + z^3 + x*y*z;
+            time nu(3, f) -- ContainmentTest is set to FrobeniusRoot, by default
+            time nu(3, f, ContainmentTest => StandardPower)
         Text
-            Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above,
-            {\tt nu(e,I,J, ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$-th Frobenius power of $I$ is not contained in the $p^e$-th Frobenius
-            power of $J$.  Here, the $n$-th Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper "Frobenius Powers" by
-            Hernandez, Teixeira, and Witt.  In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J, ContainmentTest => FrobeniusPower)} need not agree!  However,
-            they will when $I$ is a principal ideal.
+            Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above, {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$-th (generalized) Frobenius power of $I$ is not contained in the $p^e$-th Frobenius power of $J$.  
+            Here, the $n$-th Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper {\it Frobenius Powers} by Hernandez, Teixeira, and Witt.  
+            In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} need not agree.  
+            However, they will agree when $I$ is a principal ideal.
         Example
-            ZZ/3[x,y];
-            M=ideal(x,y);
-            nu(3,M^5)
-            nu(3,M^5,ContainmentTest=>FrobeniusPower)
+            R = ZZ/3[x,y];
+            M = ideal(x, y);
+            nu(3, M^5)
+            nu(3, M^5, ContainmentTest => FrobeniusPower)
         Text
-            The function {\tt nu} works by searching through list of integers $n$ and checking containments of $I^n$ in a specified Frobenius power of $J$.
-            
-            There are two valid values for the option {\tt Search}, either the default value, {\tt Binary}, or the value {\tt Linear}.
-            The value {\tt Binary} checks containments in a binary search order, and {\tt Linear} in a linear order. 
-
+            The function {\tt nu} works by searching through the list of potential integers $n$ and checking containments of $I^n$ in a specified Frobenius power of $J$.
+            The way this search is approached is specified by the option {\tt Search}, which can be set to {\tt Binary} (the default value) or {\tt Linear}.
         Example
-            ZZ/17[x,y];
-            M=ideal(x,y);
-            time nu(2,M,M^2,Search=>Binary)
-            time nu(2,M,M^2,Search=>Linear)
+            R = ZZ/5[x,y,z];
+            f = x^2*y^4 + y^2*z^7 + z^2*x^8;
+            time nu(5, f) -- uses binary search (default)
+            time nu(5, f, Search => Linear)
+            M = ideal(x, y, z);
+            time nu(2, M, M^2) -- uses binary search (default)
+            time nu(2, M, M^2, Search => Linear)
+        Text
+            The option {\tt ReturnList} (default value {\tt false}) can be used to request that the output be not only $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=1,\ldots,e$.
+        Example
+            nu(5, f, ReturnList => true)
+        Text
+            Alternatively, the option {\tt Verbose} (default value {\tt false}) can be used to request that the values $\nu_I^J(p^i)$ ($i=1,\ldots,e$) be printed as they are computed, to monitor the progress of the computation. 
+        Example
+            nu(5, f, Verbose => true)
+    SeeAlso
+            fpt    
 ///
 
 doc ///
