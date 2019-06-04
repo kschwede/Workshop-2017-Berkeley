@@ -248,9 +248,13 @@ f2 = map(T, R, {a^3, a^2*b, a*b^2, b^3});
 g = x^7-w^3;
 h = a^21-b^9;
 assert(compareFPT(19/125, g) == 0);
+assert(compareFPT(19/125, g, IsLocal=>true) == 0);
 assert(compareFPT(18/124, g) == -1);
+assert(compareFPT(18/124, g, IsLocal=>true) == -1);
 assert(compareFPT((5*19+1)/625, g) == 1);
+assert(compareFPT((5*19+1)/625, g, IsLocal=>true) == 1);
 assert(compareFPT(19/125, h) == 0);
+assert(compareFPT(19/125, h, IsLocal=>true) == 0);
 assert(isFJumpingExponent(2/5, h));
 assert(not isFJumpingExponent((2*5^3-1)/5^4, h));
 assert(isFJumpingExponent(2/5, g));
@@ -280,6 +284,22 @@ f = x^2 - y^3;
 g = (x+3*y)^2 - (x+y)^3;
 assert(fpt(f) == 4/5);
 assert(fpt(g) == 4/5);
+///
+
+TEST /// --IsLocal checking
+R = ZZ/11[x,y];
+f = (x+1)^2-(y+1)^3;
+assert(compareFPT(5/6-1/(6*11), f) == 0);
+assert(compareFPT(5/6-1/(6*11), f, IsLocal=>true) == -1);
+assert(compareFPT(1, f, IsLocal=>true) == 0);
+///
+
+TEST /// --more IsLocal checking
+R = ZZ/7[x,y,z]/ideal(x*(y-1)-z^2);
+f = y-1;
+assert(compareFPT(1/2, f) == 0);
+assert(compareFPT(1/2, f, IsLocal=>true) == -1);
+assert(compareFPT(1, y, IsLocal=>true) == 0);
 ///
 
 TEST /// --an example from Canton-Hernandez-Schwede-Witt

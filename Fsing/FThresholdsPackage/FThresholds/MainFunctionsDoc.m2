@@ -6,6 +6,7 @@ doc ///
         [compareFPT, FrobeniusRootStrategy]
         [compareFPT, AssumeDomain]
         [compareFPT, QGorensteinIndex]
+        [compareFPT, IsLocal]
     Headline
         determine whether a given number is less than, greater than, or equal to the F-pure threshold
     Usage
@@ -62,8 +63,16 @@ doc ///
             compareFPT(19/124, g)
             compareFPT(19/125-1/1000, g)
         Text
-            If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation.
-            Otherwise {\tt AssumeDomain} should be set to {\tt false} (its default value).
+            Setting the {\tt IsLocal => true} option (default value is {\tt false})
+            will tell the function to only compute the FPT at the origin.
+        Example
+            R = ZZ/7[x,y];
+            f = (x+1)^3 - (y+3)^2;
+            compareFPT(5/6, f)
+            compareFPT(5/6, f, IsLocal=>true)
+        Text
+            If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
+            We assume that the ring is a domain by default in order to speed up the computation.
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
@@ -302,8 +311,8 @@ doc ///
             isFJumpingExponent(2/3, f)
             isFJumpingExponent(3/4, f)
         Text
-            If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation.
-            Otherwise {\tt AssumeDomain} should be set to {\tt false} (its default value).
+            If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
+            We assume that the ring is a domain by default in order to speed up the computation.
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
@@ -323,6 +332,7 @@ doc ///
         [isFPT, FrobeniusRootStrategy]
         [isFPT, MaxCartierIndex]
         [isFPT, QGorensteinIndex]
+        [isFPT, IsLocal]
     Headline
         checks whether a given rational number is the F-pure threshold
     Usage
@@ -365,8 +375,15 @@ doc ///
             isFPT(1/3+1/10000, x)
             isFPT(1/3-1/10000, x)
         Text
-            If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation.
-            Otherwise {\tt AssumeDomain} should be set to {\tt false} (its default value).
+            Setting the {\tt IsLocal => true} option (default value is {\tt false})
+            will tell the function to only compute the FPT at the origin.
+        Example
+            R = ZZ/11[x,y,z]/ideal(x^2-y*(z-1));
+            isFPT(1/2, z-1)
+            isFPT(1/2, z-1, IsLocal=>true)
+        Text
+            If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
+            We assume that the ring is a domain by default in order to speed up the computation.
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
