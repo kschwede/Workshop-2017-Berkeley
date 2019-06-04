@@ -267,12 +267,7 @@ doc ///
         Text
             If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation. 
             Otherwise {\tt AssumeDomain} should be set to {\tt false} (its default value).
-        Example
-            R = ZZ/5[x,y];
-            f =  x^4 + y^3 + x^2*y^2;
-            time isFJumpingExponent(11/12, f)
-            time isFJumpingExponent(11/12, f, AssumeDomain => true)
-        Text        
+
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
 
