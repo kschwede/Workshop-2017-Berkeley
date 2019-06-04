@@ -531,7 +531,8 @@ compareFPT = method(
 	MaxCartierIndex => 10,
 	FrobeniusRootStrategy => Substitution,
 	AssumeDomain => true,
-	QGorensteinIndex => 0
+	QGorensteinIndex => 0,
+    IsLocal => false
     },
     TypicalValue => ZZ
 )
@@ -583,13 +584,13 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
 	    MaxCartierIndex => ZZ,
 	    FrobeniusRootStrategy => { Substitution, MonomialBasis },
 	    AssumeDomain => Boolean,
-	    QGorensteinIndex => ZZ
+	    QGorensteinIndex => ZZ,
+        IsLocal => Boolean
 	}
     );
-
     --first we gather background info on the ring (QGorenstein generators, etc.)
     R1 := ring f;
-    if isPolynomial f then return compareFPTPoly( t, f );
+    if isPolynomial f then return compareFPTPoly( t, f, FrobeniusRootStrategy => o.FrobeniusRootStrategy, IsLocal => o.IsLocal);
     S1 := ambient R1;
     I1 := ideal R1;
     canIdeal := canonicalIdeal R1;
@@ -604,6 +605,9 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
     local runningIdeal;
     local a1quot;
     local a1rem;
+    local locMax;
+    if (o.IsLocal == true ) then (locMax = sub(maxIdeal(S1), R1) ) else (locMax = ideal(0_R1));
+
     ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
 
     if o.QGorensteinIndex > 0 then cartIndex = o.QGorensteinIndex
@@ -616,11 +620,11 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         try h1 = QGorensteinGenerator( 1, R1 ) then
         (
             computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain );
-            if isUnitIdeal computedTau then return -1;
+            if isUnitIdeal (computedTau+locMax) then return -1;
             --at this point we know that this is not the FPT
             --now we have to run the sigma computation
             baseTau = first testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
-            if isProper baseTau then
+            if isProper (baseTau+locMax) then
                 error "compareFPT: The ambient ring must be F-regular";
             --the ambient isn't even F-regular
             if a1 > pp^c1 - 1 then
@@ -635,7 +639,7 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
                 --the e is assumed to be 1 here since we are implicitly doing stuff
                 computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, sub( computedHSLGInitial, S1 ) );
             );
-            if isProper( computedHSLG + I1 ) then return 1;
+            if isProper( computedHSLG + I1 + maxIdeal(S1) ) then return 1;
             --the fpt we picked is too big
             return 0; --we found the FPT!
         )
@@ -663,7 +667,7 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
 
     newDenom := reflexify( canIdeal * dualCanIdeal );
     computedTau = ( runningIdeal * R1 ) : newDenom;
-    if isUnitIdeal computedTau then return -1;
+    if isUnitIdeal (computedTau + locMax) then return -1;
     --at this point we know that this is not the FPT
 
     --now we compute the base tau
@@ -692,13 +696,13 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         computedHSLG = sum apply(gensList2, x-> sum( apply(u1, h1->frobeniusRoot( b2, {scale*ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1x*ceiling((pp^b2 - 1)/(pp^c1x - 1))}, {h1, x}, sub( computedHSLGInitial, S1 ) ) )));
     );
 
-    if isProper( (computedHSLG * R1 ) : newDenom ) then return 1;
+    if isProper( ((computedHSLG * R1 ) : newDenom ) + locMax) then return 1;
     --the fpt we picked is too big
     return 0;
     --it is the FPT!
 )
 
-compareFPTPoly = method( Options => { FrobeniusRootStrategy => Substitution } )
+compareFPTPoly = method( Options => { IsLocal => false, FrobeniusRootStrategy => Substitution } )
 
 compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
 (
@@ -711,11 +715,13 @@ compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
     local computedTau;
     local computedHSLG;
     local computedHSLGInitial;
+    local locMax;
+    if (o.IsLocal == true ) then (locMax = maxIdeal(S1)) else (locMax = ideal(0_S1));
 
     h1 := 1_S1;
     --first we do a quick check to see if the test ideal is easy to compute
     computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => true );
-    if isUnitIdeal computedTau then return -1;
+    if isUnitIdeal (computedTau + locMax) then return -1;
     --at this point we know that this is not the FPT
 
     --now we have to run the sigma computation
@@ -733,7 +739,7 @@ compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
 	--the e is assumed to be 1 here since we are implicitly doing stuff
         computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, computedHSLGInitial );
     );
-    if isProper computedHSLG then return 1;
+    if isProper (computedHSLG + locMax) then return 1;
     --the fpt we picked is too small
     0 --it is the FPT!
 )
@@ -772,7 +778,8 @@ isFPT = method(
 	MaxCartierIndex => 10,
 	FrobeniusRootStrategy => Substitution,
 	AssumeDomain => true,
-	QGorensteinIndex => 0
+	QGorensteinIndex => 0,
+    IsLocal=>false
     },
     TypicalValue => Boolean
 )
@@ -786,18 +793,14 @@ isFPT ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 
 -- isFJumpingExponent determines if a given rational number is an
 -- F-jumping exponent
---***************************************************************************
---This needs to be speeded up, like the above function
---***************************************************************************
-
--- Dan: isn't is safer to have AssumeDomain default to "false" here?
 isFJumpingExponent = method(
     Options =>
     {
 	MaxCartierIndex => 10,
 	FrobeniusRootStrategy => Substitution,
 	AssumeDomain => true,
-	QGorensteinIndex => 0
+	QGorensteinIndex => 0,
+    IsLocal => false
     },
     TypicalValue => Boolean
 )
@@ -816,7 +819,7 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
 
     --first we gather background info on the ring (QGorenstein generators, etc.)
     R1 := ring f;
-    if isPolynomial f then return isFJumpingExponentPoly( t, f );
+    if isPolynomial f then return isFJumpingExponentPoly( t, f, FrobeniusRootStrategy=>o.FrobeniusRootStrategy, IsLocal => o.IsLocal);
     S1 := ambient R1;
     I1 := ideal R1;
     canIdeal := (canonicalIdeal R1);
@@ -832,6 +835,8 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
     local a1quot;
     local a1rem;
     ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
+    local locMax;
+    if (o.IsLocal == true ) then (locMax = sub(maxIdeal(S1), R1) ) else (locMax = ideal(0_R1));
 
     if o.QGorensteinIndex > 0 then cartIndex = o.QGorensteinIndex
     else cartIndex = getDivisorIndex( o.MaxCartierIndex, canIdeal );
@@ -843,7 +848,7 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         try h1 = QGorensteinGenerator( 1, R1 ) then
         (
             computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain=>o.AssumeDomain );
-            if isUnitIdeal computedTau then return false;
+            if isUnitIdeal(computedTau+locMax) then return false;
             --at this point we know that it can't be an F-jumping exponent
             --now we have to run the sigma computation
             baseTau = first testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
@@ -860,7 +865,13 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
                 --the e is assumed to be 1 here since we are implicitly doing stuff
                 computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, sub( computedHSLGInitial, S1 ) );
             );
-            if (sub(computedHSLG, R1) == computedTau) then return false else return true; --we figured it out, return the value
+            if (o.IsLocal == false) then (
+                if (sub(computedHSLG, R1) == computedTau) then return false else return true;
+                --we figured it out, return the value
+            )
+            else (
+                if (saturate(sub(computedHSLG, R1)) == saturate(computedTau)) then return false else return true;
+            )
         )
         else h1 = 0_S1
     );
@@ -886,7 +897,7 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
 
     newDenom := reflexify( canIdeal * dualCanIdeal );
     computedTau = ( runningIdeal * R1 ) : newDenom;
-    if isUnitIdeal computedTau then return false;
+    if isUnitIdeal(computedTau+locMax) then return false;
     --at this point we know that this is not a jumping number
 
     --now we compute the base tau
@@ -912,13 +923,18 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         --the e is assumed to be 1 here since we are implicitly doing stuff
         computedHSLG = sum apply(gensList2, x-> sum( apply(u1, h1->frobeniusRoot( b2, {scale*ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1x*ceiling((pp^b2 - 1)/(pp^c1x - 1))}, {h1, x}, sub( computedHSLGInitial, S1 ) ) )));
     );
-    if ( ((computedHSLG * R1 ) : newDenom) == computedTau) then return false else return true;
-    --we found the answer
+    if (o.IsLocal == false) then (
+        if ( ((computedHSLG * R1 ) : newDenom) == computedTau) then return false else return true;
+        --we found the answer
+    )
+    else(
+        if ( saturate(((computedHSLG * R1 ) : newDenom)) == saturate(computedTau)) then return false else return true;
+    )
 )
 
 
 
-isFJumpingExponentPoly = method( Options => { FrobeniusRootStrategy => Substitution } )
+isFJumpingExponentPoly = method( Options => { FrobeniusRootStrategy => Substitution, IsLocal => false } )
 
 isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
 (
@@ -930,10 +946,14 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
     computedTau := null;
     computedHSLG := null;
     computedHSLGInitial := null;
+    local locMax;
+    if (o.IsLocal == true ) then (locMax = maxIdeal(S1)) else (locMax = ideal(0_S1));
+
 
     h1 := sub( 1, S1 );
     --first we do a quick check to see if the test ideal is easy to compute
     computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => true );
+    if isUnitIdeal(computedTau+locMax) then return false;
 
     --now we have to run the sigma computation
     ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
@@ -948,6 +968,10 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
         computedHSLGInitial = first FPureModule( { a1/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 } ); --the e is assumed to be 1 here since we are implicitly doing stuff
         computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, computedHSLGInitial );
     );
-
-    not isSubset( computedHSLG, computedTau )
+    if (o.IsLocal == false) then (
+        not isSubset( computedHSLG, computedTau )
+    )
+    else(
+        not isSubset( saturate(computedHSLG), saturate(computedTau) )
+    )
 )

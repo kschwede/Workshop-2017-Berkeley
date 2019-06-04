@@ -231,7 +231,7 @@ internalFPureModule ( ZZ, List, List, Ideal ) :=  Sequence => o -> ( ee, expList
     u2 := apply( u1, gg -> sub( gg, S1 ) );
     --now we do the HSLG computation
     idealIn := J1;
-    idealOut := frobeniusRoot( ee, expList, u1, idealIn, FrobeniusRootStrategy => o.FrobeniusRootStrategy );
+    idealOut := frobeniusRoot( ee, expList, u2, idealIn, FrobeniusRootStrategy => o.FrobeniusRootStrategy );
     HSLCount := 0;
     while idealIn + I1 != idealOut + I1 do
     (
