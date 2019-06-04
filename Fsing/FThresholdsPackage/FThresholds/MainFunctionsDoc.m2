@@ -351,11 +351,11 @@ doc ///
 	    requests verbose feedback
     Outputs
         :ZZ
-            the largest integer {\tt \nu} such that {\tt I^{\nu}} (or {\tt f^n}, or {\tt I^{[\nu]}}, depending on the arguments and options passed) is not contained in {\tt J^{[p^e]}}
+            the largest integer {\tt \nu = \nu(p^e)} such that {\tt I^{\nu}} (or {\tt f^n}, or {\tt I^{[\nu]}}, depending on the arguments and options passed) is not contained in {\tt J^{[p^e]}}
         :InfiniteNumber
             if {\tt I} or {\tt f} is not contained in the radical of $J$
 	:List
-            a list of the $i$-th $\nu$-values for $i = 0,\ldots,e$
+            containing {\tt \nu(p^i)}, for {\tt i = 0,\ldots,e}
     Description
         Text
             Consider a field $k$ of characteristic $p>0$, and an ideal $J$ in the polynomial ring $S = k[x_1, \ldots, x_d]$.
