@@ -299,10 +299,10 @@ doc ///
             a number that is a candidate for the $F$-pure threshold of {\tt f}
         f:RingElement
             an element of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$
-        FrobeniusRootStrategy => Symbol
-            an option passed to computations in the TestIdeals package
         AssumeDomain => Boolean
             assumes the ring passed is an integral domain
+        FrobeniusRootStrategy => Symbol
+            passed to computations in the {\it TestIdeals} package
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for 
         QGorensteinIndex => ZZ
@@ -460,9 +460,23 @@ doc ///
 
 doc ///
     Key
+        ReturnList
+    Headline
+        an option for the function nu to return a list of successive nu values
+    Description
+        Text
+            An option for the function @TO nu@ specifying whether to return all nu values up to the given order. 
+            Takes on Boolean values.
+            Default value is {\tt false}. 
+    SeeAlso
+        nu
+///
+
+doc ///
+    Key
         Search
     Headline
-        an option to specify the search method for testing containments of powers of ideals
+        an option for the function nu to specify the search method for testing containments of powers of ideals
     Description
         Text
             An option for function @TO nu@ specifies the order in which to compute containment of powers of ideals.         
@@ -488,7 +502,7 @@ doc ///
     Key
         UseFSignature
     Headline
-        an option to specify whether to use the F-signature function in the search for an F-pure threshold
+        an option for the function fpt to specify whether to use the F-signature function in the search for an F-pure threshold
     Description
         Text
             An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.  
@@ -501,7 +515,7 @@ doc ///
     Key
         UseSpecialAlgorithms
     Headline
-        an option to check whether the input is a diagonal polynomial, a binomial, or a binary form, in which case appropriate algorithms can be applied toward computing an F-pure threshold
+        an option for the function fpt to check whether the input is a diagonal polynomial, a binomial, or a binary form, in which case appropriate algorithms can be applied toward computing an F-pure threshold
     Description
         Text
             An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial (i.e., a homogeneous polynomial in two variables), or a binary form, in which case, a specialized algorithm of Hernandez, or Hernandez and Teixeira, is applied. 
