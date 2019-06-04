@@ -296,8 +296,11 @@ doc ///
         FrobeniusRootStrategy => Symbol
             an option passed to computations in the TestIdeals package
         AssumeDomain => Boolean
+            assumes the ring passed is an integral domain
         MaxCartierIndex => ZZ
+            sets the maximum $\mathbb{Q}$-Gorenstein index to search for 
         QGorensteinIndex => ZZ
+            specifies the $\mathbb{Q}$-Gorenstein index of the ring
     Outputs
         :Boolean
             the value {\tt true} if {\tt t} is the $F$-pure threshold of $f$, and {\tt false} otherwise 
