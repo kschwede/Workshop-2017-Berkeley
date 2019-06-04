@@ -284,7 +284,7 @@ guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
 (
     if o.Verbose then print "\nStarting guessFPT ...";
     -- Check if fpt is the upper bound b
-    if isFPT( b, f ) then
+    if isFPT( b, f, IsLocal => true ) then
     (
         if o.Verbose then print( "\nfpt is the right-hand endpoint." );
         return b
@@ -292,7 +292,7 @@ guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
     else if o.Verbose then print "\nThe right-hand endpoint is not the fpt ...";
     -- Check if fpt is the lower bound a
     if maxChecks >= 2 then
-        if not isFRegular( a, f ) then
+        if not isFRegular( a, f, IsLocal => true ) then
 	(
 	    if o.Verbose then
 	        print( "\nfpt is the left-hand endpoint." );
@@ -312,7 +312,7 @@ guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
 	while floor( d*B ) < ceiling( d*A ) or isInteger( d*B ) or isInteger( d*A ) do
             d = d+1;
         t = ceiling( d*A )/d;
-        comp = compareFPT( t, f );
+        comp = compareFPT( t, f, IsLocal => true );
 	if comp == 0 then  -- found exact FPT!
 	(
 	    if o.Verbose then
@@ -484,7 +484,7 @@ fpt RingElement := o -> f ->
     if o.FRegularityCheck and not strictLB then
     (
 	if o.Verbose then print "\nStarting final check ...";
-        if not isFRegular( LB, f ) then
+        if not isFRegular( LB, f, IsLocal => true ) then
         (
 	   if o.Verbose then
 	       print "\nFinal check successful; fpt is the lower bound.";
