@@ -108,17 +108,17 @@ After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of the Fro
 Along these lines, the notion of the \emph{$F$-pure threshold} was defined in analogy with the \emph{log canonical threshold} \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  
 The $F$-pure threshold of the pair $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure.  
 Furthermore, the more general \emph{$F$-thresholds} was also introduced, a family that contains the $F$-pure threshold. 
-These numerical invariants are typically very difficult to calculate in general, and have been the 
+These numerical invariants are typically very difficult to calculate, and due to their significance, have been the 
 focus of intense study over the past fifteen years.
 This \emph{Macaulay2} package is centered around calculating 
-and estimating the $F$-pure threshold and other $F$-thresholds. 
+and estimating the $F$-pure threshold and other $F$-thresholds, with the function {\tt fpt} at its core. 
 
 
-There are three main sections in this paper, describing the functionality implemented in the \emph{Macaulay2} package \emph{FThresholds}. 
+There are three main sections in this paper, which describe and illustrate the functionality implemented in the package \emph{FThresholds}. 
 \begin{itemize}
 \item \autoref{sec.Nu} describes the methods implemented for approximating the $F$-pure threshold and other $F$-thresholds.  
-\item \autoref{sec.IsFPT} describes functionality for determining whether a given number is the $F$-pure threshold, or more generally, an $F$-jumping exponent.
-\item \autoref{sec.FPT} describes the function {\tt fpt} for estimating and computing $F$-pure thresholds, and how it works.
+\item \autoref{sec.IsFPT} explains the package's functionality for determining whether a given number is the $F$-pure threshold, or more generally, an $F$-jumping exponent.
+\item \autoref{sec.FPT} is focused on the features of the function {\tt fpt} for estimating and computing $F$-pure thresholds, and how it works. 
 \end{itemize}
 
 This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2}, which provides a broad range of functionality in prime characteristic commutative algebra. 
