@@ -11,6 +11,15 @@
 \providecommand{\href}[2]{#2}
 \begin{thebibliography}{MTW05}
 
+\bibitem[Fed83]{FedderFPureRat}
+{\sc R.~Fedder}: \emph{{$F$}-purity and rational singularity}, Trans. Amer.
+  Math. Soc. \textbf{278} (1983), no.~2, 461--480.
+
+\bibitem[HW02]{HaraWatanabeFRegFPure}
+{\sc N.~Hara and K.-I. Watanabe}: \emph{{$F$}-regular and {$F$}-pure rings vs.\
+  log terminal and log canonical singularities}, J. Algebraic Geom. \textbf{11}
+  (2002), no.~2, 363--392.
+
 \bibitem[Her14]{HernandezFPureThresholdOfBinomial}
 {\sc D.~J. Hern\'andez}: \emph{{$F$}-pure thresholds of binomial
   hypersurfaces}, Proc. Amer. Math. Soc. \textbf{142} (2014), no.~7,
@@ -25,10 +34,35 @@
   preprint, \href{https://arxiv.org/abs/1802.02705}{arXiv:1802.02705
   [math.AC]}, 2018.
 
+\bibitem[HH90]{HochsterHunekeTC1}
+{\sc M.~Hochster and C.~Huneke}: \emph{Tight closure, invariant theory, and the
+  {B}rian\c con-{S}koda theorem}, J. Amer. Math. Soc. \textbf{3} (1990), no.~1,
+  31--116.
+
+\bibitem[HR76]{HochsterRobertsFrobeniusLocalCohomology}
+{\sc M.~Hochster and J.~L. Roberts}: \emph{The purity of the {F}robenius and
+  local cohomology}, Advances in Math. \textbf{21} (1976), no.~2, 117--172.
+  {\sf\scriptsize MR0417172 (54 \#5230)}
+
+\bibitem[MR85]{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}
+{\sc V.~B. Mehta and A.~Ramanathan}: \emph{Frobenius splitting and cohomology
+  vanishing for {S}chubert varieties}, Ann. of Math. (2) \textbf{122} (1985),
+  no.~1, 27--40. {\sf\scriptsize MR799251 (86k:14038)}
+
 \bibitem[MTW05]{MustataTakagiWatanabeFThresholdsAndBernsteinSato}
 {\sc M.~Musta{\c{t}}{\v{a}}, S.~Takagi, and K.-i. Watanabe}: \emph{F-thresholds
   and {B}ernstein-{S}ato polynomials}, European Congress of Mathematics, Eur.
   Math. Soc., Z\"urich, 2005, pp.~341--364. {\sf\scriptsize MR2185754
   (2007b:13010)}
+
+\bibitem[MY09]{MustataYoshidaTestIdealVsMultiplierIdeals}
+{\sc M.~Musta{\c{t}}{\u{a}} and K.-I. Yoshida}: \emph{Test ideals vs.
+  multiplier ideals}, Nagoya Math. J. \textbf{193} (2009), 111--128.
+  {\sf\scriptsize MR2502910}
+
+\bibitem[TW04]{TakagiWatanabeFPureThresh}
+{\sc S.~Takagi and K.-i. Watanabe}: \emph{On {F}-pure thresholds}, J. Algebra
+  \textbf{282} (2004), no.~1, 278--297. {\sf\scriptsize MR2097584
+  (2006a:13010)}
 
 \end{thebibliography}

@@ -20,7 +20,7 @@ doc ///
         FrobeniusRootStrategy => Symbol
             passed to computations in the {\it TestIdeals} package
         MaxCartierIndex => ZZ
-            sets the maximum $\mathbb{Q}$-Gorenstein index to search for 
+            sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
     Outputs
@@ -28,7 +28,7 @@ doc ///
             namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold of {\tt f}.
     Description
         Text
-            Let $f$ be an element of a ring of positive characteristic, and $t$ a rational number.  
+            Let $f$ be an element of a ring of positive characteristic, and $t$ a rational number.
             The function {\tt compareFPT} returns $-1$ if $t$ is less than the $F$-pure threshold of $f$, $1$ if $t$ is greater than the $F$-pure threshold $f$, or $0$ if $t$ equals the $F$-pure threshold.
         Example
             R = ZZ/7[x,y];
@@ -37,7 +37,7 @@ doc ///
             compareFPT(5/6, f)
             compareFPT(6/7, f)
         Text
-            This function can be used in a singular ring that is strongly $F$-regular, as long as the ring is $\mathbb{Q}$-Gorenstein of index dividing $p-1$, where $p>0$ is the characteristic of the ring. 
+            This function can be used in a singular ring that is strongly $F$-regular, as long as $p$ does not divide the $\mathbb{Q}$-Gorenstein of index, where $p>0$ is the characteristic of the ring.
             For instance, in the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/(x*y - z^2);
@@ -45,6 +45,30 @@ doc ///
              compareFPT(1/3, f)
              compareFPT(1/2, f)
              compareFPT(13/25, f)
+        Text
+            Here is an example where $p$ does not divide the $\mathbb{Q}$-Gorenstein index.  This is a Veronese subring (which is étale in codimension 1)
+            so the fpt of the given polynomial (in this case 19/125) should be independent of which ring we are in.
+        Example
+            p = 5;
+            T = ZZ/p[a,b];
+            S = ZZ/p[x,y,z,w];
+            f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
+            I = ker f;
+            R = S/I;
+            g = x^7-w^3;
+            h = f(sub(g, S))
+            compareFPT(19/125, g)
+            compareFPT(19/125, h)
+            compareFPT(19/124, g)
+            compareFPT(19/125-1/1000, g)
+        Text
+            If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation.
+            Otherwise {\tt AssumeDomain} should be set to {\tt false} (its default value).
+
+            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
+            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
+
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
     SeeAlso
         fpt
         isFPT
@@ -58,7 +82,7 @@ doc ///
         an option for the function nu specifying the type of containment of powers of ideals to test
     Description
         Text
-            An option for the function @TO nu@ specifying which type of containment test to apply.  
+            An option for the function @TO nu@ specifying which type of containment test to apply.
             The valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
             The default value, {\tt null}, is replaced with {\tt FrobeniusRoot} when the second argument passed to @TO nu@ is a ring element, and {\tt StandardPower} when that argument is an ideal.
 ///
@@ -121,7 +145,7 @@ doc ///
             ZZ/5[x,y];
             fpt( x^2*y^6*(x + y)^9*(x + 3*y)^10 ) -- a binary form
         Text
-            The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization. 
+            The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization.
             For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
         Example
             L = {x, y, x + y, x + 3*y};
@@ -197,7 +221,7 @@ doc ///
     Description
         Text
             An option for the function @TO fpt@ specifying that, in a situation where the exact value of the $F$-pure threshold has not been not found, a final check be run to determine whether the final lower bound for the $F$-pure threshold equals the $F$-pure threshold.
-            This option takes on {\tt Boolean} values, and its default value is {\tt false}. 
+            This option takes on {\tt Boolean} values, and its default value is {\tt false}.
 ///
 
 doc ///
@@ -248,7 +272,7 @@ doc ///
         FrobeniusRootStrategy => Symbol
             passed to computations in the {\it TestIdeals} package
         MaxCartierIndex => ZZ
-            sets the maximum $\mathbb{Q}$-Gorenstein index to search for 
+            sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
     Outputs
@@ -256,7 +280,10 @@ doc ///
             reporting whether {\tt t} is an $F$-jumping exponent of {\tt f}
     Description
         Text
-            Given an element $f$ of a $\mathbb{Q}$-Gorenstein ring $R$ of positive characteristic and a rational number $t$, {\tt isFJumpingExponent(t,f)} returns true if $t$ is an $F$-jumping exponent of $f$, and otherwise it returns false. 
+            Given an element $f$ of a $\mathbb{Q}$-Gorenstein ring $R$ of positive characteristic $p$
+            (with $\mathbb{Q}$-Gorenstein index not divisible by $p$)
+            and a rational number $t$, {\tt isFJumpingExponent(t,f)} returns true if $t$ is an $F$-jumping exponent of $f$,
+            and otherwise it returns false.
         Example
             R = ZZ/5[x,y];
             f =  x^4 + y^3 + x^2*y^2;
@@ -265,13 +292,23 @@ doc ///
             isFJumpingExponent(5/6, f)
             isFJumpingExponent(11/12, f)
         Text
-            If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation. 
+            We include an example in a singular ambient ring.  The jumping numbers that are less than 1 should be 1/4, 1/2 and 3/4.
+        Example
+            R = ZZ/11[x,y,z]/ideal(x*y-z^2);
+            f = x^2;
+            isFJumpingExponent(1/4, f)
+            isFJumpingExponent(3/8, f)
+            isFJumpingExponent(1/2, f)
+            isFJumpingExponent(2/3, f)
+            isFJumpingExponent(3/4, f)
+        Text
+            If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation.
             Otherwise {\tt AssumeDomain} should be set to {\tt false} (its default value).
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
 
-            The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}. 
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}.
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
     SeeAlso
         compareFPT
@@ -300,28 +337,41 @@ doc ///
         FrobeniusRootStrategy => Symbol
             passed to computations in the {\it TestIdeals} package
         MaxCartierIndex => ZZ
-            sets the maximum $\mathbb{Q}$-Gorenstein index to search for 
+            sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
     Outputs
         :Boolean
-            the value {\tt true} if {\tt t} is the $F$-pure threshold of $f$, and {\tt false} otherwise 
+            the value {\tt true} if {\tt t} is the $F$-pure threshold of $f$, and {\tt false} otherwise
     Description
         Text
-            Consider an element {\tt f} of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$, and a number {\tt t}. 
-            If {\tt t} is the $F$-pure threshold of {\tt f}, then the command {\tt isFPT(t, f)} outputs {\tt true}, and otherwise, outputs {\tt false}.         
+            Consider an element {\tt f} of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$ (of $\mathbb{Q}$-Gorenstein index not divisible by $p$),
+            and a number {\tt t}.
+            If {\tt t} is the $F$-pure threshold of {\tt f}, then the command {\tt isFPT(t, f)} outputs {\tt true}, and otherwise, outputs {\tt false}.
         Example
             R = ZZ/11[x,y];
-            f = x^3 + y^2;
-            isFPT(9/11, f)
+            f = x^3+y^2;
+            isFPT(9/11,f)
         Text
-            If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation. 
+            We also include an example in a singular ambient ring.
+        Example
+            p = 7;
+            T = ZZ/p[a,b];
+            S = ZZ/p[x,y,z,w];
+            f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
+            I = ker f;
+            R = S/I;
+            isFPT(1/3, x)
+            isFPT(1/3+1/10000, x)
+            isFPT(1/3-1/10000, x)
+        Text
+            If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation.
             Otherwise {\tt AssumeDomain} should be set to {\tt false} (its default value).
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
 
-            The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}. 
+            The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}.
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
     SeeAlso
         compareFPT
@@ -351,9 +401,9 @@ doc ///
         e:ZZ
             the order of the Frobenius power to consider
         I:Ideal
-            in a polynomial ring {\tt R} with coefficients in a field of characteristic {\tt p > 0}        
+            in a polynomial ring {\tt R} with coefficients in a field of characteristic {\tt p > 0}
         f:RingElement
-            in a polynomial ring {\tt R} with coefficients in a field of characteristic {\tt p > 0}        
+            in a polynomial ring {\tt R} with coefficients in a field of characteristic {\tt p > 0}
         J:Ideal
             in the same ring {\tt R}; if omitted, {\tt J} is assumed to be the ideal generated by the variables of the ring {\tt R}
         ContainmentTest => Symbol
@@ -363,9 +413,9 @@ doc ///
         Search => Symbol
             specifies the strategy to be used in the search for the largest power of {\tt I} not contained in {\tt J^{[p^e]}}
         UseSpecialAlgorithms => Boolean
-            specifies whether to use special algorithms to compute the $F$-pure threshold of {\tt f}, for certain special types of polynomials 
+            specifies whether to use special algorithms to compute the $F$-pure threshold of {\tt f}, for certain special types of polynomials
         Verbose => Boolean
-            requests verbose feedback, where {\tt \nu(1)}, {\tt \nu(p)}, {\tt \nu(p^2)}, etc., are printed as they are computed 
+            requests verbose feedback, where {\tt \nu(1)}, {\tt \nu(p)}, {\tt \nu(p^2)}, etc., are printed as they are computed
     Outputs
         :ZZ
             the largest integer {\tt \nu\ = \nu(p^e)} such that {\tt I^{\nu}} (or {\tt f^n}, or {\tt I^{[\nu]}}, depending on the arguments and options passed) is not contained in {\tt J^{[p^e]}}
@@ -403,8 +453,8 @@ doc ///
         Text
             It is well known that if $q=p^e$ for some nonnegative integer $e$, then $\nu_I^J(qp) = \nu_I^J(q) p + L$, where the error term $L$ is nonnegative, and can explicitly bounded from above in terms of $p$ and the number of generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).
             This relation implies that when searching for {\tt nu(e+1,I,J)}, it is always safe to start at $p$ times {\tt nu(e,I,J)}, and one needn't search too far past this number.
-            
-            If $M$ is the homogeneous maximal ideal of $R$ and $f$ is an element of $R$, the numbers $\nu_f^M(p^e)$ determine and are determined by the $F$-pure threshold of $F$ at the origin. 
+
+            If $M$ is the homogeneous maximal ideal of $R$ and $f$ is an element of $R$, the numbers $\nu_f^M(p^e)$ determine and are determined by the $F$-pure threshold of $F$ at the origin.
             Indeed, $\nu_f^M(p^e)$ is $p^e$ times the truncation of the non-terminating base $p$ expansion of fpt($f$) at its $e$^{th} spot.
             This fact is used to speed up the computations for certain polynomials whose $F$-pure thresholds can be quickly computed via special algorithms, namely diagonal polynomials and binomials.
             This feature can be disabled by setting the option {\tt UseSpecialAlgorithms} (default value {\tt true}) to {\tt false}.
@@ -422,7 +472,7 @@ doc ///
             First, if {\tt ContainmentTest} is set to {\tt StandardPower}, then the ideal containments checked when computing {\tt nu(e,I,J)} are verified directly.
             That is, the standard power $I^n$ is first computed, and a check is then run to see if it lies in the $p^e$-th Frobenius power of $J$.
 
-            Alternately, if {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the ideal containments are verified using Frobenius Roots.  
+            Alternately, if {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the ideal containments are verified using Frobenius Roots.
             That is, the $p^e$-th Frobenius root of $I^n$ is first computed, and a check is then run to see if it lies in $J$.
             The output is unaffected, but this option often speeds up computations, specially when a polynomial or principal ideal is passed as the second argument.
         Example
@@ -431,9 +481,9 @@ doc ///
             time nu(3, f) -- ContainmentTest is set to FrobeniusRoot, by default
             time nu(3, f, ContainmentTest => StandardPower)
         Text
-            Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above, {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$^{th} (generalized) Frobenius power of $I$ is not contained in the $p^e$-th Frobenius power of $J$.  
-            Here, the $n$^{th} Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper {\it Frobenius Powers} by Hernandez, Teixeira, and Witt.  
-            In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} need not agree.  
+            Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above, {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$^{th} (generalized) Frobenius power of $I$ is not contained in the $p^e$-th Frobenius power of $J$.
+            Here, the $n$^{th} Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper {\it Frobenius Powers} by Hernandez, Teixeira, and Witt.
+            In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} need not agree.
             However, they will agree when $I$ is a principal ideal.
         Example
             R = ZZ/3[x,y];
@@ -456,11 +506,11 @@ doc ///
         Example
             nu(5, f, ReturnList => true)
         Text
-            Alternatively, the option {\tt Verbose} (default value {\tt false}) can be used to request that the values $\nu_I^J(p^i)$ ($i=0,\ldots,e$) be printed as they are computed, to monitor the progress of the computation. 
+            Alternatively, the option {\tt Verbose} (default value {\tt false}) can be used to request that the values $\nu_I^J(p^i)$ ($i=0,\ldots,e$) be printed as they are computed, to monitor the progress of the computation.
         Example
             nu(5, f, Verbose => true)
     SeeAlso
-            fpt    
+            fpt
 ///
 
 doc ///
@@ -483,7 +533,7 @@ doc ///
         an option for the function nu to specify the search method for testing containments of powers of ideals
     Description
         Text
-            An option for function @TO nu@ specifies the order in which to compute containment of powers of ideals.         
+            An option for function @TO nu@ that specifies the order in which to compute containment of powers of ideals.         
             The valid values are {\tt Binary} and {\tt Linear}, and the default value is {\tt Binary}. 
 ///
 
@@ -518,7 +568,7 @@ doc ///
         an option for the function fpt to check whether the input is a diagonal polynomial, a binomial, or a binary form, in which case appropriate algorithms can be applied toward computing an F-pure threshold
     Description
         Text
-            An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial (i.e., a homogeneous polynomial in two variables), or a binary form, in which case, a specialized algorithm of Hernandez, or Hernandez and Teixeira, is applied. 
+            An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial (i.e., a homogeneous polynomial in two variables), or a binary form, in which case, a specialized algorithm of Hernandez, or Hernandez and Teixeira, is applied.
             Takes on Boolean values.
             Default value is {\tt true}.
 ///
