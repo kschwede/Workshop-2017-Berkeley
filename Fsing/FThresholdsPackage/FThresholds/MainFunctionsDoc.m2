@@ -20,12 +20,12 @@ doc ///
             assumes the ring passed is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the {\it TestIdeals} package
+        IsLocal => Boolean
+            tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
-        IsLocal => Boolean
-            tells the function whether to only consider behavior at the origin
     Outputs
         :ZZ
             namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold of {\tt f}.
@@ -65,11 +65,10 @@ doc ///
             compareFPT(19/124, g)
             compareFPT(19/125 - 1/1000, g)
         Text
-            Setting the {\tt IsLocal => true} option (default value is {\tt false})
-            will tell the function to only compute the FPT at the origin.
+            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) will tell the function to consider the $F$-pure threshold at the origin.
         Example
             R = ZZ/7[x,y];
-            f = (x+1)^3 - (y+3)^2;
+            f = (x + 1)^3 - (y + 3)^2;
             compareFPT(5/6, f)
             compareFPT(5/6, f, IsLocal=>true)
         Text
@@ -284,12 +283,12 @@ doc ///
             assumes the ring passed is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the {\it TestIdeals} package
+        IsLocal => Boolean
+            tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
-        IsLocal => Boolean
-            tells the function whether to only consider behavior at the origin
     Outputs
         :Boolean
             reporting whether {\tt t} is an $F$-jumping exponent of {\tt f}
@@ -317,15 +316,13 @@ doc ///
             isFJumpingExponent(2/3, f)
             isFJumpingExponent(3/4, f)
         Text
-            Setting the {\tt IsLocal => true} option (default value is {\tt false})
-            will tell the function to only check whether this is a jumping number at the origin.
-            The following example considers a function that looks locally analytically like two
-            lines at the origin and 4 lines at $(2,0)$.
+            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) will tell the function to consider the $F$-pure threshold at the origin.
+            The following example considers a function that looks locally analytically like two lines at the origin and 4 lines at $(2,0)$.
         Example
             R = ZZ/13[x,y];
-            f = y*((y+1)-(x-1)^2)*(x-2)*(x+y-2);
+            f = y*((y + 1) - (x - 1)^2)*(x - 2)*(x + y - 2);
             isFJumpingExponent(3/4, f)
-            isFJumpingExponent(3/4, f, IsLocal=>true)
+            isFJumpingExponent(3/4, f, IsLocal => true)
         Text
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
@@ -362,12 +359,12 @@ doc ///
             assumes the ring passed is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the {\it TestIdeals} package
+        IsLocal => Boolean
+            tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
-        IsLocal => Boolean
-            tells the function whether to only consider behavior at the origin
     Outputs
         :Boolean
             reporting whether {\tt t} is the $F$-pure threshold of {\tt f}
@@ -390,12 +387,11 @@ doc ///
             isFPT(1/3 + 1/10000, x)
             isFPT(1/3 - 1/10000, x)
         Text
-            Setting the {\tt IsLocal => true} option (default value is {\tt false})
-            will tell the function to only compute the FPT at the origin.
+            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) will tell the function to consider the $F$-pure threshold at the origin.
         Example
-            R = ZZ/11[x,y,z]/ideal(x^2-y*(z-1));
-            isFPT(1/2, z-1)
-            isFPT(1/2, z-1, IsLocal=>true)
+            R = ZZ/11[x,y,z]/(x^2 - y*(z - 1));
+            isFPT(1/2, z - 1)
+            isFPT(1/2, z - 1, IsLocal => true)
         Text
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
