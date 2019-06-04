@@ -60,7 +60,7 @@ doc ///
             compareFPT(19/125, g)
             compareFPT(19/125, h)
             compareFPT(19/124, g)
-            compareFPT(19/125-1/1000, g)
+            compareFPT(19/125 - 1/1000, g)
         Text
             If the ambient ring $R$ is a domain, the option {\tt AssumeDomain} can be set to {\tt true} in order to speed up the computation.
             Otherwise {\tt AssumeDomain} should be set to {\tt false} (its default value).
@@ -91,6 +91,7 @@ doc ///
     Key
         fpt
         (fpt, RingElement)
+        (fpt, List, List)
         [fpt, DepthOfSearch]
         [fpt, FRegularityCheck]
         [fpt, Attempts]
@@ -138,7 +139,7 @@ doc ///
              fpt( x^5 + y^6 + z^7 + (x*y*z)^3 )
         Text
              If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, respectively.
-             If it is one of these, algorithms of Hernandez, or Hernandez and Teixeira, are executed to compute the $F$-pure threshold of $f$.
+             If it is one of these, algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.
         Example
             fpt( x^17 + y^20 + z^24 ) -- a diagonal polynomial
             fpt( x^2*y^6*z^10 + x^10*y^5*z^3 ) -- a binomial
@@ -217,11 +218,11 @@ doc ///
     Key
         FRegularityCheck
     Headline
-        an option for the function fpt specifying whether to use an F-regularity check as a final attempt to find an F-pure threshold
+        an option for the function fpt to use an F-regularity check as a final attempt to find an F-pure threshold
     Description
         Text
             An option for the function @TO fpt@ specifying that, in a situation where the exact value of the $F$-pure threshold has not been not found, a final check be run to determine whether the final lower bound for the $F$-pure threshold equals the $F$-pure threshold.
-            This option takes on {\tt Boolean} values, and its default value is {\tt false}.
+            Takes on {\tt Boolean} values; default value is {\tt false}.
 ///
 
 doc ///
@@ -389,6 +390,7 @@ doc ///
         [nu, ContainmentTest]
         [nu, ReturnList]
         [nu, Search]
+        [nu, UseSpecialAlgorithms]
         [nu, Verbose]
     Headline
         computes the largest power of an ideal not contained in a specified Frobenius power
@@ -411,14 +413,14 @@ doc ///
         ReturnList => Boolean
             specifies whether to return the list {\tt \{\nu(1),\ldots,\nu(p^e)\}}, as opposed to just {\tt \nu(p^e)}
         Search => Symbol
-            specifies the strategy to be used in the search for the largest power of {\tt I} not contained in {\tt J^{[p^e]}}
+            specifies the strategy to be used in the search for the largest power of {\tt I} or {\tt f} not contained in {\tt J^{[p^e]}}
         UseSpecialAlgorithms => Boolean
             specifies whether to use special algorithms to compute the $F$-pure threshold of {\tt f}, for certain special types of polynomials
         Verbose => Boolean
             requests verbose feedback, where {\tt \nu(1)}, {\tt \nu(p)}, {\tt \nu(p^2)}, etc., are printed as they are computed
     Outputs
         :ZZ
-            the largest integer {\tt \nu\ = \nu(p^e)} such that {\tt I^{\nu}} (or {\tt f^n}, or {\tt I^{[\nu]}}, depending on the arguments and options passed) is not contained in {\tt J^{[p^e]}}
+            the largest integer {\tt \nu\ = \nu(p^e)} such that {\tt I^{\nu}} (or {\tt f^{\nu}}, or {\tt I^{[\nu]}}, depending on the arguments and options passed) is not contained in {\tt J^{[p^e]}}
         :InfiniteNumber
             if {\tt I} or {\tt f} is not contained in the radical of $J$
         :List
@@ -426,10 +428,10 @@ doc ///
     Description
         Text
             Consider a finite field $k$ of characteristic $p>0$, and an ideal $J$ in the polynomial ring $S = k[x_1, \ldots, x_d]$.
-            If $f$ is a polynomial contained in the radical of $J$, then the command {\tt nu(e,f,J)} outputs the maximal exponent $n$ such that $f^n$ is not contained in the $p^e$-th Frobenius power of $J$.
+            If $f$ is a polynomial contained in the radical of $J$, then the command {\tt nu(e,f,J)} outputs the maximal exponent $n$ such that $f^{ n}$ is not contained in the $p^e$-th Frobenius power of $J$.
             More generally, if $I$ is an ideal contained in the radical of $J$, then {\tt nu(e,I,J)} outputs the maximal integer exponent $n$ such that $I^n$ is not contained in the $p^e$-th Frobenius power of $J$.
 
-            These numbers are denoted $\nu_f^J(p^e)$ and $\nu_I^J(p^e)$, respectively, in the literature, and were originally defined in the paper {\it $F$-thresholds and Bernstein-Sato Polynomials} by Mustata, Takagi, and Watanabe.
+            These numbers are denoted $\nu_f^J(p^e)$ and $\nu_I^J(p^e)$, respectively, in the literature, and were originally defined in the paper {\it $F$-thresholds and Bernstein-Sato Polynomials}, by Mustata, Takagi, and Watanabe.
         Example
             R = ZZ/11[x,y];
             I = ideal(x^2 + y^3, x*y);
@@ -451,10 +453,11 @@ doc ///
             nu(2, f)
             nu(2, f, M)
         Text
-            It is well known that if $q=p^e$ for some nonnegative integer $e$, then $\nu_I^J(qp) = \nu_I^J(q) p + L$, where the error term $L$ is nonnegative, and can explicitly bounded from above in terms of $p$ and the number of generators of $I$ and $J$ (e.g., it is at most $p-1$ when $I$ is principal).
-            This relation implies that when searching for {\tt nu(e+1,I,J)}, it is always safe to start at $p$ times {\tt nu(e,I,J)}, and one needn't search too far past this number.
+            It is well known that if $q=p^e$ for some nonnegative integer $e$, then $\nu_I^J(qp) = \nu_I^J(q) p + L$, where the error term $L$ is nonnegative, and can be explicitly bounded from above in terms of $p$ and the number of generators of $I$ and $J$ (e.g., $L$ is at most $p-1$ when $I$ is principal).
+            This implies that when searching for {\tt nu(e,I,J)}, it is always safe to start at $p$ times {\tt nu(e-1,I,J)}, and one needn't search too far past this number, and suggests that the most efficient way to compute {\tt nu(e,I,J)} is to compute, successively, {\tt nu(i,I,J)}, for {\tt i = 0,\ldots,e}.
+            This is indeed how the computation is done in most cases. 
 
-            If $M$ is the homogeneous maximal ideal of $R$ and $f$ is an element of $R$, the numbers $\nu_f^M(p^e)$ determine and are determined by the $F$-pure threshold of $F$ at the origin.
+            If $M$ is the homogeneous maximal ideal of $R$ and $f$ is an element of $R$, the numbers $\nu_f^M(p^e)$ determine and are determined by the $F$-pure threshold of $f$ at the origin.
             Indeed, $\nu_f^M(p^e)$ is $p^e$ times the truncation of the non-terminating base $p$ expansion of fpt($f$) at its $e$^{th} spot.
             This fact is used to speed up the computations for certain polynomials whose $F$-pure thresholds can be quickly computed via special algorithms, namely diagonal polynomials and binomials.
             This feature can be disabled by setting the option {\tt UseSpecialAlgorithms} (default value {\tt true}) to {\tt false}.
@@ -482,7 +485,7 @@ doc ///
             time nu(3, f, ContainmentTest => StandardPower)
         Text
             Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above, {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$^{th} (generalized) Frobenius power of $I$ is not contained in the $p^e$-th Frobenius power of $J$.
-            Here, the $n$^{th} Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper {\it Frobenius Powers} by Hernandez, Teixeira, and Witt.
+            Here, the $n$^{th} Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper {\it Frobenius Powers} by Hernández, Teixeira, and Witt.
             In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} need not agree.
             However, they will agree when $I$ is a principal ideal.
         Example
@@ -500,7 +503,7 @@ doc ///
             time nu(5, f, Search => Linear)
             M = ideal(x, y, z);
             time nu(2, M, M^2) -- uses binary search (default)
-            time nu(2, M, M^2, Search => Linear)
+            time nu(2, M, M^2, Search => Linear) -- but linear seach gets luckier
         Text
             The option {\tt ReturnList} (default value {\tt false}) can be used to request that the output be not only $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=0,\ldots,e$.
         Example
@@ -521,9 +524,7 @@ doc ///
     Description
         Text
             An option for the function @TO nu@ specifying whether to return all nu values up to the given order. 
-            It takes on {\tt Boolean} values, and its default value is {\tt false}. 
-    SeeAlso
-        nu
+            Takes on {\tt Boolean} values; default value is {\tt false}. 
 ///
 
 doc ///
@@ -533,18 +534,18 @@ doc ///
         an option for the function nu to specify the search method for testing containments of powers of ideals
     Description
         Text
-            An option for function @TO nu@ that specifies the order in which to compute containment of powers of ideals.         
-            The valid values are {\tt Binary} and {\tt Linear}, and the default value is {\tt Binary}. 
+            An option for the function @TO nu@ that specifies the order in which to compute containment of powers of ideals.         
+            Valid values are {\tt Binary} and {\tt Linear}; default value is {\tt Binary}. 
 ///
 
 doc ///
     Key
         StandardPower
     Headline
-        an option value to consider containment of the standard power of an ideal in the Frobenius power of another ideal
+        a valid value for the option ContainmentTest
     Description
         Text
-            A value for the option @TO ContainmentTest@ specifying that when verifying containments of powers of ideals, to check whether the standard power of an ideal is contained in the Frobenius power of another ideal. 
+            A valid value for the option @TO ContainmentTest@, specifying that when verifying containments of powers of ideals, to check whether the standard power of an ideal is contained in the Frobenius power of another ideal. 
     SeeAlso
         ContainmentTest
         nu
@@ -554,21 +555,24 @@ doc ///
     Key
         UseFSignature
     Headline
-        an option for the function fpt to specify whether to use the F-signature function in the search for an F-pure threshold
+        an option for the function fpt to use the F-signature function in the search for an F-pure threshold
     Description
         Text
             An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.  
-            It takes on {\tt Boolean} values, and its default value is {\tt false}.
+            Takes on {\tt Boolean} values; default value is {\tt false}.
 ///
 
 doc ///
     Key
         UseSpecialAlgorithms
     Headline
-        an option for the function fpt to check whether the input is a diagonal polynomial, a binomial, or a binary form, in which case appropriate algorithms can be applied toward computing an F-pure threshold
+        an option for the functions fpt and nu to use special algorithms to speed up computations
     Description
         Text
-            An option for the function @TO fpt@ to check whether the input is a diagonal polynomial, a binomial (i.e., a homogeneous polynomial in two variables), or a binary form, in which case, a specialized algorithm of Hernandez, or Hernandez and Teixeira, is applied.
-            Takes on Boolean values.
-            Default value is {\tt true}.
+            An option for the functions @TO fpt@ and @TO nu@.
+            Takes on {\tt Boolean} values; default value is {\tt true}, in both functions. 
+            
+            If this option is set to {\tt true} in @TO fpt@, that function checks whether the input is a diagonal polynomial, a binomial, or a binary form (i.e., a homogeneous polynomial in two variables), in which case a specialized algorithm of Hernández, or Hernández and Teixeira, is applied.
+
+            If set to {\tt true} in @TO nu@, that function checks whether the input is a diagonal polynomial or a binomial, in which case it calls a special algorithm to compute the $F$-pure threshold of the polynomial, and uses the $F$-pure threshold to compute the nu invariant.  
 ///
