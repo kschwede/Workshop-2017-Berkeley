@@ -21,7 +21,7 @@ doc ///
         FrobeniusRootStrategy => Symbol
             passed to computations in the {\it TestIdeals} package
         IsLocal => Boolean
-            tells the function whether to only consider behavior at the origin
+            tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
@@ -284,13 +284,11 @@ doc ///
         FrobeniusRootStrategy => Symbol
             passed to computations in the {\it TestIdeals} package
         IsLocal => Boolean
-            tells the function whether to only consider behavior at the origin
+            tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
-        IsLocal => Boolean
-            tells the function whether to only consider behavior at the origin
     Outputs
         :Boolean
             reporting whether {\tt t} is an $F$-jumping exponent of {\tt f}
@@ -362,7 +360,7 @@ doc ///
         FrobeniusRootStrategy => Symbol
             passed to computations in the {\it TestIdeals} package
         IsLocal => Boolean
-            tells the function whether to only consider behavior at the origin
+            tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
