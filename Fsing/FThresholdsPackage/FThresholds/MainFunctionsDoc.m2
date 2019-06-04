@@ -58,7 +58,7 @@ doc ///
             f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
             I = ker f;
             R = S/I;
-            g = x^7-w^3;
+            g = x^7 - w^3;
             h = f(sub(g, S))
             compareFPT(19/125, g)
             compareFPT(19/125, h)
@@ -355,7 +355,7 @@ doc ///
         isFPT(t, f)
     Inputs
         t:Number
-            a number that is a candidate for the $F$-pure threshold of {\tt f}
+            a number, candidate for the $F$-pure threshold of {\tt f}
         f:RingElement
             an element of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$
         AssumeDomain => Boolean
@@ -370,28 +370,25 @@ doc ///
             tells the function whether to only consider behavior at the origin
     Outputs
         :Boolean
-            the value {\tt true} if {\tt t} is the $F$-pure threshold of $f$, and {\tt false} otherwise
+            reporting whether {\tt t} is the $F$-pure threshold of {\tt f}
     Description
         Text
-            Consider an element {\tt f} of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$ (of $\mathbb{Q}$-Gorenstein index not divisible by $p$),
-            and a number {\tt t}.
-            If {\tt t} is the $F$-pure threshold of {\tt f}, then the command {\tt isFPT(t, f)} outputs {\tt true}, and otherwise, outputs {\tt false}.
+            Consider an element $f$ of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$ (of $\mathbb{Q}$-Gorenstein index not divisible by $p$), and a rational number $t$.
+            If $t$ is the $F$-pure threshold of $f$, then the command {\tt isFPT(t, f)} outputs {\tt true}, and otherwise, it outputs {\tt false}.
         Example
             R = ZZ/11[x,y];
-            f = x^3+y^2;
-            isFPT(9/11,f)
+            f = x^3 + y^2;
+            isFPT(9/11, f)
         Text
             We also include an example in a singular ambient ring.
         Example
-            p = 7;
-            T = ZZ/p[a,b];
-            S = ZZ/p[x,y,z,w];
+            T = ZZ/7[a,b];
+            S = ZZ/7[x,y,z,w];
             f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
-            I = ker f;
-            R = S/I;
+            R = S/ker f;
             isFPT(1/3, x)
-            isFPT(1/3+1/10000, x)
-            isFPT(1/3-1/10000, x)
+            isFPT(1/3 + 1/10000, x)
+            isFPT(1/3 - 1/10000, x)
         Text
             Setting the {\tt IsLocal => true} option (default value is {\tt false})
             will tell the function to only compute the FPT at the origin.
