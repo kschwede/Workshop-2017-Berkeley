@@ -79,7 +79,7 @@ doc ///
         fpt(L, m)
     Inputs
         f:RingElement
-            a polynomial with coefficients in a finite field of prime characteristic
+            a polynomial with coefficients in a finite field
         L:List
             containing forms in two variables
         m:List
@@ -105,20 +105,28 @@ doc ///
            the $F$-pure threshold of {\tt f}, if {\tt f} does not vanish at the origin
     Description
          Text
-             The function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of a polynomial $f$ at the origin, and returns that value, if possible.
+             Given a polynomial $f$ with coefficients in a finite field, the function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
              Otherwise, it returns lower and upper bounds for the $F$-pure threshold.
         Example
              ZZ/5[x,y,z];
-             fpt( x^3+y^3+z^3+x*y*z )
-             fpt( x^5+y^6+z^7+(x*y*z)^3 )
+             fpt( x^3 + y^3 + z^3 + x*y*z )
+             fpt( x^5 + y^6 + z^7 + (x*y*z)^3 )
         Text
              If the option @TO UseSpecialAlgorithms@ is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, respectively.
              If it is one of these, algorithms of Hernandez, or Hernandez and Teixeira, are executed to compute the $F$-pure threshold of $f$.
         Example
-            fpt( x^17+y^20+z^24 ) -- a diagonal polynomial
-            fpt( x^2*y^6*z^10+x^10*y^5*z^3 ) -- a binomial
+            fpt( x^17 + y^20 + z^24 ) -- a diagonal polynomial
+            fpt( x^2*y^6*z^10 + x^10*y^5*z^3 ) -- a binomial
             ZZ/5[x,y];
-            fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 ) -- a binary form
+            fpt( x^2*y^6*(x + y)^9*(x + 3*y)^10 ) -- a binary form
+        Text
+            The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization. 
+            For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
+        Example
+            L = {x, y, x + y, x + 3*y};
+            m = {2, 6, 9, 10};
+            fpt(L, m)
+            fpt( x^2*y^6*(x + y)^9*(x + 3*y)^10 )
         Text
             When no special algorithm is available or @TO UseSpecialAlgorithms@ is set to {\tt false}, {\tt fpt} computes {\tt u}$(e,f)$ (see @TO nu@), where $e$ is the value of the option @TO DepthOfSearch@, which conservatively defaults to 1.
             At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval.
@@ -126,14 +134,14 @@ doc ///
             If @TO Attempts@ is set to 0, {\tt guessFPT} is bypassed.
             If @TO Attempts@ is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval is the $F$-pure threshold.
         Example
-            f = x^2*(x+y)^3*(x+3*y^2)^5;
+            f = x^2*(x + y)^3*(x + 3*y^2)^5;
             fpt( f, Attempts => 0 ) -- a bad estimate
             fpt( f, Attempts => 0, DepthOfSearch => 3 ) -- a better estimate
             fpt( f, Attempts => 1, DepthOfSearch => 3 ) -- the right-hand endpoint (nu+1)/p^e is the fpt
         Text
             If @TO Attempts@ is set to at least 2 and the right-hand endpoint $(\nu+1)/p^e$ is not the $F$-pure threshold, a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ is the $F$-pure threshold.
         Example
-	    f = x^6*y^4+x^4*y^9+(x^2+y^3)^3;
+	    f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
             fpt( f, Attempts => 1, DepthOfSearch => 3 )
             fpt( f, Attempts => 2, DepthOfSearch => 3 ) -- the left-hand endpoint nu/(p^e-1) is the fpt
         Text
@@ -141,14 +149,14 @@ doc ///
             A number in the interval with minimal denominator is selected, and @TO compareFPT@ is used to test that number.
             If that "guess" is correct, its value is returned; otherwise, the information returned by @TO compareFPT@ is used to narrow down the interval, and this process is repeated as many times as specified by @TO Attempts@.
         Example
-            f = x^3*y^11*(x+y)^8*(x^2+y^3)^8;
+            f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
             fpt( f, DepthOfSearch => 3, Attempts => 2 )
             fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- an additional check sharpens the estimate
             fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- and one more finds the exact answer
         Text
             If guessFPT is unsuccessful and @TO UseFSignature@ is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
         Example
-            f = x^5*y^6*(x+y)^9*(x^2+y^3)^4;
+            f = x^5*y^6*(x + y)^9*(x^2 + y^3)^4;
             fpt( f, DepthOfSearch => 3 )
             fpt( f, DepthOfSearch => 3, UseFSignature => true )
             numeric ooo
@@ -156,7 +164,7 @@ doc ///
         Text
             When @TO FRegularityCheck@ is set to {\tt true} and no exact answer has been found, a final check is run (if necessary) to verify whether the final lower bound for the $F$-pure threshold is the exact answer.
         Example
-            f = (x+y)^4*(x^2+y^3)^6;
+            f = (x + y)^4*(x^2 + y^3)^6;
             fpt( f, Attempts => 2, DepthOfSearch => 3 )
             fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) -- using FSignatures the answer improves a bit
 	    fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) -- FRegularityCheck finds the answer
@@ -164,7 +172,7 @@ doc ///
             The computations performed when @TO UseFSignature@ and @TO FRegularityCheck@ are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
             It is often more effective to increase the values of @TO Attempts@ or @TO DepthOfSearch@, instead.
         Example
-            f = x^7*y^5*(x+y)^5*(x^2+y^3)^4;
+            f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 	    timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true )
             timing numeric fpt( f, Attempts => 5, DepthOfSearch => 3 ) -- a better answer in less time
             timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less time
@@ -172,16 +180,8 @@ doc ///
             As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
             Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option @TO Verbose@ is set to {\tt true}, the precise interval will be printed.
         Example
-            f = x^7*y^5*(x+y)^5*(x^2+y^3)^4;
+            f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
             fpt( f, DepthOfSearch => 3, UseFSignature => true, Verbose => true )
-        Text
-            The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization. 
-            For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
-        Example
-            L = {x, y, x+y, x+3*y};
-            m = {2, 6, 9, 10};
-            fpt(L, m)
-            fpt( x^2*y^6*(x+y)^9*(x+3*y)^10 )
     SeeAlso
         compareFPT
         isFPT
