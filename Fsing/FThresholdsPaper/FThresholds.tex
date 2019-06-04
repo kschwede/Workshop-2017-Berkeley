@@ -276,7 +276,7 @@ o3 : List
 }
             
              If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, in that order.
-             If it is one of these, algorithms of Hern\'andez, or Hern\'andez and Teixeira, {\color{red}  References?} are executed to compute the $F$-pure threshold of $f$.
+             If it is one of these, algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.
 
 {\small
 \setstretch{.67}
@@ -330,7 +330,7 @@ In the remainder of this section, we describe the {\tt fpt} function when no spe
 
 In this case, very roughly speaking, the {\tt fpt} function will either compute, and output, the exact value of the $F$-pure threshold of $f$, and otherwise recursively compute a finite sequence of upper and lower bounds for this value, and output the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.  %We note that a pair of bounds will be produced only if the exact value of the $F$-pure threshold remains undetermined.  
 
-In more detail, let $e$ denote the value of the option {\tt DepthofSearch}, which conservatively defaults to $1$.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well-known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  {\color{red} \cite[Proposition 4.2]{}} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval 
+In more detail, let $e$ denote the value of the option {\tt DepthofSearch}, which conservatively defaults to $1$.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well-known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval 
 %
 \begin{equation}
 \label{estimating-interval: e}

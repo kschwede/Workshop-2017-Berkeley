@@ -29,10 +29,19 @@
 {\sc D.~J. Hern\'andez}: \emph{{$F$}-invariants of diagonal hypersurfaces},
   Proc.\ Amer.\ Math.\ Soc. \textbf{143} (2015), no.~1, 87--104.
 
+\bibitem[HT17]{HernandezTeixeiraFThresholdFunctions}
+{\sc D.~J. Hern\'andez and P.~Teixeira}: \emph{{$F$}-threshold
+  functions\textup: {S}yzygy gap fractals and the two-variable homogeneous
+  case}, J.\ Symbolic Comput. \textbf{80} (2017), 451--483.
+
 \bibitem[HTW18]{HernandezTeixeiraWittFrobeniusPowers}
 {\sc D.~J. Hern\'andez, P.~Teixeira, and E.~E. Witt}: \emph{Frobenius powers},
   preprint, \href{https://arxiv.org/abs/1802.02705}{arXiv:1802.02705
   [math.AC]}, 2018.
+
+\bibitem[Her12]{HernandezFPurityOfHypersurfaces}
+{\sc D.~J. Hern\'{a}ndez}: \emph{{$F$}-purity of hypersurfaces}, Math. Res.
+  Lett. \textbf{19} (2012), no.~2, 389--401. {\sf\scriptsize 2955770}
 
 \bibitem[HH90]{HochsterHunekeTC1}
 {\sc M.~Hochster and C.~Huneke}: \emph{Tight closure, invariant theory, and the
