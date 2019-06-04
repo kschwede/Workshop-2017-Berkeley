@@ -113,7 +113,7 @@ doc ///
              fpt( x^3 + y^3 + z^3 + x*y*z )
              fpt( x^5 + y^6 + z^7 + (x*y*z)^3 )
         Text
-             If the option @TO UseSpecialAlgorithms@ is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, respectively.
+             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, respectively.
              If it is one of these, algorithms of Hernandez, or Hernandez and Teixeira, are executed to compute the $F$-pure threshold of $f$.
         Example
             fpt( x^17 + y^20 + z^24 ) -- a diagonal polynomial
@@ -129,33 +129,33 @@ doc ///
             fpt(L, m)
             fpt( x^2*y^6*(x + y)^9*(x + 3*y)^10 )
         Text
-            When no special algorithm is available or @TO UseSpecialAlgorithms@ is set to {\tt false}, {\tt fpt} computes {\tt u}$(e,f)$ (see @TO nu@), where $e$ is the value of the option @TO DepthOfSearch@, which conservatively defaults to 1.
+            When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu$ = {\tt nu(e,f)} (see @TO nu@), where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to 1.
             At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval.
-            The number of "guesses" is controlled by the option @TO Attempts@, which conservatively defaults to 3.
-            If @TO Attempts@ is set to 0, {\tt guessFPT} is bypassed.
-            If @TO Attempts@ is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval is the $F$-pure threshold.
+            The number of "guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to 3.
+            If {\tt Attempts} is set to 0, {\tt guessFPT} is bypassed.
+            If {\tt Attempts} is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval is the $F$-pure threshold.
         Example
             f = x^2*(x + y)^3*(x + 3*y^2)^5;
             fpt( f, Attempts => 0 ) -- a bad estimate
             fpt( f, Attempts => 0, DepthOfSearch => 3 ) -- a better estimate
             fpt( f, Attempts => 1, DepthOfSearch => 3 ) -- the right-hand endpoint (nu+1)/p^e is the fpt
         Text
-            If @TO Attempts@ is set to at least 2 and the right-hand endpoint $(\nu+1)/p^e$ is not the $F$-pure threshold, a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ is the $F$-pure threshold.
+            If {\tt Attempts} is set to at least 2 and the right-hand endpoint $(\nu+1)/p^e$ is not the $F$-pure threshold, a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ is the $F$-pure threshold.
         Example
             f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
             fpt( f, Attempts => 1, DepthOfSearch => 3 )
             fpt( f, Attempts => 2, DepthOfSearch => 3 ) -- the left-hand endpoint nu/(p^e-1) is the fpt
         Text
-            If neither endpoint is the $F$-pure threshold, and @TO Attempts@ is set to more than 2, additional checks are performed at numbers in the interval.
+            If neither endpoint is the $F$-pure threshold, and {\tt Attempts} is set to more than 2, additional checks are performed at numbers in the interval.
             A number in the interval with minimal denominator is selected, and @TO compareFPT@ is used to test that number.
-            If that "guess" is correct, its value is returned; otherwise, the information returned by @TO compareFPT@ is used to narrow down the interval, and this process is repeated as many times as specified by @TO Attempts@.
+            If that "guess" is correct, its value is returned; otherwise, the information returned by @TO compareFPT@ is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
         Example
             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
             fpt( f, DepthOfSearch => 3, Attempts => 2 )
             fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- an additional check sharpens the estimate
             fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- and one more finds the exact answer
         Text
-            If guessFPT is unsuccessful and @TO UseFSignature@ is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
+            If guessFPT is unsuccessful and {\tt UseFSignature} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
         Example
             f = x^5*y^6*(x + y)^9*(x^2 + y^3)^4;
             fpt( f, DepthOfSearch => 3 )
@@ -163,15 +163,15 @@ doc ///
             numeric ooo
             numeric ooo -- UseFSignature sharpened the estimate a bit
         Text
-            When @TO FRegularityCheck@ is set to {\tt true} and no exact answer has been found, a final check is run (if necessary) to verify whether the final lower bound for the $F$-pure threshold is the exact answer.
+            When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run (if necessary) to verify whether the final lower bound for the $F$-pure threshold is the exact answer.
         Example
             f = (x + y)^4*(x^2 + y^3)^6;
             fpt( f, Attempts => 2, DepthOfSearch => 3 )
             fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) -- using FSignatures the answer improves a bit
             fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) -- FRegularityCheck finds the answer
         Text
-            The computations performed when @TO UseFSignature@ and @TO FRegularityCheck@ are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
-            It is often more effective to increase the values of @TO Attempts@ or @TO DepthOfSearch@, instead.
+            The computations performed when {\tt UseFSignature} and {\tt FRegularityCheck} are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
+            It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.
         Example
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
             timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true )
@@ -179,7 +179,7 @@ doc ///
             timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less time
         Text
             As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
-            Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option @TO Verbose@ is set to {\tt true}, the precise interval will be printed.
+            Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
         Example
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
             fpt( f, DepthOfSearch => 3, UseFSignature => true, Verbose => true )
@@ -207,7 +207,7 @@ doc ///
         a valid value for the option ContainmentTest
     Description
         Text
-            A valid value for the option {\tt ContainmentTest} specifying that Frobenius powers be used when verifying containments of powers of ideals. 
+            A valid value for the option @TO ContainmentTest@ specifying that Frobenius powers be used when verifying containments of powers of ideals. 
     SeeAlso
         ContainmentTest
         nu
@@ -220,7 +220,7 @@ doc ///
         a valid value for the option ContainmentTest
     Description
         Text
-            A valid value for the option {\tt ContainmentTest} specifying that Frobenius roots be used when verifying containments of powers of ideals.
+            A valid value for the option @TO ContainmentTest@ specifying that Frobenius roots be used when verifying containments of powers of ideals.
     SeeAlso
         ContainmentTest
         nu
@@ -471,8 +471,7 @@ doc ///
     Description
         Text
             An option for the function @TO nu@ specifying whether to return all nu values up to the given order. 
-            Takes on Boolean values.
-            Default value is {\tt false}. 
+            It takes on {\tt Boolean} values, and its default value is {\tt false}. 
     SeeAlso
         nu
 ///
@@ -485,7 +484,7 @@ doc ///
     Description
         Text
             An option for function @TO nu@ specifies the order in which to compute containment of powers of ideals.         
-            Valid values are {\tt Binary} and {\tt Linear}.  Default value is {\tt Binary}. 
+            The valid values are {\tt Binary} and {\tt Linear}, and the default value is {\tt Binary}. 
 ///
 
 doc ///
@@ -495,7 +494,7 @@ doc ///
         an option value to consider containment of the standard power of an ideal in the Frobenius power of another ideal
     Description
         Text
-            A value for the option {\tt ContainmentTest} specifying that when verifying containments of powers of ideals, to check whether the standard power of an ideal is contained in the Frobenius power of another ideal. 
+            A value for the option @TO ContainmentTest@ specifying that when verifying containments of powers of ideals, to check whether the standard power of an ideal is contained in the Frobenius power of another ideal. 
     SeeAlso
         ContainmentTest
         nu
@@ -509,7 +508,7 @@ doc ///
     Description
         Text
             An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.  
-            Takes on Boolean values.
+            It takes on {\tt Boolean} values, and its default value is {\tt false}.
 ///
 
 doc ///
