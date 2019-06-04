@@ -211,7 +211,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     local N;
     nu := nu1( g, J );
     theList := { nu };
-    if o.Verbose then print( "\nnu(1) = " | toString nu );
+    if o.Verbose then print( "nu(1) = " | toString nu );
 
     ----------------------
     -- EVERY OTHER CASE --
@@ -222,7 +222,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     scan( 1..n, e ->
         (
            nu = searchFct( g, J, e, p*nu, (nu+1)*N, testFct );
-           if o.Verbose then print( "\nnu(p^" | toString e | ") = " | toString nu );
+           if o.Verbose then print( "nu(p^" | toString e | ") = " | toString nu );
            theList = append( theList, nu )
         )
     )
@@ -479,7 +479,7 @@ fpt RingElement := o -> f ->
     );
 
     ------------------------------
-    -- FINAL F_REGULARITY CHECK --
+    -- FINAL F-REGULARITY CHECK --
     ------------------------------
     if o.FRegularityCheck and not strictLB then
     (

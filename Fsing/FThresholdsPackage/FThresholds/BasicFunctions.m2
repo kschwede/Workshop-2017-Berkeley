@@ -205,7 +205,8 @@ isBinomial (RingElement) := Boolean => f ->
 isBinaryForm = method( TypicalValue => Boolean )
 
 isBinaryForm RingElement := Boolean => F ->
-    isPolynomial F and numgens ring F == 2 and isHomogeneous F 
+-- isHomogeneous is avoided below to account for non-standard gradings
+    isPolynomial F and numgens ring F == 2 and same(apply( exponents F, i -> sum i))
 
 -*
 --===============================================================================
@@ -215,7 +216,7 @@ isBinaryForm RingElement := Boolean => F ->
 isNonConstantBinaryForm = method( TypicalValue => Boolean )
 
 isNonConstantBinaryForm RingElement := Boolean => F -> 
-    isBinaryForm F  and ( degree F )#0 > 0
+    isBinaryForm F  and ( apply( exponents F, i -> sum i) )#0 > 0
 
 --===============================================================================
 *-
@@ -225,7 +226,7 @@ isNonConstantBinaryForm RingElement := Boolean => F ->
 isLinearBinaryForm = method( TypicalValue => Boolean )
 
 isLinearBinaryForm RingElement := Boolean => F -> 
-    isBinaryForm F and ( degree F )#0 == 1
+    isBinaryForm F and ( apply( exponents F, i -> sum i) )#0 == 1
 
 --===============================================================================
 
