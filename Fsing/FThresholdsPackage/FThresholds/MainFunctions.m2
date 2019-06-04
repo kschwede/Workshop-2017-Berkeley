@@ -685,7 +685,6 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         --the e is assumed to be 1 here since we are implicitly doing stuff
         computedHSLG = sum( apply(u1, h1->frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, sub( computedHSLGInitial, S1 ) ) ));
     );
-    1/0;
     if isProper( (computedHSLG * R1 ) : newDenom ) then return 1;
     --the fpt we picked is too big
     return 0;
