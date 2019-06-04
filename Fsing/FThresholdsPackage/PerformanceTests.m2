@@ -59,7 +59,6 @@ time assert( nu(1,I,Search=>Linear) == 11 ) -- lucky
 time assert( nu(1,I,ContainmentTest=>FrobeniusRoot) == 11 ) -- BAD
 time assert( nu(1,I,ContainmentTest=>FrobeniusRoot,Search=>Linear) == 11 ) -- good
 
-
 time assert( nuHat(2,I) == 154 ) -- slow
 time assert( newNuHat(2,I) == 154 )  -- slow
 
@@ -76,3 +75,8 @@ time assert( nu(1,I,J,ContainmentTest=>FrobeniusPower,Search=>Linear) == 48 )
 time assert( nu(1,I,J,ContainmentTest=>FrobeniusPower,ReturnList=>true) == {6, 48} )  
 time assert( nu(1,I,J,ContainmentTest=>FrobeniusPower) == {6, 48} ) 
 ///
+
+ZZ/5[x,y,z];
+I=ideal(x^4+y^5,y^4+z^5,z^4+x^5);
+time nu(2,I) 
+time nu(2,I,Search=>Linear)
