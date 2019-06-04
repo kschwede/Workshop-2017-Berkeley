@@ -313,7 +313,7 @@ doc ///
             R = ZZ/11[x,y];
             f = x^3+y^2;
             isFPT(9/11,f)
-     SeeAlso
+    SeeAlso
         compareFPT
         fpt
         isFJumpingExponent
