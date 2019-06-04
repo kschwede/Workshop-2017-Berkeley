@@ -74,7 +74,6 @@ export{
     "isFJumpingExponent",
     "isFPT",
     "nu",
-    "nuList",
     "ReturnList",
     "Search",
     "UseFSignature",
