@@ -304,14 +304,26 @@ guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
     counter := 3;
     local t;
     local comp;
+    local num;
+    local den;
     ( A, B ) := ( a, b );
     d := 2;
     while counter <= maxChecks do
     (
 	-- search for number with minimal denominator in the open interval (A,B)
-	while floor( d*B ) < ceiling( d*A ) or isInteger( d*B ) or isInteger( d*A ) do
-            d = d+1;
-        t = ceiling( d*A )/d;
+        if A == 0 then 
+        (
+            num = numerator B;
+            den = denominator B;
+            if num == 1 then ( d = den + 1; t = 1/(den + 1))
+            else ( d = den; t = 1/den )
+        )
+        else
+        (
+            while floor( d*B ) < ceiling( d*A ) or isInteger( d*B ) or isInteger( d*A ) do
+                d = d+1;
+            t = ceiling( d*A )/d
+        );
         comp = compareFPT( t, f, IsLocal => true );
 	if comp == 0 then  -- found exact FPT!
 	(
