@@ -323,3 +323,9 @@ checkOptions ( OptionTable, List ) := ( o, L ) ->
     )
 )
 
+-- passOptions selects a subset of options from an OptionTable
+passOptions = method()
+
+passOptions ( OptionTable, List ) := (o, L) -> 
+    new OptionTable from apply( L, k -> k => o#k )
+
