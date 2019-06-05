@@ -272,9 +272,9 @@ fSig := ( f, a, e ) ->
 
 -- numberWithMinimalDenominator(A,B,D) finds the number in the open interval
 -- (A,B) with minimal denominator, starting the search with denominator D.
--- Returns sequence with the denominator and the number in (A,B) with that 
--- denominator. 
-numberWithMinimalDenominator := (A, B, D) -> 
+-- Returns sequence with the denominator and the number in (A,B) with that
+-- denominator.
+numberWithMinimalDenominator := (A, B, D) ->
 (
     d := D;
     while ceiling( d*B - 1) < floor( d*A + 1 ) do d = d + 1;
@@ -338,6 +338,8 @@ guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
 
 -- The default number of "random" checks to be performed
 maxChecks := 3;
+
+
 
 -- F-pure threshold estimation, at the origin.
 -- e is the max depth to search in.
@@ -1025,4 +1027,10 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
     else(
         not isSubset( saturate(computedHSLG), saturate(computedTau) )
     )
+)
+
+--this is some alternate guessFPT code, it tries to do it based on the value that
+--has the smallest computational expense
+--we assume that each 1/(p^e-1) takes 3*e more computations than a 1/p value.
+guessFPTAlt := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->(
 )

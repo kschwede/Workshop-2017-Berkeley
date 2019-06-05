@@ -10,9 +10,6 @@ Authors => {
      Email => "hernandez@ku.edu",
      HomePage => "https://hernandez.faculty.ku.edu"
      },
-     {Name => "Zhibek Kadyrsizova",
-     Email => "zhibek.kadyrsizova@nu.edu.kz"
-     },
      {Name => "Sara Malec",
      Email => "malec@hood.edu"
      },
