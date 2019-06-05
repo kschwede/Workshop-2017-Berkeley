@@ -12,7 +12,7 @@ document {
     This package relies heavily on the ", TO "TestIdeals", " package. Many special cases (binomials, diagonal polynomials, etc.) are", EM " seemlessly ",
     "handled by using special algorithms found in ", HREF{"https://doi.org/10.1090/S0002-9939-2014-12260-X", "Hernández"}, ", ",HREF{"https://doi.org/10.1090/S0002-9939-2014-11941-1", "Hernández"}, ", and ", HREF{"https://arxiv.org/abs/1404.5871","Hernández-Teixeira"},
     ".  This package can even compute ", TEX ///$F$///, "-pure thresholds in ", EM "singular ambient rings.",
-    BR{},BR{},                  
+    BR{},BR{},
     BOLD "Notable functions:",BR{},
     UL {
       {TO "fpt", " computes (or estimates) the ", TEX ///$F$///, "-pure threshold."},
@@ -26,7 +26,7 @@ document {
     BOLD "Acknowledgements:",BR{},BR{},
     "The authors would like to thank David Eisenbud, Daniel Grayson, Anurag Singh, Greg Smith, and Mike Stillman for useful conversations and comments on the development of this package.",BR{},BR{},
     BOLD "Contributors", BR{}, BR{},
-    EM "(the following non-authors contributed to this package)",
+    "We sincerely thank the following people who contributed code to this package",
         UL {
         {"Alice"},
         {"Bob"},
