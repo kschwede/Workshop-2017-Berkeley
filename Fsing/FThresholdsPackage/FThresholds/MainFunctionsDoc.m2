@@ -487,7 +487,7 @@ doc ///
            nu(1, 0_R, J)
            nu(1, 1_R, J)
         Text
-            When the third argument is ommited, the ideal $J$ is assumed to be the homogeneous maximal ideal of $R$.
+            When the third argument is omitted, the ideal $J$ is assumed to be the homogeneous maximal ideal of $R$.
         Example
             R = ZZ/17[x,y,z];
             f = x^3 + y^4 + z^5;
