@@ -123,10 +123,10 @@ There are three main sections in this paper, which describe and illustrate the m
 \item \autoref{sec.FPT} describes the features of the central function of the package, {\tt fpt}. 
 \end{itemize}
 
-This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2}, which provides a broad range of functionality in prime characteristic commutative algebra. 
+This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2}, which provides a broad range of functionality in positive characteristic commutative algebra. 
 
 \subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors and contributors to the \emph{FThresholds} package: (INSERT NAMES HERE). %Erin Bela, Juliette Bruce, Zhibek Kadyrsizova, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Dan Smolkin, and Robert Walker. 
-We are also grateful the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016. 
+We are also grateful to the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016. 
 We are also grateful to the University of Utah for hosting a collaborative development visit in 2018, and to the Institute of Mathematics and its Applications for its support for the Coding Sprint \emph{F-thresholds in Macaulay2} in 2019, where the current version of the package was finalized and this paper was completed. 
 
 \section{The $F$-pure threshold limit and {\tt nu}}
@@ -284,8 +284,8 @@ o3 : List
 \end{MyVerbatim}
 }
             
-             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, in that order.
-             If it is one of these, algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold (cf. \cite{ShibutaTakagiLCThresholds}).
+If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is a diagonal polynomial, a binomial, or a form in two variables, in that order.
+If it is one of these, algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold (cf. \cite{ShibutaTakagiLCThresholds}).
 
 {\small
 \setstretch{.67}
@@ -318,7 +318,7 @@ o7 : QQ
 \end{MyVerbatim}
 }
        
-            The above noted algorithm for computing the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and {\tt fpt} can sometimes hang when attempting that factorization. For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$, and a list containing their respective multiplicities.
+The above noted algorithm for computing the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and {\tt fpt} can sometimes hang when attempting that factorization. For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$, and a list containing their respective multiplicities.
 
 {\small
 \setstretch{.67}

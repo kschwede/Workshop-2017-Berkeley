@@ -43,7 +43,8 @@ firstCarry = ( p, w ) ->
     (
 	i := 0;	
 	d := 0;
-	while d < p and i < carryTest( p, w ) do 
+        ct := carryTest( p, w );
+	while d < p and i < ct do 
 	(
 	    i = i + 1;
 	    d = sum adicDigit( p, i, w )

@@ -72,7 +72,7 @@ test := new HashTable from
     {
 	FrobeniusPower => testFrobeniusPower,
 	FrobeniusRoot => testRoot,
-    StandardPower => testPower
+        StandardPower => testPower
     }
 
 ---------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ linearSearch = ( I, J, e, a, b, testFunction ) ->
 (
     c := a + 1;
     while not testFunction( I, c, J, e ) do c = c + 1;
-    c-1
+    c - 1
 )
 
 -- hash table to select search function from option keyword
@@ -152,10 +152,10 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- TRIVIAL CASES --
     -------------------
     -- Return list with zeros if f is 0 (per Blickle-Mustata-Smith convention)
-    if f == 0 then return if o.ReturnList then toList( (n+1):0 ) else 0;
+    if f == 0 then return if o.ReturnList then toList( (n + 1):0 ) else 0;
     -- Return list with infinities if f is not in the radical of J
     inRadical := if isIdeal f then isSubset( f, radical J ) else isSubset( ideal f, radical J );
-    if not inRadical then return if o.ReturnList then toList( (n+1):infinity ) else infinity;
+    if not inRadical then return if o.ReturnList then toList( (n + 1):infinity ) else infinity;
 
     --------------------------------
     -- DEAL WITH PRINCIPAL IDEALS --
@@ -185,7 +185,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	if not isSubset( ideal g, J ) then
 	    error "nuInternal: the polynomial is not in the homogeneous maximal ideal";
         if not isSubset( ideal g^(p-1), frobenius J ) then -- fpt = 1
-	    return if o.ReturnList then apply( n+1, i -> p^i-1 ) else p^n-1;
+	    return if o.ReturnList then apply( n + 1, i -> p^i-1 ) else p^n-1;
         if o.UseSpecialAlgorithms then
         (
 	    fpt := null;
@@ -194,7 +194,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	    if fpt =!= null then
 	        return
 		(
-		    if o.ReturnList then apply( n+1, i -> p^i*adicTruncation( p, i, fpt ) )
+		    if o.ReturnList then apply( n + 1, i -> p^i*adicTruncation( p, i, fpt ) )
 		    else p^n*adicTruncation( p, n, fpt )
 		)
         )
@@ -218,10 +218,10 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     ----------------------
     (
 	N = if isPrincipal or conTest === FrobeniusPower
-	   then p else (numgens trim J)*(p-1)+1;
+	   then p else (numgens trim J)*(p-1) + 1;
     scan( 1..n, e ->
         (
-           nu = searchFct( g, J, e, p*nu, (nu+1)*N, testFct );
+           nu = searchFct( g, J, e, p*nu, (nu + 1)*N, testFct );
            if o.Verbose then print( "nu(p^" | toString e | ") = " | toString nu );
            theList = append( theList, nu )
         )
@@ -428,8 +428,8 @@ fpt RingElement := o -> f ->
     -----------------------------------------------
     e := o.DepthOfSearch;
     n := nu( e, f );
-    LB := n/( p^e-1 ); -- lower bound (because of forbidden intervals)
-    UB := ( n+1 )/p^e; -- upper bound
+    LB := n/(p^e - 1); -- lower bound (because of forbidden intervals)
+    UB := (n + 1)/p^e; -- upper bound
     strictLB := false; -- at this point, LB and UB *could* be the fpt
     strictUB := false;
     if o.Verbose then
@@ -637,7 +637,7 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
             --now we have to run the sigma computation
             baseTau = first testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, passOptions( o, { AssumeDomain, FrobeniusRootStrategy } ) );
             if o.Verbose or debugLevel > 1 then print concatenate("compareFPT: testIdeal(R) = ", toString(baseTau));
-            if isProper (baseTau+locMax) then
+            if isProper (baseTau + locMax) then
                 error "compareFPT: The ambient ring must be F-regular";
             --the ambient isn't even F-regular
             if a1 > pp^c1 - 1 then
@@ -884,7 +884,7 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
             if o.Verbose or debugLevel > 1 then print "isFJumpingExponent: we found a single generating map.";
             computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
             if o.Verbose or debugLevel > 1 then print concatenate("isFJumpingExponent: testIdeal(f^t) = ", toString(computedTau));
-            if isUnitIdeal(computedTau+locMax) then return false;
+            if isUnitIdeal(computedTau + locMax) then return false;
             --at this point we know that it can't be an F-jumping exponent
             --now we have to run the sigma computation
             baseTau = first testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
@@ -939,7 +939,7 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
     computedTau = ( runningIdeal * R1 ) : newDenom;
     if o.Verbose or debugLevel > 1 then
         print concatenate("isFJumpingExponent: testIdeal(f^t) = ", toString(computedTau));
-    if isUnitIdeal(computedTau+locMax) then return false;
+    if isUnitIdeal(computedTau + locMax) then return false;
     --at this point we know that this is not a jumping number
 
     --now we compute the base tau
@@ -980,8 +980,6 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
     )
 )
 
-
-
 isFJumpingExponentPoly = method( Options => { FrobeniusRootStrategy => Substitution, IsLocal => false, Verbose => false } )
 
 isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
@@ -1004,7 +1002,7 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
     computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => true );
     if o.Verbose or debugLevel > 1 then
         print concatenate("isFJumpingExponentPoly: testIdeal(f^t) = ", toString(computedTau));
-    if isUnitIdeal(computedTau+locMax) then return false;
+    if isUnitIdeal(computedTau + locMax) then return false;
 
     --now we have to run the sigma computation
     ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
