@@ -35,7 +35,7 @@ doc ///
     Description
         Text
             Let $f$ be an element of a ring of positive characteristic, and $t$ a rational number.
-            The function {\tt compareFPT} returns $-1$ if $t$ is less than the $F$-pure threshold of $f$, $1$ if $t$ is greater than the $F$-pure threshold $f$, or $0$ if $t$ equals the $F$-pure threshold.
+            The function {\tt compareFPT} returns {\tt -1} if $t$ is less than the $F$-pure threshold of $f$, {\tt 1} if $t$ is greater than the $F$-pure threshold $f$, or {\tt 0} if $t$ equals the $F$-pure threshold.
         Example
             R = ZZ/7[x,y];
             f = y^2 - x^3;
@@ -52,8 +52,8 @@ doc ///
              compareFPT(1/2, f)
              compareFPT(13/25, f)
         Text
-            Here is an example where $p$ does not divide the $\mathbb{Q}$-Gorenstein index.  This is a Veronese subring (which is étale in codimension 1)
-            so the fpt of the given polynomial (in this case 19/125) should be independent of which ring we are in.
+            Here is an example where $p$ does not divide the $\mathbb{Q}$-Gorenstein index.  This is a Veronese subring (which is étale in codimension $1$)
+            so the fpt of the given polynomial (in this case $19/125$) should be independent of which ring we are in.
         Example
             p = 5;
             T = ZZ/p[a,b];
@@ -79,7 +79,7 @@ doc ///
             We assume that the ring is a domain by default in order to speed up the computation.
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
-            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
+            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 
@@ -169,24 +169,24 @@ doc ///
             fpt(L, m)
             fpt( x^2*y^6*(x + y)^9*(x + 3*y)^10 )
         Text
-            When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu$ = {\tt nu(e,f)} (see @TO nu@), where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to 1.
+            When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu$ = {\tt nu(e,f)} (see @TO nu@), where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.
             At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval.
-            The number of "guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to 3.
-            If {\tt Attempts} is set to 0, {\tt guessFPT} is bypassed.
-            If {\tt Attempts} is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval is the $F$-pure threshold.
+            The number of "guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to {\tt 3}.
+            If {\tt Attempts} is set to {\tt 0}, {\tt guessFPT} is bypassed.
+            If {\tt Attempts} is set to at least {\tt 1}, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval is the $F$-pure threshold.
         Example
             f = x^2*(x + y)^3*(x + 3*y^2)^5;
             fpt( f, Attempts => 0 ) -- a bad estimate
             fpt( f, Attempts => 0, DepthOfSearch => 3 ) -- a better estimate
             fpt( f, Attempts => 1, DepthOfSearch => 3 ) -- the right-hand endpoint (nu+1)/p^e is the fpt
         Text
-            If {\tt Attempts} is set to at least 2 and the right-hand endpoint $(\nu+1)/p^e$ is not the $F$-pure threshold, a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ is the $F$-pure threshold.
+            If {\tt Attempts} is set to at least {\tt 2} and the right-hand endpoint $(\nu+1)/p^e$ is not the $F$-pure threshold, a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ is the $F$-pure threshold.
         Example
             f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
             fpt( f, Attempts => 1, DepthOfSearch => 3 )
             fpt( f, Attempts => 2, DepthOfSearch => 3 ) -- the left-hand endpoint nu/(p^e-1) is the fpt
         Text
-            If neither endpoint is the $F$-pure threshold, and {\tt Attempts} is set to more than 2, additional checks are performed at numbers in the interval.
+            If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more than {\tt 2}, then additional checks are performed at numbers in the interval.
             A number in the interval with minimal denominator is selected, and @TO compareFPT@ is used to test that number.
             If that "guess" is correct, its value is returned; otherwise, the information returned by @TO compareFPT@ is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
         Example
@@ -314,7 +314,7 @@ doc ///
             isFJumpingExponent(5/6, f)
             isFJumpingExponent(11/12, f)
         Text
-            We include an example in a singular ambient ring.  The jumping numbers that are less than 1 should be 1/4, 1/2 and 3/4.
+            We include an example in a singular ambient ring.  The jumping numbers that are less than $1$ should be $1/4$, $1/2$ and $3/4$.
         Example
             R = ZZ/11[x,y,z]/ideal(x*y-z^2);
             f = x^2;
@@ -336,7 +336,7 @@ doc ///
             We assume that the ring is a domain by default in order to speed up the computation.
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
-            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
+            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}.
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
@@ -410,7 +410,7 @@ doc ///
             We assume that the ring is a domain by default in order to speed up the computation.
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
-            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
+            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}.
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
@@ -445,11 +445,11 @@ doc ///
         e:ZZ
             the order of the Frobenius power to consider
         I:Ideal
-            in a polynomial ring {\tt R} with coefficients in a field of characteristic {\tt p > 0}
+            in a polynomial ring $R$ over a finite a field of characteristic $p>0$
         f:RingElement
-            in a polynomial ring {\tt R} with coefficients in a field of characteristic {\tt p > 0}
+            in the polynomial ring $R$
         J:Ideal
-            in the same ring {\tt R}; if omitted, {\tt J} is assumed to be the ideal generated by the variables of the ring {\tt R}
+            in the polynomial ring $R$; if omitted, {\tt J} is assumed to be the ideal generated by the variables of $R$
         ContainmentTest => Symbol
             specifies the manner in which to verify the containment of powers of {\tt I} or {\tt f} in {\tt J^{[p^e]}}
         ReturnList => Boolean
@@ -469,8 +469,8 @@ doc ///
             containing {\tt \nu(p^i)}, for {\tt i = 0,\ldots,e}
     Description
         Text
-            Consider a finite field $k$ of characteristic $p>0$, and an ideal $J$ in the polynomial ring $S = k[x_1, \ldots, x_d]$.
-            If $f$ is a polynomial contained in the radical of $J$, then the command {\tt nu(e,f,J)} outputs the maximal exponent $n$ such that $f^{ n}$ is not contained in the $p^e$-th Frobenius power of $J$.
+            Consider a polynomial $f$ in a polynomial ring over a finite field of characteristic $p>0$, and an ideal $J$ of this ring. 
+            If $f$ is contained in the radical of $J$, then the command {\tt nu(e,f,J)} outputs the maximal exponent $n$ such that $f^n$ is not contained in the $p^e$-th Frobenius power of $J$.
             More generally, if $I$ is an ideal contained in the radical of $J$, then {\tt nu(e,I,J)} outputs the maximal integer exponent $n$ such that $I^n$ is not contained in the $p^e$-th Frobenius power of $J$.
 
             These numbers are denoted $\nu_f^J(p^e)$ and $\nu_I^J(p^e)$, respectively, in the literature, and were originally defined in the paper {\it $F$-thresholds and Bernstein-Sato Polynomials}, by Mustaţă, Takagi, and Watanabe.
