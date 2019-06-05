@@ -274,32 +274,32 @@ passOptions ( OptionTable, List ) := (o, L) ->
 --this finds rational numbers in an interval, and ranks them based on the value that
 --has the smallest computational expense
 --we assume that each 1/(p^e-1) takes 1.5*e more computations than a 1/p value.
-fptWeightedGuessList = { Verbose => false } >> o -> ( pp, a, b, minGenSize ) ->(
-    --startDenom := (numberWithMinimalDenominator(a,b,2))#0;
-    --coreDenom := ceiling(startDenom*log_2(startDenom)) + 1; -- this is the max denominator we will look for
-    coreDenom := ceiling((1/(b-a))^(2/3));
-    numList := findNumbersBetween((a, b), coreDenom);
-    while (#numList < minGenSize) do (coreDenom = 2*coreDenom; numList = findNumbersBetween((a, b), coreDenom));
-    --pp := char ring f;
-    local u;
-    local v;
-    local w;
+fptWeightedGuessList = ( pp, A, B, minGenSize ) ->
+(
+    coreDenom := ceiling (1/(B - A))^(2/3);
+    numList := findNumbersBetween( (A, B), coreDenom );
+    while #numList < minGenSize do 
+        ( coreDenom = 2*coreDenom; numList = findNumbersBetween( (A, B), coreDenom ) );
+    -- now that we have a list with enough rational numbers between a and b, 
+    -- compute their weights
+    local a;
+    local b;
+    local c;
     local wt;
-    weightList := apply(numList, i -> (
-        (u,v,w) = decomposeFraction(pp, i);
-        wt = v + 1*w;
-        --if (wt == 0) then 1/0;
-        --d = (timing(isFJumpingExponent(i, f)))#0;
-        return {wt, i}));
-        --return (i, wt, d, 1.0*(d)/wt)));
-
-    return weightList;
+    apply( numList, x -> 
+        (
+            ( a, b, c ) = decomposeFraction( pp, x );
+            wt = b + 1.5*c;
+            { wt, x }
+        )
+    )
 )
 
-  --This function finds rational numbers in the range of the interval
---with the given denominator, it is a helper function for guessFPTAlt
-findNumberBetweenWithDenom = (myInterv, myDenom)->(
-     upperBound := floor((myInterv#1)*myDenom)/myDenom;
+--This function finds rational numbers in the range of the interval
+--with the given denominator, it is a helper function for fptWeightedGuessList
+findNumberBetweenWithDenom = ( myInterv, myDenom ) ->
+(
+    upperBound := floor( (myInterv#1) * myDenom )/myDenom;
           --finds the number with denominator myDenom less than the upper
 	  --bound of myInterv
      lowerBound := ceiling((myInterv#0)*myDenom)/myDenom;
