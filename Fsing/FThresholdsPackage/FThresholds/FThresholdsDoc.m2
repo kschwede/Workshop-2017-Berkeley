@@ -24,5 +24,12 @@ document {
     EXAMPLE{"p = 131;","R =ZZ/p[x,y];","f = x^13 - y^5;","c = fpt(f)","compareFPT(c - 1/p^2, f)","compareFPT(c,  f)","compareFPT(c + 1/p^2, f)","isFJumpingExponent(36/65, f)"},
     BR{},BR{},
     BOLD "Acknowledgements:",BR{},BR{},
-    "The authors would like to thank David Eisenbud, Daniel Grayson, Anurag Singh, Greg Smith, and Mike Stillman for useful conversations and comments on the development of this package.",BR{}
+    "The authors would like to thank David Eisenbud, Daniel Grayson, Anurag Singh, Greg Smith, and Mike Stillman for useful conversations and comments on the development of this package.",BR{},BR{},
+    BOLD "Contributors", BR{}, BR{},
+    EM "(the following non-authors contributed to this package)",
+        UL {
+        {"Alice"},
+        {"Bob"},
+        {"Eve"}
+    }, BR{},BR{}
 }
