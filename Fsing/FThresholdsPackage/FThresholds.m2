@@ -1,19 +1,10 @@
 newPackage( "FThresholds",
-Version => "1.01",
-Date => "March 24th, 2019",
+Version => "2.0",
+Date => "June 5th, 2019",
 Authors => {
-     {Name => "Erin Bela",
-     Email => "ebela@nd.edu"
-     },
-     {Name => "Alberto F. Boix",
-     Email => "alberto.fernandezb@upf.edu"
-     },
      {Name => "Juliette Bruce",
      Email => "juliette.bruce@math.wisc.edu",
      HomePage => "https://juliettebruce.github.io/"
-     },
-     {Name => "Drew Ellingson",
-     Email => "drewtell@umich.edu"
      },
      {Name => "Daniel Hernandez",
      Email => "hernandez@ku.edu",
@@ -21,10 +12,6 @@ Authors => {
      },
      {Name => "Zhibek Kadyrsizova",
      Email => "zhibek.kadyrsizova@nu.edu.kz"
-     },
-     {Name => "Moty Katzman",
-     Email => "m.katzman@sheffield.ac.uk",
-     HomePage => "http://www.katzman.staff.shef.ac.uk/"
      },
      {Name => "Sara Malec",
      Email => "malec@hood.edu"

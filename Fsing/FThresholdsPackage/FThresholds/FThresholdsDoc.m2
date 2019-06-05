@@ -30,6 +30,8 @@ document {
         UL {
         {"Alice"},
         {"Bob"},
-        {"Eve"}
-    }, BR{},BR{}
+        {"Eve"},
+        {"Erin Bela"},
+        {HREF{"http://www.katzman.staff.shef.ac.uk/", "Mordechai Katzman"}}
+    }
 }
