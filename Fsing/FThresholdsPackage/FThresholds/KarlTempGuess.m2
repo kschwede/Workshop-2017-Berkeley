@@ -11,15 +11,15 @@ numberWithMinimalDenominator = (A,B,D) ->
 guessFPTWeighted = { Verbose => false } >> o -> ( pp, a, b, minGenSize ) ->(
     --startDenom := (numberWithMinimalDenominator(a,b,2))#0;
     --coreDenom := ceiling(startDenom*log_2(startDenom)) + 1; -- this is the max denominator we will look for
-    coreDenom = ceiling((1/(b-a))^(2/3));
-    numList := findNumberBetween((a, b), coreDenom);
+    coreDenom := ceiling((1/(b-a))^(2/3));
+    numList := findNumbersBetween((a, b), coreDenom);
     while (#numList < minGenSize) do (coreDenom = 2*coreDenom; numList = findNumberBetween((a, b), coreDenom));
     --pp := char ring f;
     local u;
     local v;
     local w;
-    local weight;
-    weightList = apply(numList, i -> (
+    local wt;
+    weightList := apply(numList, i -> (
         (u,v,w) = decomposeFraction(pp, i);
         wt = v + 1*w;
         --if (wt == 0) then 1/0;
@@ -48,21 +48,36 @@ findNumberBetweenWithDenom = (myInterv, myDenom)->(
      )
 )
 
+
 --This function finds rational numbers in the range of
---the interval; the max denominator allowed is listed.
-findNumberBetween = (myInterv, maxDenom)->(
-     divisionChecks :=  new MutableList from maxDenom:true;
+--the interval; the max denominator allowed is maxDenom.
+findNumbersBetweenV2 = (myInterv, maxDenom)->(
+    divisionChecks :=  new MutableList from maxDenom:true;
          -- creates a list with maxDenom elements all set to true.
-     outList := {};
-     i := maxDenom;
-     while (i > 0) do (
-	  if ((divisionChecks#(i-1)) == true) then --if we need to do a computation..
-	      outList = join(outList,findNumberBetweenWithDenom(myInterv, i));
-	  factorList := getFactorList(i);
-     	  apply(#factorList, j-> (divisionChecks#( (factorList#j)-1) = false) );
-	  i = i - 1;
-     );
-     sort(toList set outList)
+    outList := {};
+    i := 2;
+    while (i <= maxDenom) do (
+        outList = join(outList, findNumberBetweenWithDenom(myInterv, i));
+        i = i+1;
+    );
+    sort(toList set outList)
+)
+
+--This function finds rational numbers in the range of
+--the interval; the max denominator allowed is maxDenom.
+findNumbersBetween = (myInterv, maxDenom)->(
+    divisionChecks :=  new MutableList from maxDenom:true;
+         -- creates a list with maxDenom elements all set to true.
+    outList := {};
+    i := maxDenom;
+    while (i > 0) do (
+        if ((divisionChecks#(i-1)) == true) then --if we need to do a computation..
+            outList = join(outList,findNumberBetweenWithDenom(myInterv, i));
+        factorList := getFactorList(i);
+     	apply(#factorList, j-> (divisionChecks#( (factorList#j)-1) = false) );
+	    i = i - 1;
+    );
+    sort(toList set outList)
 )
 
 --Returns the power set of a given list, except it leaves out
