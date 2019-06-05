@@ -98,7 +98,7 @@ doc ///
     Description
         Text
             An option for the function @TO nu@ specifying which type of containment test to apply.
-            The valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}.
+            The valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, {\tt StandardPower}, and {\tt null}.
             The default value, {\tt null}, is replaced with {\tt FrobeniusRoot} when the second argument passed to @TO nu@ is a ring element, and {\tt StandardPower} when that argument is an ideal.
 ///
 
