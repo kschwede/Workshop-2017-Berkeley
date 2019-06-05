@@ -38,27 +38,27 @@
 }%
 \makeatother
 
-%%%
-%%%
-%%%
-%%% labels in the enumerate and itemize environments
-%%%
-\makeatletter
-\renewcommand{\theenumi}{\alph{enumi}}
-\renewcommand{\labelenumi}{(\theenumi)}
-\renewcommand{\theenumii}{\roman{enumii}}
-\renewcommand{\labelenumii}{\theenumii.}
-\renewcommand{\p@enumii}{\theenumi$\m@th\vert$}
-\renewcommand{\theenumiii}{\arabic{enumiii}}
-\renewcommand{\labelenumiii}{\theenumiii.}
-\renewcommand{\p@enumiii}{\theenumi.\theenumii.}
+% %%%
+% %%%
+% %%%
+% %%% labels in the enumerate and itemize environments
+% %%%
+% \makeatletter
+% \renewcommand{\theenumi}{\alph{enumi}}
+% \renewcommand{\labelenumi}{(\theenumi)}
+% \renewcommand{\theenumii}{\roman{enumii}}
+% \renewcommand{\labelenumii}{\theenumii.}
+% \renewcommand{\p@enumii}{\theenumi$\m@th\vert$}
+% \renewcommand{\theenumiii}{\arabic{enumiii}}
+% \renewcommand{\labelenumiii}{\theenumiii.}
+% \renewcommand{\p@enumiii}{\theenumi.\theenumii.}
 
 
-\renewcommand{\labelitemi}{$\m@th\circ$}
-\renewcommand{\labelitemii}{$\m@th\diamond$}
-\renewcommand{\labelitemiii}{$\m@th\star$}
-\renewcommand{\labelitemiv}{$\m@th\cdot$}
-\makeatother
+% \renewcommand{\labelitemi}{$\m@th\circ$}
+% \renewcommand{\labelitemii}{$\m@th\diamond$}
+% \renewcommand{\labelitemiii}{$\m@th\star$}
+% \renewcommand{\labelitemiv}{$\m@th\cdot$}
+% \makeatother
 
 %%% Theorem Environment setup for \autoref
 %%% setup is complicated due to:

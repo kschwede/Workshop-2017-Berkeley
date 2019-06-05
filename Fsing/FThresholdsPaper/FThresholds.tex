@@ -38,7 +38,6 @@ urlcolor=OliveGreen
 {formatcom=\color{Violet}}
 
 
-
 \begin{document}
 \title{The  \emph{FThresholds} package for \emph{Macaulay2}}
 %\author[Alberto F.\ Boix et al.]{Alberto F.\ Boix}
@@ -89,7 +88,8 @@ urlcolor=OliveGreen
 \date{\today}
 
 \begin{abstract}
-	This note describes the functionality implemented in the \emph{Macaulay2} package \emph{FThresholds}.  This package is designed to compute and estimate $F$-pure thresholds, more general $F$-thresholds, and related numerical invariants arising in the study of regularity conditions in prime characteristic commutative algebra.
+   This note describes the functionality implemented in the \emph{Macaulay2} package \emph{FThresholds}.
+   This package is designed to compute and estimate $F$-pure thresholds, more general $F$-thresholds, and related numerical invariants arising in the study of regularity conditions in positive characteristic commutative algebra.
 \end{abstract}
 
 
@@ -101,20 +101,20 @@ urlcolor=OliveGreen
 
 \section{Introduction}
 
-This paper describes the \emph{Macaulay2} package \emph{FThresholds}, which provides tools for computing certain fundamental invariants arising in prime characteristic commutative algebra, namely, \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.  Recall that a ring $R$ of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius morphism $F : R \to R$ sending an element to its $p^\text{th}$ power is a pure morphism (under geometric hypotheses, this is equivalent to the condition that the Frobenius morphism is split).  The notion of $F$-purity first appeared in the work of Hochster and Roberts in \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in \cite{FedderFPureRat}, and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.
+This paper describes the \emph{Macaulay2} \cite{M2} package \emph{FThresholds}, which provides tools for computing certain fundamental invariants arising in positive characteristic commutative algebra, namely, \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.
+Recall that a ring $R$ of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius morphism $F \: R \to R$ sending an element to its $p^\text{th}$ power is a pure morphism (under geometric hypotheses, this is equivalent to the condition that the Frobenius morphism is split).
+The notion of $F$-purity first appeared in the work of Hochster and Roberts \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities \cite{FedderFPureRat}, and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.
 
-After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of the Frobenius endomorphism to measure regularity conditions proliferated, and based on a strong connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a positive rational number $t$ considered as a formal exponent.  
+After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of the Frobenius endomorphism to measure regularity conditions proliferated, and based on a strong connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a nonnegative real number considered a formal exponent.
 
 Along these lines, the notion of the \emph{$F$-pure threshold} was defined in analogy with the \emph{log canonical threshold} \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  
 The $F$-pure threshold of the pair $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure.  
-Furthermore, the more general \emph{$F$-thresholds} was also introduced, a family that contains the $F$-pure threshold. 
-These numerical invariants are typically very difficult to calculate, and due to their significance, have been the 
-focus of intense study over the past fifteen years.
-This \emph{Macaulay2} package is centered around calculating 
-and estimating the $F$-pure threshold and other $F$-thresholds, with the function {\tt fpt} at its core. 
+Furthermore, the more general notion of \emph{$F$-thresholds}, which includes the $F$-pure threshold, was also introduced. 
+These numerical invariants are typically very difficult to calculate, and due to their significance, have been the focus of intense study over the past fifteen years.
+This \emph{Macaulay2} package is centered around calculating and estimating the $F$-pure threshold and other $F$-thresholds, with the function {\tt fpt} at its core. 
 
 
-There are three main sections in this paper, which describe and illustrate the functionality implemented in the package \emph{FThresholds}. 
+There are three main sections in this paper, which describe and illustrate the functionality implemented in the package \emph{FThresholds}.
 \begin{itemize}
 \item \autoref{sec.Nu} describes the methods implemented for approximating the $F$-pure threshold and other $F$-thresholds.  
 \item \autoref{sec.IsFPT} explains the package's functionality for determining whether a given number is the $F$-pure threshold, or more generally, an $F$-jumping exponent.
@@ -380,7 +380,7 @@ o14 = ---
 o14 : QQ
 
 \end{MyVerbatim}
- 
+} 
 
 If  {\tt Attempts} is set to at least 2, and the right-hand endpoint $(\nu+1)/p^e$ of the interval \eqref{estimating-interval: e} is not the $F$-pure threshold, then a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ of this interval is the $F$-pure threshold.
 
