@@ -7,6 +7,7 @@ doc ///
         [compareFPT, AssumeDomain]
         [compareFPT, QGorensteinIndex]
         [compareFPT, IsLocal]
+        [compareFPT, Verbose]
     Headline
         determine whether a given number is less than, greater than, or equal to the F-pure threshold
     Usage
@@ -26,6 +27,8 @@ doc ///
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
+        Verbose => Boolean
+            toggles verbose output
     Outputs
         :ZZ
             namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold of {\tt f}.
@@ -79,6 +82,8 @@ doc ///
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value 10).
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+
+            Turning on the option {\tt Verbose=>true} produces verbose output.
     SeeAlso
         fpt
         isFPT
@@ -270,6 +275,7 @@ doc ///
         [isFJumpingExponent, MaxCartierIndex]
         [isFJumpingExponent, QGorensteinIndex]
         [isFJumpingExponent, IsLocal]
+        [isFJumpingExponent, Verbose]
     Headline
         whether a given number is an F-jumping exponent
     Usage
@@ -289,6 +295,8 @@ doc ///
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
+        Verbose => Boolean
+            toggles verbose output
     Outputs
         :Boolean
             reporting whether {\tt t} is an $F$-jumping exponent of {\tt f}
@@ -332,6 +340,8 @@ doc ///
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}.
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+
+            Turning on the option {\tt Verbose=>true} produces verbose output.
     SeeAlso
         compareFPT
         isFPT
@@ -346,6 +356,7 @@ doc ///
         [isFPT, MaxCartierIndex]
         [isFPT, QGorensteinIndex]
         [isFPT, IsLocal]
+        [isFPT, Verbose]
     Headline
         checks whether a given rational number is the F-pure threshold
     Usage
@@ -365,6 +376,8 @@ doc ///
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
+        Verbose => Boolean
+            toggles verbose output
     Outputs
         :Boolean
             reporting whether {\tt t} is the $F$-pure threshold of {\tt f}
@@ -401,6 +414,8 @@ doc ///
 
             The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}.
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+
+            Turning on the option {\tt Verbose=>true} produces verbose output.
     SeeAlso
         compareFPT
         fpt
