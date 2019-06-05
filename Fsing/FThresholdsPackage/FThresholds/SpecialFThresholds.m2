@@ -486,5 +486,23 @@ monomialFPT = method(
 )
 
 monomialFPT RingElement := QQ => f -> (
-    min apply(exponents(f), i -> 1/i);
+    1/max(first(exponents(f)))
+    )
+
+---monomiaFPT computes the FPT of a SNC divisor monomial
+
+regularSoPFPT = method(
+    TypicalValue => QQ
+    )
+
+regularSoPFPT Product := QQ => f -> (
+    )
+
+    ---computes whether something is SNC
+isRegularSoP = method(
+    TypicalValue => Boolean
+    )
+
+isRegularSoP Product := Boolean => f -> (
+    
     )
