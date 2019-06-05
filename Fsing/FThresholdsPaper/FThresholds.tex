@@ -89,7 +89,11 @@ urlcolor=OliveGreen
 
 \begin{abstract}
    This note describes the functionality implemented in the \emph{Macaulay2} package \emph{FThresholds}.
+<<<<<<< HEAD
    This package is designed to compute and estimate $F$-pure thresholds, more general $F$-thresholds, and related numerical invariants used to study singularities in positive characteristic.
+=======
+   This package is designed to compute and estimate $F$-pure thresholds, more general $F$-thresholds, and related numerical invariants arising in the study of singularities in positive characteristic commutative algebra.
+>>>>>>> 8963835516abce0fab4f6c5cad8cbd56672ba19e
 \end{abstract}
 
 
@@ -102,43 +106,43 @@ urlcolor=OliveGreen
 \section{Introduction}
 
 This paper describes the \emph{Macaulay2} \cite{M2} package \emph{FThresholds}, which provides tools for computing certain fundamental invariants arising in positive characteristic commutative algebra, namely, \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.
-Recall that a ring $R$ of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius morphism $F \: R \to R$ sending an element to its $p^\text{th}$ power is a pure morphism (under geometric hypotheses, this is equivalent to the condition that the Frobenius morphism is split).
+Recall that a ring $R$ of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius morphism $F \: R \to R$ sending an element to its $p^\text{th}$ power is a pure morphism (under geometric hypotheses, this is equivalent to the condition that the Frobenius morphism is split).  Regular rings are always $F$-pure, but not conversely.
 The notion of $F$-purity first appeared in the work \cite{HochsterRobertsFrobeniusLocalCohomology}  of Hochster and Roberts to study local cohomology \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in  \cite{FedderFPureRat}, and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.
 
-After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of the Frobenius endomorphism to measure regularity conditions proliferated, and based on a strong connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a nonnegative real number considered a formal exponent.
+After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of the Frobenius endomorphism to measure singularities proliferated, and based on a strong connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a nonnegative real number considered a formal exponent.
 
-Along these lines, the notion of the \emph{$F$-pure threshold} was defined in analogy with the \emph{log canonical threshold} \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  
-The $F$-pure threshold of the pair $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure.  
-Furthermore, \emph{$F$-threholds} were introduced, a family of invariants that naturally extends the notion of an $F$-pure threshold. 
+Along these lines, the notion of the \emph{$F$-pure threshold} was defined in analogy with the \emph{log canonical threshold} \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
+The $F$-pure threshold of the pair $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure.
+Furthermore, \emph{$F$-threholds} were introduced, a family of invariants that naturally extends the notion of an $F$-pure threshold.
 
 These numerical invariants are typically difficult to calculate,
 and due to their significance, have been the focus of intense study over the past fifteen years.
-To this end, the \emph{Macaulay2} package \emph{FThresholds} is centered around calculating and estimating the $F$-pure threshold and other $F$-thresholds, with the function {\tt fpt} at its core. 
+To this end, the \emph{Macaulay2} package \emph{FThresholds} is centered around calculating and estimating the $F$-pure threshold and other $F$-thresholds, with the function {\tt fpt} at its core.
 
 
 There are three main sections in this paper, which describe and illustrate the main functionality implemented in the package \emph{FThresholds}.
 \begin{itemize}
-\item \autoref{sec.Nu} describes the methods implemented for approximating the $F$-pure threshold and other $F$-thresholds.  
+\item \autoref{sec.Nu} describes the methods implemented for approximating the $F$-pure threshold and other $F$-thresholds.
 \item \autoref{sec.IsFPT} explains the package's functionality for determining whether a given number is the $F$-pure threshold, or more generally, an \emph{$F$-jumping exponent}.
-\item \autoref{sec.FPT} describes the features of the central function of the package, {\tt fpt}. 
+\item \autoref{sec.FPT} describes the features of the central function of the package, {\tt fpt}.
 \end{itemize}
 
-This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2}, which provides a broad range of functionality in prime characteristic commutative algebra. 
+This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2}, which provides a broad range of functionality in prime characteristic commutative algebra.
 
-\subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors and contributors to the \emph{FThresholds} package: (INSERT NAMES HERE). %Erin Bela, Juliette Bruce, Zhibek Kadyrsizova, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Dan Smolkin, and Robert Walker. 
-We are also grateful the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016. 
-We are also grateful to the University of Utah for hosting a collaborative development visit in 2018, and to the Institute of Mathematics and its Applications for its support for the Coding Sprint \emph{F-thresholds in Macaulay2} in 2019, where the current version of the package was finalized and this paper was completed. 
+\subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors and contributors to the \emph{FThresholds} package: (INSERT NAMES HERE). %Erin Bela, Juliette Bruce, Zhibek Kadyrsizova, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Dan Smolkin, and Robert Walker.
+We are also grateful the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016.
+We are also grateful to the University of Utah for hosting a collaborative development visit in 2018, and to the Institute of Mathematics and its Applications for its support for the Coding Sprint \emph{F-thresholds in Macaulay2} in 2019, where the current version of the package was finalized and this paper was completed.
 
 \section{The $F$-pure threshold limit and {\tt nu}}
 \label{sec.Nu}
 
 Suppose $R = k[x_1, \dots, x_n]$ is a polynomial ring over a finite field and $f \in R$.    If $f^a \notin \langle x_1^{p^e}, \dots, x_n^{p^e} \rangle = \fram^{[p^e]}$, then the pair $(R, f^{a/(p^e -1)})$ is $F$-pure at the origin, whereas if $f^a \in \fram^{[p^e]}$, then the pair $(R, f^{a/p^e})$ is not $F$-pure at the origin.  By finding the $a \in \bZ$ where that transition happens, and then limiting over $e$, one can compute the $F$-pure threshold.  See \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
 
-We set $\nu(e, f)$ to be largest $a \in \bZ$ such that $f^a \notin \fram^{[p^e]}$ (note in the literature, it is frequently denoted by $\nu_f(p^e)$.  It immediately follows that 
+We set $\nu(e, f)$ to be largest $a \in \bZ$ such that $f^a \notin \fram^{[p^e]}$ (note in the literature, it is frequently denoted by $\nu_f(p^e)$.  It immediately follows that
 \[
 \fpt(f) = \lim_{e \to \infty} {\nu(e, f) \over p^e}.
 \]
-These numbers $\nu(e, f)$ can be computed using the command {\tt nu}, as in the example below.  
+These numbers $\nu(e, f)$ can be computed using the command {\tt nu}, as in the example below.
 \medskip
 {\small
 \setstretch{.67}
@@ -192,20 +196,20 @@ This is frequently denoted by $\nu_I^J(p^e)$ in the literature.  In the case tha
 \[
 \lim_{e \to \infty} {\nu(e, I, J) \over p^e}
 \]
-is called the \emph{$F$-threshold of $I$ with respect to $J$}.  To compute these values we use a binary search, unless the user specifies that we should use a linear search instead {\tt Search=>Linear}.  
+is called the \emph{$F$-threshold of $I$ with respect to $J$}.  To compute these values we use a binary search, unless the user specifies that we should use a linear search instead {\tt Search=>Linear}.
 
 There is one more option that deserves mentioning, {\tt ContainmentTest}.  There are two ways to check whether $f^a$ (or $I^a$) is contained in $J^{[p^e]}$.  In general it is true that
 \[
 I^a \subseteq J^{[p^e]} \text{ $\Leftrightarrow$ } (I^a)^{[1/p^e]} \subseteq J
 \]
 where $\bullet^{[1/p^e]}$ is defined as in the {\tt TestIdeals} package.  Which of these two strategies to use is controlled by the option {\tt ContainmentTest => StandardPower} and {\tt ContainmentTest => FrobeniusRoot} respectively.
-For principal $I$, the command on the right is generally faster (and so {\tt FrobeniusRoot} is the default strategy for computing $\nu$).  For non-principal $I$, frequently the command on the left is quicker, and so {\tt StandardPower} is default strategy. 
+For principal $I$, the command on the right is generally faster (and so {\tt FrobeniusRoot} is the default strategy for computing $\nu$).  For non-principal $I$, frequently the command on the left is quicker, and so {\tt StandardPower} is default strategy.
 
 Finally, the option {\tt ContainmentTest => FrobeniusPower}, then ${\tt \nu(e, I, A)}$ computes the largest integer $n$ such that
 \[
 I^{[p^n]} \subseteq J^{[p^e]}.
 \]
-See \cite{HernandezTeixeiraWittFrobeniusPowers} for more discussion of this.  
+See \cite{HernandezTeixeiraWittFrobeniusPowers} for more discussion of this.
 
 \section{{\tt isFPT}, {\tt compareFPT} and {\tt isFJumpingExponent}}
 \label{sec.IsFPT}
@@ -214,7 +218,7 @@ The command {\tt isFPT(t, f)} checks whether $t$ is the $F$-pure threshold of $f
 \[
 \tau(R, f^t) \text{ and } \tau(R, f^{t-\epsilon}).
 \]
-It follows that $\fpt(f) = t$ if and only if $\tau(R, f^t) \neq R$ and $\tau(R, f^{t-\epsilon}) = R$.  The function computes these two values by using the {\tt testIdeal} and {\tt FPureModule} commands from the {\tt TestIdeals} package.  Note that in a strongly $F$-regular Gorenstein ambient ring, {\tt FPureModule(t, f)} computes exactly $\tau(R, f^{t-\epsilon})$.  These commands work more generally, but they \emph{only} currently work when $R$ is $\bQ$-Gorenstein with index not divisible by the characteristic $p > 0$.  A more general version of this command is {\tt compareFPT(t, f)} which returns $-1$ if $t < \fpt(f)$, $0$ if $t = \fpt(f)$ and $1$ if $t > \fpt(f)$.  
+It follows that $\fpt(f) = t$ if and only if $\tau(R, f^t) \neq R$ and $\tau(R, f^{t-\epsilon}) = R$.  The function computes these two values by using the {\tt testIdeal} and {\tt FPureModule} commands from the {\tt TestIdeals} package.  Note that in a strongly $F$-regular Gorenstein ambient ring, {\tt FPureModule(t, f)} computes exactly $\tau(R, f^{t-\epsilon})$.  These commands work more generally, but they \emph{only} currently work when $R$ is $\bQ$-Gorenstein with index not divisible by the characteristic $p > 0$.  A more general version of this command is {\tt compareFPT(t, f)} which returns $-1$ if $t < \fpt(f)$, $0$ if $t = \fpt(f)$ and $1$ if $t > \fpt(f)$.
 
 Consider the following example which has $F$-pure threshold equal to {1/2}, see \cite[Example 4.3]{MustataYoshidaTestIdealVsMultiplierIdeals}.
 \medskip
@@ -248,9 +252,9 @@ o6 = 1
 
 The command {\tt isFJumpingExponent} is implemented similarly, a value $t$ is an $F$-jumping exponent if and only if
 \[
-\tau(R, f^t) \neq \tau(R, f^{t-\epsilon}).  
+\tau(R, f^t) \neq \tau(R, f^{t-\epsilon}).
 \]
-Again, this command works as long as $R$ is $\bQ$-Gorenstein with index not divisible by $p$. 
+Again, this command works as long as $R$ is $\bQ$-Gorenstein with index not divisible by $p$.
 
 
 \newpage
@@ -258,7 +262,7 @@ Again, this command works as long as $R$ is $\bQ$-Gorenstein with index not divi
 \label{sec.FPT}
 
 The core function in this package is the {\tt fpt} function.  Throughout this section, let $f$ be a polynomial with coefficients in a finite field of characteristic $p$. When passed the polynomial $f$, the function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.  Otherwise, it returns lower and upper bounds for the $F$-pure threshold, as demonstrated below.
-     
+
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -283,7 +287,7 @@ o3 : List
 
 \end{MyVerbatim}
 }
-            
+
              If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, in that order.
              If it is one of these, algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold (cf. \cite{ShibutaTakagiLCThresholds}).
 
@@ -296,14 +300,14 @@ i4 : fpt( x^17 + y^20 + z^24 ) -- a diagonal polynomial
       94
 o4 = ---
      625
-     
+
 i5 : fpt( x^2*y^6*z^10 + x^10*y^5*z^3 ) -- a binomial
 
       997
 o5 = ----
      6250
 
-o5 : QQ     
+o5 : QQ
 
 i6 : ZZ/5[x,y];
 
@@ -317,7 +321,7 @@ o7 : QQ
 
 \end{MyVerbatim}
 }
-       
+
             The above noted algorithm for computing the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and {\tt fpt} can sometimes hang when attempting that factorization. For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$, and a list containing their respective multiplicities.
 
 {\small
@@ -335,11 +339,11 @@ o10 = true
 \end{MyVerbatim}
 }
 
-In the remainder of this section, we describe the {\tt fpt} function when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false},  as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.  
+In the remainder of this section, we describe the {\tt fpt} function when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false},  as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.
 
 In this case, very roughly speaking, the {\tt fpt} function will either compute, and output, the exact value of the $F$-pure threshold of $f$, and otherwise recursively compute a finite sequence of lower and upper bounds for this value, and output the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.
 
-In more detail, let $e$ denote the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval 
+In more detail, let $e$ denote the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval
 %
 \begin{equation}
 \label{estimating-interval: e}
@@ -348,7 +352,7 @@ In more detail, let $e$ denote the value of the option {\tt DepthOfSearch}, whic
 \end{equation}
 
 With these estimates in hand, the subroutine {\tt guessFPT} is called to make some ``educated guesses" in an attempt to identify the $F$-pure threshold within this interval, or at least narrow down this interval to produce improved estimates.  The number of ``guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to {\tt 3}.  If {\tt Attempts} is set to {\tt 0}, then {\tt guessFPT} is bypassed. If  {\tt Attempts} is set to at least {\tt 1}, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval \eqref{estimating-interval: e} is the $F$-pure threshold.  We illustrate this below.
- 
+
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -371,7 +375,7 @@ o13 = {---, ---}
 
 o13 : List
 
-i14 : fpt( f, Attempts => 1, DepthOfSearch => 3 ) -- the right-hand 
+i14 : fpt( f, Attempts => 1, DepthOfSearch => 3 ) -- the right-hand
 
       endpoint (nu+1)/p^e is the F-pure threshold
 
@@ -382,7 +386,7 @@ o14 = ---
 o14 : QQ
 
 \end{MyVerbatim}
-} 
+}
 
 If  {\tt Attempts} is set to at least {\tt 2} and the right-hand endpoint $(\nu+1)/p^e$ of the interval \eqref{estimating-interval: e} is not the $F$-pure threshold, then a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ of this interval is the $F$-pure threshold.
 
@@ -400,7 +404,7 @@ o16 = {--, --}
 
 o16 : List
 
-i17 : fpt( f, Attempts => 2, DepthOfSearch => 3 ) -- the left-hand endpoint 
+i17 : fpt( f, Attempts => 2, DepthOfSearch => 3 ) -- the left-hand endpoint
 
       nu/(p^e-1) is the F-pure threshold
 
@@ -429,17 +433,17 @@ o19 = {--, ---}
 
 o19 : List
 
-i20 : fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- an additional check 
+i20 : fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- an additional check
 
       sharpens the estimate
- 
+
         3   1
 o20 = {--, --}
        62  18
 
 o20 : List
 
-i21 : fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- and one more finds 
+i21 : fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- and one more finds
 
       the answer
 
@@ -508,7 +512,7 @@ o28 = {--, ---}
 
 o28 : List
 
-i29 : fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) -- 
+i29 : fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) --
 
       UseFSignature improves the answer a bit
 
@@ -518,8 +522,8 @@ o29 = {--, ---}
 
 o29 : List
 
-i30 : fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, 
- 
+i30 : fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true,
+
       FRegularityCheck => true ) -- FRegularityCheck finds the answer
 
        1
@@ -533,14 +537,14 @@ o30 : QQ
 
 The computations performed when {\tt UseFSignature} and {\tt FRegularityCheck} are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
             It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch} instead.
-            
+
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-            
+
 i31 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 
-i32 : timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, 
+i32 : timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true,
 
       FRegularityCheck => true )
 
@@ -549,7 +553,7 @@ o32 = {.0733061, .0769231}
 
 o32 : Time
 
-i33 : timing numeric fpt( f, Attempts => 5, DepthOfSearch => 3 ) -- a better 
+i33 : timing numeric fpt( f, Attempts => 5, DepthOfSearch => 3 ) -- a better
 
       answer in less time
 
@@ -558,7 +562,7 @@ o33 = {.075, .0769231}
 
 o33 : Time
 
-i34 : timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less 
+i34 : timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less
       time
 
        48
@@ -569,8 +573,8 @@ o34 = ---
 o34 : Time
 
 \end{MyVerbatim}
-}            
-            
+}
+
 As seen in several examples above, when the exact  $F$-pure threshold of $f$ is not found, a list containing the endpoints of an interval containing its value is returned.  Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
 
 {\small
@@ -611,7 +615,7 @@ Computed F-signature secant line intercept: 449/6125 ...
 
 F-signature intercept is an improved lower bound ...
 
-fpt failed to find the exact answer; try increasing the value of 
+fpt failed to find the exact answer; try increasing the value of
 
 DepthOfSearch or Attempts.
 
