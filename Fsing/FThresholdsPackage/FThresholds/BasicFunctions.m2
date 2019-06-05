@@ -299,33 +299,32 @@ fptWeightedGuessList = ( pp, A, B, minGenSize ) ->
 --with the given denominator, it is a helper function for fptWeightedGuessList
 findNumberBetweenWithDenom = ( myInterv, myDenom ) ->
 (
-    upperBound := floor( (myInterv#1) * myDenom )/myDenom;
-          --finds the number with denominator myDenom less than the upper
-	  --bound of myInterv
-     lowerBound := ceiling((myInterv#0)*myDenom)/myDenom;
-          --finds the number with denominator myDenom greater than the lower
-	  -- bound of myInterv
-     if (upperBound >= lowerBound) then (
-	  --first we check whether there is anything to search for
-	  apply( 1+numerator((upperBound-lowerBound)*myDenom), i-> lowerBound+(i/myDenom) )
-     )
-     else(
-	  {}
-     )
+    upperBound := floor( (myInterv#1)*myDenom )/myDenom;
+    --finds the number with denominator myDenom less than the upper
+    --bound of myInterv
+    lowerBound := ceiling( (myInterv#0)*myDenom )/myDenom;
+    --finds the number with denominator myDenom greater than the lower
+     -- bound of myInterv
+    if upperBound >= lowerBound then 
+    --first we check whether there is anything to search for
+        apply( 1 + numerator( (upperBound - lowerBound)*myDenom ), i -> lowerBound + i/myDenom )
+    else {}
 )
 
 --This function finds rational numbers in the range of
 --the interval; the max denominator allowed is listed.
-findNumbersBetween = (myInterv, maxDenom)->(
+findNumbersBetween = ( myInterv, maxDenom ) ->
+(
     divisionChecks :=  new MutableList from maxDenom:true;
-         -- creates a list with maxDenom elements all set to true.
+    -- creates a list with maxDenom elements all set to true.
     outList := {};
     i := 2;
-    while (i <= maxDenom) do (
-        outList = join(outList, findNumberBetweenWithDenom(myInterv, i));
-        i = i+1;
+    while i <= maxDenom do 
+    (
+        outList = join( outList, findNumberBetweenWithDenom( myInterv, i ) );
+        i = i + 1
     );
-    sort(toList set outList)
+    sort toList set outList
 )
 
 
