@@ -198,15 +198,16 @@ isBinomial (RingElement) := Boolean => f ->
 
 --===============================================================================
   
---isBinaryForm(F) checks if F is a homogeneous polynomial in two variables.
+--isBinaryForm(F) checks if F is a (standard) homogeneous polynomial in two variables.
 --WARNING: what we are really testing is if the *ring* of F is a polynomial ring 
 -- in two variables, and not whether F explicitly involves two variables. 
--- (For example, if F=x+y is an element of QQ[x,y,z], this test will return "false"; if G=x is an element of QQ[x,y], this test will return "true".)
+-- (For example, if F=x+y is an element of QQ[x,y,z], this test will return "false"; 
+-- if G=x is an element of QQ[x,y], this test will return "true".)
 isBinaryForm = method( TypicalValue => Boolean )
 
 isBinaryForm RingElement := Boolean => F ->
 -- isHomogeneous is avoided below to account for non-standard gradings
-    isPolynomial F and numgens ring F == 2 and same(apply( exponents F, i -> sum i))
+    isPolynomial F and numgens ring F == 2 and same apply( exponents F, i -> sum i)
 
 -*
 --===============================================================================
