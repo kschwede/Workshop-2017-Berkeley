@@ -39,8 +39,6 @@ urlcolor=OliveGreen
 
 
 
-
-
 \begin{document}
 \title{The  \emph{FThresholds} package for \emph{Macaulay2}}
 %\author[Alberto F.\ Boix et al.]{Alberto F.\ Boix}
@@ -91,33 +89,43 @@ urlcolor=OliveGreen
 \date{\today}
 
 \begin{abstract}
-	This note describes a \emph{Macaulay2} package for the computation and estimation of certain numerical invariants arising in prime characteristic commutative algebr.  Namely, $F$-pure thresholds, more general $F$-thresholds, and other related numerical invariants, in prime characteristic commutative algebra.  
+	This note describes the functionality implemented in the \emph{Macaulay2} package \emph{FThresholds}.  This package is designed to compute and estimate $F$-pure thresholds, more general $F$-thresholds, and related numerical invariants arising in the study of regularity conditions in prime characteristic commutative algebra.
 \end{abstract}
 
 
 \subjclass[2010]{13A35}%=
 
-\keywords{Macaulay2}
+\keywords{Macaulay2, Frobenius, $F$-singularity, $F$-pure threshold, $F$-threshold}
 
 \maketitle
 
 \section{Introduction}
 
-This paper describes the \emph{Macaulay2} package \emph{FThresholds}, which provides tools for computing certain fundamental invariants arising in prime characteristic commutative algebra, namely, \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.  Recall that a ring $R$ of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius morphism $F : R \to R$ sending an element to its $p^\text{th}$ power is a pure morphism (under geometric hypotheses, this is equivalent to the condition that the Frobenius morphism is split).  The notion of $F$-purity appeared first in the work of Hochster and Roberts in \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in \cite{FedderFPureRat}, and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.  
+This paper describes the \emph{Macaulay2} package \emph{FThresholds}, which provides tools for computing certain fundamental invariants arising in prime characteristic commutative algebra, namely, \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.  Recall that a ring $R$ of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius morphism $F : R \to R$ sending an element to its $p^\text{th}$ power is a pure morphism (under geometric hypotheses, this is equivalent to the condition that the Frobenius morphism is split).  The notion of $F$-purity first appeared in the work of Hochster and Roberts in \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in \cite{FedderFPureRat}, and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.
 
-After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of the Frobenius endomorphism to measure singularities proliferated, and based on a strong connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a positive rational number $t$ considered as a formal exponent.  Along these lines, the notion of the \emph{$F$-pure threshold} (or $\fpt$) was defined in analogy with the log canonical threshold (or $\lct$) \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  The $\fpt$ of $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure, and the functionality computing this number is the core of this package.  As a further generalization, the notion of \emph{$F$-threshold} was also introduced.  All of these \emph{thresholds} have been the focus of intense study over the past fifteen years.
+After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of the Frobenius endomorphism to measure regularity conditions proliferated, and based on a strong connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a positive rational number $t$ considered as a formal exponent.  
 
-There are three main sections in this paper, describing the functionality implemented in the \emph{Macaulay2} package \emph{FThresholds}. 
+Along these lines, the notion of the \emph{$F$-pure threshold} was defined in analogy with the \emph{log canonical threshold} \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  
+The $F$-pure threshold of the pair $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure.  
+Furthermore, the more general \emph{$F$-thresholds} was also introduced, a family that contains the $F$-pure threshold. 
+These numerical invariants are typically very difficult to calculate, and due to their significance, have been the 
+focus of intense study over the past fifteen years.
+This \emph{Macaulay2} package is centered around calculating 
+and estimating the $F$-pure threshold and other $F$-thresholds, with the function {\tt fpt} at its core. 
+
+
+There are three main sections in this paper, which describe and illustrate the functionality implemented in the package \emph{FThresholds}. 
 \begin{itemize}
-\item{} \autoref{sec.Nu} describes methods to to approximate the $\fpt$, and other $F$-thresholds.  
-\item{} \autoref{sec.IsFPT} describes functionality that can determine whether a given number is the fpt, or more generally, an $F$-jumping exponent.
-\item{} \autoref{sec.FPT} describes the {\tt fpt} function, and how it works.
+\item \autoref{sec.Nu} describes the methods implemented for approximating the $F$-pure threshold and other $F$-thresholds.  
+\item \autoref{sec.IsFPT} explains the package's functionality for determining whether a given number is the $F$-pure threshold, or more generally, an $F$-jumping exponent.
+\item \autoref{sec.FPT} is focused on the features of the function {\tt fpt} for estimating and computing $F$-pure thresholds, and how it works. 
 \end{itemize}
 
-This package builds heavily upon the \emph{TestIdeals} package, which provides a broad range of functionality in prime characteristic commutative algebra. 
+This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2}, which provides a broad range of functionality in prime characteristic commutative algebra. 
 
-\subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all contributors to the \emph{FThresholds} package:  Erin Bela, Juliette Bruce, Zhibek Kadyrsizova, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Dan Smolkin, and Robert Walker.  We are also grateful the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016. 
-Finally, we thank the University of Utah for hosting a collaborative development visit in 2018, and the Institute of Mathematics and its Applications for its support for a Coding Sprint in 2019, where the current version of the package was finalized and this paper was completed. 
+\subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all contributors to the \emph{FThresholds} package: (INSERT NAMES HERE). %Erin Bela, Juliette Bruce, Zhibek Kadyrsizova, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Dan Smolkin, and Robert Walker. 
+We are also grateful the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016. 
+We are also grateful to the University of Utah for hosting a collaborative development visit in 2018, and to the Institute of Mathematics and its Applications for its support for the Coding Sprint \emph{F-thresholds in Macaulay2} in 2019, where the current version of the package was finalized and this paper was completed. 
 
 \section{The $F$-pure threshold limit and {\tt nu}}
 \label{sec.Nu}
@@ -327,7 +335,7 @@ o10 = true
 
 In the remainder of this section, we describe the {\tt fpt} function when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false},  as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.  
 
-In this case, very roughly speaking, the {\tt fpt} function will either compute, and output, the exact value of the $F$-pure threshold of $f$, and otherwise recursively compute a finite sequence of upper and lower bounds for this value, and output the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.  %We note that a pair of bounds will be produced only if the exact value of the $F$-pure threshold remains undetermined.  
+In this case, very roughly speaking, the {\tt fpt} function will either compute, and output, the exact value of the $F$-pure threshold of $f$, and otherwise recursively compute a finite sequence of lower and upper bounds for this value, and output the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.
 
 In more detail, let $e$ denote the value of the option {\tt DepthofSearch}, which conservatively defaults to $1$.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well-known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval 
 %
@@ -337,9 +345,7 @@ In more detail, let $e$ denote the value of the option {\tt DepthofSearch}, whic
 \left[ \frac{\nu}{p^e-1}, \frac{\nu+1}{p^e} \right].
 \end{equation}
 
-With these estimates in hand, the subroutine {\tt guessFPT} is called to make some ``educated guesses" in an attempt to identify the $F$-pure threshold within this interval, or at least narrow down this interval to produce improved estimates.  The number of ``guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to 3.  If {\tt Attempts} is set to 0, then {\tt guessFPT} is bypassed. If  {\tt Attempts} is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval \eqref{estimating-interval: e} the $F$-pure threshold.
- 
- We illustrate this below.
+With these estimates in hand, the subroutine {\tt guessFPT} is called to make some ``educated guesses" in an attempt to identify the $F$-pure threshold within this interval, or at least narrow down this interval to produce improved estimates.  The number of ``guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to 3.  If {\tt Attempts} is set to 0, then {\tt guessFPT} is bypassed. If  {\tt Attempts} is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval \eqref{estimating-interval: e} the $F$-pure threshold.  We illustrate this below.
  
 {\small
 \setstretch{.67}
@@ -617,7 +623,6 @@ o36 : List
 
 \end{MyVerbatim}
 }
-
 
 \newpage
 \bibliographystyle{skalpha}
