@@ -458,7 +458,7 @@ doc ///
             If $f$ is a polynomial contained in the radical of $J$, then the command {\tt nu(e,f,J)} outputs the maximal exponent $n$ such that $f^{ n}$ is not contained in the $p^e$-th Frobenius power of $J$.
             More generally, if $I$ is an ideal contained in the radical of $J$, then {\tt nu(e,I,J)} outputs the maximal integer exponent $n$ such that $I^n$ is not contained in the $p^e$-th Frobenius power of $J$.
 
-            These numbers are denoted $\nu_f^J(p^e)$ and $\nu_I^J(p^e)$, respectively, in the literature, and were originally defined in the paper {\it $F$-thresholds and Bernstein-Sato Polynomials}, by Mustata, Takagi, and Watanabe.
+            These numbers are denoted $\nu_f^J(p^e)$ and $\nu_I^J(p^e)$, respectively, in the literature, and were originally defined in the paper {\it $F$-thresholds and Bernstein-Sato Polynomials}, by Mustaţă, Takagi, and Watanabe.
         Example
             R = ZZ/11[x,y];
             I = ideal(x^2 + y^3, x*y);
