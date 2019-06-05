@@ -10,13 +10,6 @@ Authors => {
      Email => "hernandez@ku.edu",
      HomePage => "https://hernandez.faculty.ku.edu"
      },
-     {Name => "Sara Malec",
-     Email => "malec@hood.edu"
-     },
-     {Name => "Matthew Mastroeni",
-     Email => "mmastro@okstate.edu",
-     HomePage => "https://mnmastro.github.io/"
-     },
      {Name => "Maral Mostafazadehfard",
      Email => "maralmostafazadehfard@gmail.com"
      },
