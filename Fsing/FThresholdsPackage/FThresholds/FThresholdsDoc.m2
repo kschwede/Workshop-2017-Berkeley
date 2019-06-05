@@ -32,6 +32,7 @@ document {
         {"Bob"},
         {"Eve"},
         {"Erin Bela"},
+        {HREF{"https://sst.nu.edu.kz/en/zhibek-kadyrsizova/","Zhibek Kadyrsizova"}},
         {HREF{"http://www.katzman.staff.shef.ac.uk/", "Mordechai Katzman"}}
     }
 }

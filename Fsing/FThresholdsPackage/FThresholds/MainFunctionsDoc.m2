@@ -202,7 +202,7 @@ doc ///
             numeric ooo
             numeric ooo -- UseFSignature sharpened the estimate a bit
         Text
-            When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run (if necessary) to verify whether the final lower bound for the $F$-pure threshold is the exact answer.
+            When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run to verify whether the final lower bound for the $F$-pure threshold is the exact answer, if that check has not yet been performed.
         Example
             f = (x + y)^4*(x^2 + y^3)^6;
             fpt( f, Attempts => 2, DepthOfSearch => 3 )
