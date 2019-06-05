@@ -450,9 +450,3 @@ getSublistOfList = (myList, entryList) -> (
      --error "help";
      apply( #entryList, i->myList#(entryList#i) )
 )
-
--- passOptions selects a subset of options from an OptionTable
-passOptions = method()
-
-passOptions ( OptionTable, List ) := (o, L) ->
-    new OptionTable from apply( L, k -> k => o#k )
