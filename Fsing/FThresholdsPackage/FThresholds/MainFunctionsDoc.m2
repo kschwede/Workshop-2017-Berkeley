@@ -18,9 +18,9 @@ doc ///
         f:RingElement
             in a $\mathbb{Q}$-Gorenstein ring of positive characteristic
         AssumeDomain => Boolean
-            assumes the ring passed is an integral domain
+            assumes that the ambient ring of {\tt f}  is an integral domain
         FrobeniusRootStrategy => Symbol
-            passed to computations in the {\it TestIdeals} package
+            passed to computations in the @TO TestIdeals@ package
         IsLocal => Boolean
             tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
@@ -43,7 +43,7 @@ doc ///
             compareFPT(5/6, f)
             compareFPT(6/7, f)
         Text
-            This function can be used in a singular ring that is strongly $F$-regular, as long as $p$ does not divide the $\mathbb{Q}$-Gorenstein of index, where $p>0$ is the characteristic of the ring.
+            This function can be used in a singular ring that is strongly $F$-regular, as long as $p$ does not divide the $\mathbb{Q}$-Gorenstein index, where $p>0$ is the characteristic of the ambient ring of $f$.
             For instance, in the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/(x*y - z^2);
@@ -55,12 +55,10 @@ doc ///
             Here is an example where $p$ does not divide the $\mathbb{Q}$-Gorenstein index.  This is a Veronese subring (which is étale in codimension $1$)
             so the fpt of the given polynomial (in this case $19/125$) should be independent of which ring we are in.
         Example
-            p = 5;
-            T = ZZ/p[a,b];
-            S = ZZ/p[x,y,z,w];
+            T = ZZ/5[a,b];
+            S = ZZ/5[x,y,z,w];
             f = map(T, S, {a^3, a^2*b, a*b^2, b^3});
-            I = ker f;
-            R = S/I;
+            R = S/ker f;
             g = x^7 - w^3;
             h = f(sub(g, S))
             compareFPT(19/125, g)
@@ -81,9 +79,10 @@ doc ///
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
-            The option {\tt FrobeniusRootStrategy} is passed to an internal call of @TO frobeniusRoot@. The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+            The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
+            The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 
-            Turning on the option {\tt Verbose=>true} produces verbose output.
+            Setting the option {\tt Verbose} (default value {\tt false}) to {\tt true} produces verbose output.
     SeeAlso
         fpt
         isFPT
@@ -286,9 +285,9 @@ doc ///
         f:RingElement
             in a $\mathbb{Q}$-Gorenstein ring of positive characteristic
         AssumeDomain => Boolean
-            assumes the ring passed is an integral domain
+            assumes that the ambient ring of {\tt f}  is an integral domain
         FrobeniusRootStrategy => Symbol
-            passed to computations in the {\it TestIdeals} package
+            passed to computations in the @TO TestIdeals@ package
         IsLocal => Boolean
             tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
@@ -316,7 +315,7 @@ doc ///
         Text
             We include an example in a singular ambient ring.  The jumping numbers that are less than $1$ should be $1/4$, $1/2$ and $3/4$.
         Example
-            R = ZZ/11[x,y,z]/ideal(x*y-z^2);
+            R = ZZ/11[x,y,z]/(x*y - z^2);
             f = x^2;
             isFJumpingExponent(1/4, f)
             isFJumpingExponent(3/8, f)
@@ -324,8 +323,8 @@ doc ///
             isFJumpingExponent(2/3, f)
             isFJumpingExponent(3/4, f)
         Text
-            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) will tell the function to consider the $F$-pure threshold at the origin.
-            The following example considers a function that looks locally analytically like two lines at the origin and 4 lines at $(2,0)$.
+            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) will tell the function to consider only $F$-jumping exponents at the origin.
+            The following example considers a polynomial that looks locally analytically like two lines at the origin and 4 lines at (2,0).
         Example
             R = ZZ/13[x,y];
             f = y*((y + 1) - (x - 1)^2)*(x - 2)*(x + y - 2);
@@ -338,13 +337,14 @@ doc ///
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
-            The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}.
+            The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 
-            Turning on the option {\tt Verbose=>true} produces verbose output.
+            Setting the option {\tt Verbose} (default value {\tt false}) to {\tt true} produces verbose output.
     SeeAlso
         compareFPT
         isFPT
+        fpt
 ///
 
 doc ///
@@ -367,9 +367,9 @@ doc ///
         f:RingElement
             an element of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$
         AssumeDomain => Boolean
-            assumes the ring passed is an integral domain
+            assumes that the ambient ring of {\tt f}  is an integral domain
         FrobeniusRootStrategy => Symbol
-            passed to computations in the {\it TestIdeals} package
+            passed to computations in the @TO TestIdeals@ package
         IsLocal => Boolean
             tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
@@ -412,10 +412,10 @@ doc ///
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
             Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
-            The option {\tt FrobeniusRootStrategy} is passed to an internal call of {\tt frobeniusRoot}.
+            The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 
-            Turning on the option {\tt Verbose=>true} produces verbose output.
+            Setting the option {\tt Verbose} (default value {\tt false}) to {\tt true} produces verbose output.
     SeeAlso
         compareFPT
         fpt
@@ -487,7 +487,7 @@ doc ///
            nu(1, 0_R, J)
            nu(1, 1_R, J)
         Text
-            When the third argument is ommited, the ideal $J$ is assumed to be the homogeneous maximal ideal of $R$.
+            When the third argument is omitted, the ideal $J$ is assumed to be the homogeneous maximal ideal of $R$.
         Example
             R = ZZ/17[x,y,z];
             f = x^3 + y^4 + z^5;
