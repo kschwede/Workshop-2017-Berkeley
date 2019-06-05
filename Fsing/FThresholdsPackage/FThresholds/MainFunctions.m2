@@ -270,8 +270,15 @@ fSig := ( f, a, e ) ->
      1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal f^a )
 )
 
--- isInteger checks if a rational number is an integer
-isInteger := x -> x == floor x
+-- numberWithMinimalDenominator(A,B,D) finds the number in the open interval
+-- (A,B) with minimal denominator, starting the search with denominator D.
+-- Returns sequence with denominator and number 
+numberWithMinimalDenominator := (A,B,D) -> 
+(
+    d := D;
+    while ceiling( d*B - 1) < floor( d*A + 1 ) do d = d + 1;
+    ( d, floor( d*A + 1 )/d )
+)
 
 -- guessFPT takes a polynomial f, endpoints a and b of an interval that contains
 -- the F-pure threshold of f, and a positive integer that tells the max number
@@ -311,19 +318,7 @@ guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
     while counter <= maxChecks do
     (
 	-- search for number with minimal denominator in the open interval (A,B)
-        if A == 0 then 
-        (
-            num = numerator B;
-            den = denominator B;
-            if num == 1 then ( d = den + 1; t = 1/(den + 1))
-            else ( d = den; t = 1/den )
-        )
-        else
-        (
-            while floor( d*B ) < ceiling( d*A ) or isInteger( d*B ) or isInteger( d*A ) do
-                d = d+1;
-            t = ceiling( d*A )/d
-        );
+        ( d, t ) = numberWithMinimalDenominator( A, B, d );
         comp = compareFPT( t, f, IsLocal => true );
 	if comp == 0 then  -- found exact FPT!
 	(
