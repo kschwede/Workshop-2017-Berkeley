@@ -281,6 +281,10 @@ numberWithMinimalDenominator := (A, B, D) ->
     ( d, floor( d*A + 1 )/d )
 )
 
+-- some constants associated with guessFPT
+numExtraCandidates := 10;
+minNumCandidates := 5;
+
 -- guessFPT takes a polynomial f, endpoints a and b of an interval that contains
 -- the F-pure threshold of f, and a positive integer that tells the max number
 -- of checks the user wants to perform.
@@ -288,7 +292,7 @@ numberWithMinimalDenominator := (A, B, D) ->
 -- It currently chooses numbers in the interval with minimal denominator.
 -- In the future, different strategies should be implemented (e.g., use
 -- only/first denominators that are multiple of the characteristic).
-guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
+guessFPT := { Verbose => false, Strategy => 0 } >> o -> ( f, a, b, maxChecks ) ->
 (
     if o.Verbose then print "\nStarting guessFPT ...";
     -- Check if fpt is the upper bound b
@@ -312,24 +316,48 @@ guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
     counter := 3;
     local t;
     local comp;
-    local num;
-    local den;
     ( A, B ) := ( a, b );
-    d := 2;
-    while counter <= maxChecks do
+    if o.Strategy == 0 then 
     (
-	-- search for number with minimal denominator in the open interval (A,B)
-        ( d, t ) = numberWithMinimalDenominator( A, B, d );
-        comp = compareFPT( t, f, IsLocal => true );
-	if comp == 0 then  -- found exact FPT!
-	(
-	    if o.Verbose then
-	        print( "\nguessFPT found the exact value for fpt(f) in try number " | toString counter | "." );
-	    return t
-	);
-        if comp == 1 then B = t; -- fpt < t
-	if comp == -1 then A = t; -- fpt > t
-	counter = counter + 1
+        d := 2;
+        while counter <= maxChecks do
+        (
+    	-- search for number with minimal denominator in the open interval (A,B)
+            ( d, t ) = numberWithMinimalDenominator( A, B, d );
+            comp = compareFPT( t, f, IsLocal => true );
+    	if comp == 0 then  -- found exact FPT!
+    	(
+    	    if o.Verbose then
+    	        print( "\nguessFPT found the exact value for fpt(f) in try number " | toString counter | "." );
+    	    return t
+    	);
+        if comp == 1 then B = t -- fpt < t
+    	else A = t; -- fpt > t
+    	counter = counter + 1
+        )
+    )
+    else
+    (
+        p := char ring f;
+        candidateList := guessFPTWeighted( p, A, B, maxChecks + numExtraCandidates );
+        while counter <= maxChecks do
+        (
+    	    -- pick candidate with minimal weight
+            t = min( last \ minimalBy( candidateList, first ) );
+            comp = compareFPT( t, f, IsLocal => true );
+            if comp == 0 then  -- found exact FPT! YAY!
+            (
+    	        if o.Verbose then
+    	            print( "\nguessFPT found the exact value for fpt(f) in try number " | toString counter | "." );
+    	        return t
+    	    );
+            if comp == 1 then ( B = t; candidateList = select( candidateList, a -> last a < t ) ) -- fpt < t
+    	    else ( A = t; candidateList = select( candidateList, a -> last a > t ) ); -- fpt > t
+            counter = counter + 1;
+            -- if not done and running short on candidates, load up some more
+            if counter < maxChecks and #candidateList <= minNumCandidates then 
+                candidateList = guessFPTWeighted( p, A, B, 10 )
+        )         
     );
     if o.Verbose then
         print( "\nguessFPT narrowed the interval down to ( " | toString A | ", " | toString B | " ) ..." );
@@ -337,9 +365,7 @@ guessFPT := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->
 )
 
 -- The default number of "random" checks to be performed
-maxChecks := 3;
-
-
+attemptsDefault := 3;
 
 -- F-pure threshold estimation, at the origin.
 -- e is the max depth to search in.
@@ -350,10 +376,11 @@ fpt = method(
         {
 	    DepthOfSearch => 1,
 	    FRegularityCheck => false,
-	    Attempts => maxChecks,
+	    Attempts => attemptsDefault,
 	    UseSpecialAlgorithms => true,
 	    UseFSignature => false,
-	    Verbose => false
+	    Verbose => false,
+            Strategy => 0
 	}
 )
 
@@ -445,7 +472,7 @@ fpt RingElement := o -> f ->
     --------------------
     if o.Attempts > 0 then
     (
-	guess := guessFPT( f, LB, UB, o.Attempts, Verbose => o.Verbose );
+	guess := guessFPT( f, LB, UB, o.Attempts, Verbose => o.Verbose, Strategy => o.Strategy );
 	if class guess =!= List then return guess; -- guessFPT was successful
 	-- if not sucessful, adjust bounds and their strictness
 	( LB, UB ) = toSequence guess;
@@ -1027,10 +1054,4 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
     else(
         not isSubset( saturate(computedHSLG), saturate(computedTau) )
     )
-)
-
---this is some alternate guessFPT code, it tries to do it based on the value that
---has the smallest computational expense
---we assume that each 1/(p^e-1) takes 3*e more computations than a 1/p value.
-guessFPTAlt := { Verbose => false } >> o -> ( f, a, b, maxChecks ) ->(
 )

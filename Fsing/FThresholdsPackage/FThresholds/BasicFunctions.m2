@@ -20,72 +20,6 @@
 --Finds the fractional part of a number.
 -- fracPart = x -> x - floor x
 
--*
---===============================================================================
-
---*************************************************
---Information Regarding Factors and Factorization
---*************************************************
-
---===============================================================================
-
---Returns a list of factors of a number with repeats.
-numberToPrimeFactorList = n ->
-(
-    prod := factor n;
-    flatten apply( toList prod, x -> toList( x#1:x#0 ) )
-)
-
---===============================================================================
-
---Returns a list of all factors of a number.
---Has funny order...
-allFactors = n ->
-(
-     if n < 1 then error "properFactors: expected an integer greater than 1";
-     powSet := subsets numberToPrimeFactorList n;
-     toList set apply( powSet, x -> product x )
-)
-
---===============================================================================
-
---*************************************************
---Finding Numbers in Given Range
---*************************************************
-
---===============================================================================
-
---This function finds rational numbers in the range of the interval
---with the given denominator
-findNumberBetweenWithDenom = ( d, a, b ) ->
-(
-     A := ceiling( a*d );
-     B := floor( b*d );
-     toList( A..B )/d
-)
-
---This function finds rational numbers in the range of
---the interval, with a given maximum denominator.
-findNumberBetween = ( maxDenom, a, b ) ->
-(
-    denominators := toList( 1..maxDenom );
-    outList := {};
-    local d;
-    while denominators != {} do
-    (
-	d = last denominators;
-	factors := allFactors d;
-	-- remove all factors of d
-	denominators = select( denominators, x -> not member( x, factors) );
-	outList = outList | findNumberBetweenWithDenom( d, a, b )
-    );
-    sort unique outList
-)
-
---for backwards compatibility
---findNumberBetween( ZZ, List ) := ( maxDenom, myInterv )-> findNumberBetween( maxDenom, myInterv#0, myInterv#1);
-*-
-
 --===============================================================================
 
 --*************************************************
@@ -118,6 +52,13 @@ zeroPositions = L -> positions( L, zero )
 positivePositions = L -> positions( L, x -> x > 0 )
 
 --===============================================================================
+
+--Selects the elements of L with minimal value of f
+minimalBy = ( L, f ) ->
+(
+    minValue := min( f \ L );
+    select( L, i -> f(i) == minValue )
+)
 
 --*************************************************
 --Tests for various types of polynomials
@@ -328,14 +269,7 @@ passOptions = method()
 passOptions ( OptionTable, List ) := (o, L) ->
     new OptionTable from apply( L, k -> k => o#k )
 
-
-
-numberWithMinimalDenominator = (A,B,D) ->
-(
-    d := D;
-    while ceiling( d*B - 1) < floor( d*A + 1 ) do d = d + 1;
-    ( d, floor( d*A + 1 )/d )
-)
+--===============================================================================
 
 --this is some alternate guessFPT code, it tries to do it based on the value that
 --has the smallest computational expense
@@ -356,7 +290,7 @@ guessFPTWeighted = { Verbose => false } >> o -> ( pp, a, b, minGenSize ) ->(
         wt = v + 1*w;
         --if (wt == 0) then 1/0;
         --d = (timing(isFJumpingExponent(i, f)))#0;
-        return(wt, i)));
+        return {wt, i}));
         --return (i, wt, d, 1.0*(d)/wt)));
 
     return weightList;
@@ -418,7 +352,6 @@ getFactorList = (nn) ->(
      toList ( set apply(#powSet, i->product(powSet#i)) )
 )
 
-
 --Returns the digits in nn which are nonzero in binary
 --for example, 5 in binary is 101, so this would return {0,2}
 --the second term tells me where to start the count, so passing
@@ -450,3 +383,5 @@ getSublistOfList = (myList, entryList) -> (
      --error "help";
      apply( #entryList, i->myList#(entryList#i) )
 )
+
+
