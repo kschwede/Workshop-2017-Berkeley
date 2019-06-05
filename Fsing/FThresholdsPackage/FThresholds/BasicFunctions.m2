@@ -271,10 +271,10 @@ passOptions ( OptionTable, List ) := (o, L) ->
 
 --===============================================================================
 
---this is some alternate guessFPT code, it tries to do it based on the value that
+--this finds rational numbers in an interval, and ranks them based on the value that
 --has the smallest computational expense
 --we assume that each 1/(p^e-1) takes 1.5*e more computations than a 1/p value.
-guessFPTWeighted = { Verbose => false } >> o -> ( pp, a, b, minGenSize ) ->(
+fptWeightedGuessList = { Verbose => false } >> o -> ( pp, a, b, minGenSize ) ->(
     --startDenom := (numberWithMinimalDenominator(a,b,2))#0;
     --coreDenom := ceiling(startDenom*log_2(startDenom)) + 1; -- this is the max denominator we will look for
     coreDenom := ceiling((1/(b-a))^(2/3));

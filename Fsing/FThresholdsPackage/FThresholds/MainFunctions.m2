@@ -339,7 +339,7 @@ guessFPT := { Verbose => false, Strategy => 0 } >> o -> ( f, a, b, maxChecks ) -
     else
     (
         p := char ring f;
-        candidateList := guessFPTWeighted( p, A, B, maxChecks + numExtraCandidates );
+        candidateList := fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates );
         while counter <= maxChecks do
         (
     	    -- pick candidate with minimal weight
@@ -356,7 +356,7 @@ guessFPT := { Verbose => false, Strategy => 0 } >> o -> ( f, a, b, maxChecks ) -
             counter = counter + 1;
             -- if not done and running short on candidates, load up some more
             if counter < maxChecks and #candidateList <= minNumCandidates then 
-                candidateList = guessFPTWeighted( p, A, B, 10 )
+                candidateList = fptWeightedGuessList( p, A, B, 10 )
         )         
     );
     if o.Verbose then
@@ -380,7 +380,7 @@ fpt = method(
 	    UseSpecialAlgorithms => true,
 	    UseFSignature => false,
 	    Verbose => false,
-            Strategy => 0
+            Strategy => 1
 	}
 )
 
