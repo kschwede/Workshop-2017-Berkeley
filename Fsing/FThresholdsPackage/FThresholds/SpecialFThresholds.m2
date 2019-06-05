@@ -4,12 +4,12 @@
 ---------------------------------------------------------------------------------
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
--- Main functions: diagonalFPT, binomialFPT, binaryFormFPT
+-- Main functions: diagonalFPT, binomialFPT, binaryFormFPT, monomialFPT
 
--- Auxiliary Functions: factorOutMonomial, monomialFactor, twoIntersection, 
+-- Auxiliary Functions: factorOutMonomial, monomialFactor, twoIntersection,
 --    allIntersections, isInPolytope, isInInteriorPolytope,
 --    polytopeDefiningPoints, maxCoordinateSum, dCalculation, calculateEpsilon
---    setFTData, isInUpperRegion, isInLowerRegion, neighborInUpperRegion, isCP, 
+--    setFTData, isInUpperRegion, isInLowerRegion, neighborInUpperRegion, isCP,
 --    findCPBelow, binaryFormFPTInternal
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -18,11 +18,11 @@
 ---------------------------------------------------------------------------------
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
---Given a vector w of rational integers in [0,1], returns a number of digits 
+--Given a vector w of rational integers in [0,1], returns a number of digits
 -- such that it suffices to check to see if the components of w add without carrying in base p
 carryTest = ( p, w ) ->
 (
-    if any( w, x -> x < 0 or x > 1 ) then 
+    if any( w, x -> x < 0 or x > 1 ) then
         error "carryTest: Expected the second argument to be a list of rational numbers in [0,1]";
      div := apply( w, x -> toList decomposeFraction( p, x ) );
      c := max ( transpose div )#1; --max of second components of div
@@ -33,17 +33,17 @@ carryTest = ( p, w ) ->
 
 --===============================================================================
 
---Given a vector w of rational integers in [0,1], returns the first spot 
+--Given a vector w of rational integers in [0,1], returns the first spot
 --e where the the sum of the entries in w carry in base p
 firstCarry = ( p, w ) ->
-(   
-    if any( w, x -> x < 0 or x > 1 ) then 
+(
+    if any( w, x -> x < 0 or x > 1 ) then
         error "firstCarry: Expected the second argument to be a list of rational numbers in [0,1]";
     if product w == 0 then -1 else
     (
-	i := 0;	
+	i := 0;
 	d := 0;
-	while d < p and i < carryTest( p, w ) do 
+	while d < p and i < carryTest( p, w ) do
 	(
 	    i = i + 1;
 	    d = sum adicDigit( p, i, w )
@@ -54,7 +54,7 @@ firstCarry = ( p, w ) ->
 
 --===============================================================================
 
--- Computes the F-pure threshold of a diagonal hypersurface 
+-- Computes the F-pure threshold of a diagonal hypersurface
 -- x_1^(a_1) + ... +x_n^(a_n) using Daniel Hernandez' algorithm
 
 diagonalFPT = method( TypicalValue => QQ )
@@ -62,7 +62,7 @@ diagonalFPT = method( TypicalValue => QQ )
 diagonalFPT RingElement := QQ => f ->
 (
     p := char ring f;
-    w := apply( exponents f, i -> 1/(sum i)); 
+    w := apply( exponents f, i -> 1/(sum i));
     -- w = list of reciprocals of the powers of the variables appearing in f
     fc := firstCarry( p, w );
     if fc == -1 then sum w
@@ -87,12 +87,12 @@ factorOutMonomial = ( v, w ) ->
 --vector of the a_i for which a_i=b_i
 monomialFactor = ( v, w ) -> v_( zeroPositions( v - w ) )
 
---Given two vectors v={v0,v1} and w={w0,w1} in the real plane, finds 
+--Given two vectors v={v0,v1} and w={w0,w1} in the real plane, finds
 --the intersection of the associated lines v0*x+w0*y=1 and v1*x+w1*y=1, if it exists
 twoIntersection = ( v, w ) ->
     if ( d := det matrix { v, w } ) != 0 then { w#1 - w#0 , v#0 - v#1 } / d
 
---Given two vectors v={v0,...vn} and w={w0,...,wn}, list the nonnegative 
+--Given two vectors v={v0,...vn} and w={w0,...,wn}, list the nonnegative
 --intersections of all lines vi*x+wi*y=1 and vj*x+wj*y=1,
 --and the intersections of the lines vi*x=1 and wi*y=1 with the axes
 allIntersections = ( v, w ) ->
@@ -104,21 +104,21 @@ allIntersections = ( v, w ) ->
     select( join( L1, L2, L3 ), x -> x#0 >= 0 and x#1 >= 0 )
 )
 
---Given a point a=(x,y) in the real plane and two vectors v={v0,...,vn} and 
+--Given a point a=(x,y) in the real plane and two vectors v={v0,...,vn} and
 -- w={w0,...,wn}, checks whether a is in the polytope defined by the equations vi*x+wi*y<=1
-isInPolytope = ( a, v, w ) -> all( v, w, ( i, j ) -> i*a#0 + j*a#1 <= 1 ) 
+isInPolytope = ( a, v, w ) -> all( v, w, ( i, j ) -> i*a#0 + j*a#1 <= 1 )
 
 --Given a point a=(x,y) in the real plane and two vectors
 --v={v0,...,vn} and w={w0,...,wn}, checks whether a is in
 --the interion of the polytope defined by the equations vi*x+wi*y<=1
 isInInteriorPolytope = ( a, v, w ) -> all( v, w, ( i, j ) -> i*a#0 + j*a#1 < 1 )
 
---Given two vectors v and w of the same length, outputs 
+--Given two vectors v and w of the same length, outputs
 --a list of the defining vectors of the polytope as in isInPolytope
-polytopeDefiningPoints = ( v, w ) -> 
+polytopeDefiningPoints = ( v, w ) ->
     select( allIntersections( v, w ), a -> isInPolytope( a, v, w ) )
 
---Given a list of coordinates in the real plane, 
+--Given a list of coordinates in the real plane,
 --outputs the one with the largest coordinate sum
 maxCoordinateSum = L -> L#( maxPosition( sum \ L ) )
 
@@ -127,8 +127,8 @@ maxCoordinateSum = L -> L#( maxPosition( sum \ L ) )
 dCalculation = ( w, N, p ) ->
 (
     i := N + 1;
-    d := p;    
-    while d > p - 2 do 
+    d := p;
+    while d > p - 2 do
     (
 	d = sum( w, x -> adicDigit( p, i, x ) );
 	i = i - 1;
@@ -136,29 +136,29 @@ dCalculation = ( w, N, p ) ->
     i + 1
 )
 
---Given the "truncation" points  P1 and P2 and two vectors v and w defining the 
--- binomial, outputs the "epsilon" in Daniel Hernandez's algorithm for 
+--Given the "truncation" points  P1 and P2 and two vectors v and w defining the
+-- binomial, outputs the "epsilon" in Daniel Hernandez's algorithm for
 -- F-thresholds of binomials
 calculateEpsilon = ( P1, P2, v, w ) ->
 (
     X := 0;
     Y := 0;
-    if isInInteriorPolytope( P1, v, w ) then 
+    if isInInteriorPolytope( P1, v, w ) then
     	-- find how far we can move from P1 in the x direction
         X = min apply( nonzeroPositions v, i -> (1 - (v#i)*(P1#0) - (w#i)*(P1#1))/(v#i) );
-    if isInInteriorPolytope( P2, v, w ) then  
+    if isInInteriorPolytope( P2, v, w ) then
     	-- find how far we can move from P2 in the y direction
 	Y = min apply( nonzeroPositions w, i -> (1 - (v#i)*(P2#0) - (w#i)*(P2#1))/(w#i) );
-    max( X, Y ) 
+    max( X, Y )
 )
 
--- Computes the FPT of a binomial 
+-- Computes the FPT of a binomial
 -- Based on the work of Daniel Hernandez, and implemented by Emily Witt
 binomialFPT = method( TypicalValue => QQ )
 
 binomialFPT RingElement := QQ => g ->
 (
---    if not isBinomial g then 
+--    if not isBinomial g then
 --        error "binomialFPT: expected a binomial over a field of positive characteristic";
     p := char ring g;
     ( v, w ) := toSequence exponents g;
@@ -195,53 +195,53 @@ binomialFPT RingElement := QQ => g ->
 -- Based on the work of Hernandez and Teixeira
 
 -*
-    Remark: At this point, only commands for computations of F-pure thresholds 
+    Remark: At this point, only commands for computations of F-pure thresholds
     are implemented. Eventually computations of F-thresholds with respect to more
-    general ideals will be implemented, and perhaps of more general polynomials. 
-    Some structures and functions below are already designed to handle such 
-    greater generality. 
+    general ideals will be implemented, and perhaps of more general polynomials.
+    Some structures and functions below are already designed to handle such
+    greater generality.
 *-
-    
+
 -*
     Types and auxiliary commands
 *-
 
--* 
+-*
     FTData is a HashTable that stores the data necessary in F-threshold
     calculations, for conveniently passing those data from one function
-    to another. 
+    to another.
     It contains the following keys:
         "ring": the ring of the polynomial in question;
 	"char": the characteristic of ring;
 	"ideal": the ideal with respect to which we want to compute the F-threshold;
 	"gens": the generators of the ideal;
-	"polylist": a list of the (pairwise prime) factors of the 
+	"polylist": a list of the (pairwise prime) factors of the
 	    polynomial in question;
 	"numpolys": the number of (pairwise prime) factors.
 *-
 FTData = new Type of HashTable
 
--- setFTData takes a list of generators of the ideal or the ideal itself and a 
+-- setFTData takes a list of generators of the ideal or the ideal itself and a
 -- list of polynomials, and builds an FTData from them.
 -- Currently, this ideal is always the homogeneous maximal ideal.
 setFTData = method( TypicalValue => FTData )
 
-setFTData ( List, List ) := FTData => ( gen, polylist ) -> 
+setFTData ( List, List ) := FTData => ( gen, polylist ) ->
 (
     A := ring gen_0;
-    p:= char A;	
-    new FTData from 
+    p:= char A;
+    new FTData from
     {
 	"char" => p,
-	"ring" => A, 
-	"ideal" => ideal gen, 
+	"ring" => A,
+	"ideal" => ideal gen,
 	"gens" => gen,
 	"numpolys" => #polylist,
 	"polylist" => polylist
     }
 )
 
-setFTData ( Ideal, List ) := FTData => ( I, polylist ) -> 
+setFTData ( Ideal, List ) := FTData => ( I, polylist ) ->
     setFTData( I_*, polylist )
 
 -*
@@ -249,16 +249,16 @@ setFTData ( Ideal, List ) := FTData => ( I, polylist ) ->
 *-
 
 -*
-    isInUpperRegion(a,q,S)/isInUpperRegion(u,S) test if the point u=a/q is in 
-    the upper region attached to S. Suppose I is the ideal of the FTData S 
-    under consideration and L={L_1,...,L_n} is the "polylist". Then a point 
-    a/q (where a=(a_1,...,a_n) is a nonnegative integer vector and q a power 
-    of "char") is in the "upper region" if L_1^(a_1)...L_n^(a_n) is in I^[q]; 
+    isInUpperRegion(a,q,S)/isInUpperRegion(u,S) test if the point u=a/q is in
+    the upper region attached to S. Suppose I is the ideal of the FTData S
+    under consideration and L={L_1,...,L_n} is the "polylist". Then a point
+    a/q (where a=(a_1,...,a_n) is a nonnegative integer vector and q a power
+    of "char") is in the "upper region" if L_1^(a_1)...L_n^(a_n) is in I^[q];
     otherwise it is in the lower region.
 *-
 isInUpperRegion = method( TypicalValue => Boolean )
 
-isInUpperRegion ( List, ZZ, FTData ) := Boolean => ( a, q, S ) -> 
+isInUpperRegion ( List, ZZ, FTData ) := Boolean => ( a, q, S ) ->
 (
     frob := frobeniusPower( q, S#"ideal" );
     F := product( a, S#"polylist", ( i, f ) -> f^i );
@@ -269,29 +269,29 @@ isInUpperRegion ( List, FTData ) := Boolean => ( u, S ) ->
     isInUpperRegion append( getNumAndDenom u, S )
 
 -*
-    isInLoweRegion(a,q,S)/isInLoweRegion(u,S) test if the point u=a/q is in 
+    isInLoweRegion(a,q,S)/isInLoweRegion(u,S) test if the point u=a/q is in
     the lower region attached to S.
 *-
 isInLowerRegion = method( TypicalValue => Boolean )
 
-isInLowerRegion ( List, ZZ, FTData ) := Boolean => ( a, q, S ) -> 
+isInLowerRegion ( List, ZZ, FTData ) := Boolean => ( a, q, S ) ->
     not isInUpperRegion( a, q, S )
 
-isInLowerRegion ( List, FTData ) := Boolean => ( u, S ) -> 
+isInLowerRegion ( List, FTData ) := Boolean => ( u, S ) ->
     not isInUpperRegion( u, S )
 
 -*
-   neighborInUpperRegion(a,q,S)/neighborInUpperRegion(u,S): auxiliary functions 
-   that, given a point u=a/q in the upper region, try to find a "neighbor" of 
-   the form (a-e_i)/q that also lies in the upper region. If the search is 
-   successful, they return the first such neighbor found; otherwise they 
+   neighborInUpperRegion(a,q,S)/neighborInUpperRegion(u,S): auxiliary functions
+   that, given a point u=a/q in the upper region, try to find a "neighbor" of
+   the form (a-e_i)/q that also lies in the upper region. If the search is
+   successful, they return the first such neighbor found; otherwise they
    return nothing.
 *-
 neighborInUpperRegion = method( TypicalValue => Sequence )
 
 neighborInUpperRegion ( List, ZZ, FTData ) := Sequence => ( a, q, S ) ->
 (
-    if isInLowerRegion( a, q, S ) then 
+    if isInLowerRegion( a, q, S ) then
         error "neighborInUpperRegion: expected point in the upper region";
     n := S#"numpolys";
     posEntries := positivePositions a;
@@ -300,7 +300,7 @@ neighborInUpperRegion ( List, ZZ, FTData ) := Sequence => ( a, q, S ) ->
     (
 	candidate = a - apply( n, j -> if i == j then 1 else 0 );
 	-- candidate = a - e_i
-       if isInUpperRegion( candidate, q, S ) then return candidate/q       
+       if isInUpperRegion( candidate, q, S ) then return candidate/q
     );
     null
 )
@@ -308,7 +308,7 @@ neighborInUpperRegion ( List, ZZ, FTData ) := Sequence => ( a, q, S ) ->
 neighborInUpperRegion ( List, FTData ) := List => ( u, S ) ->
     neighborInUpperRegion append( getNumAndDenom u, S )
 
--- findCPBelow(u,S) takes a point u in the upper region attached to S and 
+-- findCPBelow(u,S) takes a point u in the upper region attached to S and
 -- finds a critical point <= u with the same denominator. This critical point
 -- always exist, but if q is large, it can take a long time to find it.
 findCPBelow = method( TypicalValue => List )
@@ -316,12 +316,12 @@ findCPBelow = method( TypicalValue => List )
 -- trying a nonrecursive version, to avoid reaching recursion limit
 findCPBelow ( List, FTData ) := List => ( pt, S ) ->
 (
-    if isInLowerRegion( pt, S ) then 
+    if isInLowerRegion( pt, S ) then
         error "findCPBelow: the point must be in the upper region";
     candidate := pt;
     nbr := neighborInUpperRegion( pt, S );
     while nbr =!= null do
-    ( 
+    (
         candidate = nbr;
 	nbr = neighborInUpperRegion( candidate, S )
     );
@@ -329,16 +329,16 @@ findCPBelow ( List, FTData ) := List => ( pt, S ) ->
 )
 
 -*
-    Computation of FPTs
+ --   Computation of FPTs
 *-
 
 -*
-    binaryFormFPTInternal({a1,...an},S): if S#"polylist={L1,...,Ln} is a list 
-    of linear forms, binaryFormFPTInternal({a1,...an},S) finds the FPT of the 
-    polynomial F=L1^(a1)...Ln^(an)
+--    binaryFormFPTInternal({a1,...an},S): if S#"polylist={L1,...,Ln} is a list
+--    of linear forms, binaryFormFPTInternal({a1,...an},S) finds the FPT of the
+--    polynomial F=L1^(a1)...Ln^(an)
 *-
 binaryFormFPTInternal = method(
-    TypicalValue => QQ, 
+    TypicalValue => QQ,
     Options => { Verbose => false, "Nontrivial" => false }
 )
 
@@ -362,19 +362,19 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     -- Nontrivial is set to true when its known that fpt != lct = 2/deg
     if opt#"Nontrivial" then mult = infinity
     else
-    ( 
+    (
     	if gcd( S#"char", den) == 1 then mult = multiplicativeOrder( p, den )
 	else
 	(
 	    F := product( S#"polylist", a, ( f, i ) -> f^i );
-	    if isFPT( 2/deg, F ) then 
+	    if isFPT( 2/deg, F ) then
 	    (
 		if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
 		return 2/deg
 	    )
 	    else mult = infinity
 	)
-    );    
+    );
 
     rng := S#"ring";
     polys := S#"polylist";
@@ -383,58 +383,58 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     e := 0;
     dgt := 0;
     u := 2*a/deg;
-    while isProper I and e < mult do 
+    while isProper I and e < mult do
     (
 	e = e + 1;
 	dgt = adicDigit( p, e, u );
 	I = frobenius I : product( polys, dgt, ( f, k ) -> f^k );
 	ideals = append( ideals, I )
     );
-    if isProper I and e == mult then 
+    if isProper I and e == mult then
     (
 	if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
-	return 2/deg 
-    )   
+	return 2/deg
+    )
     else
     (
-	if opt#Verbose then print "\nThe fpt is NOT the lct, 2/deg(F).";	
+	if opt#Verbose then print "\nThe fpt is NOT the lct, 2/deg(F).";
     );
     e0 := e - 1;
     S1 := setFTData( ideals_e0, polys );
-    cp := findCPBelow( dgt/p, S1 ); 
+    cp := findCPBelow( dgt/p, S1 );
     	--if some coordinate of cp is 0, its magnification may not be a CP
-    while product cp == 0 and e0 > 0 do 
+    while product cp == 0 and e0 > 0 do
     (
 	e0 = e0 - 1;
         -- zoom out one step and look for CP again
     	S1 = setFTData( ideals_e0, polys );
-	cp = findCPBelow( cp/p + adicDigit( p, e0 + 1, u )/p, S1 ) 
+	cp = findCPBelow( cp/p + adicDigit( p, e0 + 1, u )/p, S1 )
     );
     cp = cp/p^e0 + adicTruncation( p, e0, u ); -- "zoom out"
-    if opt#Verbose then 
+    if opt#Verbose then
         print ( "\nThe fpt is determined by the critical point " | toString cp );
     max apply( cp, a, ( c, k ) -> c/k )
 )
 
 -----------------------
 binaryFormFPT = method(
-    TypicalValue => QQ, 
+    TypicalValue => QQ,
     Options => { Verbose => false }
 )
 
 -*
     binaryFormFPT(RingElement)
-    FPT(F) computes the F-pure threshold of a form F in two variables. 
+    FPT(F) computes the F-pure threshold of a form F in two variables.
     KNOWN ISSUE: if the splitting field of F is too big, factor will not work.
 *-
 binaryFormFPT RingElement :=  QQ => opt ->  F ->
-(    
+(
 --   if not isNonConstantBinaryForm F then
 --       error "binaryFormFPT: a nonconstant homogeneous polynomial in 2 variables is expected";
     -- because factoring is the weakness of this algorithm, we try to avoid it
     -- by first checking if fpt=lct
     deg := (degree F)_0;
-    if isFPT( 2/deg, F ) then 
+    if isFPT( 2/deg, F ) then
     (
 	if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
 	return 2/deg
@@ -446,35 +446,45 @@ binaryFormFPT RingElement :=  QQ => opt ->  F ->
     S := kk( monoid[ getSymbol "a", getSymbol "b" ] );
     G := sub( F, { vv#0 => (S_*)#0, vv#1 => (S_*)#1 } );
     ( L, m ) := toSequence transpose factorsAndMultiplicities G;
-    binaryFormFPTInternal( 
-	m, 
-	setFTData(S_*,L), 
-	Verbose => opt#Verbose, 
-	"Nontrivial" => true 
+    binaryFormFPTInternal(
+	m,
+	setFTData(S_*,L),
+	Verbose => opt#Verbose,
+	"Nontrivial" => true
     )
 )
 
 -- binaryFormFPT(List,List)
--- Given a list L={L_1,...,L_n} of linear forms in 2 variables and a list 
--- m={m_1,...,m_n} of multiplicities, binaryFormFPT(L,m) returns the F-pure 
--- threshold of the polynomial L_1^(m_1)*...*L_n^(m_n). 
-binaryFormFPT ( List, List ) := QQ => opt -> ( L, m ) -> 
+-- Given a list L={L_1,...,L_n} of linear forms in 2 variables and a list
+-- m={m_1,...,m_n} of multiplicities, binaryFormFPT(L,m) returns the F-pure
+-- threshold of the polynomial L_1^(m_1)*...*L_n^(m_n).
+binaryFormFPT ( List, List ) := QQ => opt -> ( L, m ) ->
 (
-    -- some checks to see if input makes sense   
+    -- some checks to see if input makes sense
     if #L != #m then error "binaryFormFPT: expected lists of same length";
-    if not uniform L then 
+    if not uniform L then
         error  "binaryFormFPT: expected the entries of the first argument to be elements of the same ring";
-    if not all( L, isLinearBinaryForm ) then 
+    if not all( L, isLinearBinaryForm ) then
         error  "binaryFormFPT: expected the first argument to be a list of linear forms in two variables";
-    if not all( m, x -> ( class x ) === ZZ ) then 
+    if not all( m, x -> ( class x ) === ZZ ) then
         error  "binaryFormFPT: expected the second argument to be a list of positive integers";
-    if not all( m, x -> x > 0 ) then 
+    if not all( m, x -> x > 0 ) then
         error  "binaryFormFPT: expected the second argument to be a list of positive integers";
 
-    -- now pass things to binaryFormFPTInternal 
-    binaryFormFPTInternal( 
-	m, 
+    -- now pass things to binaryFormFPTInternal
+    binaryFormFPTInternal(
+	m,
 	setFTData( gens ring L_0, L ),
 	Verbose => opt#Verbose
     )
 )
+
+---monomiaFPT computes the FPT of a monomial
+
+monomialFPT = method(
+    TypicalValue => QQ
+)
+
+monomialFPT RingElement := QQ => f -> (
+    min apply(exponents(f), i -> 1/i);
+    )

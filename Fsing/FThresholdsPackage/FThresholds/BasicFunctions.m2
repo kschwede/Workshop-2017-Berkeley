@@ -178,7 +178,7 @@ isDiagonal RingElement := Boolean => f ->
     isPolynomialOverPosCharField f  and
     product( exponents f, v -> #(positions( v, x -> x != 0 )) ) == 1
 
--*
+
 --===============================================================================
 
 --Returns true if the polynomial is a monomial
@@ -188,7 +188,7 @@ isMonomial RingElement := Boolean => f ->
     isPolynomial f and #( terms f ) == 1
 
 --===============================================================================
-*-
+
 
 --Returns true if the polynomial is a binomial over a field of positive characteristic
 isBinomial = method( TypicalValue => Boolean )
