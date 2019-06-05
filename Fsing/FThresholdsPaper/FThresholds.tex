@@ -120,7 +120,7 @@ There are three main sections in this paper, which describe and illustrate the m
 \begin{itemize}
 \item \autoref{sec.Nu} describes the methods implemented for approximating the $F$-pure threshold and other $F$-thresholds.  
 \item \autoref{sec.IsFPT} explains the package's functionality for determining whether a given number is the $F$-pure threshold, or more generally, an \emph{$F$-jumping exponent}.
-\item \autoref{sec.FPT} summarizes the features of the function {\tt fpt} and how it works. 
+\item \autoref{sec.FPT} describes the features of the central function of the package, {\tt fpt}. 
 \end{itemize}
 
 This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2}, which provides a broad range of functionality in prime characteristic commutative algebra. 
@@ -285,7 +285,7 @@ o3 : List
 }
             
              If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, in that order.
-             If it is one of these, algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.
+             If it is one of these, algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold (cf. \cite{ShibutaTakagiLCThresholds}).
 
 {\small
 \setstretch{.67}
@@ -339,7 +339,7 @@ In the remainder of this section, we describe the {\tt fpt} function when no spe
 
 In this case, very roughly speaking, the {\tt fpt} function will either compute, and output, the exact value of the $F$-pure threshold of $f$, and otherwise recursively compute a finite sequence of lower and upper bounds for this value, and output the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.
 
-In more detail, let $e$ denote the value of the option {\tt DepthofSearch}, which conservatively defaults to $1$.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well-known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval 
+In more detail, let $e$ denote the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval 
 %
 \begin{equation}
 \label{estimating-interval: e}
@@ -347,7 +347,7 @@ In more detail, let $e$ denote the value of the option {\tt DepthofSearch}, whic
 \left[ \frac{\nu}{p^e-1}, \frac{\nu+1}{p^e} \right].
 \end{equation}
 
-With these estimates in hand, the subroutine {\tt guessFPT} is called to make some ``educated guesses" in an attempt to identify the $F$-pure threshold within this interval, or at least narrow down this interval to produce improved estimates.  The number of ``guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to 3.  If {\tt Attempts} is set to 0, then {\tt guessFPT} is bypassed. If  {\tt Attempts} is set to at least 1, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval \eqref{estimating-interval: e} the $F$-pure threshold.  We illustrate this below.
+With these estimates in hand, the subroutine {\tt guessFPT} is called to make some ``educated guesses" in an attempt to identify the $F$-pure threshold within this interval, or at least narrow down this interval to produce improved estimates.  The number of ``guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to {\tt 3}.  If {\tt Attempts} is set to {\tt 0}, then {\tt guessFPT} is bypassed. If  {\tt Attempts} is set to at least {\tt 1}, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval \eqref{estimating-interval: e} is the $F$-pure threshold.  We illustrate this below.
  
 {\small
 \setstretch{.67}
@@ -384,7 +384,7 @@ o14 : QQ
 \end{MyVerbatim}
 } 
 
-If  {\tt Attempts} is set to at least 2, and the right-hand endpoint $(\nu+1)/p^e$ of the interval \eqref{estimating-interval: e} is not the $F$-pure threshold, then a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ of this interval is the $F$-pure threshold.
+If  {\tt Attempts} is set to at least {\tt 2} and the right-hand endpoint $(\nu+1)/p^e$ of the interval \eqref{estimating-interval: e} is not the $F$-pure threshold, then a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ of this interval is the $F$-pure threshold.
 
 {\small
 \setstretch{.67}
@@ -413,7 +413,7 @@ o17 : QQ
 \end{MyVerbatim}
 }
 
-            If neither endpoint is the $F$-pure threshold, and {\tt Attempts} is set to more than 2, additional checks are performed at certain numbers within the interval .  A number in the interval \eqref{estimating-interval: e} with minimal denominator is selected, and {\tt compareFPT} is used to test that number. If that ``guess" is correct, its value is returned; otherwise, the information returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
+            If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more than {\tt 2}, then  additional checks are performed at certain numbers within the interval .  A number in the interval \eqref{estimating-interval: e} with minimal denominator is selected, and {\tt compareFPT} is used to test that number. If that ``guess" is correct, its value is returned; otherwise, the information returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
 
 {\small
 \setstretch{.67}
@@ -453,7 +453,7 @@ o21 : QQ
 }
 
 
-If {\tt guessFPT} is unsuccessful and {\tt UseFSignature} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
+If {\tt guessFPT} is unsuccessful and {\tt UseFSignature} is set to {\tt true}, then the {\tt fpt} function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
 
 {\small
 \setstretch{.67}
@@ -492,7 +492,7 @@ o26 : List
 \end{MyVerbatim}
 }
 
-When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run (if necessary) to verify whether the final lower bound for the $F$-pure threshold is the exact answer.
+When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run to verify whether the final lower bound for the $F$-pure threshold is the exact answer (if it has not already been eliminated as a possibility).
 
 {\small
 \setstretch{.67}
@@ -532,13 +532,13 @@ o30 : QQ
 }
 
 The computations performed when {\tt UseFSignature} and {\tt FRegularityCheck} are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
-            It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.
+            It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch} instead.
             
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
             
-i31: f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
+i31 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 
 i32 : timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, 
 
@@ -571,7 +571,7 @@ o34 : Time
 \end{MyVerbatim}
 }            
             
-As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.  Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
+As seen in several examples above, when the exact  $F$-pure threshold of $f$ is not found, a list containing the endpoints of an interval containing its value is returned.  Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
 
 {\small
 \setstretch{.67}
@@ -579,7 +579,7 @@ As seen in several examples above, when the exact answer is not found, a list co
 
 i35 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 
-i36 :  fpt( f, DepthOfSearch => 3, UseFSignature => true, Verbose => true )
+i36 : fpt( f, DepthOfSearch => 3, UseFSignature => true, Verbose => true )
 
 Starting fpt ...
 
