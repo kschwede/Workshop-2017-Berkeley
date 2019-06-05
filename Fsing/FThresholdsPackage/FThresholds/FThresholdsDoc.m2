@@ -8,9 +8,9 @@ document {
     BR{},BR{},"The Frobenius endomorphism on a ring of prime characteristic ", TEX ///$p > 0$///,", which sends a ring element to
     its ", TEX ///$p$///,"-th power, is a fundamental tool in positive characteristic commutative algebra.
     Kunz showed that regularity is characterized by the behavior of this map, and since then many other properties of Frobenius have been used to measure how singular a ring or function is. The ", TEX ///$F$///, "-pure threshold is a very prominent
-    example of this philosophy.", BR{},BR{},"
-    This package relies heavily on the ", TO "TestIdeals", " package. Many special cases (binomials, diagonal polynomials, etc.) are", EM " seemlessly ",
-    "handled by using special algorithms found in ", HREF{"https://doi.org/10.1090/S0002-9939-2014-12260-X", "Hernández"}, ", ",HREF{"https://doi.org/10.1090/S0002-9939-2014-11941-1", "Hernández"}, ", and ", HREF{"https://arxiv.org/abs/1404.5871","Hernández-Teixeira"},
+    object in this realm.", BR{},BR{},"
+    This package relies heavily on the ", TO "TestIdeals", " package. Many special cases (binomials, diagonal polynomials, etc.) are", EM " seamlessly ",
+    "handled by using special algorithms found in ", HREF{"https://doi.org/10.1090/S0002-9939-2014-12260-X", "Hernández"}, ", ",HREF{"https://doi.org/10.1090/S0002-9939-2014-11941-1", "Hernández"}, ", and ", HREF{"https://www.sciencedirect.com/science/article/pii/S0747717116300347","Hernández-Teixeira"},
     ".  This package can even compute ", TEX ///$F$///, "-pure thresholds in ", EM "singular ambient rings.",
     BR{},BR{},
     BOLD "Notable functions:",BR{},
