@@ -340,13 +340,14 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
 fpt = method(
     Options =>
         {
+	    Attempts => attemptsDefault,
+            Bounds => { 0, 1 },
 	    DepthOfSearch => 1,
 	    FRegularityCheck => false,
-	    Attempts => attemptsDefault,
-	    UseSpecialAlgorithms => true,
+            GuessStrategy => null,
 	    UseFSignature => false,
-	    Verbose => false,
-            GuessStrategy => null
+	    UseSpecialAlgorithms => true,
+	    Verbose => false
 	}
 )
 
@@ -359,6 +360,7 @@ fpt RingElement := o -> f ->
     checkOptions( o,
         {
 	    Attempts => ( k -> instance(k, ZZ) and k >= 0 ),
+            Bounds => ( k -> instance(k, List) and #k == 2 ),
 	    DepthOfSearch => ( k -> instance(k, ZZ) and k > 0 ),
 	    FRegularityCheck => Boolean,
             GuessStrategy => ( k -> (instance(k, List) and #k == 3) or instance(k, Function) or k === null ),
@@ -432,6 +434,18 @@ fpt RingElement := o -> f ->
     (
          print( "\nnu has been computed: nu = nu(" | toString e | ",f) = " | toString n | " ..." );
 	 print( "\nfpt lies in the interval [ nu/(p^e-1), (nu+1)/p^e ] = [ " | toString LB | ", " | toString UB | " ] ..." )
+    );
+    if LB < (o.Bounds)#0 then
+    (
+        if o.Verbose then 
+            print( "\nThe lower bound nu/(p^e-1) = " | toString LB | " was replaced with " | toString( (o.Bounds)#0 ) ); 
+        LB = (o.Bounds)#0
+    );
+    if UB > (o.Bounds)#1 then
+    (
+        if o.Verbose then 
+            print( "\nThe upper bound (nu+1)/p^e = " | toString UB | " was replaced with " | toString( (o.Bounds)#1 ) ); 
+        LB = (o.Bounds)#1
     );
 
     --------------------

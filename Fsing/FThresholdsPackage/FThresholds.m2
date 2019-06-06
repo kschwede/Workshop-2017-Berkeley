@@ -31,6 +31,7 @@ PackageExports => {"TestIdeals"}
 )
 
 export{
+    "Bounds",
     "compareFPT",
     "ContainmentTest",
     "fpt",
