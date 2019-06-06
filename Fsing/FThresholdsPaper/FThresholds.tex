@@ -55,9 +55,6 @@ urlcolor=OliveGreen
 %\email{zhibek.kadyrsizova@nu.edu.kz}
 %\thanks{Z. Kadyrsizova was partially supported by NSF DMS \#1401384 and the Barbour Scholarship at the University of Michigan.}
 
-%\author[]{Mordechai Katzman}
-%\address{Department of Pure Mathematics, University of Sheffield, Sheffield S37RH, United Kingdom}
-%\email{M.Katzman@sheffield.ac.uk}
 
 %\author[]{Sara Malec}
 %\address{Department of Mathematics, Hood College, Frederick, MD 21701}
@@ -125,7 +122,8 @@ There are three main sections in this paper, which describe and illustrate the m
 
 This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2}, which provides a broad range of functionality in prime characteristic commutative algebra.
 
-\subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors and contributors to the \emph{FThresholds} package: (INSERT NAMES HERE). %Erin Bela, Juliette Bruce, Zhibek Kadyrsizova, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Dan Smolkin, and Robert Walker.
+\subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors 
+and contributors to the \emph{FThresholds} package: (INSERT NAMES HERE). %Erin Bela, Juliette Bruce, Zhibek Kadyrsizova, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Dan Smolkin, and Robert Walker.
 We are also grateful the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016.
 We are also grateful to the University of Utah for hosting a collaborative development visit in 2018, and to the Institute of Mathematics and its Applications for its support for the Coding Sprint \emph{F-thresholds in Macaulay2} in 2019, where the current version of the package was finalized and this paper was completed.
 
@@ -210,8 +208,28 @@ See \cite{HernandezTeixeiraWittFrobeniusPowers} for more discussion of this.
 \section{{\tt isFPT}, {\tt compareFPT} and {\tt isFJumpingExponent}}
 \label{sec.IsFPT}
 
-Given a rational number $t$ and  an element $f$ of a $\mathbb{Q}$-Gorenstein ring $R$ of characteristic $p>0$, 
-the command {\tt isFPT(t, f)} checks whether $t$ is the $F$-pure threshold of $f$.  
+The function {\tt isFPT} determines whether a rational number is the $F$-pure threshold of a specified polynomial. 
+Given a rational number $t$ and an element $f$ of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$, the command {\tt isFPT(t,f)} outputs {\tt true} if $t$ is the $F$-pure threshold of $f$, and {\tt false} otherwise. 
+The function {\tt compareFPT} provides further information about the relationship between $t$ and the $F$-pure threshold of $f$; namely, 
+{\tt compareFPT(t, f)} returns {\tt-1} when $t < \fpt(f)$, $0$ when $t = \fpt(f)$ and $1$ when $t > \fpt(f)$.
+Consider the following example, that illustrates this functionality. 
+
+\medskip
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+i14 :             R = ZZ/11[x,y];
+
+i15 :             f = x^3 + y^2;
+
+i16 :             isFPT(9/11, f)
+
+o16 = true
+
+\end{MyVerbatim}
+}
+\medskip
+
 In general, this is done by computing the \emph{test ideal} associated to the pair $(R, f^t)$, and that associated when $t$ is replaced with a value less than $t$ that is very close to $t$, that associated to the pair $(R, f^{t-\epsilon}s)$. 
 These values are computed using the functions 
 {\tt testIdeal} and {\tt FPureModule} from the \emph{TestIdeals} package
