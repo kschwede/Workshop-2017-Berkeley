@@ -211,9 +211,16 @@ See \cite{HernandezTeixeiraWittFrobeniusPowers} for more discussion of this.
 \label{sec.IsFPT}
 
 Given a rational number $t$ and  an element $f$ of a $\mathbb{Q}$-Gorenstein ring $R$ of characteristic $p>0$, 
-the command {\tt isFPT(t, f)} checks whether $t$ is the $F$-pure threshold of $f$.  In general, this is done by computing the \emph{test ideals}
-$\tau(R, f^t)$ and $\tau(R, f^{t-\epsilon})$; 
-the $F$-pure threshold equals $t$ if and only if $\tau(R, f^{t-\epsilon}) = R$, but  $\tau(R, f^t)$ is proper.  The function computes these two values by using the {\tt testIdeal} and {\tt FPureModule} commands from the {\tt TestIdeals} package.  Note that in a strongly $F$-regular Gorenstein ambient ring, {\tt FPureModule(t, f)} computes exactly $\tau(R, f^{t-\epsilon})$.  These commands work more generally, but they \emph{only} currently work when $R$ is $\bQ$-Gorenstein with index not divisible by the characteristic $p > 0$.  A more general version of this command is {\tt compareFPT(t, f)} which returns $-1$ if $t < \fpt(f)$, $0$ if $t = \fpt(f)$ and $1$ if $t > \fpt(f)$.
+the command {\tt isFPT(t, f)} checks whether $t$ is the $F$-pure threshold of $f$.  
+In general, this is done by computing the \emph{test ideal} associated to the pair $(R, f^t)$, and that associated when $t$ is replaced with a value less than $t$ that is very close to $t$, that associated to the pair $(R, f^{t-\epsilon}s)$. 
+These values are computed using the functions 
+{\tt testIdeal} and {\tt FPureModule} from the \emph{TestIdeals} package
+(CITE THE TEST IDEALS PACKAGE PAPER).
+In fact, $t$ is the $F$-pure threshold of $f$ if and only if $\tau(R, f^{t-\epsilon})$ is $R$, but  $\tau(R, f^t)$ is a proper ideal.  
+Note that when $R$ is a strongly $F$-regular Gorenstein ring, {\tt FPureModule(t, f)} precisely computes $\tau(R, f^{t-\epsilon})$.  \textcolor{red}{These commands work more generally, but they \emph{only} currently work when $R$ is $\bQ$-Gorenstein, with index not divisible by $p$.}
+
+The function {\tt compareFPT} provides further information about the relationship between $t$ and the $F$-pure threshold of $f$.  Namely, 
+{\tt compareFPT(t, f)} returns {\tt-1} when $t < \fpt(f)$, $0$ when $t = \fpt(f)$ and $1$ when $t > \fpt(f)$.
 
 Consider the following example which has $F$-pure threshold equal to {1/2}, see \cite[Example 4.3]{MustataYoshidaTestIdealVsMultiplierIdeals}.
 \medskip
