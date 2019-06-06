@@ -176,9 +176,10 @@ There are three main sections in this paper, which describe and illustrate the m
 \item[$\circ$] \autoref{sec.Nu} describes the fundamental function {\tt nu}.  As its name suggests, this function is concerned with computing the integers $\nu_I^J(p^e)$ described above.
 \item[$\circ$] \autoref{sec.IsFPT} explains the functionality for determining whether a given number is the $F$-pure threshold, or more generally, an \emph{$F$-jumping exponent}.
 \item[$\circ$] \autoref{sec.FPT} describes the features of the central function of the package, {\tt fpt}.
+\item[$\circ$]  {\color{red} Add a description of the last section}
 \end{itemize}
-
-This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.
+{\color{red} Move this later}
+The \emph{FrobeniusThresholds} package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.
 
 \subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors and contributors to the \emph{FrobeniusThresholds} package.
 Our package coauthors are Dan Smolkin {\color{red}(LIST MORE NAMES)}, and Zhibek Kadyrsizova, Moty Katzman {\color{red} (LIST MORE NAMES)} contributed valuable code to the package.
@@ -988,14 +989,18 @@ o36 : List
 
 
 \newpage
-\section{Future work}
+\section{Future Directions}
 
-We conclude this note with some comments on possible future improvements to the package.  
+{\color{red} Should we add this section to the \textbf{Organization} part of the intro?}
+
+We conclude with some comments on possible improvements to the package.
+
+One natural candidate for improvement would be to extend functionality to better handle nonprincipal ideals.  In particular, the package could be improved if it could use the test ideals $\tau(I^t)$ when $I$ is not necessarily principal.  Fortunately, the theoretical foundation for computing such ideals has already largely been worked out in the paper \cite{SchwedeTuckerTestIdealsOfNonPrincipal}. However, such an improvement would necessarily require an update to the \emph{TestIdeals} package.  
 
 \begin{enumerate}
 \item Add more cases to {\tt UseSpecialAlgorithms}.
 \item Write a function that will extract from this sequences $\{ \nu_f^{\idealm}(p^e) \}_{e=1}^{\infty}$ roots of Bernstein-Sato polynomials.  Especially, strata.
-\item  Add functionality to handle non-principal ideals.  The theoretical foundation for this is the paper of Karl and Kevin \cite{SchwedeTuckerTestIdealsOfNonPrincipal}.
+
 \item Extend binary forms functions to handle more general $F$-thresholds (that is, with respect to diagonal ideals).  There is one tricky theoretical things, we don't know when this process would stop.  If we can do this, then we can compute $F$-pure thresholds of binary forms in non-standard gradings.  Cite the paper by Daniel and Pedro \cite{HernandezTeixeiraFThresholdFunctions}.
 \end{enumerate}
 
