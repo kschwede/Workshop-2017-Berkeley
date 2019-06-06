@@ -309,49 +309,28 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     local t;
     local comp;
     ( A, B ) := ( a, b );
-    if o.GuessStrategy === 0 then
-    (
-        d := 2;
-        while counter <= maxChecks do
+    p := char ring f;
+    candidateList := fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy );
+    while counter <= maxChecks do
         (
-    	-- search for number with minimal denominator in the open interval (A,B)
-            ( d, t ) = numberWithMinimalDenominator( A, B, d );
-            comp = compareFPT( t, f, IsLocal => true );
-    	if comp == 0 then  -- found exact FPT!
-    	(
+    	   pick candidate with minimal weight
+          t = min( last \ minimalBy( candidateList, first ) );
+          print candidateList;
+        t = last first candidateList; --the candidate list should already be sorted
+          print t;
+        comp = compareFPT( t, f, IsLocal => true );
+        if comp == 0 then  -- found exact FPT! YAY!
+            (
     	    if o.Verbose then
     	        print( "\nguessFPT found the exact value for fpt(f) in try number " | toString counter | "." );
     	    return t
-    	);
-        if comp == 1 then B = t -- fpt < t
-    	else A = t; -- fpt > t
-    	counter = counter + 1
-        )
-    )
-    else
-    (
-        p := char ring f;
-        candidateList := fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy );
-        while counter <= maxChecks do
-        (
-    	    -- pick candidate with minimal weight
-            --t = min( last \ minimalBy( candidateList, first ) );
-            --print candidateList;
-            t = last first candidateList; --the candidate list should already be sorted
-            --print t;
-            comp = compareFPT( t, f, IsLocal => true );
-            if comp == 0 then  -- found exact FPT! YAY!
-            (
-    	        if o.Verbose then
-    	            print( "\nguessFPT found the exact value for fpt(f) in try number " | toString counter | "." );
-    	        return t
     	    );
-            if comp == 1 then ( B = t; candidateList = select( candidateList, a -> last a < t ) ) -- fpt < t
-    	    else ( A = t; candidateList = select( candidateList, a -> last a > t ) ); -- fpt > t
-            counter = counter + 1;
-            -- if not done and running short on candidates, load up some more
-            if counter < maxChecks and #candidateList <= minNumCandidates then
-                candidateList = sort fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy )
+        if comp == 1 then ( B = t; candidateList = select( candidateList, a -> last a < t ) ) -- fpt < t
+    	else ( A = t; candidateList = select( candidateList, a -> last a > t ) ); -- fpt > t
+        counter = counter + 1;
+           if not done and running short on candidates, load up some more
+        if counter < maxChecks and #candidateList <= minNumCandidates then
+            candidateList = sort fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy )
         )
     );
     if o.Verbose then
