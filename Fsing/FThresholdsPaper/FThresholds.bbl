@@ -10,14 +10,14 @@
   \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
 }
 \providecommand{\href}[2]{#2}
-\begin{thebibliography}{BHK{\etalchar{+}}18}
+\begin{thebibliography}{MTW05}
 
-\bibitem[BBB{\etalchar{+}}]{TestIdealsPackage}
-{\sc E.~Bela, A.~F. Boix, J.~Bruce, D.~Ellingson, D.~J. Hern\'andez,
-  Z.~Kadyrsizova, M.~Katzman, S.~Malec, M.~Mastroeni, M.~Mostafazadeh\-fard,
-  M.~Robinson, K.~Schwede, D.~Smolkin, P.~Teixeira, and E.~E. Witt}:
-  \emph{{TestIdeals}, a package for calculations of singularities in positive
-  characteristic}.
+\bibitem[BBB{\etalchar{+}}]{TestIdealsPaper}
+{\sc E.~Bela, A.~F. Boix, J.~Bruce, D.~Ellingson, D.~Hernandez, Z.~Kadyrsizova,
+  M.~Katzman, S.~Malec, M.~Mastroeni, M.~Mostafazadehfard, M.~Robinson,
+  K.~Schwede, D.~Smolkin, P.~Teixeira, and E.~Witt}: \emph{{TestIdeals: A
+  package for calculations of singularities in positive characteristic.
+  Version~1.01}}.
 
 \bibitem[BMS08]{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds}
 {\sc M.~Blickle, M.~Musta{\c{t}}{\v{a}}, and K.~E. Smith}: \emph{Discreteness
@@ -28,12 +28,6 @@
 {\sc M.~Blickle, K.~Schwede, and K.~Tucker}: \emph{{$F$}-signature of pairs and
   the asymptotic behavior of {F}robenius splittings}, arXiv:1107.1082, to
   appear in Advances in Mathematics.
-
-\bibitem[BHK{\etalchar{+}}18]{TestIdealsPaper}
-{\sc A.~F. Boix, D.~J. Hern\'andez, Z.~Kadyrsizova, M.~Katzman, S.~Malec,
-  M.~Mastroeni, M.~Mostafazadeh\-fard, M.~Robinson, K.~Schwede, D.~Smolkin,
-  P.~Teixeira, and E.~E. Witt}: \emph{{The TestIdeals Package for Macaulay2}},
-  Preprint available at arxiv.org/pdf/1810.02770 (2018).
 
 \bibitem[Fed83]{FedderFPureRat}
 {\sc R.~Fedder}: \emph{{$F$}-purity and rational singularity}, Trans. Amer.
@@ -67,6 +61,11 @@
   preprint, \href{https://arxiv.org/abs/1802.02705}{arXiv:1802.02705
   [math.AC]}.
 
+\bibitem[HSS{\etalchar{+}}]{FThresholdsPackage}
+{\sc D.~Hernandez, K.~Schwede, D.~Smolkin, P.~Teixeira, and E.~Witt}:
+  \emph{{FThresholds: A package for calculations of F-thresholds.
+  Version~2.0}}.
+
 \bibitem[Her12]{HernandezFPurityOfHypersurfaces}
 {\sc D.~J. Hern\'{a}ndez}: \emph{{$F$}-purity of hypersurfaces}, Math. Res.
   Lett. \textbf{19} (2012), no.~2, 389--401. {\sf\scriptsize 2955770}
@@ -80,6 +79,10 @@
 {\sc M.~Hochster and J.~L. Roberts}: \emph{The purity of the {F}robenius and
   local cohomology}, Advances in Math. \textbf{21} (1976), no.~2, 117--172.
   {\sf\scriptsize MR0417172 (54 \#5230)}
+
+\bibitem[LT]{DmodulesSource}
+{\sc A.~Leykin and H.~Tsai}: \emph{{Dmodules: functions for computations with
+  D-modules. Version~1.4.0.1}}.
 
 \bibitem[MR85]{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}
 {\sc V.~B. Mehta and A.~Ramanathan}: \emph{Frobenius splitting and cohomology
@@ -106,5 +109,17 @@
 {\sc S.~Takagi and K.-i. Watanabe}: \emph{On {F}-pure thresholds}, J. Algebra
   \textbf{282} (2004), no.~1, 278--297. {\sf\scriptsize MR2097584
   (2006a:13010)}
+
+\bibitem[TSR]{MultiplierIdealsPackage}
+{\sc Z.~Teitler, B.~Snapp, and C.~Raicu}: \emph{{MultiplierIdeals: A
+  \emph{Macaulay2} package. Version~1.1}}.
+
+\bibitem[TSR15]{MultiplierIdealsArticle}
+{\sc Z.~Teitler, B.~Snapp, and C.~Raicu}: \emph{{Software for multiplier
+  ideals}}, The Journal of Software for Algebra and Geometry \textbf{7} (2015).
+
+\bibitem[Zhu17]{ZhuLogCanoincalThresholdsInPositiveChar}
+{\sc Z.~Zhu}: \emph{Log canonical thresholds in positive characteristic}, Math.
+  Z. \textbf{287} (2017), no.~3-4, 1235--1253. {\sf\scriptsize 3719534}
 
 \end{thebibliography}
