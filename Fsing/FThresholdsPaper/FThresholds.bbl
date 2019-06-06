@@ -1,3 +1,4 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
 \def\cfudot#1{\ifmmode\setbox7\hbox{$\accent"5E#1$}\else
   \setbox7\hbox{\accent"5E#1}\penalty 10000\relax\fi\raise 1\ht7
   \hbox{\raise.1ex\hbox to 1\wd7{\hss.\hss}}\penalty 10000 \hskip-1\wd7\penalty
@@ -9,7 +10,20 @@
   \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
 }
 \providecommand{\href}[2]{#2}
-\begin{thebibliography}{MTW05}
+\begin{thebibliography}{BHK{\etalchar{+}}18}
+
+\bibitem[BBB{\etalchar{+}}]{TestIdealsPackage}
+{\sc E.~Bela, A.~F. Boix, J.~Bruce, D.~Ellingson, D.~J. Hern\'andez,
+  Z.~Kadyrsizova, M.~Katzman, S.~Malec, M.~Mastroeni, M.~Mostafazadeh\-fard,
+  M.~Robinson, K.~Schwede, D.~Smolkin, P.~Teixeira, and E.~E. Witt}:
+  \emph{{TestIdeals}, a package for calculations of singularities in positive
+  characteristic}.
+
+\bibitem[BHK{\etalchar{+}}18]{TestIdealsPaper}
+{\sc A.~F. Boix, D.~J. Hern\'andez, Z.~Kadyrsizova, M.~Katzman, S.~Malec,
+  M.~Mastroeni, M.~Mostafazadeh\-fard, M.~Robinson, K.~Schwede, D.~Smolkin,
+  P.~Teixeira, and E.~E. Witt}: \emph{{The TestIdeals Package for Macaulay2}},
+  Preprint available at arxiv.org/pdf/1810.02770 (2018).
 
 \bibitem[Fed83]{FedderFPureRat}
 {\sc R.~Fedder}: \emph{{$F$}-purity and rational singularity}, Trans. Amer.
@@ -67,11 +81,6 @@
   and {B}ernstein-{S}ato polynomials}, European Congress of Mathematics, Eur.
   Math. Soc., Z\"urich, 2005, pp.~341--364. {\sf\scriptsize MR2185754
   (2007b:13010)}
-
-\bibitem[MY09]{MustataYoshidaTestIdealVsMultiplierIdeals}
-{\sc M.~Musta{\c{t}}{\u{a}} and K.-I. Yoshida}: \emph{Test ideals vs.
-  multiplier ideals}, Nagoya Math. J. \textbf{193} (2009), 111--128.
-  {\sf\scriptsize MR2502910}
 
 \bibitem[ST09]{ShibutaTakagiLCThresholds}
 {\sc T.~Shibuta and S.~Takagi}: \emph{Log canonical thresholds of binomial
