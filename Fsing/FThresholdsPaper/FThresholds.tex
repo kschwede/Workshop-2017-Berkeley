@@ -172,7 +172,6 @@ The current version of the package was finalized during these events.
 \section{The {\tt nu} function}
 \label{sec.Nu}
 
-{\color{red} This section will need to be modified so that it is consistent with the introduction section.  The point is that a lot of the notation repeated here was introduced earlier there.}
 
 We first consider the {\tt nu} function, a fundamental component of the package \emph{FrobeniusThresholds}.   As in the introduction, in this section we work in a polynomial ring over a finite field of characteristic $p>0$.
 
@@ -267,19 +266,111 @@ It is well known that if $q=p^e$ for some nonnegative integer $e$, then \[ \nu_I
 This implies that when searching for the maximal exponent defining {\tt nu(e,I,J)} for positive $e$, it is safe to start at $p$ times the output of {\tt nu(e-1,I,J)}, and one needn't search too far past this number.  This also suggests that the most efficient way to compute {\tt nu(e,I,J)} is to compute, successively, {\tt nu(s,I,J)}, for each $s = 0,\ldots,e$.  This is indeed how the computation is done in most cases.  
 
 As pointed out in the introduction, if $\mathfrak{m}$ is the homogeneous maximal ideal and $f \in \mathfrak{m}$, then for all $e$, the values $\nu^{\mathfrak{m}}_f(p^e)$ can be recovered from the $F$-pure threshold of $f$.  
-This fact is used to speed up computations for certain polynomials whose $F$-pure thresholds can be computed quickly via specialized algorithms, namely diagonal polynomials, binomials, and forms in two variables (see Section \ref{sec.FPT}).  This feature can be disabled by setting the option {\tt UseSpecialAlgorithms} (default value {\tt true}) to {\tt false}.
+This fact is used to speed up computations for certain polynomials whose $F$-pure thresholds can be computed quickly via specialized algorithms, namely diagonal polynomials, binomials, and forms in two variables (see Section \ref{sec.FPT}).  This feature can be disabled by setting the option {\tt UseSpecialAlgorithms} (default value {\tt true}) to {\tt false}.  Consider the following example, where $f$ is a diagonal polynomial.
 
-%R = ZZ/17[x,y,z];
-%f = x^3 + y^4 + z^5; -- a diagonal polynomial
-%time nu(3, f)
-%time nu(3, f, UseSpecialAlgorithms => false)
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
 
-The function {\tt nu} works by searching through the list of potential integers $n$ and checking containments of the $n^\text{the}$ power of $I$ in a specified Frobenius power of $J$.  
-The user can specify how this search is approached through the  option {\tt Search}.  Namely, a binary search is used when {\tt Search} is set to {\tt Binary} (and this is the default value), and a linear search is run when it is set to {\tt Linear}.
+i1 : R = ZZ/17[x,y,z];
 
-The option {\tt ReturnList} for {\tt nu} (whose default value is {\tt false}) can be set to {\tt true} so that instead of outputting $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=0,\ldots,e$.
-Alternatively, the option {\tt Verbose} can be set to  to request that the values $\nu_I^J(p^i)$ ($i=0,\ldots,e$) be printed as they are computed, to monitor the progress of the computation.
+i2 : f = x^3 + y^4 + z^5; -- a diagonal polynomial
 
+i3 : time nu(3, f)
+     -- used 0.00552312 seconds
+
+o3 = 3756
+
+o4 : QQ
+
+i4 : time nu(3, f, UseSpecialAlgorithms => false)
+     -- used 0.155826 seconds
+
+o4 = 3756
+\end{MyVerbatim}
+}
+\medspace
+
+% R = ZZ/17[x,y,z];
+% f = x^3 + y^4 + z^5; -- a diagonal polynomial
+% time nu(3, f)
+% time nu(3, f, UseSpecialAlgorithms => false)
+
+We now describe the options available for the function {\tt nu}, and we focus primarily on the case where the second input is an ideal $I$, since the options work analogously when the second input is instead a polynomial $f$. 
+
+In general, the function {\tt nu} works by searching through the list of integers $n$, and checking containments of the $n^\text{th}$ power of $I$ in a specified Frobenius power of $J$.  
+The user can specify how this search is approached through the  option {\tt Search}.  Namely, a binary search is used when {\tt Search} is set to {\tt Binary} (and this is the option's default value), and a linear search is run when it is set to {\tt Linear}.
+
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i1 : R = ZZ/5[x,y,z];
+
+i2 : f = x^2*y^4 + y^2*z^7 + z^2*x^8;
+
+i3 : time nu(5, f) -- uses binary search (default)
+     -- used 0.313778 seconds
+
+o3 = 1124
+
+i4 : time nu(5, f, Search => Linear)
+     -- used 0.441903 seconds
+
+o4 = 1124
+
+i5 : m = ideal(x, y, z);
+
+o5 : Ideal of R
+
+i6 : time nu(2, m, m^2) -- uses binary search (default)
+     -- used 1.58258 seconds
+
+o6 = 97
+
+i7 : time nu(2, m, m^2, Search => Linear) -- but linear seach gets luckier
+     -- used 0.531175 seconds
+
+o7 = 97
+\end{MyVerbatim}
+}
+\medspace
+
+%R = ZZ/5[x,y,z];
+%f = x^2*y^4 + y^2*z^7 + z^2*x^8;
+% time nu(5, f) -- uses binary search (default)
+% time nu(5, f, Search => Linear)
+% M = ideal(x, y, z);
+% time nu(2, M, M^2) -- uses binary search (default)
+% time nu(2, M, M^2, Search => Linear) -- but linear seach gets luckier
+
+
+If the option {\tt ReturnList} is changed from its default value of {\tt false} to {\tt true}, instead of simply outputting $\nu_I^J(p^e)$, {\tt nu} outputs a list of the values $\nu_I^J(p^s)$, for $s=0,\ldots,e$.
+Alternatively, the same information can be found by setting the option {\tt Verbose} to {\tt true} (its default value is {\tt false}), to request that each of these values $\nu_I^J(p^s)$ is printed as they are iteratively computed.  This can also serve a way to monitor the progress of the computation.
+
+
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i8 : nu(5, f, ReturnList => true)
+
+o8 = {0, 1, 8, 44, 224, 1124}
+
+o8 : List
+
+i9 : nu(5, f, Verbose => true)
+nu(1) = 0
+nu(p^1) = 1
+nu(p^2) = 8
+nu(p^3) = 44
+nu(p^4) = 224
+nu(p^5) = 1124
+\end{MyVerbatim}
+}
+
+%nu(5, f, ReturnList => true)
+%nu(5, f, Verbose => true)
 
 Finally, we describe the option {\tt ContainmentTest} for the function {\tt nu}.
 This option can be set to {\tt FrobeniusPower}, {\tt FrobeniusRoot}, or {\tt StandardPower}. The default value of this option depends on what is passed to {\tt nu}. Indeed, by default, {\tt ContainmentTest} is set to {\tt FrobeniusRoot} if the second argument passed to {\tt nu} is a polynomial, and is set to {\tt StandardPower} if it is an ideal.  We describe the consequences of setting {\tt ContainmentTest} to each of these values below, using an ideal $I$ as the second argument of $\nu$, since the option works analogously when $I$ is replaced with a polynomial $f$. 
@@ -295,25 +386,41 @@ Alternately, if {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the id
 %time nu(3, f, ContainmentTest => StandardPower)
 
 Finally, suppose that {\tt ContainmentTest} is set to {\tt FrobeniusPower}.  Instead of producing the invariant $\nu_I^J(p^e)$, in this case the {\tt nu} function instead outputs the maximal integer $n$ such that the $n^{\textrm{th}}$ \emph{(generalized) Frobenius power} of $I$ is not contained in the $p^e$-th Frobenius power of $J$ \cite{hernandez+etal.frobenius_powers}. 
-Note that the resulting value coincides with $\nu_I^J(p^e)$ when $I$ is replaced with a polynomial, or is a principal ideal, but need not coincide in general.
-In line with the philosophy described in the introduction, after appropriately normalizing and taking the limit of these values as $e$ approaches infinity, these new values limit to certain invariants of interest called \emph{critical exponents} (see \emph{loc.~cit.}).
+Note that the resulting value coincides with $\nu_I^J(p^e)$ when $I$ is replaced with a polynomial, or is a principal ideal, but need not coincide in general. 
+For example, the two commands below give different output values. 
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
 
-%R = ZZ/3[x,y];
-%M = ideal(x, y);
-%nu(3, M^5)
-%nu(3, M^5, ContainmentTest => FrobeniusPower)
+i1 : R = ZZ/3[x,y];
+
+i2 : m = ideal(x, y);
+
+o2 : Ideal of R
+
+i3 : nu(3, m^5)
+
+o3 = 10
+
+i4 : nu(3, m^5, ContainmentTest => FrobeniusPower)
+
+o4 = 8
+\end{MyVerbatim}
+}
+\medspace
+\noindent In line with the philosophy described in the introduction, after appropriately normalizing and taking the limit of these values as $e$ approaches infinity, the values computed when {\tt ContainmentTest} is set to {\tt FrobeniusPower}
+limit to certain invariants of interest called \emph{critical exponents} (see \cite{hernandez+etal.frobenius_powers}). 
+
+% R = ZZ/3[x,y];
+% m = ideal(x, y);
+% nu(3, m^5)
+% nu(3, m^5, ContainmentTest => FrobeniusPower)
 
 
-%R = ZZ/5[x,y,z];
-%f = x^2*y^4 + y^2*z^7 + z^2*x^8;
-%time nu(5, f) -- uses binary search (default)
-%time nu(5, f, Search => Linear)
-%M = ideal(x, y, z);
-%time nu(2, M, M^2) -- uses binary search (default)
-%time nu(2, M, M^2, Search => Linear) -- but linear seach gets luckier
 
 
-%nu(5, f, Verbose => true)
+
+
 
 %%Below is the original version of the section describing the nu function
 
