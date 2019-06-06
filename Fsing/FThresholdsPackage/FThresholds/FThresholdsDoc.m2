@@ -5,11 +5,9 @@ document {
     Headline => "a package for computing F-pure thresholds and related invariants",
     EM "FThresholds", " is a package for computing ", TEX ///$F$///, "-pure thresholds,
     ", TEX ///$F$///, "-jumping exponents, and related numerical measures of singularities in positive characteristic.",
-    BR{},BR{},"The Frobenius endomorphism on a ring of prime characteristic ", TEX ///$p > 0$///,", which sends a ring element to
-    its ", TEX ///$p$///,"-th power, is a fundamental tool in positive characteristic commutative algebra.
-    Kunz showed that regularity is characterized by the behavior of this map, and since then many other properties of Frobenius have been used to measure the "severity" of singularities in commutative algebra. The ", TEX ///$F$///, "-pure threshold is a prominent
-    object in this realm.", BR{},BR{},"
-    This package relies heavily on the ", TO "TestIdeals", " package. Many special cases (binomials, diagonal polynomials, etc.) are", EM " seamlessly ",
+    BR{},BR{},"The Frobenius endomorphism on a ring of prime characteristic ", TEX ///$p > 0$///,", which sends a ring element to its ", TEX ///$p$///,"-th power, is a fundamental tool in positive characteristic commutative algebra.  Kunz showed that regularity is characterized by the behavior of this map, and since then many other properties of Frobenius have been used to measure the 'severity' of singularities in commutative algebra. The ", TEX ///$F$///, "-pure threshold is a prominent
+    object in this realm.", BR{},BR{},
+    "This package relies heavily on the ", TO "TestIdeals", " package. Many special cases (binomials, diagonal polynomials, etc.) are", EM " seamlessly ",
     "handled by using special algorithms found in ", HREF{"https://doi.org/10.1090/S0002-9939-2014-12260-X", "Hernández"}, ", ",HREF{"https://doi.org/10.1090/S0002-9939-2014-11941-1", "Hernández"}, ", and ", HREF{"https://www.sciencedirect.com/science/article/pii/S0747717116300347","Hernández-Teixeira"},
     ".  This package can even compute ", TEX ///$F$///, "-pure thresholds in ", EM "singular ambient rings.",
     BR{},BR{},
