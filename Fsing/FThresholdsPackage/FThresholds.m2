@@ -13,9 +13,6 @@ Authors => {
      {Name => "Maral Mostafazadehfard",
      Email => "maralmostafazadehfard@gmail.com"
      },
-     {Name => "Marcus Robinson",
-     Email => "robinson@math.utah.edu"
-     },
      {Name => "Karl Schwede",
       Email => "schwede@math.utah.edu",
      HomePage => "http://math.utah.edu/~schwede/"
@@ -55,6 +52,7 @@ export{
     "Search",
     "StandardPower",
     "UseFSignature",
+    "isSimpleNormalCrossing",
     "UseSpecialAlgorithms"
 }
 
@@ -62,7 +60,7 @@ export{
 
 load "./FThresholds/DivisorPatch.m2" --some helper functions
 
-load "./FThresholds/TestIdealsPatch.m2"
+--load "./FThresholds/TestIdealsPatch.m2"
 
 load "./FThresholds/BasicFunctions.m2"
 
@@ -77,6 +75,8 @@ beginDocumentation()
 load "./FThresholds/FThresholdsDoc.m2"
 
 load "./FThresholds/MainFunctionsDoc.m2"
+
+load "./FThresholds/SpecialFThresholdsDoc.m2"
 
 -- TESTS
 

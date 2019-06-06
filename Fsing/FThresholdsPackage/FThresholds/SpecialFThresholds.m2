@@ -44,7 +44,7 @@ firstCarry = ( p, w ) ->
 	i := 0;
 	d := 0;
         ct := carryTest( p, w );
-	while d < p and i < ct do 
+	while d < p and i < ct do
 	(
 	    i = i + 1;
 	    d = sum adicDigit( p, i, w )
@@ -492,18 +492,46 @@ monomialFPT RingElement := QQ => f -> (
 
 ---monomiaFPT computes the FPT of a SNC divisor monomial
 
-regularSoPFPT = method(
+sncFPT = method(
     TypicalValue => QQ
     )
 
-regularSoPFPT Product := QQ => f -> (
+sncFPT Product := QQ => f -> (
+    1/max(toList apply(f, t->t#1))
     )
 
     ---computes whether something is SNC
-isRegularSoP = method(
-    TypicalValue => Boolean
+isSimpleNormalCrossing = method(
+    TypicalValue => Boolean,
+    Options => {IsLocal => true, Verbose=>false}
     )
 
-isRegularSoP Product := Boolean => f -> (
-    
+isSimpleNormalCrossing RingElement := Boolean => o -> ff -> (if (o.Verbose) then print "isSimpleNormalCrossing: about to factor"; isSimpleNormalCrossing(factor ff, o))
+
+isSimpleNormalCrossing Product := Boolean => o -> ff -> (
+    local myRing;
+    if (#ff > 0) then myRing = (ring ff#0#0) else return true;
+    d := dim myRing;
+    local myMax;
+    local newd;
+    if (o.IsLocal == true) then (myMax = ideal(vars myRing)) else (myMax = ideal(0_myRing));
+    --set the ring, if an empty product is passed, then it is SNC
+    termList := toList apply(ff, t->sub(t#0, myRing)); --strip the powers from the product
+    if (o.Verbose) then print("isSimpleNormalCrossing: here are the terms "|toString(termList));
+    termList = select(termList, z -> not isUnit z); --strip out units that factor returned
+    if (o.IsLocal == true) then (termList = select(termList, z-> (z%myMax == 0)));
+    if (o.Verbose) then print( "isSimpleNormalCrossing: here are the relevant terms "|toString(termList));
+    if (o.IsLocal) and (#termList == d) and (myMax == ideal(apply(termList, t -> t%(myMax^2)))) then return true; --if we obviously have a regular sop at the origin
+    if (o.Verbose) then print "isSimpleNormalCrossing: not obviously a regular sop at the origin";
+    strata := subsets(termList);
+    if (instance (myRing, PolynomialRing)) then strata = delete({}, strata);
+    if (o.IsLocal == true) and (instance (myRing, PolynomialRing)) then( --we can just compute jacobian matrices
+        phi := map(coefficientRing myRing, myRing);
+        if (o.Verbose) then print "isSimpleNormalCrossing: evaluating in the local polynomial ring case (evaluating jacobians at the origin)";
+        all(strata, genList -> ( if (#genList > rank(phi(jacobian ideal(genList))) ) then return false; if (d - #genList != dim (ideal(genList))) then return false; return true; ))
     )
+    else ( --we have to compute singular loci everywhere here
+        if (o.Verbose) then print "isSimpleNormalCrossing: evaluating in the non-local or non-polynomial ring case (computing singular loci)";
+        all(strata, genList -> ( newd = dim(ideal genList); if (newd < 0) then return true; if (d - #genList != newd) then return false; if (dim (ideal singularLocus ideal(genList)) >= 0) then (return false) else (return true) ) )
+    )
+)
