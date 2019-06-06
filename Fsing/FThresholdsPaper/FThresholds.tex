@@ -238,10 +238,10 @@ o4 : false
 \end{MyVerbatim}
 }
 
-The general method applied calls upon functionality from the \emph{TestIdeals} package (CITE).  The functions {\tt testIdeal} and {\tt FPureModule} therein are used
+The general method applied calls upon functionality from the \emph{TestIdeals} package \cite{TestIdealsPackage, TestIdealsPaper}.  The functions {\tt testIdeal} and {\tt FPureModule} therein are used
 to compute the test ideals of $f$ with respect to the parameter $t$, and that with respect to $t - \varepsilon$, for $\varepsilon>0$ very small. For instance, as noted in the introduction, when $R$ is a polynomial ring, $t$ is the $F$-pure threshold of $f$ if and only if $\tau(R, f^t)$ is contained in the homogeneous maximal ideal, but 
 $\tau(R, f^{t-\varepsilon})$ is not. 
-Note that when $R$ is a strongly $F$-regular Gorenstein ring, {\tt FPureModule(t, f)} precisely computes $\tau(R, f^{t-\varepsilon})$.  
+(Note that for $R$ strongly $F$-regular and Gorenstein, {\tt FPureModule(t, f)} precisely computes $\tau(R, f^{t-\varepsilon})$.)  
 %These commands work more generally, but they \emph{only} currently work when $R$ is $\bQ$-Gorenstein, with index not divisible by $p$.
 
 Since not only the $F$-pure thresholds, but also the higher $F$-jumping numbers, are determined by containment conditions on test ideals, the functionality is extended to determine whether a given number is an $F$-jumping number.
