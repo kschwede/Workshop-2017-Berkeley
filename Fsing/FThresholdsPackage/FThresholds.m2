@@ -47,6 +47,7 @@ export{
     "FRegularityCheck",
     "FrobeniusPower",
     "FrobeniusRoot",
+    "GuessStrategy",
     "isFJumpingExponent",
     "isFPT",
     "nu",

@@ -273,6 +273,8 @@ fSig := ( f, a, e ) ->
 -- some constants associated with guessFPT
 numExtraCandidates := 20;
 minNumCandidates := 6;
+-- The default number of "random" checks to be performed
+attemptsDefault := 3;
 
 -- guessFPT takes a polynomial f, endpoints a and b of an interval that contains
 -- the F-pure threshold of f, and a positive integer that tells the max number
@@ -281,8 +283,9 @@ minNumCandidates := 6;
 -- It currently chooses numbers in the interval with minimal denominator.
 -- In the future, different strategies should be implemented (e.g., use
 -- only/first denominators that are multiple of the characteristic).
-guessFPT := { Verbose => false, Strategy => 1 } >> o -> ( f, a, b, maxChecks ) ->
+guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => false } >> o -> ( f, a, b ) ->
 (
+    maxChecks := o.Attempts;
     if o.Verbose then print "\nStarting guessFPT ...";
     -- Check if fpt is the upper bound b
     if isFPT( b, f, IsLocal => true ) then
@@ -306,7 +309,7 @@ guessFPT := { Verbose => false, Strategy => 1 } >> o -> ( f, a, b, maxChecks ) -
     local t;
     local comp;
     ( A, B ) := ( a, b );
-    if o.Strategy == 0 then
+    if o.GuessStrategy === 0 then
     (
         d := 2;
         while counter <= maxChecks do
@@ -328,7 +331,7 @@ guessFPT := { Verbose => false, Strategy => 1 } >> o -> ( f, a, b, maxChecks ) -
     else
     (
         p := char ring f;
-        candidateList := sort fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates );
+        candidateList := fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy );
         while counter <= maxChecks do
         (
     	    -- pick candidate with minimal weight
@@ -348,16 +351,13 @@ guessFPT := { Verbose => false, Strategy => 1 } >> o -> ( f, a, b, maxChecks ) -
             counter = counter + 1;
             -- if not done and running short on candidates, load up some more
             if counter < maxChecks and #candidateList <= minNumCandidates then
-                candidateList = sort fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates )
+                candidateList = sort fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy )
         )
     );
     if o.Verbose then
         print( "\nguessFPT narrowed the interval down to ( " | toString A | ", " | toString B | " ) ..." );
     { A, B }
 )
-
--- The default number of "random" checks to be performed
-attemptsDefault := 3;
 
 -- F-pure threshold estimation, at the origin.
 -- e is the max depth to search in.
@@ -372,7 +372,7 @@ fpt = method(
 	    UseSpecialAlgorithms => true,
 	    UseFSignature => false,
 	    Verbose => false,
-            Strategy => 1
+            GuessStrategy => null
 	}
 )
 
@@ -464,7 +464,7 @@ fpt RingElement := o -> f ->
     --------------------
     if o.Attempts > 0 then
     (
-	guess := guessFPT( f, LB, UB, o.Attempts, Verbose => o.Verbose, Strategy => o.Strategy );
+	guess := guessFPT( f, LB, UB, passOptions( o, { Attempts, Verbose, GuessStrategy } ) );
 	if class guess =!= List then return guess; -- guessFPT was successful
 	-- if not sucessful, adjust bounds and their strictness
 	( LB, UB ) = toSequence guess;

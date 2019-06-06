@@ -275,30 +275,49 @@ passOptions ( OptionTable, List ) := (o, L) ->
 
 -- FINDING RATIONAL NUMBERS IN AN INTERVAL
 
+defaultWeights := { 0, 1, 1.5 }
+
+weightFunction = method()
+
+weightFunction ( ZZ, QQ, List ) := ( p, t, userWeights ) -> 
+(
+     decomp := decomposeFraction( p, t );
+     uW := sum( decomp, userWeights, (i, j) -> i*j );
+     dW := sum( decomp, defaultWeights, (i, j) -> i*j );
+     { uW, dW }
+)
+     
+weightFunction ( ZZ, QQ, Function ) := ( p, t, userFunction ) -> 
+(
+     decomp := decomposeFraction( p, t );
+     uW := try userFunction( p, t ) else userFunction( t );
+     dW := sum( decomp, defaultWeights, (i, j) -> i*j );
+     { uW, dW }
+)
+
+weightFunction ( ZZ, QQ, Nothing ) := ( p, t, userFunction ) -> 
+(
+     decomp := decomposeFraction( p, t );
+     { sum( decomp, defaultWeights, (i, j) -> i*j ) }
+)
+
 --this finds rational numbers in an interval, and ranks them based on the value that
 --has the smallest computational expense
 --we assume that each 1/(p^e-1) takes 1.5*e more computations than a 1/p value.
-fptWeightedGuessList = ( pp, A, B, minGenSize ) ->
+fptWeightedGuessList = ( p, A, B, minGenSize, userCriterion ) ->
 (
-    if (A >= B) then error "fptWeightedGuessList: Expected B > A.";
+    if A >= B then error "fptWeightedGuessList: Expected third argument to be greater than second";
     coreDenom := ceiling (1/(B - A))^(2/3);
     numList := findNumbersBetween( A, B, coreDenom );
-    midpt := (B-A)/2;
+    midpt := (B - A)/2;
     while #numList < minGenSize do
         ( coreDenom = 2*coreDenom; numList = findNumbersBetween( A, B, coreDenom ) );
     -- now that we have a list with enough rational numbers between a and b,
     -- compute their weights
-    local a;
-    local b;
-    local c;
-    local wt;
-    apply( numList, x ->
-        (
-            ( a, b, c ) = decomposeFraction( pp, x );
-            wt = b + 1.5*c;
-            { wt, abs(x-midpt), x }
-        )
-    )
+    guessList := apply( numList, t ->
+        join( weightFunction( p, t, userCriterion ), { abs(t - midpt), t } )
+    );
+    sort guessList
 )
 
 --This function finds rational numbers in the range of the interval (A,B)
@@ -330,7 +349,7 @@ findNumbersBetween = ( A, B, maxDenom ) ->
         outList = join( outList, findNumberBetweenWithDenom( A, B, i ) );
         i = i + 1
     );
-    sort toList set outList
+    sort unique outList
 )
 
 -- numberWithMinimalDenominator(A,B,D) finds the number in the open interval
