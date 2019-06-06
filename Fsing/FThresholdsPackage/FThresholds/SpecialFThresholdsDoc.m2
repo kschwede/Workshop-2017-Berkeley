@@ -6,7 +6,7 @@ doc ///
         [isSimpleNormalCrossing, IsLocal]
         [isSimpleNormalCrossing, Verbose]
     Headline
-        determine whether a polynomial is a product of factors which are in simple normal crossing
+       determines whether a polynomial is a product of factors that are in simple normal crossing
     Usage
         isSimpleNormalCrossing(f)
         isSimpleNormalCrossing(p)
@@ -36,7 +36,7 @@ doc ///
             isSimpleNormalCrossing(x^2-y*z)
         Text
             The option {\tt IsLocal} (default value {\tt true}) is used to specify
-            whether we should work at the origin or globally.
+            whether we should work at the origin (when {\tt true}) or globally (when {\tt false}).
         Example
             R = QQ[x,y,z];
             f = (y - (x-1)^2)*y^2; --SNC at the origin, but not globally
