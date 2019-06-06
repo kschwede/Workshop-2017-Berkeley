@@ -276,7 +276,32 @@ doc ///
         an option for the function fpt to specify the criterion used for selecting numbers to check
     Description
         Text
-            An option for the function @TO fpt@.
+            In the computation of the $F$-pure threshold of a polynomial $f$, in nontrivial cases and when no special algorithm is used, the function @TO fpt@ uses @TO nu@ to find a closed interval [$A$, $B$] that contains the $F$-pure threshold of $f$.
+            The subroutine {\tt guessFPT} is then called, to first check whether one of the endpoints $B$ or $A$ is the $F$-pure threshold, and then to select rational points in the interval, and check how they are positioned with respect to the $F$-pure threshold, using the function @TO compareFPT@.  
+            The option {\tt GuessStrategy} controls how this selection of numbers is done.
+            
+            We start by describing what happens when {\tt GuessStrategy} is set to {\tt null}, its default value. 
+            First, a list consisting of all rational numbers in the interval ($A$, $B$) with denominator no larger than a certain fixed number is created.
+            Using the function @TO decomposeFraction@, each number $t$ in that list is written in the form $t = a/(p^b(p^c-1))$, where $p$ is the characteristic of the ring of $f$.
+            Then the list of candidates is sorted based on the following criteria:
+            
+            1. Increasing "computational cost" $w_a a + w_b b + w_c c$, for certain weights $w_a$, $w_b$, and $w_c$; then ties are broken by
+            
+            2. Increasing distance from the midpoint of the interval.            
+            
+            Once this sorting is done, the numbers in the list are picked in order, @TO compareFPT@ is called, and the result of the comparison is used to trim the list.
+            
+            The default weights currently used in Criterion 1 are $w_a = 0$, $w_b = 1$, and $w_c = 1.5$. 
+            With these choices, we believe Criterion 1 is likely to prioritize numbers for which the computation of @TO compareFPT@ is faster.
+            Criterion 2, on the other hand, aims at partitioning the interval as evenly as possible.
+            
+            The option {\tt GuessStrategy} allows the user to choose his or her own weights for Criterion 1.
+            The list is sorted based on the user's weights, and then the default weights and Criterion 2, respectively, are used as tie breakers.
+            For instance, if the user suspects that the $F$-pure threshold does not contain the characteristic $p$ in the denominator, then perhaps weights $w_a = 0$, $w_b = 1$, and $w_c = 0$ would be a reasonable choice.      
+            
+            GIVE EXAMPLE
+            
+            TALK ABOUT THE POSSIBILITY OF INPUTTING A FUNCTION         
 ///
 
 doc ///
