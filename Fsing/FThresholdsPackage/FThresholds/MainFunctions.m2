@@ -295,7 +295,7 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     else if o.Verbose then print "\nThe right-hand endpoint is not the fpt ...";
     -- Check if fpt is the lower bound a
     if maxChecks >= 2 then
-        if not isFRegular( a, f, IsLocal => true ) then
+        if not isFRegular( a, f, IsLocal => true, AssumeDomain => true ) then
 	(
 	    if o.Verbose then
 	        print( "\nfpt is the left-hand endpoint." );
@@ -488,7 +488,7 @@ fpt RingElement := o -> f ->
     if o.FRegularityCheck and not strictLB then
     (
 	if o.Verbose then print "\nStarting final check ...";
-        if not isFRegular( LB, f, IsLocal => true ) then
+        if not isFRegular( LB, f, IsLocal => true, AssumeDomain => true ) then
         (
 	   if o.Verbose then
 	       print "\nFinal check successful; fpt is the lower bound.";
