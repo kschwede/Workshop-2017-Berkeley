@@ -28,9 +28,6 @@
 
 --===============================================================================
 
-
---===============================================================================
-
 getNumAndDenom = method( TypicalValue => List )
 
 -- Takes a rational vector u and returns a pair (a,q), where a
@@ -53,12 +50,15 @@ positivePositions = L -> positions( L, x -> x > 0 )
 
 --===============================================================================
 
---Selects the elements of L with minimal value of f
+-- Given a list L and a function f, minimalBy( L, f ) selects the elements 
+-- of L with minimal value of f
 minimalBy = ( L, f ) ->
 (
     minValue := min( f \ L );
     select( L, i -> f(i) == minValue )
 )
+
+--===============================================================================
 
 --*************************************************
 --Tests for various types of polynomials
@@ -129,7 +129,6 @@ isMonomial RingElement := Boolean => f ->
     isPolynomial f and #( terms f ) == 1
 
 --===============================================================================
-
 
 --Returns true if the polynomial is a binomial over a field of positive characteristic
 isBinomial = method( TypicalValue => Boolean )
@@ -238,6 +237,8 @@ splittingField RingElement := GaloisField => F ->
 
 --===============================================================================
 
+-- HANDLING OF OPTIONS
+
 -- checkOptions checks whether the option values passed to a function are valid.
 -- The arguments are:
 -- 1. An option table.
@@ -264,6 +265,7 @@ checkOptions ( OptionTable, List ) := ( o, L ) ->
     )
 )
 
+-- passOptions selects a subset of options from an OptionTable
 passOptions = method()
 
 passOptions ( OptionTable, List ) := (o, L) ->
@@ -271,15 +273,17 @@ passOptions ( OptionTable, List ) := (o, L) ->
 
 --===============================================================================
 
+-- FINDING RATIONAL NUMBERS IN AN INTERVAL
+
 --this finds rational numbers in an interval, and ranks them based on the value that
 --has the smallest computational expense
 --we assume that each 1/(p^e-1) takes 1.5*e more computations than a 1/p value.
 fptWeightedGuessList = ( pp, A, B, minGenSize ) ->
 (
     coreDenom := ceiling (1/(B - A))^(2/3);
-    numList := findNumbersBetween( (A, B), coreDenom );
+    numList := findNumbersBetween( A, B, coreDenom );
     while #numList < minGenSize do 
-        ( coreDenom = 2*coreDenom; numList = findNumbersBetween( (A, B), coreDenom ) );
+        ( coreDenom = 2*coreDenom; numList = findNumbersBetween( A, B, coreDenom ) );
     -- now that we have a list with enough rational numbers between a and b, 
     -- compute their weights
     local a;
@@ -295,25 +299,25 @@ fptWeightedGuessList = ( pp, A, B, minGenSize ) ->
     )
 )
 
---This function finds rational numbers in the range of the interval
+--This function finds rational numbers in the range of the interval (A,B)
 --with the given denominator, it is a helper function for fptWeightedGuessList
-findNumberBetweenWithDenom = ( myInterv, myDenom ) ->
+findNumberBetweenWithDenom = ( A, B, myDenom ) ->
 (
-    upperBound := floor( (myInterv#1)*myDenom )/myDenom;
+    upperBound := floor( B*myDenom )/myDenom;
     --finds the number with denominator myDenom less than the upper
     --bound of myInterv
-    lowerBound := ceiling( (myInterv#0)*myDenom )/myDenom;
+    lowerBound := ceiling( A*myDenom )/myDenom;
     --finds the number with denominator myDenom greater than the lower
      -- bound of myInterv
     if upperBound >= lowerBound then 
     --first we check whether there is anything to search for
         apply( 1 + numerator( (upperBound - lowerBound)*myDenom ), i -> lowerBound + i/myDenom )
-    else {}
+    else { }
 )
 
 --This function finds rational numbers in the range of
 --the interval; the max denominator allowed is listed.
-findNumbersBetween = ( myInterv, maxDenom ) ->
+findNumbersBetween = ( A, B, maxDenom ) ->
 (
     divisionChecks :=  new MutableList from maxDenom:true;
     -- creates a list with maxDenom elements all set to true.
@@ -321,10 +325,20 @@ findNumbersBetween = ( myInterv, maxDenom ) ->
     i := 2;
     while i <= maxDenom do 
     (
-        outList = join( outList, findNumberBetweenWithDenom( myInterv, i ) );
+        outList = join( outList, findNumberBetweenWithDenom( A, B, i ) );
         i = i + 1
     );
     sort toList set outList
 )
 
+-- numberWithMinimalDenominator(A,B,D) finds the number in the open interval
+-- (A,B) with minimal denominator, starting the search with denominator D.
+-- Returns sequence with the denominator and the number in (A,B) with that
+-- denominator.
+numberWithMinimalDenominator = (A, B, D) ->
+(
+    d := D;
+    while ceiling( d*B - 1) < floor( d*A + 1 ) do d = d + 1;
+    ( d, floor( d*A + 1 )/d )
+)
 

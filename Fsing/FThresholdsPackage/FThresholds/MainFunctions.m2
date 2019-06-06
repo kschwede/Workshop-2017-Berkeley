@@ -270,17 +270,6 @@ fSig := ( f, a, e ) ->
      1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal f^a )
 )
 
--- numberWithMinimalDenominator(A,B,D) finds the number in the open interval
--- (A,B) with minimal denominator, starting the search with denominator D.
--- Returns sequence with the denominator and the number in (A,B) with that
--- denominator.
-numberWithMinimalDenominator := (A, B, D) ->
-(
-    d := D;
-    while ceiling( d*B - 1) < floor( d*A + 1 ) do d = d + 1;
-    ( d, floor( d*A + 1 )/d )
-)
-
 -- some constants associated with guessFPT
 numExtraCandidates := 10;
 minNumCandidates := 5;
@@ -292,7 +281,7 @@ minNumCandidates := 5;
 -- It currently chooses numbers in the interval with minimal denominator.
 -- In the future, different strategies should be implemented (e.g., use
 -- only/first denominators that are multiple of the characteristic).
-guessFPT := { Verbose => false, Strategy => 0 } >> o -> ( f, a, b, maxChecks ) ->
+guessFPT := { Verbose => false, Strategy => 1 } >> o -> ( f, a, b, maxChecks ) ->
 (
     if o.Verbose then print "\nStarting guessFPT ...";
     -- Check if fpt is the upper bound b
