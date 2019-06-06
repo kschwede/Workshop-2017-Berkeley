@@ -45,6 +45,7 @@ export{
     "Search",
     "StandardPower",
     "UseFSignature",
+    "isSimpleNormalCrossing",
     "UseSpecialAlgorithms"
 }
 
