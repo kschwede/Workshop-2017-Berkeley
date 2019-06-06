@@ -336,8 +336,9 @@ doc ///
         Example
             R = ZZ/5[x,y]; 
             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
-            fpt(f, DepthOfSearch => 3, Attempts => 5)
-            fpt(f, DepthOfSearch => 3, Attempts => 5, GuessStrategy => denominator)
+            fpt(f, DepthOfSearch => 3, Attempts => 7)
+            time fpt(f, DepthOfSearch => 3, Attempts => 8)
+            time fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator)
         Text
             If the user suspects that the $F$-pure threshold contains a $p$ in its denominator, then a suitable function can be used to prioritize such numbers.
             
