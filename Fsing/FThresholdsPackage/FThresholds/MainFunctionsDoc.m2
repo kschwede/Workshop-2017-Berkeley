@@ -1,5 +1,23 @@
 doc ///
     Key
+        Bounds
+    Headline
+        an option for the function fpt specifying lower and upper bounds for the F-pure threshold
+    Description
+        Text
+            An option for the function @TO fpt@ specifying bounds for the $F$-pure threshold.
+            Takes on lists consisting of two numbers, namely a lower and an upper bound for the $F$-pure threshold being computed. 
+            This useful feature allows the user to refine bounds obtained in previous computations, as illustrated below.
+        Example
+            R = ZZ/5[x,y];
+            f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
+            fpt(f, DepthOfSearch => 3, Attempts => 5)
+            fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
+            fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
+///
+
+doc ///
+    Key
         compareFPT
         (compareFPT, Number, RingElement)
         [compareFPT, MaxCartierIndex]
@@ -107,6 +125,7 @@ doc ///
         (fpt, RingElement)
         (fpt, List, List)
         [fpt, Attempts]
+        [fpt, Bounds]
         [fpt, DepthOfSearch]
         [fpt, FRegularityCheck]
         [fpt, GuessStrategy]
@@ -127,6 +146,8 @@ doc ///
             containing positive integers
         Attempts => ZZ
             specifies the number of "guess and check" attempts to make
+        Bounds => List
+            consisting of two numbers, known to be lower and upper bounds, respectively, of the $F$-pure threshold of {\tt f}
         DepthOfSearch => ZZ
             specifies the power of the characteristic to be used in a search for the $F$-pure threshold
         FRegularityCheck => Boolean
@@ -198,7 +219,14 @@ doc ///
             fpt(f, DepthOfSearch => 3, Attempts => 2)
             fpt(f, DepthOfSearch => 3, Attempts => 3) -- one more attempt improves the estimate
             fpt(f, DepthOfSearch => 3, Attempts => 8) -- a few more and we find the answer
-            fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator) -- or just one more, prioritizing small denominators
+        Text
+            The useful option {\tt Bounds} allows the user to specify known lower and upper bounds for the $F$-pure threshold of $f$, in order to speed up computations or to refine previously obtained estimates. 
+        Example
+            R = ZZ/5[x,y];
+            f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
+            fpt(f, DepthOfSearch => 3, Attempts => 5)
+            fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
+            fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
         Text
             If guessFPT is unsuccessful and {\tt UseFSignature} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
         Example
