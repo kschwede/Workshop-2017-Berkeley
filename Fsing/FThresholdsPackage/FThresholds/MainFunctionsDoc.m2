@@ -1,4 +1,3 @@
-doc ///
     Key
         Bounds
     Headline
@@ -159,7 +158,7 @@ doc ///
         UseFSignature => Boolean
             specifies whether to use the $F$-signature function and a secant line argument to attempt to improve the $F$-pure threshold estimate
         UseSpecialAlgorithms => Boolean
-            specifies whether to check if {\tt f} is a diagonal polynomial, monomial, binomial, simple normal crossing, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
+            specifies whether to check if {\tt f} is a diagonal polynomial, monomial, binomial, a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), or a simple normal crossing, and then apply appropriate algorithms
         Verbose => Boolean
             requests verbose feedback
     Outputs
@@ -178,8 +177,8 @@ doc ///
              fpt(x^3 + y^3 + z^3 + x*y*z)
              fpt(x^5 + y^6 + z^7 + (x*y*z)^3)
         Text
-             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a monomial, a binomial, in simple normal crossing, or a form in two variables, respectively.
-             If it is one of these, algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.
+             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a monomial, a binomial, a form in two variables, or in simple normal crossing,  respectively.
+             If it sits in any of the first three cases, algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.  If it is in simple normal crossing, the $F$-pure threshold is easily computed. 
         Example
             fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
             fpt(x^2*y^6*z^10 + x^10*y^5*z^3) -- a binomial
@@ -336,8 +335,9 @@ doc ///
         Example
             R = ZZ/5[x,y]; 
             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
-            fpt(f, DepthOfSearch => 3, Attempts => 5)
-            fpt(f, DepthOfSearch => 3, Attempts => 5, GuessStrategy => denominator)
+            fpt(f, DepthOfSearch => 3, Attempts => 7)
+            time fpt(f, DepthOfSearch => 3, Attempts => 8)
+            time fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator)
         Text
             If the user suspects that the $F$-pure threshold contains a $p$ in its denominator, then a suitable function can be used to prioritize such numbers.
             

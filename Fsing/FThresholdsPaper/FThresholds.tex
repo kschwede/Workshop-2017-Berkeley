@@ -178,9 +178,10 @@ There are three main sections in this paper, which describe and illustrate the m
 \item[$\circ$] \autoref{sec.Nu} describes the fundamental function {\tt nu}.  As its name suggests, this function is concerned with computing the integers $\nu_I^J(p^e)$ described above.
 \item[$\circ$] \autoref{sec.IsFPT} explains the functionality for determining whether a given number is the $F$-pure threshold, or more generally, an \emph{$F$-jumping exponent}.
 \item[$\circ$] \autoref{sec.FPT} describes the features of the central function of the package, {\tt fpt}.
+\item[$\circ$]  {\color{red} Add a description of the last section}
 \end{itemize}
-
-This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.
+{\color{red} Move this later}
+The \emph{FrobeniusThresholds} package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.
 
 \subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors and contributors to the \emph{FrobeniusThresholds} package.
 Our package coauthors are Dan Smolkin {\color{red}(LIST MORE NAMES)}, and Zhibek Kadyrsizova, Moty Katzman {\color{red} (LIST MORE NAMES)} contributed valuable code to the package.
@@ -688,9 +689,13 @@ o10 = true
 \end{MyVerbatim}
 }
 \medspace
-We also briefly describe the algorithm which checks whether the polynomial $f$ factors as a product of functions $f = \prod_i f_i^{a_i}$ that are in simple normal crossing with each other (in which case, the $F$-pure threshold is just the minimum of the $1/a_i$ as mentioned above).  Recall that a set of elements $\{f_i\}$ are said to be in simple normal crossing at a point, if locally, the $f_i$ form part of a regular system of parameters.  We verify this by looking at the jacobian matrix of each the subsets of the $f_i$ (evaluated at the origin) and checking that these matrices have the expected rank.  We also verify that these subsets generate ideals of the correct height.  Note, this calls {\tt factor f}, which may be slow.  The user can turn off this factorization call with {\tt UseSpecialAlgorithms => false}.
 
-To verify whether $f$ factors into simple normal crossing factors, the function {\tt isSimpleNormalCrossing} is called.  This function is also exposed to the user.  Note, if one sets the {\tt IsLocal => true} option, the {\tt isSimpleNormalCrossing} function checks that the $f_i$ are in simple normal crossing everywhere, which can be much slower (as jacobian ideals are computed).
+If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into any of the three forementioned cases, then the function {\tt fpt} next checks whether the polynomial $f$ is a product of factors that are in simple normal crossing, in which case its $F$-pure threshold is easily computed.
+
+We briefly describe the algorithm that checks whether the polynomial $f$ factors as a product of functions $f = \prod_i f_i^{a_i}$ that are in simple normal crossing with each other, in which case, the $F$-pure threshold is just the minimum of the $1/a_i$. Recall that a set of elements $\{f_i\}$ is said to be in simple normal crossing at a point, if locally, the $f_i$ form part of a regular system of parameters.  The functionality verifies this by computing the Jacobian matrix of each subset of the $f_i$ (evaluated at the origin), and checking that these matrices have the expected rank.  It is also verified that these subsets generate ideals of the correct height.  Note that {\tt factor f} is called, which may be slow.  The user can avoid this factorization call by setting {\tt UseSpecialAlgorithms} to {\tt false}.
+
+This method for determining whether $f$ is a product of factors that are in simple normal crossing is implemented in the function {\tt isSimpleNormalCrossing}, which is also exposed to the user.
+Note that if one sets the option {\tt IsLocal} for this function to {\tt true}, then {\tt isSimpleNormalCrossing} checks that the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower (as Jacobian ideals are computed).
 
 In the remainder of this section, we describe the {\tt fpt} function when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false},  as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.
 
@@ -986,14 +991,18 @@ o36 : List
 
 
 \newpage
-\section{Future work}
+\section{Future Directions}
 
-We conclude this note with some comments on possible future improvements to the package.
+{\color{red} Should we add this section to the \textbf{Organization} part of the intro?}
+
+We conclude with some comments on possible improvements to the package.
+
+One natural candidate for improvement would be to extend functionality to better handle nonprincipal ideals.  In particular, the package could be improved if it could use the test ideals $\tau(I^t)$ when $I$ is not necessarily principal.  Fortunately, the theoretical foundation for computing such ideals has already largely been worked out in the paper \cite{SchwedeTuckerTestIdealsOfNonPrincipal}. However, such an improvement would necessarily require an update to the \emph{TestIdeals} package.
 
 \begin{enumerate}
 \item Add more cases to {\tt UseSpecialAlgorithms}.
 \item Write a function that will extract from this sequences $\{ \nu_f^{\idealm}(p^e) \}_{e=1}^{\infty}$ roots of Bernstein-Sato polynomials.  Especially, strata.
-\item  Add functionality to handle non-principal ideals.  The theoretical foundation for this is the paper of Karl and Kevin \cite{SchwedeTuckerTestIdealsOfNonPrincipal}.
+
 \item Extend binary forms functions to handle more general $F$-thresholds (that is, with respect to diagonal ideals).  There is one tricky theoretical things, we don't know when this process would stop.  If we can do this, then we can compute $F$-pure thresholds of binary forms in non-standard gradings.  Cite the paper by Daniel and Pedro \cite{HernandezTeixeiraFThresholdFunctions}.
 \end{enumerate}
 
