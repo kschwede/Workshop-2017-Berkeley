@@ -62,10 +62,10 @@
   functions\textup: {S}yzygy gap fractals and the two-variable homogeneous
   case}, J.\ Symbolic Comput. \textbf{80} (2017), 451--483.
 
-\bibitem[HTW18]{HernandezTeixeiraWittFrobeniusPowers}
+\bibitem[HTW18]{hernandez+etal.frobenius_powers}
 {\sc D.~J. Hern\'andez, P.~Teixeira, and E.~E. Witt}: \emph{Frobenius powers},
   preprint, \href{https://arxiv.org/abs/1802.02705}{arXiv:1802.02705
-  [math.AC]}, 2018.
+  [math.AC]}.
 
 \bibitem[Her12]{HernandezFPurityOfHypersurfaces}
 {\sc D.~J. Hern\'{a}ndez}: \emph{{$F$}-purity of hypersurfaces}, Math. Res.
@@ -91,6 +91,11 @@
   and {B}ernstein-{S}ato polynomials}, European Congress of Mathematics, Eur.
   Math. Soc., Z\"urich, 2005, pp.~341--364. {\sf\scriptsize MR2185754
   (2007b:13010)}
+
+\bibitem[ST14]{SchwedeTuckerTestIdealsOfNonPrincipal}
+{\sc K.~Schwede and K.~Tucker}: \emph{Test ideals of non-principal ideals:
+  Computations, jumping numbers, alterations and division theorems}, J. Math.
+  Pures Appl. \textbf{102} (2014), no.~5, 891 -- 929.
 
 \bibitem[ST09]{ShibutaTakagiLCThresholds}
 {\sc T.~Shibuta and S.~Takagi}: \emph{Log canonical thresholds of binomial

@@ -313,14 +313,15 @@ doc ///
             Using the function @TO decomposeFraction@, each number $t$ in that list is written in the form $t = a/(p^b(p^c-1))$, where $p$ is the characteristic of the ring of $f$.
             Then the list of candidates is sorted based on the following criteria:
 
-            1. Increasing "computational cost" $w_a a + w_b b + w_c c$, for certain weights $w_a$, $w_b$, and $w_c$; then ties are broken by
+            1. Increasing "computational cost" $w_aa + w_bb + w_cc$, for certain weights $w_a$, $w_b$, and $w_c$, and refined by
 
             2. Increasing distance from the midpoint of the interval.
 
-            Once this sorting is done, the numbers in the list are picked in order, @TO compareFPT@ is called, and the result of the comparison is used to trim the list.
+            Once this sorting is done, the first number in the list is selected, @TO compareFPT@ is called, and the result of the comparison is used to trim the list.
+            This process is iterated as many times as requested by the user, via the option {\tt Attempts}.
 
             The default weights currently used in Criterion 1 are $w_a = 0$, $w_b = 1$, and $w_c = 1.5$.
-            With these choices, we believe Criterion 1 is likely to prioritize numbers for which the computation of @TO compareFPT@ is faster.
+            With these choices, we believe Criterion 1 is likely to prioritize numbers for which the computation of @TO compareFPT@ is most efficient.
             Criterion 2, on the other hand, aims at partitioning the interval as evenly as possible.
 
             The option {\tt GuessStrategy} allows the user to choose his or her own weights for Criterion 1.
@@ -329,7 +330,18 @@ doc ///
 
             GIVE EXAMPLE
 
-            TALK ABOUT THE POSSIBILITY OF INPUTTING A FUNCTION
+            The user may also pass custom functions that take either the candidate rational numbers $t$ as inputs, or pairs ($p$, $t$), where $p$ is the characteristic of the ambient ring.
+            The list of candidates is then sorted first by increasing values of that function, and Criteria 1 and 2 are, respectively, used as tie breakers.    
+            For instance, if the user suspects the $F$-pure threshold has a small denominator, then passing the function {\tt denominator} may improve the accuracy of the computation (though it will likely decrease speed). 
+        Example
+            R = ZZ/5[x,y]; 
+            f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
+            fpt(f, DepthOfSearch => 3, Attempts => 5)
+            fpt(f, DepthOfSearch => 3, Attempts => 5, GuessStrategy => denominator)
+        Text
+            If the user suspects that the $F$-pure threshold contains a $p$ in its denominator, then a suitable function can be used to prioritize such numbers.
+            
+            GIVE EXAMPLE
 ///
 
 doc ///
