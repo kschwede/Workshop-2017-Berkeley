@@ -427,8 +427,8 @@ fpt RingElement := o -> f ->
         if isSimpleNormalCrossing prod then
         (
             if o.Verbose then
-            print "\nPolynomial is snc; calling sncFPT ...";
-            return sncFPT(prod);
+                print "\nPolynomial is snc; calling sncFPT ...";
+            return sncFPT prod;
         );
     );
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
