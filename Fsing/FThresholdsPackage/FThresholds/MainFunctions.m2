@@ -262,7 +262,6 @@ nu ( ZZ, RingElement ) := o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 ---	e - some positive integer
 --- Output:
 ---	returns value of the F-signature of the pair (R, f^{a/p^e})
---- Code is based on work of Eric Canton
 fSig := ( f, a, e ) ->
 (
      R := ring f;
@@ -312,7 +311,7 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     candidateList := fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy );
     while counter <= maxChecks do
     (
-        --  pick candidate with minimal weight
+        --  pick candidate with minimal weight        
         t = last first candidateList; --the candidate list should already be sorted
         comp = compareFPT( t, f, IsLocal => true );
         if comp == 0 then  -- found exact FPT! YAY!
@@ -325,8 +324,8 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     	else ( A = t; candidateList = select( candidateList, a -> last a > t ) ); -- fpt > t
         counter = counter + 1;
         -- if not done and running short on candidates, load up some more
-        if counter < maxChecks and #candidateList <= minNumCandidates then
-            candidateList = sort fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy )
+        if counter <= maxChecks and #candidateList <= minNumCandidates then
+            candidateList = fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy )      
     );
     if o.Verbose then
         print( "\nguessFPT narrowed the interval down to ( " | toString A | ", " | toString B | " ) ..." );
