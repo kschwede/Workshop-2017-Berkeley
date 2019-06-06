@@ -352,23 +352,18 @@ fpt = method(
 
 fpt RingElement := o -> f ->
 (
-    ------------------------------
-    -- DEAL WITH A TRIVIAL CASE --
-    ------------------------------
-    if f == 0 then return 0;
--- maybe check for monomials too
-
     ---------------------
     -- RUN SEVERAL CHECKS
     ---------------------
     -- Check if option values are valid
     checkOptions( o,
         {
-	    DepthOfSearch => ( k -> instance( k, ZZ ) and k > 0 ),
+	    Attempts => ( k -> instance(k, ZZ) and k >= 0 ),
+	    DepthOfSearch => ( k -> instance(k, ZZ) and k > 0 ),
 	    FRegularityCheck => Boolean,
-	    Attempts => ( k -> instance( k, ZZ ) and k >= 0 ),
-	    UseSpecialAlgorithms => Boolean,
+            GuessStrategy => ( k -> (instance(k, List) and #k == 3) or instance(k, Function) or k === null ),
 	    UseFSignature => Boolean,
+	    UseSpecialAlgorithms => Boolean,
 	    Verbose => Boolean
 	}
     );
@@ -379,6 +374,12 @@ fpt RingElement := o -> f ->
     M := maxIdeal f;   -- The maximal ideal we are computing the fpt at
     p := char ring f;
     if not isSubset( ideal f, M ) then return infinity;
+
+    ------------------------------
+    -- DEAL WITH A TRIVIAL CASE --
+    ------------------------------
+    if f == 0 then return 0;
+-- maybe check for monomials too
 
     ----------------------
     -- CHECK IF FPT = 1 --

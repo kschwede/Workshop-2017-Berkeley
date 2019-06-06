@@ -7,7 +7,7 @@ document {
     ", TEX ///$F$///, "-jumping exponents, and related numerical measures of singularities in positive characteristic.",
     BR{},BR{},"The Frobenius endomorphism on a ring of prime characteristic ", TEX ///$p > 0$///,", which sends a ring element to
     its ", TEX ///$p$///,"-th power, is a fundamental tool in positive characteristic commutative algebra.
-    Kunz showed that regularity is characterized by the behavior of this map, and since then many other properties of Frobenius have been used to measure how singular a ring or function is. The ", TEX ///$F$///, "-pure threshold is a prominent
+    Kunz showed that regularity is characterized by the behavior of this map, and since then many other properties of Frobenius have been used to measure the "severity" of singularities in commutative algebra. The ", TEX ///$F$///, "-pure threshold is a prominent
     object in this realm.", BR{},BR{},"
     This package relies heavily on the ", TO "TestIdeals", " package. Many special cases (binomials, diagonal polynomials, etc.) are", EM " seamlessly ",
     "handled by using special algorithms found in ", HREF{"https://doi.org/10.1090/S0002-9939-2014-12260-X", "Hernández"}, ", ",HREF{"https://doi.org/10.1090/S0002-9939-2014-11941-1", "Hernández"}, ", and ", HREF{"https://www.sciencedirect.com/science/article/pii/S0747717116300347","Hernández-Teixeira"},
@@ -28,14 +28,13 @@ document {
     "The authors would like to thank David Eisenbud, Daniel Grayson, Anurag Singh, Greg Smith, and Mike Stillman for useful conversations and comments on the development of this package.",BR{},BR{},
     BOLD "Contributors", BR{}, BR{},
     "We sincerely thank the following people who contributed code to this package.",
-        UL {
-        {"Alice"},
-        {"Bob"},
-        {"Eve"},
-        {"Erin Bela"},
-        {HREF{"https://www.hood.edu/academics/faculty/sara-malec","Sara Malec"}},
+       UL {
+        {HREF{"https://www.juniata.edu/academics/departments/mathematics/faculty.php", "Erin Bela"}},
+        {HREF{"https://juliettebruce.github.io/","Juliette Bruce"}},
         {HREF{"https://sst.nu.edu.kz/en/zhibek-kadyrsizova/","Zhibek Kadyrsizova"}},
         {HREF{"http://www.katzman.staff.shef.ac.uk/", "Mordechai Katzman"}},
+        {HREF{"https://www.hood.edu/academics/faculty/sara-malec","Sara Malec"}},
+        {"Maral Mostafazadehfard"},
         {HREF{"http://www.math.utah.edu/~robinson/", "Marcus Robinson"}}
     }
 }

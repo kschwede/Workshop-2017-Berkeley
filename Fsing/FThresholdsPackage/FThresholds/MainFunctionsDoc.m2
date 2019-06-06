@@ -16,9 +16,9 @@ doc ///
         t:Number
             a rational number to compare to the $F$-pure threshold
         f:RingElement
-            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic
+            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not a divisor of $p$
         AssumeDomain => Boolean
-            assumes that the ambient ring of {\tt f}  is an integral domain
+            indicates whether the ambient ring of {\tt f}  is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
         IsLocal => Boolean
@@ -34,16 +34,16 @@ doc ///
             namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold of {\tt f}.
     Description
         Text
-            Let $f$ be an element of a ring of positive characteristic, and $t$ a rational number.
-            The function {\tt compareFPT} returns {\tt -1} if $t$ is less than the $F$-pure threshold of $f$, {\tt 1} if $t$ is greater than the $F$-pure threshold $f$, or {\tt 0} if $t$ equals the $F$-pure threshold.
+            Let $f$ be an element of a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not a divisor of $p$. 
+            Given a rational number $t$, the command {\tt compareFPT(t, f)} returns {\tt -1} if $t$ is less than the $F$-pure threshold of $f$, {\tt 1} if $t$ is greater than the $F$-pure threshold $f$, or {\tt 0} if $t$ equals the $F$-pure threshold.
         Example
             R = ZZ/7[x,y];
-            f = y^2 - x^3;
+            f =  x^3 - y^2;
             compareFPT(1/2, f)
             compareFPT(5/6, f)
             compareFPT(6/7, f)
         Text
-            This function can be used in a singular ring that is strongly $F$-regular, as long as $p$ does not divide the $\mathbb{Q}$-Gorenstein index, where $p>0$ is the characteristic of the ambient ring of $f$.
+            As noted, this function can be used in a singular ring of characteristic $p>0$ that is strongly $F$-regular, as long as $p$ does not divide the $\mathbb{Q}$-Gorenstein index.
             For instance, in the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/(x*y - z^2);
@@ -52,7 +52,7 @@ doc ///
              compareFPT(1/2, f)
              compareFPT(13/25, f)
         Text
-            Here is an example where $p$ does not divide the $\mathbb{Q}$-Gorenstein index.  This is a Veronese subring (which is étale in codimension $1$)
+           Consider a Veronese subring (which is étale in codimension $1$), 
             so the fpt of the given polynomial (in this case $19/125$) should be independent of which ring we are in.
         Example
             T = ZZ/5[a,b];
@@ -76,11 +76,11 @@ doc ///
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
 
-            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
-            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
+            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
+            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
-            The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+            The two values for {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 
             Setting the option {\tt Verbose} (default value {\tt false}) to {\tt true} produces verbose output.
     SeeAlso
@@ -106,9 +106,10 @@ doc ///
         fpt
         (fpt, RingElement)
         (fpt, List, List)
+        [fpt, Attempts]
         [fpt, DepthOfSearch]
         [fpt, FRegularityCheck]
-        [fpt, Attempts]
+        [fpt, GuessStrategy]
         [fpt, UseFSignature]
         [fpt, UseSpecialAlgorithms]
         [fpt, Verbose]
@@ -124,12 +125,16 @@ doc ///
             containing forms in two variables
         m:List
             containing positive integers
+        Attempts => ZZ
+            specifies the number of "guess and check" attempts to make
         DepthOfSearch => ZZ
             specifies the power of the characteristic to be used in a search for the $F$-pure threshold
         FRegularityCheck => Boolean
             specifies whether to check if the final lower bound is the $F$-pure threshold of {\tt f}
-        Attempts => ZZ
-            specifies the number of "guess and check" attempts to make
+        GuessStrategy => Function
+            specifies a function to be used to rank numbers to be tested
+        GuessStrategy => List
+            specifies weights to be used rank numbers to be tested
         UseFSignature => Boolean
             specifies whether to use the $F$-signature function and a secant line argument to attempt to improve the $F$-pure threshold estimate
         UseSpecialAlgorithms => Boolean
@@ -149,16 +154,16 @@ doc ///
              Otherwise, it returns lower and upper bounds for the $F$-pure threshold.
         Example
              ZZ/5[x,y,z];
-             fpt( x^3 + y^3 + z^3 + x*y*z )
-             fpt( x^5 + y^6 + z^7 + (x*y*z)^3 )
+             fpt(x^3 + y^3 + z^3 + x*y*z)
+             fpt(x^5 + y^6 + z^7 + (x*y*z)^3)
         Text
              If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, respectively.
              If it is one of these, algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.
         Example
-            fpt( x^17 + y^20 + z^24 ) -- a diagonal polynomial
-            fpt( x^2*y^6*z^10 + x^10*y^5*z^3 ) -- a binomial
+            fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
+            fpt(x^2*y^6*z^10 + x^10*y^5*z^3) -- a binomial
             ZZ/5[x,y];
-            fpt( x^2*y^6*(x + y)^9*(x + 3*y)^10 ) -- a binary form
+            fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a binary form
         Text
             The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization.
             For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
@@ -166,60 +171,61 @@ doc ///
             L = {x, y, x + y, x + 3*y};
             m = {2, 6, 9, 10};
             fpt(L, m)
-            fpt( x^2*y^6*(x + y)^9*(x + 3*y)^10 )
+            fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10)
         Text
-            When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu$ = {\tt nu(e,f)} (see @TO nu@), where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.
+            When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu$ = @TO nu@{\tt (e,f)}, where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.
             At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval.
             The number of "guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to {\tt 3}.
             If {\tt Attempts} is set to {\tt 0}, {\tt guessFPT} is bypassed.
             If {\tt Attempts} is set to at least {\tt 1}, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval is the $F$-pure threshold.
         Example
             f = x^2*(x + y)^3*(x + 3*y^2)^5;
-            fpt( f, Attempts => 0 ) -- a bad estimate
-            fpt( f, Attempts => 0, DepthOfSearch => 3 ) -- a better estimate
-            fpt( f, Attempts => 1, DepthOfSearch => 3 ) -- the right-hand endpoint (nu+1)/p^e is the fpt
+            fpt(f, Attempts => 0) -- a bad estimate
+            fpt(f, Attempts => 0, DepthOfSearch => 3) -- a better estimate
+            fpt(f, Attempts => 1, DepthOfSearch => 3) -- the right-hand endpoint (nu+1)/p^e is the fpt
         Text
             If {\tt Attempts} is set to at least {\tt 2} and the right-hand endpoint $(\nu+1)/p^e$ is not the $F$-pure threshold, a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ is the $F$-pure threshold.
         Example
             f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
-            fpt( f, Attempts => 1, DepthOfSearch => 3 )
-            fpt( f, Attempts => 2, DepthOfSearch => 3 ) -- the left-hand endpoint nu/(p^e-1) is the fpt
+            fpt(f, Attempts => 1, DepthOfSearch => 3)
+            fpt(f, Attempts => 2, DepthOfSearch => 3) -- the left-hand endpoint nu/(p^e-1) is the fpt
         Text
             If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more than {\tt 2}, then additional checks are performed at numbers in the interval.
-            A number in the interval with minimal denominator is selected, and @TO compareFPT@ is used to test that number.
+            A number in the interval is selected, according to criteria specified by the option @TO GuessStrategy@ (see its documentation for details), and @TO compareFPT@ is used to test that number.
             If that "guess" is correct, its value is returned; otherwise, the information returned by @TO compareFPT@ is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
         Example
             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
-            fpt( f, DepthOfSearch => 3, Attempts => 2 )
-            fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- one more attempt improves the estimate
-            fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- one more finds the exact answer
+            fpt(f, DepthOfSearch => 3, Attempts => 2)
+            fpt(f, DepthOfSearch => 3, Attempts => 3) -- one more attempt improves the estimate
+            fpt(f, DepthOfSearch => 3, Attempts => 8) -- a few more and we find the answer
+            fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator) -- or just one more, prioritizing small denominators
         Text
             If guessFPT is unsuccessful and {\tt UseFSignature} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
         Example
             f = x^5*y^6*(x + y)^9*(x^2 + y^3)^4;
-            numeric fpt( f, DepthOfSearch => 3 )
-            numeric fpt( f, DepthOfSearch => 3, UseFSignature => true ) -- a slightly sharper estimate
+            numeric fpt(f, DepthOfSearch => 3)
+            numeric fpt(f, DepthOfSearch => 3, UseFSignature => true) -- a slightly sharper estimate
         Text
             When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run to verify whether the final lower bound for the $F$-pure threshold is the exact answer, if that check has not yet been performed.
         Example
             f = (x + y)^4*(x^2 + y^3)^6;
-            fpt( f, Attempts => 2, DepthOfSearch => 3 )
-            fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) -- UseFSignature improves the estimate
-            fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) -- FRegularityCheck nails it
+            fpt(f, Attempts => 2, DepthOfSearch => 3)
+            fpt(f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true) -- UseFSignature improves the estimate
+            fpt(f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true) -- FRegularityCheck nails it
         Text
             The computations performed when {\tt UseFSignature} and {\tt FRegularityCheck} are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
             It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.
         Example
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
-            timing numeric fpt( f, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true )
-            timing numeric fpt( f, Attempts => 5, DepthOfSearch => 3 ) -- a better answer in less time
-            timing fpt( f, DepthOfSearch => 4 ) -- the exact answer in even less time
+            timing numeric fpt(f, DepthOfSearch => 2, UseFSignature => true, FRegularityCheck => true)
+            timing numeric fpt(f, DepthOfSearch => 2, Attempts => 5) -- a better answer in less time
+            timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less time
         Text
             As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
             Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
         Example
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
-            fpt( f, DepthOfSearch => 3, UseFSignature => true, Verbose => true )
+            fpt(f, DepthOfSearch => 3, UseFSignature => true, Verbose => true)
     SeeAlso
         compareFPT
         isFPT
@@ -265,6 +271,16 @@ doc ///
 
 doc ///
     Key
+        GuessStrategy
+    Headline
+        an option for the function fpt to specify the criterion used for selecting numbers to check
+    Description
+        Text
+            An option for the function @TO fpt@.
+///
+
+doc ///
+    Key
         isFJumpingExponent
         (isFJumpingExponent, Number, RingElement)
         [isFJumpingExponent, AssumeDomain]
@@ -281,9 +297,9 @@ doc ///
         t:Number
             a rational number
         f:RingElement
-            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic
+            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not a divisor of $p$
         AssumeDomain => Boolean
-            assumes that the ambient ring of {\tt f}  is an integral domain
+            indicates whether the ambient ring of {\tt f}  is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
         IsLocal => Boolean
@@ -299,9 +315,7 @@ doc ///
             reporting whether {\tt t} is an $F$-jumping exponent of {\tt f}
     Description
         Text
-            Given an element $f$ of a $\mathbb{Q}$-Gorenstein ring $R$ of positive characteristic $p$
-            (with $\mathbb{Q}$-Gorenstein index not divisible by $p$)
-            and a rational number $t$, {\tt isFJumpingExponent(t,f)} returns true if $t$ is an $F$-jumping exponent of $f$,
+            Consider a $\mathbb{Q}$-Gorenstein ring $R$ of positive characteristic $p>0$.  Given an element $f$ of $R$, and a rational number $t$, {\tt isFJumpingExponent(t,f)} returns true if $t$ is an $F$-jumping exponent of $f$,
             and otherwise it returns false.
         Example
             R = ZZ/5[x,y];
@@ -311,7 +325,7 @@ doc ///
             isFJumpingExponent(5/6, f)
             isFJumpingExponent(11/12, f)
         Text
-            We include an example in a singular ambient ring.  The jumping numbers that are less than $1$ should be $1/4$, $1/2$ and $3/4$.
+            The ring $R$ below is singular, and the jumping numbers of $f$ in the open unit interval are $1/4$, $1/2$ and $3/4$.
         Example
             R = ZZ/11[x,y,z]/(x*y - z^2);
             f = x^2;
@@ -321,7 +335,7 @@ doc ///
             isFJumpingExponent(2/3, f)
             isFJumpingExponent(3/4, f)
         Text
-            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) will tell the function to consider only $F$-jumping exponents at the origin.
+            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) tells the function to consider only $F$-jumping exponents at the origin.
             The following example considers a polynomial that looks locally analytically like two lines at the origin and 4 lines at (2,0).
         Example
             R = ZZ/13[x,y];
@@ -332,8 +346,8 @@ doc ///
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
 
-            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
-            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
+            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
+            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
@@ -363,9 +377,9 @@ doc ///
         t:Number
             a number, candidate for the $F$-pure threshold of {\tt f}
         f:RingElement
-            an element of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$
+            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not divisible by $p$
         AssumeDomain => Boolean
-            assumes that the ambient ring of {\tt f}  is an integral domain
+            indicates whether the ambient ring of {\tt f} is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
         IsLocal => Boolean
@@ -381,7 +395,7 @@ doc ///
             reporting whether {\tt t} is the $F$-pure threshold of {\tt f}
     Description
         Text
-            Consider an element $f$ of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$ (of $\mathbb{Q}$-Gorenstein index not divisible by $p$), and a rational number $t$.
+            Consider an element $f$ of a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$ (of $\mathbb{Q}$-Gorenstein index not divisible by $p$), and a rational number $t$.
             If $t$ is the $F$-pure threshold of $f$, then the command {\tt isFPT(t, f)} outputs {\tt true}, and otherwise, it outputs {\tt false}.
         Example
             R = ZZ/11[x,y];
@@ -407,8 +421,8 @@ doc ///
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
 
-            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
-            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
+            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
+            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
