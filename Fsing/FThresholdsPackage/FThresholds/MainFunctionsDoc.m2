@@ -43,7 +43,7 @@ doc ///
             compareFPT(5/6, f)
             compareFPT(6/7, f)
         Text
-            This function can be used in a singular ring that is strongly $F$-regular, as long as $p$ does not divide the $\mathbb{Q}$-Gorenstein index, where $p>0$ is the characteristic of the ambient ring of $f$.
+            This function can be used in a singular ring of characteristic $p>0$ that is strongly $F$-regular, as long as $p$ does not divide the $\mathbb{Q}$-Gorenstein index.
             For instance, in the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/(x*y - z^2);
@@ -281,7 +281,7 @@ doc ///
         t:Number
             a rational number
         f:RingElement
-            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic
+            in a $\mathbb{Q}$-Gorenstein ring of prime characteristic
         AssumeDomain => Boolean
             assumes that the ambient ring of {\tt f}  is an integral domain
         FrobeniusRootStrategy => Symbol

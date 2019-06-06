@@ -208,71 +208,61 @@ See \cite{HernandezTeixeiraWittFrobeniusPowers} for more discussion of this.
 \section{{\tt isFPT}, {\tt compareFPT} and {\tt isFJumpingExponent}}
 \label{sec.IsFPT}
 
-The function {\tt isFPT} determines whether a rational number is the $F$-pure threshold of a specified polynomial. 
-Given a rational number $t$ and an element $f$ of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$, the command {\tt isFPT(t,f)} outputs {\tt true} if $t$ is the $F$-pure threshold of $f$, and {\tt false} otherwise. 
-The function {\tt compareFPT} provides further information about the relationship between $t$ and the $F$-pure threshold of $f$; namely, 
-{\tt compareFPT(t, f)} returns {\tt-1} when $t < \fpt(f)$, $0$ when $t = \fpt(f)$ and $1$ when $t > \fpt(f)$.
-Consider the following example, that illustrates this functionality. 
+The \emph{FThresholds} package contains methods to 
+ test candidate values for an $F$-pure threshold, and even $F$-jumping numbers, even in some singular rings.  
+Consider a  $\mathbb{Q}$-Gorenstein ring $R$ of characteristic $p>0$, whose index not divisible by $p$.
+Given a rational number $t$ and an element $f$ of $R$, the command {\tt isFPT(t,f)} outputs {\tt true} if $t$ is the $F$-pure threshold of $f$, and {\tt false} otherwise. 
+Moreover, the function {\tt compareFPT} provides further information about the relationship between $t$ and the $F$-pure threshold of $f$; namely, 
+{\tt compareFPT(t, f)} returns {\tt-1} when $t < \fpt(f)$, {\tt 0} when $t = \fpt(f)$ and {\tt 1} when $t > \fpt(f)$.
+Setting the option {\tt IsLocal} to {\tt true} tells the function to consider the $F$-pure threshold at the origin.
+The following example illustrates this functionality. 
 
-\medskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i14 :             R = ZZ/11[x,y];
 
-i15 :             f = x^3 + y^2;
+i1 : R = ZZ/11[x, y, z]/( x^2 - y*( z - 1 ) );
 
-i16 :             isFPT(9/11, f)
+i2 : compareFPT( 5/11, z - 1 )
 
-o16 = true
+o2 = -1
+
+i3 : isFPT( 1/2, z - 1 )
+
+o3 = true
+
+i4 : isFPT( 1/2, z - 1, IsLocal => true )
+
+o4 : false
 
 \end{MyVerbatim}
 }
-\medskip
 
-In general, this is done by computing the \emph{test ideal} associated to the pair $(R, f^t)$, and that associated when $t$ is replaced with a value less than $t$ that is very close to $t$, that associated to the pair $(R, f^{t-\epsilon}s)$. 
-These values are computed using the functions 
-{\tt testIdeal} and {\tt FPureModule} from the \emph{TestIdeals} package
-(CITE THE TEST IDEALS PACKAGE PAPER).
-In fact, $t$ is the $F$-pure threshold of $f$ if and only if $\tau(R, f^{t-\epsilon})$ is $R$, but  $\tau(R, f^t)$ is a proper ideal.  
-Note that when $R$ is a strongly $F$-regular Gorenstein ring, {\tt FPureModule(t, f)} precisely computes $\tau(R, f^{t-\epsilon})$.  \textcolor{red}{These commands work more generally, but they \emph{only} currently work when $R$ is $\bQ$-Gorenstein, with index not divisible by $p$.}
+The general method applied calls upon functionality from the \emph{TestIdeals} package (CITE).  The functions {\tt testIdeal} and {\tt FPureModule} therein are used
+to compute the test ideals of $f$ with respect to the parameter $t$, and that with respect to $t - \varepsilon$, for $\varepsilon>0$ very small. For instance, as noted in the introduction, when $R$ is a polynomial ring, $t$ is the $F$-pure threshold of $f$ if and only if $\tau(R, f^t)$ is contained in the homogeneous maximal ideal, but 
+$\tau(R, f^{t-\varepsilon})$ is not. 
+Note that when $R$ is a strongly $F$-regular Gorenstein ring, {\tt FPureModule(t, f)} precisely computes $\tau(R, f^{t-\varepsilon})$.  
+%These commands work more generally, but they \emph{only} currently work when $R$ is $\bQ$-Gorenstein, with index not divisible by $p$.
 
-The function {\tt compareFPT} provides further information about the relationship between $t$ and the $F$-pure threshold of $f$.  Namely, 
-{\tt compareFPT(t, f)} returns {\tt-1} when $t < \fpt(f)$, $0$ when $t = \fpt(f)$ and $1$ when $t > \fpt(f)$.
+Since not only the $F$-pure thresholds, but also the higher $F$-jumping numbers, are determined by containment conditions on test ideals, the functionality is extended to determine whether a given number is an $F$-jumping number.
+Analogous syntax is used, as shown in the following example. 
 
-Consider the following example.  Here, the $F$-pure threshold of $f$ equals to $1/2$; see \cite[Example 4.3]{MustataYoshidaTestIdealVsMultiplierIdeals}.
-\medskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i1 : loadPackage "FThresholds"
 
-o1 = FThresholds
+i49 : R = ZZ/13[x, y];
 
-o1 : Package
+i50 : f = y*( ( y + 1 ) - ( x - 1 )^2 )*( x - 2 )*( x + y - 2 );
 
-i2 : R = ZZ/2[x,y,z];
+i51 : isFJumpingExponent( 3/4, f )
 
-i3 : f = x^2+y^5+z^5;
+o51 = true
 
-i4 : isFPT(1/2, f)
-
-o4 = true
-
-i5 : isFPT(1/3, f)
-
-o5 = false
-
-i6 : compareFPT(3/4, f)
-
-o6 = 1
 \end{MyVerbatim}
 }
-\medskip
 
-The function {\tt isFJumpingExponent} is implemented in a similar way, using the fact that a value $t$ is an $F$-jumping exponent if and only if the test ideals 
-$\tau(R, f^t)$ and $\tau(R, f^{t-\epsilon})$ differ. 
-Again, this command is implemented in rings that are $\bQ$-Gorenstein with index not divisible by $p$.
+
 
 
 \newpage
