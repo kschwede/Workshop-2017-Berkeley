@@ -222,7 +222,7 @@ Note that when $R$ is a strongly $F$-regular Gorenstein ring, {\tt FPureModule(t
 The function {\tt compareFPT} provides further information about the relationship between $t$ and the $F$-pure threshold of $f$.  Namely, 
 {\tt compareFPT(t, f)} returns {\tt-1} when $t < \fpt(f)$, $0$ when $t = \fpt(f)$ and $1$ when $t > \fpt(f)$.
 
-Consider the following example which has $F$-pure threshold equal to {1/2}, see \cite[Example 4.3]{MustataYoshidaTestIdealVsMultiplierIdeals}.
+Consider the following example.  Here, the $F$-pure threshold of $f$ equals to $1/2$; see \cite[Example 4.3]{MustataYoshidaTestIdealVsMultiplierIdeals}.
 \medskip
 {\small
 \setstretch{.67}
@@ -252,11 +252,9 @@ o6 = 1
 }
 \medskip
 
-The command {\tt isFJumpingExponent} is implemented similarly, a value $t$ is an $F$-jumping exponent if and only if
-\[
-\tau(R, f^t) \neq \tau(R, f^{t-\epsilon}).
-\]
-Again, this command works as long as $R$ is $\bQ$-Gorenstein with index not divisible by $p$.
+The function {\tt isFJumpingExponent} is implemented in a similar way, using the fact that a value $t$ is an $F$-jumping exponent if and only if the test ideals 
+$\tau(R, f^t)$ and $\tau(R, f^{t-\epsilon})$ differ. 
+Again, this command is implemented in rings that are $\bQ$-Gorenstein with index not divisible by $p$.
 
 
 \newpage
