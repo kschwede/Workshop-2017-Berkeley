@@ -682,7 +682,10 @@ o10 = true
 \end{MyVerbatim}
 }
 \medspace
-We also briefly describe the algorithm which checks whether the polynomial $f$ factors as a product of functions $f = \prod_i f_i^{a_i}$ that are in simple normal crossing with each other (in which case, the $F$-pure threshold is just the minimum of the $1/a_i$ as mentioned above).  Recall that a set of elements $\{f_i\}$ are said to be in simple normal crossing at a point, if locally, the $f_i$ form part of a regular system of parameters.  We verify this by looking at the jacobian matrix of each the subsets of the $f_i$ (evaluated at the origin) and checking that these matrices have the expected rank.  We also verify that these subsets generate ideals of the correct height.  Note, this calls {\tt factor f}, which may be slow.  The user can turn off this factorization call with {\tt UseSpecialAlgorithms => false}.
+
+If $f$ does not fall into any of the forementioned cases,
+{\tt UseSpecialAlgorithms} next checks whether the polynomial $f$ has simple normal crossings, in which case its $F$-pure threshold can easily be computed.   
+We briefly describe the algorithm which checks whether the polynomial $f$ factors as a product of functions $f = \prod_i f_i^{a_i}$ that are in simple normal crossing with each other (in which case, the $F$-pure threshold is just the minimum of the $1/a_i$ as mentioned above). Recall that a set of elements $\{f_i\}$ are said to be in simple normal crossing at a point, if locally, the $f_i$ form part of a regular system of parameters.  We verify this by looking at the jacobian matrix of each the subsets of the $f_i$ (evaluated at the origin) and checking that these matrices have the expected rank.  We also verify that these subsets generate ideals of the correct height.  Note, this calls {\tt factor f}, which may be slow.  The user can turn off this factorization call with {\tt UseSpecialAlgorithms => false}.
 
 To verify whether $f$ factors into simple normal crossing factors, the function {\tt isSimpleNormalCrossing} is called.  This function is also exposed to the user.  Note, if one sets the {\tt IsLocal => true} option, the {\tt isSimpleNormalCrossing} function checks that the $f_i$ are in simple normal crossing everywhere, which can be much slower (as jacobian ideals are computed).
 
