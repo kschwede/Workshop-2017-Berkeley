@@ -951,6 +951,17 @@ o36 : List
 }
 \medspace
 
+\section{Future work}
+
+\begin{enumerate}
+\item Add more cases to {\tt UseSpecialAlgorithms}.  
+\item Write a function that will extract from this sequences $\{ \nu_f^{\idealm}(p^e) \}_{e=1}^{\infty}$ roots of Bernstein-Sato polynomials.  Especially, strata.
+\item  Add functionality to handle non-principal ideals.  The theoretical foundation for this is the paper of Karl and Kevin \cite{SchwedeTuckerTestIdealsOfNonPrincipal}.
+\item Extend binary forms functions to handle more general $F$-thresholds (that is, with respect to diagonal ideals).  There is one tricky theoretical things, we don't know when this process would stop.  If we can do this, then we can compute $F$-pure thresholds of binary forms in non-standard gradings.  Cite the paper by Daniel and Pedro \cite{HernandezTeixeiraFThresholdFunctions}.
+\end{enumerate}
+
+{\color{red}  Point out for people interested in computing log canonical thresholds:  Zhixian Zhou apparently proved in her thesis that the $F$-pure threshold for hypersurfaces is always a lower bound for the log canonical threshold.  Therefore, this package effectively computes such lower bounds, and is much faster than the \emph{Dmodules} package, which appears to be the only package in Macaulay2 that computes log canonical thresholds.}
+
 \bibliographystyle{skalpha}
 \bibliography{MainBib}
 
