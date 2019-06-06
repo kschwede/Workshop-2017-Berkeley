@@ -276,13 +276,12 @@ minNumCandidates := 6;
 -- The default number of "random" checks to be performed
 attemptsDefault := 3;
 
--- guessFPT takes a polynomial f, endpoints a and b of an interval that contains
--- the F-pure threshold of f, and a positive integer that tells the max number
--- of checks the user wants to perform.
+-- guessFPT takes a polynomial f, and endpoints a and b of a closed interval 
+--     that contains the F-pure threshold of f. 
+-- The option attempts specifies how many tests are to be done, starting with
+--     the right- and left-hand endpoints b and a, respectively.
+-- The option GuessStrategy specifies how to prioritize the numbers to be checked.
 -- It returns either fpt(f), if found, or an interval containing it, if not.
--- It currently chooses numbers in the interval with minimal denominator.
--- In the future, different strategies should be implemented (e.g., use
--- only/first denominators that are multiple of the characteristic).
 guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => false } >> o -> ( f, a, b ) ->
 (
     maxChecks := o.Attempts;
@@ -312,26 +311,22 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     p := char ring f;
     candidateList := fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy );
     while counter <= maxChecks do
-        (
-    	   pick candidate with minimal weight
-          t = min( last \ minimalBy( candidateList, first ) );
-          print candidateList;
+    (
+        --  pick candidate with minimal weight
         t = last first candidateList; --the candidate list should already be sorted
-          print t;
         comp = compareFPT( t, f, IsLocal => true );
         if comp == 0 then  -- found exact FPT! YAY!
-            (
-    	    if o.Verbose then
+        (
+	    if o.Verbose then
     	        print( "\nguessFPT found the exact value for fpt(f) in try number " | toString counter | "." );
     	    return t
-    	    );
+    	);
         if comp == 1 then ( B = t; candidateList = select( candidateList, a -> last a < t ) ) -- fpt < t
     	else ( A = t; candidateList = select( candidateList, a -> last a > t ) ); -- fpt > t
         counter = counter + 1;
-           if not done and running short on candidates, load up some more
+        -- if not done and running short on candidates, load up some more
         if counter < maxChecks and #candidateList <= minNumCandidates then
             candidateList = sort fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy )
-        )
     );
     if o.Verbose then
         print( "\nguessFPT narrowed the interval down to ( " | toString A | ", " | toString B | " ) ..." );

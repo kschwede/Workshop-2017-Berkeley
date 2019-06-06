@@ -50,13 +50,13 @@ positivePositions = L -> positions( L, x -> x > 0 )
 
 --===============================================================================
 
--- Given a list L and a function f, minimalBy( L, f ) selects the elements
--- of L with minimal value of f
-minimalBy = ( L, f ) ->
-(
-    minValue := min( f \ L );
-    select( L, i -> f(i) == minValue )
-)
+-- -- Given a list L and a function f, minimalBy( L, f ) selects the elements
+-- -- of L with minimal value of f
+-- minimalBy = ( L, f ) ->
+-- (
+--     minValue := min( f \ L );
+--     select( L, i -> f(i) == minValue )
+-- )
 
 --===============================================================================
 
@@ -277,9 +277,9 @@ passOptions ( OptionTable, List ) := (o, L) ->
 
 defaultWeights := { 0, 1, 1.5 }
 
-weightFunction = method()
+weight = method()
 
-weightFunction ( ZZ, QQ, List ) := ( p, t, userWeights ) -> 
+weight ( ZZ, QQ, List ) := ( p, t, userWeights ) -> 
 (
      decomp := decomposeFraction( p, t );
      uW := sum( decomp, userWeights, (i, j) -> i*j );
@@ -287,7 +287,7 @@ weightFunction ( ZZ, QQ, List ) := ( p, t, userWeights ) ->
      { uW, dW }
 )
      
-weightFunction ( ZZ, QQ, Function ) := ( p, t, userFunction ) -> 
+weight ( ZZ, QQ, Function ) := ( p, t, userFunction ) -> 
 (
      decomp := decomposeFraction( p, t );
      uW := try userFunction( p, t ) else userFunction( t );
@@ -295,7 +295,7 @@ weightFunction ( ZZ, QQ, Function ) := ( p, t, userFunction ) ->
      { uW, dW }
 )
 
-weightFunction ( ZZ, QQ, Nothing ) := ( p, t, userFunction ) -> 
+weight ( ZZ, QQ, Nothing ) := ( p, t, userFunction ) -> 
 (
      decomp := decomposeFraction( p, t );
      { sum( decomp, defaultWeights, (i, j) -> i*j ) }
@@ -315,7 +315,7 @@ fptWeightedGuessList = ( p, A, B, minGenSize, userCriterion ) ->
     -- now that we have a list with enough rational numbers between a and b,
     -- compute their weights
     guessList := apply( numList, t ->
-        join( weightFunction( p, t, userCriterion ), { abs(t - midpt), t } )
+        join( weight( p, t, userCriterion ), { abs(t - midpt), t } )
     );
     sort guessList
 )
