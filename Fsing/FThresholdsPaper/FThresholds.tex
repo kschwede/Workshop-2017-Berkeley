@@ -146,9 +146,8 @@ Otherwise, we set $\nu_I^J(p^e) = \infty$.
 This clearly generalizes the quantity $\nu_f^{\idealm}(p^e)$ considered earlier, and we call 
 \[ \ft^J(I) := \lim_{e \to \infty} \frac{ \nu_f^{\idealm}(p^e)}{p^e} \]
 the \emph{$F$-threshold of $I$ with respect to $J$}.  These numbers are also rational, when they are finite.
-If $I = (f)$ is principal, then we call $\ft^{J}(f) := \ft^J(I)$  the \emph{$F$-threshold of $f$ with respect to $J$}, 
-and $\ft^{\idealm}(I)$ is the \emph{$F$-pure threshold of $I$}. 
-Like $F$-pure thresholds, the $F$-thresholds of $I$ can also be defined in terms of its test ideals.
+The value $\ft^{\idealm}(I)$ is called the \emph{$F$-pure threshold of $I$}, and if $I = (f)$ is principal,  $\ft^{J}(f) := \ft^J(I)$ is called the \emph{$F$-threshold of $f$ with respect to $J$}.
+Like $F$-pure thresholds, $F$-thresholds can also be defined in terms of its test ideals.
 
 
 \subsection*{Organization}
@@ -265,9 +264,7 @@ o12 = true
 
 It is well known that if $q=p^e$ for some nonnegative integer $e$, then \[ \nu_I^J(qp) = \nu_I^J(q)\cdot p + L\]  where the error term $L$ is nonnegative, and can be explicitly bounded from above in terms of $p$ and the number of generators of $I$ and $J$.  For instance, the error term $L$ is at most $p-1$ when $I$ is principal and $J$ is arbitrary.
 
-This implies that when searching for the maximal exponent defining {\tt nu(e,I,J)} for positive $e$, it is safe to start at $p$ times the output of {\tt nu(e-1,I,J)}, and one needn't search too far past this number.  This also suggests that the most efficient way to compute {\tt nu(e,I,J)} is to compute, successively, {\tt nu(s,I,J)}, for each $s = 0,\ldots,e$.  This is indeed how the computation is done in most cases.
-
-{\color{red} Make this consistent with the introduction.  The point is that we have already described how to get the {\tt nu}-s from their limit.  Maybe we should directly cite }.  
+This implies that when searching for the maximal exponent defining {\tt nu(e,I,J)} for positive $e$, it is safe to start at $p$ times the output of {\tt nu(e-1,I,J)}, and one needn't search too far past this number.  This also suggests that the most efficient way to compute {\tt nu(e,I,J)} is to compute, successively, {\tt nu(s,I,J)}, for each $s = 0,\ldots,e$.  This is indeed how the computation is done in most cases.  
 
 As pointed out in the introduction, if $\mathfrak{m}$ is the homogeneous maximal ideal and $f \in \mathfrak{m}$, then for all $e$, the values $\nu^{\mathfrak{m}}_f(p^e)$ can be recovered from the $F$-pure threshold of $f$.  
 This fact is used to speed up computations for certain polynomials whose $F$-pure thresholds can be computed quickly via specialized algorithms, namely diagonal polynomials, binomials, and forms in two variables (see Section \ref{sec.FPT}).  This feature can be disabled by setting the option {\tt UseSpecialAlgorithms} (default value {\tt true}) to {\tt false}.
@@ -277,7 +274,15 @@ This fact is used to speed up computations for certain polynomials whose $F$-pur
 %time nu(3, f)
 %time nu(3, f, UseSpecialAlgorithms => false)
 
-The option {\tt ContainmentTest} for the function {\tt nu} can be set to {\tt FrobeniusPower}, {\tt FrobeniusRoot}, or {\tt StandardPower}. The default value of this option depends on what is passed to {\tt nu}. Indeed, by default, {\tt ContainmentTest} is set to {\tt FrobeniusRoot} if the second argument passed to {\tt nu} is a polynomial, and is set to {\tt StandardPower} if it is an ideal.  We describe the consequences of setting {\tt ContainmentTest} to each of these values below, using an ideal $I$ as the second argument of $\nu$, since the option works analogously when $I$ is replaced with a polynomial $f$. 
+The function {\tt nu} works by searching through the list of potential integers $n$ and checking containments of the $n^\text{the}$ power of $I$ in a specified Frobenius power of $J$.  
+The user can specify how this search is approached through the  option {\tt Search}.  Namely, a binary search is used when {\tt Search} is set to {\tt Binary} (and this is the default value), and a linear search is run when it is set to {\tt Linear}.
+
+The option {\tt ReturnList} for {\tt nu} (whose default value is {\tt false}) can be set to {\tt true} so that instead of outputting $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=0,\ldots,e$.
+Alternatively, the option {\tt Verbose} can be set to  to request that the values $\nu_I^J(p^i)$ ($i=0,\ldots,e$) be printed as they are computed, to monitor the progress of the computation.
+
+
+Finally, we describe the option {\tt ContainmentTest} for the function {\tt nu}.
+This option can be set to {\tt FrobeniusPower}, {\tt FrobeniusRoot}, or {\tt StandardPower}. The default value of this option depends on what is passed to {\tt nu}. Indeed, by default, {\tt ContainmentTest} is set to {\tt FrobeniusRoot} if the second argument passed to {\tt nu} is a polynomial, and is set to {\tt StandardPower} if it is an ideal.  We describe the consequences of setting {\tt ContainmentTest} to each of these values below, using an ideal $I$ as the second argument of $\nu$, since the option works analogously when $I$ is replaced with a polynomial $f$. 
 
 
 First, if {\tt ContainmentTest} is set to {\tt StandardPower}, then the ideal containments checked when computing {\tt nu(e,I,J)} are verified directly.
@@ -289,18 +294,15 @@ Alternately, if {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the id
 %time nu(3, f) -- ContainmentTest is set to FrobeniusRoot, by default
 %time nu(3, f, ContainmentTest => StandardPower)
 
-Finally, suppose that {\tt ContainmentTest} is set to {\tt FrobeniusPower}.  Instead of producing the invariant $\nu_I^J(p^e)$, in this case the {\tt nu} function instead outputs the maximal integer $n$ such that the $n^{\textrm{th}}$ (generalized) Frobenius power of $I$ is not contained in the $p^e$-th Frobenius power of $J$ \cite{hernandez+etal.frobenius_powers}.  Note that this coincides with $\nu_I^J(p^e)$ when $I$ is replaced with a polynomial, or is a principal ideal.
-After appropriately normalizing and taking the limit of these values as $e$ approaches infinity, these new values limit to certain \emph{critical exponents} (see \emph{loc.~cit.}).
-
-Here, the $n^{\textrm{th}}$ Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper {\it Frobenius Powers} by Hernández, Teixeira, and Witt.
-In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} need not agree.  However, they will agree when $I$ is a principal ideal.
+Finally, suppose that {\tt ContainmentTest} is set to {\tt FrobeniusPower}.  Instead of producing the invariant $\nu_I^J(p^e)$, in this case the {\tt nu} function instead outputs the maximal integer $n$ such that the $n^{\textrm{th}}$ \emph{(generalized) Frobenius power} of $I$ is not contained in the $p^e$-th Frobenius power of $J$ \cite{hernandez+etal.frobenius_powers}. 
+Note that the resulting value coincides with $\nu_I^J(p^e)$ when $I$ is replaced with a polynomial, or is a principal ideal, but need not coincide in general.
+In line with the philosophy described in the introduction, after appropriately normalizing and taking the limit of these values as $e$ approaches infinity, these new values limit to certain invariants of interest called \emph{critical exponents} (see \emph{loc.~cit.}).
 
 %R = ZZ/3[x,y];
 %M = ideal(x, y);
 %nu(3, M^5)
 %nu(3, M^5, ContainmentTest => FrobeniusPower)
 
-The function {\tt nu} works by searching through the list of potential integers $n$ and checking containments of $I^n$ in a specified Frobenius power of $J$.  The way this search is approached is specified by the option {\tt Search}, which can be set to {\tt Binary} (the default value) or {\tt Linear}.
 
 %R = ZZ/5[x,y,z];
 %f = x^2*y^4 + y^2*z^7 + z^2*x^8;
@@ -310,11 +312,6 @@ The function {\tt nu} works by searching through the list of potential integers 
 %time nu(2, M, M^2) -- uses binary search (default)
 %time nu(2, M, M^2, Search => Linear) -- but linear seach gets luckier
 
-The option {\tt ReturnList} (default value {\tt false}) can be used to request that the output be not only $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=0,\ldots,e$.
-
-%nu(5, f, ReturnList => true)
-
-Alternatively, the option {\tt Verbose} (default value {\tt false}) can be used to request that the values $\nu_I^J(p^i)$ ($i=0,\ldots,e$) be printed as they are computed, to monitor the progress of the computation.
 
 %nu(5, f, Verbose => true)
 
