@@ -10,9 +10,9 @@
   \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
 }
 \providecommand{\href}[2]{#2}
-\begin{thebibliography}{MTW05}
+\begin{thebibliography}{BHK{\etalchar{+}}18}
 
-\bibitem[BBB{\etalchar{+}}]{TestIdealsPaper}
+\bibitem[BBB{\etalchar{+}}]{TestIdealsPackage}
 {\sc E.~Bela, A.~F. Boix, J.~Bruce, D.~Ellingson, D.~Hernandez, Z.~Kadyrsizova,
   M.~Katzman, S.~Malec, M.~Mastroeni, M.~Mostafazadehfard, M.~Robinson,
   K.~Schwede, D.~Smolkin, P.~Teixeira, and E.~Witt}: \emph{{TestIdeals: A
@@ -28,6 +28,12 @@
 {\sc M.~Blickle, K.~Schwede, and K.~Tucker}: \emph{{$F$}-signature of pairs and
   the asymptotic behavior of {F}robenius splittings}, arXiv:1107.1082, to
   appear in Advances in Mathematics.
+
+\bibitem[BHK{\etalchar{+}}18]{TestIdealsPaper}
+{\sc A.~F. Boix, D.~J. Hern\'andez, Z.~Kadyrsizova, M.~Katzman, S.~Malec,
+  M.~Mastroeni, M.~Mostafazadeh\-fard, M.~Robinson, K.~Schwede, D.~Smolkin,
+  P.~Teixeira, and E.~E. Witt}: \emph{{The TestIdeals Package for Macaulay2}},
+  Preprint available at arxiv.org/pdf/1810.02770 (2018).
 
 \bibitem[Fed83]{FedderFPureRat}
 {\sc R.~Fedder}: \emph{{$F$}-purity and rational singularity}, Trans. Amer.
