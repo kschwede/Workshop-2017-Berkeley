@@ -445,7 +445,7 @@ fpt RingElement := o -> f ->
     (
         if o.Verbose then 
             print( "\nThe upper bound (nu+1)/p^e = " | toString UB | " was replaced with " | toString( (o.Bounds)#1 ) ); 
-        LB = (o.Bounds)#1
+        UB = (o.Bounds)#1
     );
 
     --------------------
