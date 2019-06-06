@@ -191,23 +191,21 @@ doc ///
         Example
             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
             fpt( f, DepthOfSearch => 3, Attempts => 2 )
-            fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- an additional check sharpens the estimate
-            fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- and one more finds the exact answer
+            fpt( f, DepthOfSearch => 3, Attempts => 3 ) -- one more attempt improves the estimate
+            fpt( f, DepthOfSearch => 3, Attempts => 4 ) -- one more finds the exact answer
         Text
             If guessFPT is unsuccessful and {\tt UseFSignature} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
         Example
             f = x^5*y^6*(x + y)^9*(x^2 + y^3)^4;
-            fpt( f, DepthOfSearch => 3 )
-            fpt( f, DepthOfSearch => 3, UseFSignature => true )
-            numeric ooo
-            numeric ooo -- UseFSignature sharpened the estimate a bit
+            numeric fpt( f, DepthOfSearch => 3 )
+            numeric fpt( f, DepthOfSearch => 3, UseFSignature => true ) -- a slightly sharper estimate
         Text
             When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run to verify whether the final lower bound for the $F$-pure threshold is the exact answer, if that check has not yet been performed.
         Example
             f = (x + y)^4*(x^2 + y^3)^6;
             fpt( f, Attempts => 2, DepthOfSearch => 3 )
-            fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) -- using FSignatures the answer improves a bit
-            fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) -- FRegularityCheck finds the answer
+            fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true ) -- UseFSignature improves the estimate
+            fpt( f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true ) -- FRegularityCheck nails it
         Text
             The computations performed when {\tt UseFSignature} and {\tt FRegularityCheck} are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
             It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.
