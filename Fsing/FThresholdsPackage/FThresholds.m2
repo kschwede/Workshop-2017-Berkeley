@@ -46,14 +46,13 @@ export{
     "Search",
     "StandardPower",
     "UseFSignature",
+    "isSimpleNormalCrossing",
     "UseSpecialAlgorithms"
 }
 
 --*************************************************
 
 load "./FThresholds/DivisorPatch.m2" --some helper functions
-
-load "./FThresholds/TestIdealsPatch.m2"
 
 load "./FThresholds/BasicFunctions.m2"
 
