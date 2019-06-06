@@ -37,24 +37,21 @@ urlcolor=OliveGreen
 {MyVerbatim}{Verbatim}
 {formatcom=\color{Violet}}
 
+\newenvironment{nouppercase}{%
+\let\uppercase\relax%
+\renewcommand{\uppercasenonmath}[1]{}}{}
+
+\newcommand{\ft}{\operatorname{c}}
+\newcommand{\idealm}{\mathfrak{m}}
+
 
 \begin{document}
-\title{The  \emph{FThresholds} package for \emph{Macaulay2}}
-%\author[Alberto F.\ Boix et al.]{Alberto F.\ Boix}
-%\address{Department of Mathematics, Ben-Gurion University of the Negev, Beer-Sheva 8410501, Israel}
-%\email{fernanal@post.bgu.ac.il}
-%\thanks{A.F.\,Boix was supported by Israel Science Foundation (grant No. 844/14) and Spanish Ministerio de Econom\'ia y Competitividad MTM2016-7881-P}
+\title{The \emph{FrobeniusThresholds} package for \emph{Macaulay2}}
 
 \author[]{Daniel J.\ Hern\'andez}
 \address{Department of Mathematics, University of Kansas, Lawrence, KS~66045, USA}
 \email{hernandez@ku.edu}
 \thanks{D.~J.~Hern\'andez was partially supported by NSF DMS \#1600702.}
-
-%\author[]{Zhibek Kadyrsizova}
-%\address{School of Science and Technology, Nazarbayev University, Astana, 010000, Republic of Kazakhstan}
-%\email{zhibek.kadyrsizova@nu.edu.kz}
-%\thanks{Z. Kadyrsizova was partially supported by NSF DMS \#1401384 and the Barbour Scholarship at the University of Michigan.}
-
 
 %\author[]{Sara Malec}
 %\address{Department of Mathematics, Hood College, Frederick, MD 21701}
@@ -69,11 +66,6 @@ urlcolor=OliveGreen
 \thanks{K.~Schwede was supported by NSF CAREER Grant DMS \#1252860/1501102, NSF FRG Grant DMS \#1265261/1501115, NSF grant \#1801849 and a Sloan Fellowship.}
 \email{schwede@math.utah.edu}
 
-%\author[]{Daniel Smolkin}
-%\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
-%\email{smolkin@math.utah.edu}
-%\thanks{D.~Smolkin was supported by NSF RTG Grant DMS \#1246989, NSF CAREER Grant DMS \#1252860/1501102, and NSF FRG Grant DMS \#1265261/1501115.}
-
 \author[]{Pedro Teixeira}
 \address{Department of Mathematics, Knox College, Galesburg, IL~61401, USA}
 \email{pteixeir@knox.edu}
@@ -85,130 +77,318 @@ urlcolor=OliveGreen
 \date{\today}
 
 \begin{abstract}
-   This note describes the functionality implemented in the \emph{Macaulay2} package \emph{FThresholds}.
-   This package is designed to compute and estimate $F$-pure thresholds, more general $F$-thresholds, and related numerical invariants arising in the study of singularities in prime characteristic commutative algebra.
+   This note describes the \emph{Macaulay2} package \emph{FrobeniusThresholds}.
+   This package is designed to estimate and calculate $F$-pure thresholds, more general $F$-thresholds, and related numerical invariants arising in the study of singularities in prime characteristic commutative algebra.
 \end{abstract}
 
-
-\subjclass[2010]{13A35}%=
+\subjclass[2010]{13A35}
 
 \keywords{Macaulay2, Frobenius, $F$-singularity, $F$-pure threshold, $F$-threshold}
 
+\begin{nouppercase}
 \maketitle
+\end{nouppercase}
 
 \section{Introduction}
 
-This paper describes the \emph{Macaulay2} \cite{M2} package \emph{FThresholds}, which provides tools for computing certain fundamental invariants arising in positive characteristic commutative algebra, namely, \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.
-Recall that a ring $R$ of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius morphism $F \: R \to R$ sending an element to its $p^\text{th}$ power is a pure morphism (under geometric hypotheses, this is equivalent to the condition that the Frobenius morphism is split).  Regular rings are always $F$-pure, but not conversely.
-The notion of $F$-purity first appeared in the work \cite{HochsterRobertsFrobeniusLocalCohomology}  of Hochster and Roberts to study local cohomology \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in  \cite{FedderFPureRat}, and was used globally to study properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.
+This paper describes the \emph{Macaulay2} \cite{M2} package \emph{FrobeniusThresholds}, which provides tools for computing certain fundamental invariants arising in positive characteristic commutative algebra.  More precisely, this package concerns the effective computation of \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.
 
-After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of the Frobenius endomorphism to measure singularities proliferated, and based on a strong connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the notion of $F$-purity was generalized to pairs $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a nonnegative real number considered a formal exponent.
+Recall that a ring of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius map|that is, the ring endomorphism sending an element to its $p$-th power|is a pure morphism;  under natural geometric hypotheses, this is equivalent to the condition that the Frobenius morphism splits as a map of rings.
 
-Along these lines, the notion of the \emph{$F$-pure threshold} was defined in analogy with the \emph{log canonical threshold} \cite{TakagiWatanabeFPureThresh,MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
-The $F$-pure threshold of the pair $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure.
-Furthermore, \emph{$F$-threholds} were introduced, a family of invariants that naturally extends the notion of an $F$-pure threshold.
+The concept of $F$-purity has proven to be important in commutative algebra, and has a rich history.  Indeed, it first appeared in the work \cite{HochsterRobertsFrobeniusLocalCohomology}  of Hochster and Roberts to study local cohomology \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in  \cite{FedderFPureRat}, and was used to study global properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.
 
-These numerical invariants are typically difficult to calculate,
-and due to their significance, have been the focus of intense study over the past fifteen years.
-To this end, the \emph{Macaulay2} package \emph{FThresholds} is centered around calculating and estimating the $F$-pure threshold and other $F$-thresholds, with the function {\tt fpt} at its core.
+After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of Frobenius to quantify singularity|that is, deviation from regularity|proliferated, and based on a connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the concept of $F$-purity was generalized to the context of \emph{pairs}.
+% $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a nonnegative real number considered a formal exponent.
 
+Along these lines, the \emph{$F$-pure threshold} %associated to an element of $R$ 
+was defined in analogy with the \emph{log canonical threshold} \cite{TakagiWatanabeFPureThresh}, and     
+%The $F$-pure threshold of the pair $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure.  
+\emph{$F$-threholds} were then introduced as a family of invariants that naturally extend the notion of an $F$-pure threshold \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}. 
 
-There are three main sections in this paper, which describe and illustrate the main functionality implemented in the package \emph{FThresholds}.
+Unfortunately, the $F$-pure threshold is typically difficult to calculate, even in many concrete cases.   It is also not so well understood from the perspective of reduction to prime characteristic.   Nevertheless, $F$-pure thresholds have been the focus of intense study over the past fifteen years, and the \emph{Macaulay2} package \emph{FrobeniusThresholds} is centered around calculating and estimating the $F$-pure threshold and other $F$-thresholds, with the function {\tt fpt} at its core. 
+
+\subsection*{Some background and notation}  
+The functionality implemented in the \emph{FrobeniusThresholds} is not restricted to nonsingular ambient rings (see Section \ref{sec.IsFPT}).
+However, for most of this article, we work in a polynomial ring over a finite field of  characteristic $p>0$, and we remain in this case throughout the introduction for the sake of clarity.  
+Unless otherwise stated, all polynomials and ideals under consideration are regarded as elements in such a ring.  The ideal of this ring generated by the ring's variables is denoted $\idealm$.
+
+Let us roughly outline the way in which many natural numerical invariants in prime characteristic commutative algebra are constructed:  For every natural number $e$, associate to some fixed set of data|often, a collection of polynomials and ideals|an integer describing something of relevance that depends on $e$ (e.g., the dimension of some interesting vector space constructed in terms of your initial data).   Finally, normalize this integer by dividing by some power of $p^e$, and take the limit as $e$ approaches infinity.
+
+Consider a nonzero polynomial $f$ and a natural number $e$.  If $f$ does not vanish at the origin, then set set $\nu_f^{\idealm}(p^e) := \infty$.  Otherwise, $f \in \idealm$, and we instead define
+\[ \nu_f^{\idealm}(p^e) := \max \{ n>0 : f^n \notin \idealm^{[p^e]} \} \] 
+where $\idealm^{[p^e]}$ denotes the $p^e$-th Frobenius power of $\idealm$, that is, the ideal generated by the $p^e$-th powers of the elements of $\idealm$.    It is not very hard to see that this number is exactly the largest power of $f$ that is part of a free basis for the localization of the ambient polynomial ring at the origin over its subring of $p^e$-th powers.  As noted earlier, this number also has a natural interpretation in terms of $F$-purity of pairs.   
+
+Following our outline, we define 
+\[ \ft^{\idealm}(f) := \lim_{e \to \infty} \frac{ \nu_f^{\idealm}(p^e)}{p^e} \]
+
+Inspired by its connections with the $F$-purity of pairs,  this limit is called the \emph{$F$-pure threshold} of $f$ at the origin.  This limit exists, and is finite when $f \in \idealm$.  In the latter case, the limit is also rational, but this is far from obvious  \cite{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds}.
+
+The $F$-pure threshold is closely related to many other fundamental concepts in prime characteristic commutative algebra.   For instance, 
+\[ \ft^{\idealm}(f) = \inf \{ t>0 : \tau(f^t)  \subseteq \idealm \} = \sup \{ t>0 : \sigma( f^t) \neq 0 \} \]
+where $\tau(f^t)$ and $\sigma(f^t)$ are the \emph{test ideal} and \emph{$F$-signature}, respectively, associated to $f$ and the formal nonnegative real exponent $t$.  The former is an ideal in the ambient ring of $f$, and the latter is a real number;  both depend on the parameter $t$ and prime $p$ in subtle ways \cite{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds, BlickleSchwedeTuckerFSigPairs1}.
+Though we will not elaborate much on these topics,  we stress that the \emph{Macaulay2} package \emph{TestIdeals} provides functionality for the effective computation of test ideals in many cases \cite{TestIdealsPackage, TestIdealsPaper}. 
+
+In the literature, the $F$-pure threshold $\ft^{\idealm}(f)$ is often denoted $\fpt(f)$, for obvious reasons.  However, in this note, we adopt the former notation to avoid any possible confusion with the \emph{Macaulay2} function {\tt fpt} described in Section \ref{sec.FPT}.  Indeed, the command {\tt fpt(f)} need not always output the number $\ft^{\idealm}(f) = \fpt(f)$, though in the case that it cannot, it will provide a reasonably good estimate of this number.
+
+It turns out that the sequence $\{ \nu_f^{\idealm}(p^e) \}_{e=1}^{\infty}$ itself, and not just its limit, also encodes interesting information about $f$.  For example, it is closely related to the so-called \emph{Bernstein-Sato polynomial} \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}.  Thus, it is natural to ask whether one can recover the sequence $\{ \nu_f^{\idealm}(p^e) \}_{e=1}^{\infty}$ from the limit $\ft^{\idealm}(f)$.  Fortunately, the answer to this question is yes \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato, HernandezFPurityOfHypersurfaces}. More precisely, 
+\begin{equation}
+\label{sequence-from-limit}
+\nu_f^{\idealm}(p^e) = \lceil p^e \cdot \ft^{\idealm}(f) \rceil - 1.  
+\end{equation}  
+
+We conclude this subsection by briefly reviewing some natural generalizations.  Suppose that $I$ and $J$ are ideals.  If $I$ is contained in the radical of $J$, then we set
+%
+\[ \nu_I^J(p^e) = \max \{ n : I^n \notin J^{[p^e]} \}. \]  
+Otherwise, we set $\nu_I^J(p^e) = \infty$.  
+
+This clearly generalizes the quantity $\nu_f^{\idealm}(p^e)$ considered earlier, and we call 
+\[ \ft^J(I) := \lim_{e \to \infty} \frac{ \nu_f^{\idealm}(p^e)}{p^e} \]
+the \emph{$F$-threshold of $I$ with respect to $J$}.  These numbers are also rational, when finite, and we call the quantity $\ft^{\idealm}(I)$ the $F$-pure threshold of the ideal $I$.  Like $F$-pure thresholds, the $F$-thresholds of $I$ can also be defined in terms of its test ideals.
+
+\subsection*{Organization}
+
+There are three main sections in this paper, which describe and illustrate the main functionality implemented in the package \emph{FrobeniusThresholds}.
 \begin{itemize}
-\item \autoref{sec.Nu} describes the methods implemented for approximating the $F$-pure threshold and other $F$-thresholds.
-\item \autoref{sec.IsFPT} explains the package's functionality for determining whether a given number is the $F$-pure threshold, or more generally, an \emph{$F$-jumping exponent}.
-\item \autoref{sec.FPT} describes the features of the central function of the package, {\tt fpt}.
+\item \autoref{sec.Nu} describes the methods for approximating the $F$-pure threshold and other $F$-thresholds.  
+\item \autoref{sec.IsFPT} explains the functionality for determining whether a given number is the $F$-pure threshold, or more generally, an \emph{$F$-jumping exponent}.
+\item \autoref{sec.FPT} describes the features of the central function of the package, {\tt fpt}. 
 \end{itemize}
+This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2}, which provides a broad range of functionality in prime characteristic commutative algebra. 
 
-This package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2}, which provides a broad range of functionality in prime characteristic commutative algebra.
+\subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors and contributors to the \emph{FrobeniusThresholds} package.
+Our package coauthors are Dan Smolkin (LIST MORE NAMES), and Zhibek Kadyrsizova, Moty Katzman (LIST MORE NAMES) contributed valuable code to the package. 
+%Erin Bela, Juliette Bruce, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Matthew Mastroeni
 
-\subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors 
-and contributors to the \emph{FThresholds} package: (INSERT NAMES HERE). %Erin Bela, Juliette Bruce, Zhibek Kadyrsizova, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Dan Smolkin, and Robert Walker.
-We are also grateful the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016.
-We are also grateful to the University of Utah for hosting a collaborative development visit in 2018, and to the Institute of Mathematics and its Applications for its support for the Coding Sprint \emph{F-thresholds in Macaulay2} in 2019, where the current version of the package was finalized and this paper was completed.
 
-\section{The $F$-pure threshold limit and {\tt nu}}
+Many thanks go to the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016. 
+
+Finally, we are also grateful to the University of Utah for hosting a collaborative development visit in 2018, and to the Institute of Mathematics and its Applications for its generous support for our 2019 Coding Sprint. 
+The current version of the package was finalized during these events.
+
+\section{The {\tt nu} function}
 \label{sec.Nu}
 
-Suppose $R = k[x_1, \dots, x_n]$ is a polynomial ring over a finite field and $f \in R$.    If $f^a \notin \langle x_1^{p^e}, \dots, x_n^{p^e} \rangle = \fram^{[p^e]}$, then the pair $(R, f^{a/(p^e -1)})$ is $F$-pure at the origin, whereas if $f^a \in \fram^{[p^e]}$, then the pair $(R, f^{a/p^e})$ is not $F$-pure at the origin.  By finding the $a \in \bZ$ where that transition happens, and then limiting over $e$, one can compute the $F$-pure threshold.  See \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
+{\color{red} This section will need to be modified so that it is consistent with the introduction section.  The point is that a lot of the notation repeated here was introduced earlier there.}
 
-We set $\nu(e, f)$ to be largest $a \in \bZ$ such that $f^a \notin \fram^{[p^e]}$ (note in the literature, it is frequently denoted by $\nu_f(p^e)$.  It immediately follows that
-\[
-\fpt(f) = \lim_{e \to \infty} {\nu(e, f) \over p^e}.
-\]
-These numbers $\nu(e, f)$ can be computed using the command {\tt nu}, as in the example below.
-\medskip
+We now consider the {\tt nu} function, which is fundamental.   As in the introduction, we work in a polynomial ring over a finite field of characteristic $p>0$.
+
+
+Fix a natural number $e$.  If $f$ is polynomial contained in the radical of an ideal $J$, then the command {\tt nu(e,f,J)} outputs $\nu_f^J(p^e)$, the maximal integer exponent such that $f^n$ is not contained in $J^{[p^e]}$.  More generally, if $I$ is an ideal contained in the radical of $J$, then {\tt nu(e,I,J)} outputs $\nu_I^J(p^e)$, the maximal integer exponent $n$ such that $I^n$ is not contained in $J^{[p^e]}$.
+
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i1 : loadPackage "FThresholds"
 
-o1 = FThresholds
+i1 : R = ZZ/11[x,y];
 
-o1 : Package
+i2 : I = ideal(x^2 + y^3, x*y);
 
-i2 : R = ZZ/7[x,y]
+o2 : Ideal of R
 
-o2 = R
+i3 : J = ideal(x^2, y^3);
 
-o2 : PolynomialRing
+o3 : Ideal of R
 
-i3 : f = y^2 - x^3
+i4 : nu(1, I, J)
 
-        3    2
-o3 = - x  + y
+o4 = 24
 
-o3 : R
+i5 : f = x*y*(x^2 + y^2);
 
-i4 : nu(1, f)
+i6 : nu(1, f, J)
 
-o4 = 5
-
-o4 : QQ
-
-i5 : nu(2, f)
-
-o5 = 40
-
-o5 : QQ
-
-i6 : nu(3, f)
-
-o6 = 285
-
-o6 : QQ
+o6 = 10
 \end{MyVerbatim}
 }
-\medskip
-The numbers $5/7, 40/49, 285/343$ then approximate the $F$-pure threshold, which in this case happens to equal $5/6$.  By default, if the function $f$ has a special form (is a diagonal polynomial or a binomial), then the function does not check whether $f^a$ is in  $\langle x_1^{p^e}, \dots, x_n^{p^e} \rangle$, but instead uses general formulas for $\nu$s, see \cite{HernandezFPureThresholdOfBinomial,HernandezFInvariantsOfDiagonalHyp}.
 
-In fact, one can make the following more general definition.  If $I$ and $J$ are two ideals (with $I \subseteq \sqrt{J}$), one can define
-\[
-\nu(e, I, J) = \max \{ n \in \bZ \; |\; I^n \not\subseteq J^{[p^e]} \}.
-\]
-This is frequently denoted by $\nu_I^J(p^e)$ in the literature.  In the case that $I = \langle f \rangle$ and $J = \fram$, this just recovers the $\nu$'s defined above; the limit of which is the $F$-pure threshold.  For more general $I$ and $J$, the limit
-\[
-\lim_{e \to \infty} {\nu(e, I, J) \over p^e}
-\]
-is called the \emph{$F$-threshold of $I$ with respect to $J$}.  To compute these values we use a binary search, unless the user specifies that we should use a linear search instead {\tt Search=>Linear}.
+%R = ZZ/11[x,y];
+%I = ideal(x^2 + y^3, x*y);
+%J = ideal(x^2, y^3);
+%nu(1, I, J)
+%f = x*y*(x^2 + y^2);
+%nu(1, f, J)
 
-There is one more option that deserves mentioning, {\tt ContainmentTest}.  There are two ways to check whether $f^a$ (or $I^a$) is contained in $J^{[p^e]}$.  In general it is true that
-\[
-I^a \subseteq J^{[p^e]} \text{ $\Leftrightarrow$ } (I^a)^{[1/p^e]} \subseteq J
-\]
-where $\bullet^{[1/p^e]}$ is defined as in the {\tt TestIdeals} package.  Which of these two strategies to use is controlled by the option {\tt ContainmentTest => StandardPower} and {\tt ContainmentTest => FrobeniusRoot} respectively.
-For principal $I$, the command on the right is generally faster (and so {\tt FrobeniusRoot} is the default strategy for computing $\nu$).  For non-principal $I$, frequently the command on the left is quicker, and so {\tt StandardPower} is default strategy.
+We highlight some degenerate cases:  If $f$ is zero, then the output of {\tt nu(e,f,J)} is {\tt 0}, and if $f$ is not contained in the radical of $J$, then the output is instead {\tt infinity}.  These degenerate cases extend analogously to {\tt nu(e,I,J)} when $I$ is an ideal.
 
-Finally, the option {\tt ContainmentTest => FrobeniusPower}, then ${\tt \nu(e, I, A)}$ computes the largest integer $n$ such that
-\[
-I^{[p^n]} \subseteq J^{[p^e]}.
-\]
-See \cite{HernandezTeixeiraWittFrobeniusPowers} for more discussion of this.
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i7 : nu(1, 0_R, J)
+
+o7 = 0
+
+i8 : nu(1, 1_R, J)
+
+o8 = infinity
+
+o8 : InfiniteNumber
+\end{MyVerbatim}
+}
+
+%nu(1, 0_R, J)
+%nu(1, 1_R, J)
+
+It is possible to omit the third argument from the function {\tt nu};  in this case, the function assumes that the omitted third argument is the maximal generated by the variables in the ambient polynomial ring.
+
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i9 : R = ZZ/17[x,y,z];
+
+i10 : f = x^3 + y^4 + z^5;
+
+i11 : M = ideal(x, y, z);
+
+o11 : Ideal of R
+
+i12 : nu(2, f) == nu(2, f, M)
+
+o12 = true
+\end{MyVerbatim}
+}
+
+%R = ZZ/17[x,y,z];
+%f = x^3 + y^4 + z^5;
+%M = ideal(x, y, z);
+%nu(2, f) == nu(2, f, M)
+
+It is well-known that if $q=p^e$ for some nonnegative integer $e$, then \[ \nu_I^J(qp) = \nu_I^J(q)\cdot p + L\]  where the error term $L$ is nonnegative, and can be explicitly bounded from above in terms of $p$ and the number of generators of $I$ and $J$.  For instance, the error term $L$ is at most $p-1$ when $I$ is principal and $J$ is arbitrary.
+
+This implies that when searching for the maximal exponent defining {\tt nu(e,I,J)} when $e$ is positive, it is always safe to start at $p$ times the output of {\tt nu(e-1,I,J)}, and one needn't search too far past this number.  This also suggests that the most efficient way to compute {\tt nu(e,I,J)} is to compute, successively, {\tt nu(s,I,J)}, for each {\tt s = 0,\ldots,e}.  This is indeed how the computation is done in most cases.
+
+{\color{red} Make this consistent with the introduction.  The point is that we have already described how to get the {\tt nu}-s from their limit.  Maybe we should directly cite }.  
+If $M$ is the homogeneous maximal ideal of $R$ and $f$ is an element of $R$, the numbers $\nu_f^M(p^e)$ determine and are determined by the $F$-pure threshold of $f$ at the origin.  Indeed, $\nu_f^M(p^e)$ is $p^e$ times the truncation of the non-terminating base $p$ expansion of fpt($f$) at its $e^{\textrm{th}}$ spot.  This fact is used to speed up the computations for certain polynomials whose $F$-pure thresholds can be quickly computed via special algorithms, namely diagonal polynomials and binomials.  This feature can be disabled by setting the option {\tt UseSpecialAlgorithms} (default value {\tt true}) to {\tt false}.
+
+%R = ZZ/17[x,y,z];
+%f = x^3 + y^4 + z^5; -- a diagonal polynomial
+%time nu(3, f)
+%time nu(3, f, UseSpecialAlgorithms => false)
+
+The valid values for the option {\tt ContainmentTest} are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, and {\tt StandardPower}. The default value of this option depends on what is passed to {\tt nu}. Indeed, by default, {\tt ContainmentTest} is set to {\tt FrobeniusRoot} if {\tt nu} is passed a ring element $f$, and is set to {\tt StandardPower} if {\tt nu} is passed an ideal $I$.  We describe the consequences of setting {\tt ContainmentTest} to each of these values below.
+
+First, if {\tt ContainmentTest} is set to {\tt StandardPower}, then the ideal containments checked when computing {\tt nu(e,I,J)} are verified directly.  That is, the standard power $I^n$ is first computed, and a check is then run to see if it lies in the $p^e$-th Frobenius power of $J$.
+
+Alternately, if {\tt ContainmentTest} is set to {\tt FrobeniusRoot}, then the ideal containments are verified using Frobenius Roots.  That is, the $p^e$-th Frobenius root of $I^n$ is first computed, and a check is then run to see if it lies in $J$.  The output is unaffected, but this option often speeds up computations, specially when a polynomial or principal ideal is passed as the second argument.
+
+%R = ZZ/11[x,y,z];
+%f = x^3 + y^3 + z^3 + x*y*z;
+%time nu(3, f) -- ContainmentTest is set to FrobeniusRoot, by default
+%time nu(3, f, ContainmentTest => StandardPower)
+
+Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above, {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n^{\textrm{th}}$ (generalized) Frobenius power of $I$ is not contained in the $p^e$-th Frobenius power of $J$.
+
+Here, the $n^{\textrm{th}}$ Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper {\it Frobenius Powers} by Hernández, Teixeira, and Witt.
+In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} need not agree.  However, they will agree when $I$ is a principal ideal.
+
+%R = ZZ/3[x,y];
+%M = ideal(x, y);
+%nu(3, M^5)
+%nu(3, M^5, ContainmentTest => FrobeniusPower)
+
+The function {\tt nu} works by searching through the list of potential integers $n$ and checking containments of $I^n$ in a specified Frobenius power of $J$.  The way this search is approached is specified by the option {\tt Search}, which can be set to {\tt Binary} (the default value) or {\tt Linear}.
+
+%R = ZZ/5[x,y,z];
+%f = x^2*y^4 + y^2*z^7 + z^2*x^8;
+%time nu(5, f) -- uses binary search (default)
+%time nu(5, f, Search => Linear)
+%M = ideal(x, y, z);
+%time nu(2, M, M^2) -- uses binary search (default)
+%time nu(2, M, M^2, Search => Linear) -- but linear seach gets luckier
+
+The option {\tt ReturnList} (default value {\tt false}) can be used to request that the output be not only $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=0,\ldots,e$.
+
+%nu(5, f, ReturnList => true)
+
+Alternatively, the option {\tt Verbose} (default value {\tt false}) can be used to request that the values $\nu_I^J(p^i)$ ($i=0,\ldots,e$) be printed as they are computed, to monitor the progress of the computation.
+
+%nu(5, f, Verbose => true)
+
+%%Below is the original version of the section describing the nu function
+
+%\section{The $F$-pure threshold limit and {\tt nu}}
+%\label{sec.Nu}
+%
+%Suppose $R = k[x_1, \dots, x_n]$ is a polynomial ring over a finite field and $f \in R$.    If $f^a \notin \langle x_1^{p^e}, \dots, x_n^{p^e} \rangle = \fram^{[p^e]}$, then the pair $(R, f^{a/(p^e -1)})$ is $F$-pure at the origin, whereas if $f^a \in \fram^{[p^e]}$, then the pair $(R, f^{a/p^e})$ is not $F$-pure at the origin.  By finding the $a \in \bZ$ where that transition happens, and then limiting over $e$, one can compute the $F$-pure threshold.  See \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
+%
+%We set $\nu(e, f)$ to be largest $a \in \bZ$ such that $f^a \notin \fram^{[p^e]}$ (note in the literature, it is frequently denoted by $\nu_f(p^e)$.  It immediately follows that
+%\[
+%\fpt(f) = \lim_{e \to \infty} {\nu(e, f) \over p^e}.
+%\]
+%These numbers $\nu(e, f)$ can be computed using the command {\tt nu}, as in the example below.
+%\medskip
+%{\small
+%\setstretch{.67}
+%\begin{MyVerbatim}
+%i1 : loadPackage "FThresholds"
+%
+%o1 = FThresholds
+%
+%o1 : Package
+%
+%i2 : R = ZZ/7[x,y]
+%
+%o2 = R
+%
+%o2 : PolynomialRing
+%
+%i3 : f = y^2 - x^3
+%
+%        3    2
+%o3 = - x  + y
+%
+%o3 : R
+%
+%i4 : nu(1, f)
+%
+%o4 = 5
+%
+%o4 : QQ
+%
+%i5 : nu(2, f)
+%
+%o5 = 40
+%
+%o5 : QQ
+%
+%i6 : nu(3, f)
+%
+%o6 = 285
+%
+%o6 : QQ
+%\end{MyVerbatim}
+%}
+%\medskip
+%The numbers $5/7, 40/49, 285/343$ then approximate the $F$-pure threshold, which in this case happens to equal $5/6$.  By default, if the function $f$ has a special form (is a diagonal polynomial or a binomial), then the function does not check whether $f^a$ is in  $\langle x_1^{p^e}, \dots, x_n^{p^e} \rangle$, but instead uses general formulas for $\nu$s, see \cite{HernandezFPureThresholdOfBinomial,HernandezFInvariantsOfDiagonalHyp}.
+%
+%In fact, one can make the following more general definition.  If $I$ and $J$ are two ideals (with $I \subseteq \sqrt{J}$), one can define
+%\[
+%\nu(e, I, J) = \max \{ n \in \bZ \; |\; I^n \not\subseteq J^{[p^e]} \}.
+%\]
+%This is frequently denoted by $\nu_I^J(p^e)$ in the literature.  In the case that $I = \langle f \rangle$ and $J = \fram$, this just recovers the $\nu$'s defined above; the limit of which is the $F$-pure threshold.  For more general $I$ and $J$, the limit
+%\[
+%\lim_{e \to \infty} {\nu(e, I, J) \over p^e}
+%\]
+%is called the \emph{$F$-threshold of $I$ with respect to $J$}.  To compute these values we use a binary search, unless the user specifies that we should use a linear search instead {\tt Search=>Linear}.
+%
+%There is one more option that deserves mentioning, {\tt ContainmentTest}.  There are two ways to check whether $f^a$ (or $I^a$) is contained in $J^{[p^e]}$.  In general it is true that
+%\[
+%I^a \subseteq J^{[p^e]} \text{ $\Leftrightarrow$ } (I^a)^{[1/p^e]} \subseteq J
+%\]
+%where $\bullet^{[1/p^e]}$ is defined as in the {\tt TestIdeals} package.  Which of these two strategies to use is controlled by the option {\tt ContainmentTest => StandardPower} and {\tt ContainmentTest => FrobeniusRoot} respectively.
+%For principal $I$, the command on the right is generally faster (and so {\tt FrobeniusRoot} is the default strategy for computing $\nu$).  For non-principal $I$, frequently the command on the left is quicker, and so {\tt StandardPower} is default strategy.
+%
+%Finally, the option {\tt ContainmentTest => FrobeniusPower}, then ${\tt \nu(e, I, A)}$ computes the largest integer $n$ such that
+%\[
+%I^{[p^n]} \subseteq J^{[p^e]}.
+%\]
+%See \cite{HernandezTeixeiraWittFrobeniusPowers} for more discussion of this.
 
 \section{{\tt isFPT}, {\tt compareFPT} and {\tt isFJumpingExponent}}
 \label{sec.IsFPT}
 
-The \emph{FThresholds} package contains methods to 
+The \emph{FrobeniusThresholds} package contains methods to 
  test candidate values for an $F$-pure threshold, and even $F$-jumping numbers, even in some singular rings.  
 Consider a  $\mathbb{Q}$-Gorenstein ring $R$ of characteristic $p>0$, whose index not divisible by $p$.
 Given a rational number $t$ and an element $f$ of $R$, the command {\tt isFPT(t,f)} outputs {\tt true} if $t$ is the $F$-pure threshold of $f$, and {\tt false} otherwise. 
@@ -425,8 +605,10 @@ o17 : QQ
 \end{MyVerbatim}
 }
 
-            If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more than {\tt 2}, then  additional checks are performed at certain numbers within the interval .  A number in the interval \eqref{estimating-interval: e} with minimal denominator is selected, and {\tt compareFPT} is used to test that number. {\color{red} This will need to get updated} If that ``guess" is correct, its value is returned; otherwise, the information returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
+            If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more than {\tt 2}, then  additional checks are performed at certain numbers within the interval, chosen according to the criteria determined by the value of the option {\tt GuessStrategy}.  We refer the reader for the documentation of this strategy for more details.
 
+{\color{red}  This will need to be updated.  Maybe look at Pedro's new documentation.}            
+            
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}

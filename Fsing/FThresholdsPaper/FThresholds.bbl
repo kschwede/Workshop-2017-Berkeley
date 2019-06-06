@@ -19,6 +19,16 @@
   \emph{{TestIdeals}, a package for calculations of singularities in positive
   characteristic}.
 
+\bibitem[BMS08]{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds}
+{\sc M.~Blickle, M.~Musta{\c{t}}{\v{a}}, and K.~E. Smith}: \emph{Discreteness
+  and rationality of {$F$}-thresholds}, Michigan Math. J. \textbf{57} (2008),
+  43--61, Special volume in honor of Melvin Hochster.
+
+\bibitem[BST11]{BlickleSchwedeTuckerFSigPairs1}
+{\sc M.~Blickle, K.~Schwede, and K.~Tucker}: \emph{{$F$}-signature of pairs and
+  the asymptotic behavior of {F}robenius splittings}, arXiv:1107.1082, to
+  appear in Advances in Mathematics.
+
 \bibitem[BHK{\etalchar{+}}18]{TestIdealsPaper}
 {\sc A.~F. Boix, D.~J. Hern\'andez, Z.~Kadyrsizova, M.~Katzman, S.~Malec,
   M.~Mastroeni, M.~Mostafazadeh\-fard, M.~Robinson, K.~Schwede, D.~Smolkin,

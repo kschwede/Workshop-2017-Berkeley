@@ -2,19 +2,9 @@ newPackage( "FThresholds",
 Version => "2.0",
 Date => "June 5th, 2019",
 Authors => {
-     {Name => "Juliette Bruce",
-     Email => "juliette.bruce@math.wisc.edu",
-     HomePage => "https://juliettebruce.github.io/"
-     },
      {Name => "Daniel Hernandez",
      Email => "hernandez@ku.edu",
      HomePage => "https://hernandez.faculty.ku.edu"
-     },
-     {Name => "Maral Mostafazadehfard",
-     Email => "maralmostafazadehfard@gmail.com"
-     },
-     {Name => "Marcus Robinson",
-     Email => "robinson@math.utah.edu"
      },
      {Name => "Karl Schwede",
       Email => "schwede@math.utah.edu",
