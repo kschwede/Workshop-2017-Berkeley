@@ -276,8 +276,8 @@ minNumCandidates := 6;
 -- The default number of "random" checks to be performed
 attemptsDefault := 3;
 
--- guessFPT takes a polynomial f, and endpoints a and b of a closed interval 
---     that contains the F-pure threshold of f. 
+-- guessFPT takes a polynomial f, and endpoints a and b of a closed interval
+--     that contains the F-pure threshold of f.
 -- The option attempts specifies how many tests are to be done, starting with
 --     the right- and left-hand endpoints b and a, respectively.
 -- The option GuessStrategy specifies how to prioritize the numbers to be checked.
@@ -648,7 +648,8 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
                 computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, sub( computedHSLGInitial, S1 ) );
             );
             if o.Verbose or debugLevel > 1 then print concatenate("compareFPT: testIdeal(f^(t-epsilon)) = ", toString(computedHSLG));
-            if isProper( computedHSLG + I1 + maxIdeal(S1) ) then return 1;
+            if o.IsLocal then (locMax = maxIdeal(S1)) else (locMax = ideal(0_S1));
+            if isProper( computedHSLG + I1 + locMax ) then return 1;
             --the fpt we picked is too big
             return 0; --we found the FPT!
         )

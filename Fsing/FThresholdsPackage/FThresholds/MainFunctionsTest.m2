@@ -320,3 +320,12 @@ TEST /// --an example from Canton-Hernandez-Schwede-Witt
  f = x^d+y^d+z^d+(x*y*z)^(d-2);
  assert(fpt(f) == (n*(p-d+1)+d)/(d*(p-1)))
 ///
+
+TEST /// --more compareFPT examples
+R = ZZ/11[x,y,z]/(x^2 - y*(z - 1));
+assert(compareFPT(1/2, z-1) == 0);
+assert(compareFPT(4/11, z-1) == -1);
+assert(compareFPT(9/11, z-1) == 1);
+assert(compareFPT(3/7, z-1) == -1);
+assert(compareFPT(7/10, z-1) == 1);
+///
