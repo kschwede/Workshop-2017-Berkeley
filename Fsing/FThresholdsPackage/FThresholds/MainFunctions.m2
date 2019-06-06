@@ -271,8 +271,8 @@ fSig := ( f, a, e ) ->
 )
 
 -- some constants associated with guessFPT
-numExtraCandidates := 10;
-minNumCandidates := 5;
+numExtraCandidates := 20;
+minNumCandidates := 6;
 
 -- guessFPT takes a polynomial f, endpoints a and b of an interval that contains
 -- the F-pure threshold of f, and a positive integer that tells the max number
@@ -306,7 +306,7 @@ guessFPT := { Verbose => false, Strategy => 1 } >> o -> ( f, a, b, maxChecks ) -
     local t;
     local comp;
     ( A, B ) := ( a, b );
-    if o.Strategy == 0 then 
+    if o.Strategy == 0 then
     (
         d := 2;
         while counter <= maxChecks do
@@ -328,11 +328,14 @@ guessFPT := { Verbose => false, Strategy => 1 } >> o -> ( f, a, b, maxChecks ) -
     else
     (
         p := char ring f;
-        candidateList := fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates );
+        candidateList := sort fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates );
         while counter <= maxChecks do
         (
     	    -- pick candidate with minimal weight
-            t = min( last \ minimalBy( candidateList, first ) );
+            --t = min( last \ minimalBy( candidateList, first ) );
+            --print candidateList;
+            t = last first candidateList; --the candidate list should already be sorted
+            --print t;
             comp = compareFPT( t, f, IsLocal => true );
             if comp == 0 then  -- found exact FPT! YAY!
             (
@@ -344,9 +347,9 @@ guessFPT := { Verbose => false, Strategy => 1 } >> o -> ( f, a, b, maxChecks ) -
     	    else ( A = t; candidateList = select( candidateList, a -> last a > t ) ); -- fpt > t
             counter = counter + 1;
             -- if not done and running short on candidates, load up some more
-            if counter < maxChecks and #candidateList <= minNumCandidates then 
-                candidateList = fptWeightedGuessList( p, A, B, 10 )
-        )         
+            if counter < maxChecks and #candidateList <= minNumCandidates then
+                candidateList = sort fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates )
+        )
     );
     if o.Verbose then
         print( "\nguessFPT narrowed the interval down to ( " | toString A | ", " | toString B | " ) ..." );

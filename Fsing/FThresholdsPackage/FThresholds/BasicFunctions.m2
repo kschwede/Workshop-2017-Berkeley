@@ -50,7 +50,7 @@ positivePositions = L -> positions( L, x -> x > 0 )
 
 --===============================================================================
 
--- Given a list L and a function f, minimalBy( L, f ) selects the elements 
+-- Given a list L and a function f, minimalBy( L, f ) selects the elements
 -- of L with minimal value of f
 minimalBy = ( L, f ) ->
 (
@@ -280,21 +280,23 @@ passOptions ( OptionTable, List ) := (o, L) ->
 --we assume that each 1/(p^e-1) takes 1.5*e more computations than a 1/p value.
 fptWeightedGuessList = ( pp, A, B, minGenSize ) ->
 (
+    if (A >= B) then error "fptWeightedGuessList: Expected B > A.";
     coreDenom := ceiling (1/(B - A))^(2/3);
     numList := findNumbersBetween( A, B, coreDenom );
-    while #numList < minGenSize do 
+    midpt := (B-A)/2;
+    while #numList < minGenSize do
         ( coreDenom = 2*coreDenom; numList = findNumbersBetween( A, B, coreDenom ) );
-    -- now that we have a list with enough rational numbers between a and b, 
+    -- now that we have a list with enough rational numbers between a and b,
     -- compute their weights
     local a;
     local b;
     local c;
     local wt;
-    apply( numList, x -> 
+    apply( numList, x ->
         (
             ( a, b, c ) = decomposeFraction( pp, x );
             wt = b + 1.5*c;
-            { wt, x }
+            { wt, abs(x-midpt), x }
         )
     )
 )
@@ -303,13 +305,13 @@ fptWeightedGuessList = ( pp, A, B, minGenSize ) ->
 --with the given denominator, it is a helper function for fptWeightedGuessList
 findNumberBetweenWithDenom = ( A, B, myDenom ) ->
 (
-    upperBound := floor( B*myDenom )/myDenom;
+    upperBound := ceiling( B*myDenom - 1 )/myDenom;
     --finds the number with denominator myDenom less than the upper
     --bound of myInterv
-    lowerBound := ceiling( A*myDenom )/myDenom;
+    lowerBound := floor( A*myDenom + 1 )/myDenom;
     --finds the number with denominator myDenom greater than the lower
      -- bound of myInterv
-    if upperBound >= lowerBound then 
+    if upperBound >= lowerBound then
     --first we check whether there is anything to search for
         apply( 1 + numerator( (upperBound - lowerBound)*myDenom ), i -> lowerBound + i/myDenom )
     else { }
@@ -323,7 +325,7 @@ findNumbersBetween = ( A, B, maxDenom ) ->
     -- creates a list with maxDenom elements all set to true.
     outList := {};
     i := 2;
-    while i <= maxDenom do 
+    while i <= maxDenom do
     (
         outList = join( outList, findNumberBetweenWithDenom( A, B, i ) );
         i = i + 1
@@ -341,4 +343,3 @@ numberWithMinimalDenominator = (A, B, D) ->
     while ceiling( d*B - 1) < floor( d*A + 1 ) do d = d + 1;
     ( d, floor( d*A + 1 )/d )
 )
-
