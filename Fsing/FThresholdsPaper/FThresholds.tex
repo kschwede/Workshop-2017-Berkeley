@@ -110,6 +110,10 @@ urlcolor=OliveGreen
 
 \section{Introduction}
 
+%This is for Karl
+{\color{red}  Point out for people interested in computing log canonical thresholds:  Zhixian Zhou apparently proved in her thesis that the $F$-pure threshold for hypersurfaces is always a lower bound for the log canonical threshold.  Therefore, this package effectively computes such lower bounds, and is much faster than the \emph{Dmodules} package, which appears to be the only package in Macaulay2 that computes log canonical thresholds.}
+
+
 This paper describes the \emph{Macaulay2} \cite{M2} package \emph{FrobeniusThresholds}, which provides tools for computing certain fundamental invariants arising in positive characteristic commutative algebra.  More precisely, this package concerns the effective computation of \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.
 
 Recall that a ring of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius map|that is, the ring endomorphism sending an element to its $p$-th power|is a pure morphism;  under natural geometric hypotheses, this is equivalent to the condition that the Frobenius morphism splits as a map of rings.
@@ -994,7 +998,6 @@ We conclude this note with some comments on possible future improvements to the 
 \item Extend binary forms functions to handle more general $F$-thresholds (that is, with respect to diagonal ideals).  There is one tricky theoretical things, we don't know when this process would stop.  If we can do this, then we can compute $F$-pure thresholds of binary forms in non-standard gradings.  Cite the paper by Daniel and Pedro \cite{HernandezTeixeiraFThresholdFunctions}.
 \end{enumerate}
 
-{\color{red}  Point out for people interested in computing log canonical thresholds:  Zhixian Zhou apparently proved in her thesis that the $F$-pure threshold for hypersurfaces is always a lower bound for the log canonical threshold.  Therefore, this package effectively computes such lower bounds, and is much faster than the \emph{Dmodules} package, which appears to be the only package in Macaulay2 that computes log canonical thresholds.}
 
 \bibliographystyle{skalpha}
 \bibliography{MainBib}
