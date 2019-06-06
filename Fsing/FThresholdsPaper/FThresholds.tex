@@ -111,10 +111,10 @@ urlcolor=OliveGreen
 \section{Introduction}
 
 %This is for Karl
-{\color{red}  Point out for people interested in computing log canonical thresholds:  Zhixian Zhou apparently proved in her thesis that the $F$-pure threshold for hypersurfaces is always a lower bound for the log canonical threshold.  Therefore, this package effectively computes such lower bounds, and is much faster than the \emph{Dmodules} package, which appears to be the only package in Macaulay2 that computes log canonical thresholds.}
+%{\color{red}  Point out for people interested in computing log canonical thresholds:  Zhixian Zhou apparently proved in her thesis that the $F$-pure threshold for hypersurfaces is always a lower bound for the log canonical threshold.  Therefore, this package effectively computes such lower bounds, and is much faster than the \emph{Dmodules} package, which appears to be the only package in Macaulay2 that computes log canonical thresholds.}
 
 
-This paper describes the \emph{Macaulay2} \cite{M2} package \emph{FrobeniusThresholds}, which provides tools for computing certain fundamental invariants arising in positive characteristic commutative algebra.  More precisely, this package concerns the effective computation of \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.
+This paper describes the \emph{Macaulay2} \cite{M2} package \emph{FrobeniusThresholds} \cite{FThresholdsPackage}, which provides tools for computing certain fundamental invariants arising in positive characteristic commutative algebra.  More precisely, this package concerns the effective computation of \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.
 
 Recall that a ring of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius map|that is, the ring endomorphism sending an element to its $p$-th power|is a pure morphism;  under natural geometric hypotheses, this is equivalent to the condition that the Frobenius morphism splits as a map of rings.
 
@@ -123,12 +123,14 @@ The concept of $F$-purity has proven to be important in commutative algebra, and
 After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of Frobenius to quantify singularity|that is, deviation from regularity|proliferated, and based on a connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the concept of $F$-purity was generalized to the context of \emph{pairs}.
 % $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a nonnegative real number considered a formal exponent.
 
-Along these lines, the \emph{$F$-pure threshold} %associated to an element of $R$
-was defined in analogy with the \emph{log canonical threshold} \cite{TakagiWatanabeFPureThresh}, and
+Along these lines, the \emph{$F$-pure threshold} (fpt)%associated to an element of $R$
+was defined in analogy with the \emph{log canonical threshold} (lct) \cite{TakagiWatanabeFPureThresh}, and
 %The $F$-pure threshold of the pair $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure.
 \emph{$F$-threholds} were then introduced as a family of invariants that naturally extend the notion of an $F$-pure threshold \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
 
 Unfortunately, the $F$-pure threshold is typically difficult to calculate, even in many concrete cases.   It is also not so well understood from the perspective of reduction to prime characteristic.   Nevertheless, $F$-pure thresholds have been the focus of intense study over the past 15 years, and the \emph{Macaulay2} package \emph{FrobeniusThresholds} is centered around calculating and estimating the $F$-pure threshold and other $F$-thresholds, with the function {\tt fpt} at its core.
+
+The $F$-pure threshold can also be used to provide a lower bound for the log canonical threshold in characteristic zero.  Indeed, Z.~Zhu showed in \cite[Corollary 4.2]{ZhuLogCanoincalThresholdsInPositiveChar} that if $f \in \bQ[x_1, \dots, x_n]$ is reduced modulo $p > 0$ to obtain $f_p = f\;\mathrm{mod}\;p \in \bF_p[x_1, \dots, x_n]$, then $\fpt(f_p) \leq \lct(f)$.  There is a general purpose implementation of log canonical thresholds in the \emph{Dmodules} package by A.~Leykin and H.~Tsai \cite{DmodulesSource} and a package \emph{MultiplierIdeals} by Z.~Teitler, B.~Snapp and C.~Raicu \cite{MultiplierIdealsPackage}, which computes log canonical thresholds for special cases (monomial ideals, hyperplane arrangements, generic determinantal ideals, and certain binomial ideals), see also the paper \cite{MultiplierIdealsArticle}.  However, our general purpose implementation of ${\tt fpt}$ in small characteristic is typically much faster than {\tt lct}, the general purpose function from \emph{Dmodules} which computes the log canonical threshold.
 
 \subsection*{Some background and notation}
 It is important to note that much of the functionality implemented in the \emph{FrobeniusThresholds} is not restricted to regular ambient rings; see Section \ref{sec.IsFPT} for a prominent example of this.
@@ -986,7 +988,7 @@ o36 : List
 \newpage
 \section{Future work}
 
-We conclude this note with some comments on possible future improvements to the package.  
+We conclude this note with some comments on possible future improvements to the package.
 
 \begin{enumerate}
 \item Add more cases to {\tt UseSpecialAlgorithms}.
