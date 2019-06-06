@@ -406,6 +406,12 @@ fpt RingElement := o -> f ->
 	        print "\nPolynomial is diagonal; calling diagonalFPT ...";
             return diagonalFPT f
         );
+        if isMonomial f then
+        (
+            if o.Verbose then
+            print "\nPolynomial is monomial; calling monomialFPT ...";
+            return monomialFPT(f);
+        );
         if isBinomial f then
         (
             if o.Verbose then
@@ -417,7 +423,14 @@ fpt RingElement := o -> f ->
             if o.Verbose then
 	        print "\nPolynomial is a binary form; calling binaryFormFPT ...";
             return binaryFormFPT( f, Verbose => o.Verbose )
-        )
+        );
+        prod := factor f;
+        if isSimpleNormalCrossing prod then
+        (
+            if o.Verbose then
+            print "\nPolynomial is snc; calling sncFPT ...";
+            return sncFPT(prod);
+        );
     );
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
 
@@ -437,8 +450,8 @@ fpt RingElement := o -> f ->
     );
     if LB < (o.Bounds)#0 then
     (
-        if o.Verbose then 
-            print( "\nThe lower bound nu/(p^e-1) = " | toString LB | " was replaced with " | toString( (o.Bounds)#0 ) ); 
+        if o.Verbose then
+            print( "\nThe lower bound nu/(p^e-1) = " | toString LB | " was replaced with " | toString( (o.Bounds)#0 ) );
         LB = (o.Bounds)#0
     );
     if UB > (o.Bounds)#1 then

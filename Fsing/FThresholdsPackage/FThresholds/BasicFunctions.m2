@@ -279,15 +279,15 @@ defaultWeights := { 0, 1, 1.5 }
 
 weight = method()
 
-weight ( ZZ, QQ, List ) := ( p, t, userWeights ) -> 
+weight ( ZZ, QQ, List ) := ( p, t, userWeights ) ->
 (
      decomp := decomposeFraction( p, t );
      uW := sum( decomp, userWeights, (i, j) -> i*j );
      dW := sum( decomp, defaultWeights, (i, j) -> i*j );
      { uW, dW }
 )
-     
-weight ( ZZ, QQ, Function ) := ( p, t, userFunction ) -> 
+
+weight ( ZZ, QQ, Function ) := ( p, t, userFunction ) ->
 (
      decomp := decomposeFraction( p, t );
      uW := try userFunction( p, t ) else userFunction( t );
@@ -295,7 +295,7 @@ weight ( ZZ, QQ, Function ) := ( p, t, userFunction ) ->
      { uW, dW }
 )
 
-weight ( ZZ, QQ, Nothing ) := ( p, t, userFunction ) -> 
+weight ( ZZ, QQ, Nothing ) := ( p, t, userFunction ) ->
 (
      decomp := decomposeFraction( p, t );
      { sum( decomp, defaultWeights, (i, j) -> i*j ) }

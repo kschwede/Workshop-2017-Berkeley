@@ -34,7 +34,7 @@ doc ///
             namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold of {\tt f}.
     Description
         Text
-            Let $f$ be an element of a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not a divisor of $p$. 
+            Let $f$ be an element of a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not a divisor of $p$.
             Given a rational number $t$, the command {\tt compareFPT(t, f)} returns {\tt -1} if $t$ is less than the $F$-pure threshold of $f$, {\tt 1} if $t$ is greater than the $F$-pure threshold $f$, or {\tt 0} if $t$ equals the $F$-pure threshold.
         Example
             R = ZZ/7[x,y];
@@ -52,7 +52,7 @@ doc ///
              compareFPT(1/2, f)
              compareFPT(13/25, f)
         Text
-           Consider a Veronese subring (which is étale in codimension $1$), 
+           Consider a Veronese subring (which is étale in codimension $1$),
             so the fpt of the given polynomial (in this case $19/125$) should be independent of which ring we are in.
         Example
             T = ZZ/5[a,b];
@@ -79,7 +79,7 @@ doc ///
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
             Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
-            The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
+            The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package.
             The two values for {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 
             Setting the option {\tt Verbose} (default value {\tt false}) to {\tt true} produces verbose output.
@@ -138,7 +138,7 @@ doc ///
         UseFSignature => Boolean
             specifies whether to use the $F$-signature function and a secant line argument to attempt to improve the $F$-pure threshold estimate
         UseSpecialAlgorithms => Boolean
-            specifies whether to check if {\tt f} is a diagonal polynomial, binomial, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
+            specifies whether to check if {\tt f} is a diagonal polynomial, monomial, binomial, simple normal crossing, or a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), and then apply appropriate algorithms
         Verbose => Boolean
             requests verbose feedback
     Outputs
@@ -157,7 +157,7 @@ doc ///
              fpt(x^3 + y^3 + z^3 + x*y*z)
              fpt(x^5 + y^6 + z^7 + (x*y*z)^3)
         Text
-             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a binomial, or a form in two variables, respectively.
+             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a monomial, a binomial, in simple normal crossing, or a form in two variables, respectively.
              If it is one of these, algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.
         Example
             fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
@@ -277,31 +277,31 @@ doc ///
     Description
         Text
             In the computation of the $F$-pure threshold of a polynomial $f$, in nontrivial cases and when no special algorithm is used, the function @TO fpt@ uses @TO nu@ to find a closed interval [$A$, $B$] that contains the $F$-pure threshold of $f$.
-            The subroutine {\tt guessFPT} is then called, to first check whether one of the endpoints $B$ or $A$ is the $F$-pure threshold, and then to select rational points in the interval, and check how they are positioned with respect to the $F$-pure threshold, using the function @TO compareFPT@.  
+            The subroutine {\tt guessFPT} is then called, to first check whether one of the endpoints $B$ or $A$ is the $F$-pure threshold, and then to select rational points in the interval, and check how they are positioned with respect to the $F$-pure threshold, using the function @TO compareFPT@.
             The option {\tt GuessStrategy} controls how this selection of numbers is done.
-            
-            We start by describing what happens when {\tt GuessStrategy} is set to {\tt null}, its default value. 
+
+            We start by describing what happens when {\tt GuessStrategy} is set to {\tt null}, its default value.
             First, a list consisting of all rational numbers in the interval ($A$, $B$) with denominator no larger than a certain fixed number is created.
             Using the function @TO decomposeFraction@, each number $t$ in that list is written in the form $t = a/(p^b(p^c-1))$, where $p$ is the characteristic of the ring of $f$.
             Then the list of candidates is sorted based on the following criteria:
-            
+
             1. Increasing "computational cost" $w_a a + w_b b + w_c c$, for certain weights $w_a$, $w_b$, and $w_c$; then ties are broken by
-            
-            2. Increasing distance from the midpoint of the interval.            
-            
+
+            2. Increasing distance from the midpoint of the interval.
+
             Once this sorting is done, the numbers in the list are picked in order, @TO compareFPT@ is called, and the result of the comparison is used to trim the list.
-            
-            The default weights currently used in Criterion 1 are $w_a = 0$, $w_b = 1$, and $w_c = 1.5$. 
+
+            The default weights currently used in Criterion 1 are $w_a = 0$, $w_b = 1$, and $w_c = 1.5$.
             With these choices, we believe Criterion 1 is likely to prioritize numbers for which the computation of @TO compareFPT@ is faster.
             Criterion 2, on the other hand, aims at partitioning the interval as evenly as possible.
-            
+
             The option {\tt GuessStrategy} allows the user to choose his or her own weights for Criterion 1.
             The list is sorted based on the user's weights, and then the default weights and Criterion 2, respectively, are used as tie breakers.
-            For instance, if the user suspects that the $F$-pure threshold does not contain the characteristic $p$ in the denominator, then perhaps weights $w_a = 0$, $w_b = 1$, and $w_c = 0$ would be a reasonable choice.      
-            
+            For instance, if the user suspects that the $F$-pure threshold does not contain the characteristic $p$ in the denominator, then perhaps weights $w_a = 0$, $w_b = 1$, and $w_c = 0$ would be a reasonable choice.
+
             GIVE EXAMPLE
-            
-            TALK ABOUT THE POSSIBILITY OF INPUTTING A FUNCTION         
+
+            TALK ABOUT THE POSSIBILITY OF INPUTTING A FUNCTION
 ///
 
 doc ///
@@ -374,7 +374,7 @@ doc ///
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
             Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
-            The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
+            The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package.
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 
             Setting the option {\tt Verbose} (default value {\tt false}) to {\tt true} produces verbose output.
@@ -449,7 +449,7 @@ doc ///
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
             Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
-            The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
+            The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package.
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 
             Setting the option {\tt Verbose} (default value {\tt false}) to {\tt true} produces verbose output.
@@ -506,7 +506,7 @@ doc ///
             containing {\tt \nu(p^i)}, for {\tt i = 0,\ldots,e}
     Description
         Text
-            Consider a polynomial $f$ in a polynomial ring over a finite field of characteristic $p>0$, and an ideal $J$ of this ring. 
+            Consider a polynomial $f$ in a polynomial ring over a finite field of characteristic $p>0$, and an ideal $J$ of this ring.
             If $f$ is contained in the radical of $J$, then the command {\tt nu(e,f,J)} outputs the maximal exponent $n$ such that $f^n$ is not contained in the $p^e$-th Frobenius power of $J$.
             More generally, if $I$ is an ideal contained in the radical of $J$, then {\tt nu(e,I,J)} outputs the maximal integer exponent $n$ such that $I^n$ is not contained in the $p^e$-th Frobenius power of $J$.
 
@@ -651,7 +651,7 @@ doc ///
             An option for the functions @TO fpt@ and @TO nu@.
             Takes on {\tt Boolean} values; default value is {\tt true}, in both functions.
 
-            If this option is set to {\tt true} in @TO fpt@, that function checks whether the input is a diagonal polynomial, a binomial, or a binary form (i.e., a homogeneous polynomial in two variables), in which case a specialized algorithm of Hernández, or Hernández and Teixeira, is applied.
+            If this option is set to {\tt true} in @TO fpt@, that function checks whether the input is a diagonal polynomial, a monomial, a binomial, a simple normal crossing form, or a binary form (i.e., a homogeneous polynomial in two variables), in which case a specialized algorithm of Hernández, or Hernández and Teixeira, is applied.
 
             If set to {\tt true} in @TO nu@, that function checks whether the input is a diagonal polynomial or a binomial, in which case it calls a special algorithm to compute the $F$-pure threshold of the polynomial, and uses the $F$-pure threshold to compute the nu invariant.
 ///
