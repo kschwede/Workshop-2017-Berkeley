@@ -16,9 +16,9 @@ doc ///
         t:Number
             a rational number to compare to the $F$-pure threshold
         f:RingElement
-            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic
+            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not a divisor of $p$
         AssumeDomain => Boolean
-            assumes that the ambient ring of {\tt f}  is an integral domain
+            indicates whether the ambient ring of {\tt f}  is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
         IsLocal => Boolean
@@ -34,16 +34,16 @@ doc ///
             namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold of {\tt f}.
     Description
         Text
-            Let $f$ be an element of a ring of positive characteristic, and $t$ a rational number.
-            The function {\tt compareFPT} returns {\tt -1} if $t$ is less than the $F$-pure threshold of $f$, {\tt 1} if $t$ is greater than the $F$-pure threshold $f$, or {\tt 0} if $t$ equals the $F$-pure threshold.
+            Let $f$ be an element of a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not a divisor of $p$. 
+            Given a rational number $t$, the command {\tt compareFPT(t, f)} returns {\tt -1} if $t$ is less than the $F$-pure threshold of $f$, {\tt 1} if $t$ is greater than the $F$-pure threshold $f$, or {\tt 0} if $t$ equals the $F$-pure threshold.
         Example
             R = ZZ/7[x,y];
-            f = y^2 - x^3;
+            f =  x^3 - y^2;
             compareFPT(1/2, f)
             compareFPT(5/6, f)
             compareFPT(6/7, f)
         Text
-            This function can be used in a singular ring of characteristic $p>0$ that is strongly $F$-regular, as long as $p$ does not divide the $\mathbb{Q}$-Gorenstein index.
+            As noted, this function can be used in a singular ring of characteristic $p>0$ that is strongly $F$-regular, as long as $p$ does not divide the $\mathbb{Q}$-Gorenstein index.
             For instance, in the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/(x*y - z^2);
@@ -52,7 +52,7 @@ doc ///
              compareFPT(1/2, f)
              compareFPT(13/25, f)
         Text
-            Here is an example where $p$ does not divide the $\mathbb{Q}$-Gorenstein index.  This is a Veronese subring (which is étale in codimension $1$)
+           Consider a Veronese subring (which is étale in codimension $1$), 
             so the fpt of the given polynomial (in this case $19/125$) should be independent of which ring we are in.
         Example
             T = ZZ/5[a,b];
@@ -76,11 +76,11 @@ doc ///
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
 
-            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
-            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
+            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
+            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
-            The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+            The two values for {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 
             Setting the option {\tt Verbose} (default value {\tt false}) to {\tt true} produces verbose output.
     SeeAlso
@@ -297,9 +297,9 @@ doc ///
         t:Number
             a rational number
         f:RingElement
-            in a $\mathbb{Q}$-Gorenstein ring of prime characteristic
+            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not a divisor of $p$
         AssumeDomain => Boolean
-            assumes that the ambient ring of {\tt f}  is an integral domain
+            indicates whether the ambient ring of {\tt f}  is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
         IsLocal => Boolean
@@ -315,9 +315,7 @@ doc ///
             reporting whether {\tt t} is an $F$-jumping exponent of {\tt f}
     Description
         Text
-            Given an element $f$ of a $\mathbb{Q}$-Gorenstein ring $R$ of positive characteristic $p$
-            (with $\mathbb{Q}$-Gorenstein index not divisible by $p$)
-            and a rational number $t$, {\tt isFJumpingExponent(t,f)} returns true if $t$ is an $F$-jumping exponent of $f$,
+            Consider a $\mathbb{Q}$-Gorenstein ring $R$ of positive characteristic $p>0$.  Given an element $f$ of $R$, and a rational number $t$, {\tt isFJumpingExponent(t,f)} returns true if $t$ is an $F$-jumping exponent of $f$,
             and otherwise it returns false.
         Example
             R = ZZ/5[x,y];
@@ -327,7 +325,7 @@ doc ///
             isFJumpingExponent(5/6, f)
             isFJumpingExponent(11/12, f)
         Text
-            We include an example in a singular ambient ring.  The jumping numbers that are less than $1$ should be $1/4$, $1/2$ and $3/4$.
+            The ring $R$ below is singular, and the jumping numbers of $f$ in the open unit interval are $1/4$, $1/2$ and $3/4$.
         Example
             R = ZZ/11[x,y,z]/(x*y - z^2);
             f = x^2;
@@ -337,7 +335,7 @@ doc ///
             isFJumpingExponent(2/3, f)
             isFJumpingExponent(3/4, f)
         Text
-            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) will tell the function to consider only $F$-jumping exponents at the origin.
+            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) tells the function to consider only $F$-jumping exponents at the origin.
             The following example considers a polynomial that looks locally analytically like two lines at the origin and 4 lines at (2,0).
         Example
             R = ZZ/13[x,y];
@@ -348,8 +346,8 @@ doc ///
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
 
-            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
-            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
+            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
+            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
@@ -379,9 +377,9 @@ doc ///
         t:Number
             a number, candidate for the $F$-pure threshold of {\tt f}
         f:RingElement
-            an element of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$
+            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not divisible by $p$
         AssumeDomain => Boolean
-            assumes that the ambient ring of {\tt f}  is an integral domain
+            indicates whether the ambient ring of {\tt f} is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
         IsLocal => Boolean
@@ -397,7 +395,7 @@ doc ///
             reporting whether {\tt t} is the $F$-pure threshold of {\tt f}
     Description
         Text
-            Consider an element $f$ of a $\mathbb{Q}$-Gorenstein ring of characteristic $p>0$ (of $\mathbb{Q}$-Gorenstein index not divisible by $p$), and a rational number $t$.
+            Consider an element $f$ of a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$ (of $\mathbb{Q}$-Gorenstein index not divisible by $p$), and a rational number $t$.
             If $t$ is the $F$-pure threshold of $f$, then the command {\tt isFPT(t, f)} outputs {\tt true}, and otherwise, it outputs {\tt false}.
         Example
             R = ZZ/11[x,y];
@@ -423,8 +421,8 @@ doc ///
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
 
-            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to the Gorenstein index of $R$.
-            Otherwise the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
+            If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
+            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package. 
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
