@@ -37,24 +37,17 @@ urlcolor=OliveGreen
 {MyVerbatim}{Verbatim}
 {formatcom=\color{Violet}}
 
+\newenvironment{nouppercase}{%
+  \let\uppercase\relax%
+  \renewcommand{\uppercasenonmath}[1]{}}{}
 
 \begin{document}
-\title{The  \emph{FThresholds} package for \emph{Macaulay2}}
-%\author[Alberto F.\ Boix et al.]{Alberto F.\ Boix}
-%\address{Department of Mathematics, Ben-Gurion University of the Negev, Beer-Sheva 8410501, Israel}
-%\email{fernanal@post.bgu.ac.il}
-%\thanks{A.F.\,Boix was supported by Israel Science Foundation (grant No. 844/14) and Spanish Ministerio de Econom\'ia y Competitividad MTM2016-7881-P}
+\title{The \emph{FrobeniusThresholds} package for \emph{Macaulay2}}
 
 \author[]{Daniel J.\ Hern\'andez}
 \address{Department of Mathematics, University of Kansas, Lawrence, KS~66045, USA}
 \email{hernandez@ku.edu}
 \thanks{D.~J.~Hern\'andez was partially supported by NSF DMS \#1600702.}
-
-%\author[]{Zhibek Kadyrsizova}
-%\address{School of Science and Technology, Nazarbayev University, Astana, 010000, Republic of Kazakhstan}
-%\email{zhibek.kadyrsizova@nu.edu.kz}
-%\thanks{Z. Kadyrsizova was partially supported by NSF DMS \#1401384 and the Barbour Scholarship at the University of Michigan.}
-
 
 %\author[]{Sara Malec}
 %\address{Department of Mathematics, Hood College, Frederick, MD 21701}
@@ -69,11 +62,6 @@ urlcolor=OliveGreen
 \thanks{K.~Schwede was supported by NSF CAREER Grant DMS \#1252860/1501102, NSF FRG Grant DMS \#1265261/1501115, NSF grant \#1801849 and a Sloan Fellowship.}
 \email{schwede@math.utah.edu}
 
-%\author[]{Daniel Smolkin}
-%\address{Department of Mathematics, University of Utah, Salt Lake City, UT~84112, USA}
-%\email{smolkin@math.utah.edu}
-%\thanks{D.~Smolkin was supported by NSF RTG Grant DMS \#1246989, NSF CAREER Grant DMS \#1252860/1501102, and NSF FRG Grant DMS \#1265261/1501115.}
-
 \author[]{Pedro Teixeira}
 \address{Department of Mathematics, Knox College, Galesburg, IL~61401, USA}
 \email{pteixeir@knox.edu}
@@ -86,15 +74,16 @@ urlcolor=OliveGreen
 
 \begin{abstract}
    This note describes the functionality implemented in the \emph{Macaulay2} package \emph{FThresholds}.
-   This package is designed to compute and estimate $F$-pure thresholds, more general $F$-thresholds, and related numerical invariants arising in the study of singularities in prime characteristic commutative algebra.
+   This package is designed to estimate and calculate $F$-pure thresholds, more general $F$-thresholds, and related numerical invariants arising in the study of singularities in prime characteristic commutative algebra.
 \end{abstract}
 
-
-\subjclass[2010]{13A35}%=
+\subjclass[2010]{13A35}
 
 \keywords{Macaulay2, Frobenius, $F$-singularity, $F$-pure threshold, $F$-threshold}
 
+\begin{nouppercase}
 \maketitle
+\end{nouppercase}
 
 \section{Introduction}
 
