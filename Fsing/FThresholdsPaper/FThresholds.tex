@@ -466,6 +466,30 @@ The last option we describe for {\tt nu} is {\tt IsLocal}.  When {\tt IsLocal =>
 \]
 This is done by instead of computing for which $n$ we have $I^{n} \subseteq J^{[p^e]}$ (or equivalently, $(I^n)^{[1/p^e]} \subseteq J$), it computes for which $n$ we have $(I^n)^{[1/p^e]}$ is a unit ideal.
 
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+    i1 : R = ZZ/7[x,y];
+
+    i2 : f = (x-1)^3 - (y-2)^2;
+
+    i3 : nu(1, f)
+
+    o3 = infinity
+
+    o3 : InfiniteNumber
+
+    i4 : nu(1, f, IsLocal => false)
+
+    o4 = 5
+
+    i5 : nu(1, x^3-y^2)
+
+    o5 = 5
+
+    o5 : QQ
+\end{MyVerbatim}
+}
 
 
 
