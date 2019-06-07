@@ -168,7 +168,8 @@ Finally, we point out that the  \emph{FrobeniusThresholds} package builds heavil
 
 \subsection{Organization}
 
-There are three main sections in this paper, which describe and illustrate the main functionality implemented in the package \emph{FrobeniusThresholds}.
+The overarching goal of this paper is paper is to describe and illustrate the main functionality implemented in the \emph{FrobeniusThresholds} package.  We break this down into sections, and then conclude by pointing out some potential future directions for the package.  
+
 \begin{itemize}
 \item[$\circ$] \autoref{sec.Nu} describes the fundamental function {\tt nu}.  As its name suggests, this function is concerned with computing the integers $\nu_I^J(p^e)$ mentioned above.
 \item[$\circ$] \autoref{sec.IsFPT} explains the functionality for determining whether a given number is the $F$-pure threshold, or more generally, an \emph{$F$-jumping exponent}.
@@ -466,7 +467,12 @@ o4 = 8
 
 \noindent In line with the philosophy described in the introduction, after appropriately normalizing and taking the limit as $e$ approaches infinity, the values $\mu_I^J(p^e)$ determine certain invariants of interest called \emph{critical exponents}.
 
-The last option we describe for {\tt nu} is {\tt IsLocal}.  When the value of {\tt IsLocal} is set to {\tt false} (the default is {\tt true}), then {\tt nu} ignores the option {\tt ContainmentTest} and the input ideal {\tt I}, and instead calculates
+The last option we describe for {\tt nu} is {\tt IsLocal}.
+Notice that $\nu_I^\idealm(p^e)$ can be interpreted as the maximum integer $n>0$ for which $(I^n)^{[1/p^e]} \not\subseteq \idealm$.
+When computing its value globally, it is the maximum $n>0$ for which $(I^n)^{[1/p^e]} \neq R$, and when 
+the value of {\tt IsLocal} is set to {\tt false} (from its default {\tt true}), then {\tt nu} ignores the option {\tt ContainmentTest} and instead calculates determines this value $n$.
+
+
 \[
 \min_{J \in \mathfrak{m}-\Spec R} \nu_I^J(p^e)
 \]
@@ -493,12 +499,6 @@ i4 : nu(1, f, IsLocal => false)
 o4 = 5
 
 o4 : QQ
-
-i5 : nu(1, x^3-y^2)
-
-o5 = 5
-
-o5 : QQ
 \end{MyVerbatim}
 }
 
@@ -684,9 +684,9 @@ o3 : List
 
 \subsection{The option {\tt UseSpecialAlgorithms}}
 
-The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}, which, when set to {\tt true} (its default value), tells {\tt fpt} to first check whether $f$ is a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order.
+The {\tt fpt} function has an option called {\tt UseSpecialAlgorithms}, which, when set to {\tt true} (its default value), tells {\tt fpt} to first check whether $f$ is a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order.
 
-%If $f$ is a monomial, then its $F$-pure threshold is simply the minimum of the reciprocal of the exponent of each variable in $f$.
+
 When $f$ is a diagonal polynomial, a binomial, or a form in two variables, algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.
 Algorithms for computing $F$-pure thresholds of binomials also appear in \cite{ShibutaTakagiLCThresholds}, though they are only valid in certain special characteristics.
 
@@ -694,6 +694,7 @@ Algorithms for computing $F$-pure thresholds of binomials also appear in \cite{S
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+
 i4 : fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
 
       94
@@ -723,14 +724,15 @@ o7 : QQ
 }
 \medspace
 
-The above noted algorithm for computing the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and {\tt fpt} can sometimes hang when attempting that factorization, when it happens in a Galois field of excessively large order.
+The above noted algorithm for computing the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and {\tt fpt} can sometimes hang when attempting that factorization, when the factorization occurs in a Galois field of excessively large order.
 This is a situation when the user will want to set the option \texttt{UseSpecialAlgorithms} to \texttt{false}.
-However, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$, and a list containing their respective multiplicities.
+However, when a factorization is already known, instead of passing {\tt f} to {\tt fpt}, the user can pass a list containing all the pairwise coprime linear factors of $f$ to {\tt fpt}, and a list containing their respective multiplicities.
 
 \medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+
 i8 : fpt({x, y, x + y, x + 3*y}, {2, 6, 9, 10}) == oo
 
 o8 = true
