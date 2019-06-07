@@ -56,6 +56,11 @@ nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) -> nu1( ideal f, J )
 -- testRoot(J,a,I,e) checks whether J^a is a subset of I^[p^e] by checking whether (J^a)^[1/p^e] is a subset of I
 testRoot = ( J, a, I, e ) -> isSubset( frobeniusRoot( e, a, J ), I )
 
+--this does the same check, but globally, igornoring I completely
+--(essentially taking the minimum over all prime I)
+testGlobalRoot = (J, a, I, e) ->
+    not isUnitIdeal(frobeniusRoot(e, a, J))
+
 testPower = ( J, a, I, e ) -> isSubset( if (isIdeal J) then J^a else ideal(J)^a, frobenius(e,I) )
 
 -- testFrobeniusPower(J,a,I,e) checks whether J^[a] is a subset of I^[p^e]
@@ -67,12 +72,15 @@ testFrobeniusPower ( Ideal, ZZ, Ideal, ZZ ) := Boolean => ( J, a, I, e ) ->
 testFrobeniusPower ( RingElement, ZZ, Ideal, ZZ ) := Boolean => ( f, a, I, e ) ->
     testRoot( f, a, I, e )
 
+
+
 -- hash table to select test function from option keyword
 test := new HashTable from
     {
-	FrobeniusPower => testFrobeniusPower,
-	FrobeniusRoot => testRoot,
-        StandardPower => testPower
+        FrobeniusPower => testFrobeniusPower,
+        FrobeniusRoot => testRoot,
+        StandardPower => testPower,
+        GlobalFrobeniusRoot => testGlobalRoot
     }
 
 ---------------------------------------------------------------------------------
@@ -122,7 +130,8 @@ optNu:=
     ReturnList => false,
     Search => Binary,
     UseSpecialAlgorithms => true,
-    Verbose => false
+    Verbose => false,
+    IsLocal => true
 }
 
 ---------------------------------------------------------------------------------
@@ -141,7 +150,8 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 	    ReturnList => Boolean,
 	    Search => { Binary, Linear },
 	    UseSpecialAlgorithms => Boolean,
-	    Verbose => Boolean
+	    Verbose => Boolean,
+        IsLocal => Boolean
 	}
     );
     -- Check if f is defined over a finite field
@@ -154,9 +164,10 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- Return list with zeros if f is 0 (per Blickle-Mustata-Smith convention)
     if f == 0 then return if o.ReturnList then toList( (n + 1):0 ) else 0;
     -- Return list with infinities if f is not in the radical of J
-    inRadical := if isIdeal f then isSubset( f, radical J ) else isSubset( ideal f, radical J );
-    if not inRadical then return if o.ReturnList then toList( (n + 1):infinity ) else infinity;
-
+    if (o.IsLocal) then (
+        inRadical := if isIdeal f then isSubset( f, radical J ) else isSubset( ideal f, radical J );
+        if not inRadical then return if o.ReturnList then toList( (n + 1):infinity ) else infinity;
+    );
     --------------------------------
     -- DEAL WITH PRINCIPAL IDEALS --
     --------------------------------
@@ -180,23 +191,23 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- WHEN SPECIAL ALGORITHMS CAN BE USED --
     -----------------------------------------
     -- Deal with some special cases for principal ideals
-    if isPrincipal and J == maxIdeal g then
+    if isPrincipal and J == maxIdeal g and o.IsLocal then
     (
-	if not isSubset( ideal g, J ) then
-	    error "nuInternal: the polynomial is not in the homogeneous maximal ideal";
+        if not isSubset( ideal g, J ) then
+        error "nuInternal: the polynomial is not in the homogeneous maximal ideal";
         if not isSubset( ideal g^(p-1), frobenius J ) then -- fpt = 1
-	    return if o.ReturnList then apply( n + 1, i -> p^i-1 ) else p^n-1;
+        return if o.ReturnList then apply( n + 1, i -> p^i-1 ) else p^n-1;
         if o.UseSpecialAlgorithms then
         (
-	    fpt := null;
-	    if isDiagonal g then fpt = diagonalFPT g;
+            fpt := null;
+            if isDiagonal g then fpt = diagonalFPT g;
             if isBinomial g then fpt = binomialFPT g;
-	    if fpt =!= null then
-	        return
-		(
-		    if o.ReturnList then apply( n + 1, i -> p^i*adicTruncation( p, i, fpt ) )
-		    else p^n*adicTruncation( p, n, fpt )
-		)
+            if fpt =!= null then
+            return
+            (
+                if o.ReturnList then apply( n + 1, i -> p^i*adicTruncation( p, i, fpt ) )
+                else p^n*adicTruncation( p, n, fpt )
+            )
         )
     );
 
@@ -207,16 +218,20 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     conTest := o.ContainmentTest;
     -- choose appropriate containment test, if not specified by user
     if conTest === null then conTest = (if isPrincipal then FrobeniusRoot else StandardPower);
+    if (o.IsLocal == false) then conTest = GlobalFrobeniusRoot;
+    if o.Verbose then print("nuInternal: using conTest:" | toString conTest);
     testFct := test#(conTest);
     local N;
-    nu := nu1( g, J );
+    local nu;
+    if (o.IsLocal) then (
+        nu = nu1( g, J );
+    ) else nu = 0;
     theList := { nu };
     if o.Verbose then print( "nu(1) = " | toString nu );
 
     ----------------------
     -- EVERY OTHER CASE --
     ----------------------
-    (
 	N = if isPrincipal or conTest === FrobeniusPower
 	   then p else (numgens trim J)*(p-1) + 1;
     scan( 1..n, e ->
@@ -225,8 +240,8 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
            if o.Verbose then print( "nu(p^" | toString e | ") = " | toString nu );
            theList = append( theList, nu )
         )
-    )
     );
+
     if o.ReturnList then theList else last theList
 )
 
@@ -281,12 +296,12 @@ attemptsDefault := 3;
 --     the right- and left-hand endpoints b and a, respectively.
 -- The option GuessStrategy specifies how to prioritize the numbers to be checked.
 -- It returns either fpt(f), if found, or an interval containing it, if not.
-guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => false } >> o -> ( f, a, b ) ->
+guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => false, IsLocal => true } >> o -> ( f, a, b ) ->
 (
     maxChecks := o.Attempts;
     if o.Verbose then print "\nStarting guessFPT ...";
     -- Check if fpt is the upper bound b
-    if isFPT( b, f, IsLocal => true ) then
+    if isFPT( b, f, IsLocal => o.IsLocal ) then
     (
         if o.Verbose then print( "\nfpt is the right-hand endpoint." );
         return b
@@ -294,7 +309,7 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     else if o.Verbose then print "\nThe right-hand endpoint is not the fpt ...";
     -- Check if fpt is the lower bound a
     if maxChecks >= 2 then
-        if not isFRegular( a, f, IsLocal => true, AssumeDomain => true ) then
+        if not isFRegular( a, f, IsLocal => o.IsLocal, AssumeDomain => true ) then
 	(
 	    if o.Verbose then
 	        print( "\nfpt is the left-hand endpoint." );
@@ -311,9 +326,9 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     candidateList := fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy );
     while counter <= maxChecks do
     (
-        --  pick candidate with minimal weight        
+        --  pick candidate with minimal weight
         t = last first candidateList; --the candidate list should already be sorted
-        comp = compareFPT( t, f, IsLocal => true );
+        comp = compareFPT( t, f, IsLocal => o.IsLocal );
         if comp == 0 then  -- found exact FPT! YAY!
         (
 	    if o.Verbose then
@@ -325,7 +340,7 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
         counter = counter + 1;
         -- if not done and running short on candidates, load up some more
         if counter <= maxChecks and #candidateList <= minNumCandidates then
-            candidateList = fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy )      
+            candidateList = fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy )
     );
     if o.Verbose then
         print( "\nguessFPT narrowed the interval down to ( " | toString A | ", " | toString B | " ) ..." );
@@ -337,13 +352,14 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
 fpt = method(
     Options =>
         {
-	    Attempts => attemptsDefault,
-            Bounds => { 0, 1 },
-	    DepthOfSearch => 1,
-	    FinalAttempt => false,
-            GuessStrategy => null,
-	    UseSpecialAlgorithms => true,
-	    Verbose => false
+        Attempts => attemptsDefault,
+        Bounds => { 0, 1 },
+        DepthOfSearch => 1,
+        FinalAttempt => false,
+        GuessStrategy => null,
+        UseSpecialAlgorithms => true,
+        Verbose => false,
+        IsLocal => true
 	}
 )
 
@@ -355,14 +371,15 @@ fpt RingElement := o -> f ->
     -- Check if option values are valid
     checkOptions( o,
         {
-	    Attempts => ( k -> instance(k, ZZ) and k >= 0 ),
+            Attempts => ( k -> instance(k, ZZ) and k >= 0 ),
             Bounds => ( k -> instance(k, List) and #k == 2 ),
-	    DepthOfSearch => ( k -> instance(k, ZZ) and k > 0 ),
-	    FinalAttempt => Boolean,
+            DepthOfSearch => ( k -> instance(k, ZZ) and k > 0 ),
+            FinalAttempt => Boolean,
             GuessStrategy => ( k -> (instance(k, List) and #k == 3) or instance(k, Function) or k === null ),
-	    UseSpecialAlgorithms => Boolean,
-	    Verbose => Boolean
-	}
+            UseSpecialAlgorithms => Boolean,
+    	    Verbose => Boolean,
+            IsLocal => Boolean
+        }
     );
     -- Check if polynomial has coefficients in a finite field
     if not isDefinedOverFiniteField f  then
@@ -370,7 +387,9 @@ fpt RingElement := o -> f ->
     -- Check if polynomial is in the homogeneous maximal ideal
     M := maxIdeal f;   -- The maximal ideal we are computing the fpt at
     p := char ring f;
-    if not isSubset( ideal f, M ) then return infinity;
+    if (o.IsLocal and not isSubset( ideal f, M )) or (not o.IsLocal and isUnit(f))  then (
+        return infinity;
+        );
 
     ------------------------------
     -- DEAL WITH A TRIVIAL CASE --
@@ -382,7 +401,7 @@ fpt RingElement := o -> f ->
     -- CHECK IF FPT = 1 --
     ----------------------
     if o.Verbose then print "\nStarting fpt ...";
-    if not isSubset( ideal f^(p-1), frobenius M ) then
+    if o.IsLocal and not isSubset( ideal f^(p-1), frobenius M ) then
     (
         if o.Verbose then print "\nnu(1,f) = p-1, so fpt(f) = 1.";
         return 1
@@ -394,37 +413,37 @@ fpt RingElement := o -> f ->
     ---------------------------------------------
     if o.UseSpecialAlgorithms then
     (
-	if o.Verbose then print "\nVerifying if special algorithms apply...";
-	if isDiagonal f then
-	(
-	    if o.Verbose then
-	        print "\nPolynomial is diagonal; calling diagonalFPT ...";
+        if o.Verbose then print "\nVerifying if special algorithms apply...";
+        if o.IsLocal and isDiagonal f then
+        (
+            if o.Verbose then
+            print "\nPolynomial is diagonal; calling diagonalFPT ...";
             return diagonalFPT f
         );
-        if isMonomial f then
+        if o.IsLocal and isMonomial f then
         (
             if o.Verbose then
             print "\nPolynomial is monomial; calling monomialFPT ...";
             return monomialFPT(f);
         );
-        if isBinomial f then
+        if o.IsLocal and isBinomial f then
         (
             if o.Verbose then
 	        print "\nPolynomial is a binomial; calling binomialFPT ...";
             return binomialFPT f
         );
-        if isBinaryForm f then
+        if o.IsLocal and isBinaryForm f then
         (
             if o.Verbose then
 	        print "\nPolynomial is a binary form; calling binaryFormFPT ...";
             return binaryFormFPT( f, Verbose => o.Verbose )
         );
         prod := factor f;
-        if isSimpleNormalCrossing prod then
+        if isSimpleNormalCrossing(prod, IsLocal=>o.IsLocal) then
         (
             if o.Verbose then
                 print "\nPolynomial is snc; calling sncFPT ...";
-            return sncFPT prod;
+            return sncFPT(prod, IsLocal=>o.IsLocal);
         );
     );
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
@@ -433,7 +452,7 @@ fpt RingElement := o -> f ->
     -- COMPUTE NU TO FIND UPPER AND LOWER BOUNDS --
     -----------------------------------------------
     e := o.DepthOfSearch;
-    n := nu( e, f );
+    n := nu( e, f, IsLocal => o.IsLocal);
     LB := n/(p^e - 1); -- lower bound (because of forbidden intervals)
     UB := (n + 1)/p^e; -- upper bound
     strictLB := false; -- at this point, LB and UB *could* be the fpt
@@ -441,7 +460,7 @@ fpt RingElement := o -> f ->
     if o.Verbose then
     (
          print( "\nnu has been computed: nu = nu(" | toString e | ",f) = " | toString n | " ..." );
-	 print( "\nfpt lies in the interval [ nu/(p^e-1), (nu+1)/p^e ] = [ " | toString LB | ", " | toString UB | " ] ..." )
+         print( "\nfpt lies in the interval [ nu/(p^e-1), (nu+1)/p^e ] = [ " | toString LB | ", " | toString UB | " ] ..." )
     );
     if LB < (o.Bounds)#0 then
     (
@@ -461,7 +480,7 @@ fpt RingElement := o -> f ->
     --------------------
     if o.Attempts > 0 then
     (
-	guess := guessFPT( f, LB, UB, passOptions( o, { Attempts, Verbose, GuessStrategy } ) );
+	guess := guessFPT( f, LB, UB, passOptions( o, { Attempts, Verbose, GuessStrategy, IsLocal } ) );
 	if class guess =!= List then return guess; -- guessFPT was successful
 	-- if not sucessful, adjust bounds and their strictness
 	( LB, UB ) = toSequence guess;
@@ -472,7 +491,7 @@ fpt RingElement := o -> f ->
     ---------------------------------------
     -- F-SIGNATURE INTERCEPT COMPUTATION --
     ---------------------------------------
-    if o.FinalAttempt then
+    if o.IsLocal and o.FinalAttempt then
     (
         if o.Verbose then print "\nBeginning F-signature computation ...";
         s1 := fSig( f, n-1, e );
@@ -1040,4 +1059,3 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
         not isSubset( saturate(computedHSLG), saturate(computedTau) )
     )
 )
-
