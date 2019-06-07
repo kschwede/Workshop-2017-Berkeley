@@ -166,7 +166,7 @@ Like $F$-pure thresholds, $F$-thresholds can also be defined in terms of its tes
 
 Finally, we point out that the  \emph{FrobeniusThresholds} package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper,M2}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.  In fact, both this package and \emph{TestIdeals} are derived (and have greatly grown) from an older package \emph{PosChar}.
 
-\subsection*{Organization}
+\subsection{Organization}
 
 There are three main sections in this paper, which describe and illustrate the main functionality implemented in the package \emph{FrobeniusThresholds}.
 \begin{itemize}
@@ -317,7 +317,7 @@ o4 = 3756
 % time nu(3, f, UseSpecialAlgorithms => false)
 
 
-\subsection*{Options for the {\tt nu} function}
+\subsection{Options for {\tt nu}}
 
 We now describe the options available for the function {\tt nu}.  We focus primarily on the case where the second input is an ideal $I$, since the options work analogously when it is instead a polynomial $f$.
 
@@ -468,7 +468,7 @@ o4 = 8
 
 The last option we describe for {\tt nu} is {\tt IsLocal}.  When the value of {\tt IsLocal} is set to {\tt false} (the default is {\tt true}), then {\tt nu} ignores the option {\tt ContainmentTest} and the input ideal {\tt I}, and instead calculates
 \[
-\min_{J \in \mathfrak{m}-\Spec R} (\nu_I^J(p^e))
+\min_{J \in \mathfrak{m}-\Spec R} \nu_I^J(p^e)
 \]
 % This is done by instead of computing for which $n$ we have $I^{n} \subseteq J^{[p^e]}$ (or equivalently, $(I^n)^{[1/p^e]} \subseteq J$), it 
 by determining the values $n$ for which $(I^n)^{[1/p^e]}$ is a unit ideal.
@@ -491,6 +491,8 @@ o3 : InfiniteNumber
 i4 : nu(1, f, IsLocal => false)
 
 o4 = 5
+
+o4 : QQ
 
 i5 : nu(1, x^3-y^2)
 
