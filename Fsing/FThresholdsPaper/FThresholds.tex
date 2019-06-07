@@ -693,8 +693,6 @@ If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into an
 
 
 
-
-
 In the remainder of this section, we describe the {\tt fpt} function when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false},  as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.
 
 In this case, very roughly speaking, the {\tt fpt} function will either compute, and output, the exact value of the $F$-pure threshold of $f$, and otherwise recursively compute a finite sequence of lower and upper bounds for this value, and output the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.
@@ -989,14 +987,104 @@ o36 : List
 \medspace
 
 \subsection*{The function {\tt isSimpleNormalCrossings}}
+As mentioned earlier, 
+when the option {\tt useSpecialFunctions} for the function {\tt fpt} is set to {\tt true}, if the polynomial $f$ is neither a diagonal polynomial, a binomial, or a form in two variables, there is a final check to verify whether $f$ is a product of factors in simple normal crossing. 
+
+Suppose that $f$ has factorization $f_1^{a_i} f_2^{a_2} \cdots f_n^{a_n}$.  Recall that its factors $f_i$ are said to be in 
+\emph{simple normal crossing} at a point if, locally, they form part of a regular system of parameters.  The function {\tt isSimpleNormalCrossings} determines whether $f$ has simple normal crossings by computing the Jacobian matrix of each subset of $\{ f_i \}_{i=1}^n$ (evaluated at the origin), and checking that these matrices have the expected rank, and that these subsets generate ideals of the appropriate height.
+
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i1 : R = ZZ/7[x, y, z];
+
+i2 : isSimpleNormalCrossing(x^3*y^2)
+
+o2 = true
+
+i3 : isSimpleNormalCrossing(x^2-y^2)
+
+o3 = true
+
+i4 : isSimpleNormalCrossing(x*y*(x-y))
+
+o4 = false
+
+i5 : isSimpleNormalCrossing(x^2-y*z)
+
+o5 = false
+\end{MyVerbatim}
+}
+\medspace
+
+%             R = ZZ/7[x,y,z];
+%             isSimpleNormalCrossing(x^3*y^2)
+%             isSimpleNormalCrossing(x^2-y^2)
+%             isSimpleNormalCrossing(x*y*(x-y))
+%             isSimpleNormalCrossing(x^2-y*z)
+            
+If {\tt isSimpleNormalCrossing(f)} outputs true, then the $F$-pure threshold is easily computed, since is just the minimum of the values $1/a_i$, for $1 \leq i \leq n$.
+Note that the function {\tt factor} is called whenever {\tt isSimpleNormalCrossing} is used, which can sometimes make the verification slow.  The user can avoid this when using {\tt fpt} by setting {\tt UseSpecialAlgorithms} to {\tt false}.
+
+The function {\tt isSimpleNormalCrossing} is exposed to the user, so can be used independent of any $F$-pure threshold calculation.  
+If the user sets its option {\tt IsLocal} to {\tt true} (its default value is {\tt false}), then the function checks whether the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower since Jacobian ideals are computed. Consider the following example illustrating this functionality.
+
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i1 : R = QQ[x, y, z];
+
+i2 : f = (y - (x-1)^2)*y^2; --SNC at the origin, but not globally
+
+i3 : isSimpleNormalCrossing(f)
+
+o3 = true
+
+i4 : isSimpleNormalCrossing(f, IsLocal=>false)
+
+o4 = false
+
+i5 : g = (y-1)^2+(x-7)^2 --doesn't even pass through the origin
+
+       2    2
+o5 = x  + y  - 14x - 2y + 50
+
+o5 : R
+
+i6 : isSimpleNormalCrossing(g)
+
+o6 = true
+
+i7 : isSimpleNormalCrossing(g, IsLocal=>false)
+
+o7 = false
+
+i8 : h = x*y^2*(x+1)^3*(y-1)^4; --SNC everywhere
+
+i9 : isSimpleNormalCrossing(h)
+
+o9 = true
+
+i10 : isSimpleNormalCrossing(h, IsLocal=>false)
+
+o10 = true
+\end{MyVerbatim}
+}
+\medspace
 
 
-We briefly describe the algorithm that checks whether the polynomial $f$ factors as a product of functions $f = \prod_i f_i^{a_i}$ that are in simple normal crossing with each other, in which case, the $F$-pure threshold is just the minimum of the $1/a_i$. Recall that a set of elements $\{f_i\}$ is said to be in simple normal crossing at a point, if locally, the $f_i$ form part of a regular system of parameters.  The functionality verifies this by computing the Jacobian matrix of each subset of the $f_i$ (evaluated at the origin), and checking that these matrices have the expected rank.  It is also verified that these subsets generate ideals of the correct height.  Note that {\tt factor f} is called, which may be slow.  The user can avoid this factorization call by setting {\tt UseSpecialAlgorithms} to {\tt false}.
-
-This method for determining whether $f$ is a product of factors that are in simple normal crossing is implemented in the function {\tt isSimpleNormalCrossing}, which is also exposed to the user.
-Note that if one sets the option {\tt IsLocal} for this function to {\tt true}, then {\tt isSimpleNormalCrossing} checks that the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower (as Jacobian ideals are computed).
-
-
+%             R = QQ[x,y,z];
+%             f = (y - (x-1)^2)*y^2; --SNC at the origin, but not globally
+%             isSimpleNormalCrossing(f)
+%             isSimpleNormalCrossing(f, IsLocal=>false)
+%             g = (y-1)^2+(x-7)^2 --doesn't even pass through the origin
+%             isSimpleNormalCrossing(g)
+%             isSimpleNormalCrossing(g, IsLocal=>false)
+%             h = x*y^2*(x+1)^3*(y-1)^4; --SNC everywhere
+%             isSimpleNormalCrossing(h)
+%             isSimpleNormalCrossing(h, IsLocal=>false)
 
 \newpage
 \section{Future Directions}
