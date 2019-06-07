@@ -178,14 +178,15 @@ There are three main sections in this paper, which describe and illustrate the m
 \item[$\circ$] \autoref{sec.Nu} describes the fundamental function {\tt nu}.  As its name suggests, this function is concerned with computing the integers $\nu_I^J(p^e)$ described above.
 \item[$\circ$] \autoref{sec.IsFPT} explains the functionality for determining whether a given number is the $F$-pure threshold, or more generally, an \emph{$F$-jumping exponent}.
 \item[$\circ$] \autoref{sec.FPT} describes the features of the central function of the package, {\tt fpt}.
-\item[$\circ$]  {\color{red} Add a description of the last section}
+\item[$\circ$]  \autoref{sec.FutureDirections} describes our plans for future improvements to this package.
 \end{itemize}
-{\color{red} Move this later}
-The \emph{FrobeniusThresholds} package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.
+%{\color{red} Move this later}
 
 \subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors and contributors to the \emph{FrobeniusThresholds} package.
 Our package coauthors are Dan Smolkin {\color{red}(LIST MORE NAMES)}, and Zhibek Kadyrsizova, Moty Katzman {\color{red} (LIST MORE NAMES)} contributed valuable code to the package.
 %Erin Bela, Juliette Bruce, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Matthew Mastroeni
+
+The \emph{FrobeniusThresholds} package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper,M2}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.  In fact, both this package and \emph{TestIdeals} are derived from an older package \emph{PosChar}.
 
 Thanks go to the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016.
 
@@ -992,8 +993,7 @@ o36 : List
 
 \newpage
 \section{Future Directions}
-
-{\color{red} Should we add this section to the \textbf{Organization} part of the intro?}
+\label{sec.FutureDirections}
 
 We conclude with some comments on possible improvements to the package.
 
@@ -1001,6 +1001,7 @@ One natural candidate for improvement would be to extend functionality to better
 
 \begin{enumerate}
 \item Add more cases to {\tt UseSpecialAlgorithms}.
+\item Add the capability to compute non-local {\tt fpt} and non-local {\tt nu} via an option.
 \item Write a function that will extract from this sequences $\{ \nu_f^{\idealm}(p^e) \}_{e=1}^{\infty}$ roots of Bernstein-Sato polynomials.  Especially, strata.
 
 \item Extend binary forms functions to handle more general $F$-thresholds (that is, with respect to diagonal ideals).  There is one tricky theoretical things, we don't know when this process would stop.  If we can do this, then we can compute $F$-pure thresholds of binary forms in non-standard gradings.  Cite the paper by Daniel and Pedro \cite{HernandezTeixeiraFThresholdFunctions}.

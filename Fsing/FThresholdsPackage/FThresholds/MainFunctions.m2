@@ -1040,3 +1040,4 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
         not isSubset( saturate(computedHSLG), saturate(computedTau) )
     )
 )
+
