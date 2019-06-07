@@ -146,7 +146,7 @@ Inspired by its connections with the $F$-purity of pairs,  this limit is called 
 The $F$-pure threshold is closely related to many other fundamental concepts in prime characteristic commutative algebra.   For instance,
 \[ \ft^{\idealm}(f) = \inf \{ t>0 : \tau(f^t)  \subseteq \idealm \} = \sup \{ t>0 : \sigma( f^t) \neq 0 \} \]
 where $\tau(f^t)$ and $\sigma(f^t)$ are the \emph{test ideal} and \emph{$F$-signature}, respectively, associated to $f$ and the formal nonnegative real exponent $t$.  The former is an ideal in the ambient ring of $f$, and the latter is a real number;  both depend on the parameter $t$ and prime $p$ in subtle ways \cite{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds, BlickleSchwedeTuckerFSigPairs1}.
-Though we will not elaborate much on these topics,  we stress that the \emph{Macaulay2} package \emph{TestIdeals} provides functionality for the effective computation of test ideals in many cases \cite{TestIdealsPackage, TestIdealsPaper}.
+%Though we will not elaborate much on these topics,  we stress that the \emph{Macaulay2} package \emph{TestIdeals} provides functionality for the effective computation of test ideals in many cases \cite{TestIdealsPackage, TestIdealsPaper}.
 
 In the literature, the $F$-pure threshold $\ft^{\idealm}(f)$ is often denoted $\fpt(f)$, for obvious reasons.  However, in this note, we adopt the former notation to avoid any possible confusion with the \emph{Macaulay2} function {\tt fpt} described in Section \ref{sec.FPT}.  Indeed, the command {\tt fpt(f)} need not always output the number $\ft^{\idealm}(f) = \fpt(f)$, though in the case that it cannot, it will provide a reasonably good estimate for this number.
 
@@ -162,7 +162,7 @@ Otherwise, we set $\nu_I^J(p^e) = \infty$.
 This clearly generalizes the quantity $\nu_f^{\idealm}(p^e)$ considered earlier, and we call
 \[ \ft^J(I) := \lim_{e \to \infty} \frac{ \nu_I^J(p^e)}{p^e} \]
 the \emph{$F$-threshold of $I$ with respect to $J$}.  These numbers are also rational, when they are finite.
-The value $\ft^{\idealm}(I)$ is called the \emph{$F$-pure threshold of $I$}, and if $I = (f)$ is principal,  $\ft^{J}(f) := \ft^J(I)$ is called the \emph{$F$-threshold of $f$ with respect to $J$}.
+The value $\ft^{\idealm}(I)$ is called the \emph{$F$-pure threshold of $I$}, and if $I = \langle f \rangle$ is principal,  $\ft^{J}(f) := \ft^J(I)$ is called the \emph{$F$-threshold of $f$ with respect to $J$}.
 Like $F$-pure thresholds, $F$-thresholds can also be defined in terms of its test ideals.
 
 Finally, we point out that the  \emph{FrobeniusThresholds} package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper,M2}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.  In fact, both this package and \emph{TestIdeals} are derived (and have greatly grown) from an older package \emph{PosChar}.
