@@ -196,6 +196,7 @@ Fix a natural number $e$.  If $f$ is a nonzero polynomial contained in the radic
 %, the maximal integer exponent such that $f^n$ is not contained in $J^{[p^e]}$.
 more generally, if a nonzero ideal $I$ is contained in the radical of $J$, then {\tt nu(e,I,J)} outputs $\nu_I^J(p^e)$. Consider the following example.  %, the maximal integer exponent $n$ such that $I^n$ is not contained in $J^{[p^e]}$.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -232,6 +233,7 @@ o6 = 10
 
 We highlight some degenerate cases:  If $f$ is the zero polynomial, then {\tt nu(e,f,J)} outputs {\tt 0}, and if $f$ is \emph{not} contained in the radical of $J$, then the output is instead {\tt infinity}.  These degenerate cases extend analogously to the command {\tt nu(e,I,J)}.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -254,6 +256,7 @@ o8 : InfiniteNumber
 
 If the third argument is omitted from the function {\tt nu}, it is assumed to be the maximal ideal $\idealm$.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -285,6 +288,7 @@ This implies that when searching for the maximal exponent defining {\tt nu(e,I,J
 As pointed out in the introduction, if $f \in \mathfrak{m}$, the values $\nu^{\mathfrak{m}}_f(p^e)$ can be recovered from the $F$-pure threshold of $f$.
 This fact is used to speed up computations for certain polynomials whose $F$-pure thresholds can be computed quickly via specialized algorithms, namely diagonal polynomials, binomials, and forms in two variables (see Section \ref{sec.FPT}).  This feature can be disabled by setting the option {\tt UseSpecialAlgorithms} (default value {\tt true}) to {\tt false}.  Consider the following example, where $f$ is a diagonal polynomial.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -321,6 +325,7 @@ We now describe the options available for the function {\tt nu}.  We focus prima
 In general, the function {\tt nu} works by searching through the list of integers $n$, and checking containments of the $n$-th power of $I$ in a specified Frobenius power of $J$.
 The user can specify how this search is approached through the  option {\tt Search}.  Namely, a binary search is used when {\tt Search} is set to {\tt Binary} (and this is the option's default value), and a linear search is run when it is set to {\tt Linear}.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -368,7 +373,7 @@ o7 = 97
 If the option {\tt ReturnList} is changed from its default value of {\tt false} to {\tt true}, rather than simply outputting $\nu_I^J(p^e)$, {\tt nu} outputs a list of the values $\nu_I^J(p^s)$, for $s=0,\ldots,e$.
 Alternatively, the same information can be found by setting the option {\tt Verbose} to {\tt true} (its default value is {\tt false}), to request that each of these values $\nu_I^J(p^s)$ is printed as they are iteratively computed.  This can also serve a way to monitor the progress of the computation.
 
-
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -405,6 +410,7 @@ The option {\tt ContainmentTest} for {\tt nu} allows the user to choose which of
 If {\tt ContainmentTest} is set to {\tt StandardPower}, then {\tt nu(e,I,J)} is computed by testing the left-hand containment above, and when it is set to {\tt FrobeniusRoot}, the right-hand containment is checked.
 For efficiency reasons, the default value for {\tt ContainmentTest} is set to  {\tt FrobeniusRoot} if the second argument passed to {\tt nu} is a polynomial, and is set to {\tt StandardPower} if it is an ideal.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -437,6 +443,7 @@ When {\tt ContainmentTest} is set to {\tt FrobeniusPower}, rather than  computin
 maximal integer $n$ for which $I^{[n]}$ is not contained in $J^{[p^e]}$.  This number is denoted $\mu_I^J(p^e)$ in \emph{loc.\ cit.}, and equals $\nu_I^J(p^e)$ when $I$ is replaced with a polynomial, or is a principal ideal, but need not coincide in general.
 For example, the two commands below give different output values.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -466,6 +473,7 @@ The last option we describe for {\tt nu} is {\tt IsLocal}.  When {\tt IsLocal =>
 \]
 This is done by instead of computing for which $n$ we have $I^{n} \subseteq J^{[p^e]}$ (or equivalently, $(I^n)^{[1/p^e]} \subseteq J$), it computes for which $n$ we have $(I^n)^{[1/p^e]}$ is a unit ideal.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -593,6 +601,7 @@ Given a parameter $t \in \mathbb{Q}$ and an element $f$ of $R$, the command {\tt
 Moreover, the function {\tt compareFPT} provides further information about the relationship between $t$ and the $F$-pure threshold of $f$; namely,
 {\tt compareFPT(t, f)} returns {\tt-1} , {\tt 0}, {\tt 1} when $t$ is less than, equal to, or greater than, respectively, the $F$-pure threshold of $f$.  Setting the option {\tt IsLocal} to {\tt true} tells the function to consider the $F$-pure threshold at the origin.  The following example illustrates this functionality.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -623,6 +632,7 @@ $\tau(R, f^{t-\varepsilon})$ is not.
 Since not only the $F$-pure thresholds, but also the higher $F$-jumping numbers, are determined by containment conditions on test ideals, the functionality is extended to determine whether a given number is an $F$-jumping number.
 Analogous syntax is used, as shown in the following example.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -643,6 +653,7 @@ o51 = true
 
 The core function in the package \emph{FrobeniusThresholds} is called {\tt fpt}.  Throughout this section, let $f$ be a polynomial with coefficients in a finite field of characteristic $p$. When passed the polynomial $f$, the function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.  Otherwise, it returns lower and upper bounds for the $F$-pure threshold, as demonstrated below.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -670,66 +681,56 @@ o3 : List
 
 \subsection{The option {\tt UseSpecialAlgorithms} for the {\tt fpt} function}
 
-The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}, which, when
-set to {\tt true} (the default value), {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order.
+The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}, which, when set to {\tt true} (its default value), tells {\tt fpt} to first check whether $f$ is a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order.
 
-If $f$ is a monomial, then its $F$-pure threshold is simply the minimum of the reciprocal of the exponent of each variable in $f$.
-When $f$ is a diagonal polynomial, a binomial, or a form in two variables,
-algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.  Algorithms for computing $F$-pure thresholds of binomials also appear in \cite{ShibutaTakagiLCThresholds}, though they are only valid in certain special characteristics.
+%If $f$ is a monomial, then its $F$-pure threshold is simply the minimum of the reciprocal of the exponent of each variable in $f$.
+When $f$ is a diagonal polynomial, a binomial, or a form in two variables, algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.
+Algorithms for computing $F$-pure thresholds of binomials also appear in \cite{ShibutaTakagiLCThresholds}, though they are only valid in certain special characteristics.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i4 : fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
 
-i4 : fpt(x^3*y^4*z^5) -- a monomial
-
-      1
-o4 = -
-      5
+      94
+o4 = ---
+     625
 
 o4 : QQ
 
-
-i5 : fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
-
-      94
-o5 = ---
-     625
-
-i6 : fpt(x^2*y^6*z^10 + x^10*y^5*z^3) -- a binomial
+i5 : fpt(x^2*y^6*z^10 + x^10*y^5*z^3) -- a binomial
 
       997
-o6 = ----
+o5 = ----
      6250
 
-o6 : QQ
+o5 : QQ
 
-i7 : ZZ/5[x,y];
+i6 : ZZ/5[x,y];
 
-i8 : fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a form in two variables
+i7 : fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a form in two variables
 
       5787
-o8 = -----
+o7 = -----
      78125
 
-o8 : QQ
+o7 : QQ
 \end{MyVerbatim}
 }
 \medspace
 
-The above noted algorithm for computing the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and {\tt fpt} can sometimes hang when attempting that factorization. For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$, and a list containing their respective multiplicities.
+The above noted algorithm for computing the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and {\tt fpt} can sometimes hang when attempting that factorization, when it happens in a Galois field of excessively large order.
+This is a situation when the user will want to set the option \texttt{UseSpecialAlgorithms} to \texttt{false}.
+However, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$, and a list containing their respective multiplicities.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i8 : fpt({x, y, x + y, x + 3*y}, {2, 6, 9, 10}) == oo
 
-i9 : L = {x, y, x + y, x + 3*y};
-
-i10 : m = {2, 6, 9, 10};
-
-i11 : fpt(L, m) == o8
-
-o11 = true
+o8 = true
 \end{MyVerbatim}
 }
 \medspace
@@ -754,6 +755,7 @@ More specifically, let $e$ denote the value of the option {\tt DepthOfSearch}, w
 
 With these estimates in hand, the subroutine {\tt guessFPT} is called to make some ``educated guesses" in an attempt to identify the $F$-pure threshold within this interval, or at least narrow down this interval to produce improved estimates.  The number of ``guesses" is controlled by the option {\tt Attempts}, which conservatively defaults to {\tt 3}.  If {\tt Attempts} is set to {\tt 0}, then {\tt guessFPT} is bypassed. If  {\tt Attempts} is set to at least {\tt 1}, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval \eqref{estimating-interval: e} is the $F$-pure threshold.  We illustrate this below.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -791,6 +793,7 @@ o15 : QQ
 
 If  {\tt Attempts} is set to at least {\tt 2} and the right-hand endpoint $(\nu+1)/p^e$ of the interval \eqref{estimating-interval: e} is not the $F$-pure threshold, then a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ of this interval is the $F$-pure threshold.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -821,6 +824,7 @@ If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more 
 First, a number in the interval is selected, according to criteria specified by the value of the option {\tt GuessStrategy}; we refer the reader for the documentation of this option for more details.
 Then the function {\tt compareFPT} is used to test that number. If that "guess" is correct, its value is returned; otherwise, the data returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -859,6 +863,7 @@ o22 : QQ
 
 The option {\tt Bounds} allows the user to specify known lower and upper bounds for the $F$-pure threshold of $f$, in order to speed up computations or to refine previously obtained estimates.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -893,6 +898,7 @@ If {\tt guessFPT} is unsuccessful and {\tt FinalAttempt} is set to {\tt true}, t
 If successful, the new lower bound may coincide with the upper bound, in which case we can conclude that it is the desired $F$-pure threshold.
 If this is not the case, an $F$-regularity check is done at the new lower bound, to verify if it is the $F$-pure threshold.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -921,6 +927,7 @@ o28 : List
 
 The computations performed when {\tt FinalAttempt} is set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, this option should be used sparingly. It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -961,6 +968,8 @@ o32 : Time
 % timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less time
 
 As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned. Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to true, the precise interval will be printed.
+
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -1015,6 +1024,7 @@ o34 : List
 
 Finally, we point out that one can set the option {\tt IsLocal} from its default value of {\tt true} to {\tt false}, to compute the $F$-pure threshold globally. In other words, it computes the minimum of the $F$-pure threshold at all maximal ideals.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -1055,6 +1065,7 @@ when the option {\tt useSpecialFunctions} for the function {\tt fpt} is set to {
 Suppose that $f$ has factorization $f_1^{a_i} f_2^{a_2} \cdots f_n^{a_n}$.  Recall that its factors $f_i$ are said to be in
 \emph{simple normal crossing} at a point if, locally, they form part of a regular system of parameters.  The function {\tt isSimpleNormalCrossings} determines whether $f$ has simple normal crossings by computing the Jacobian matrix of each subset of $\{ f_i \}_{i=1}^n$ (evaluated at the origin), and checking that these matrices have the expected rank, and that these subsets generate ideals of the appropriate height.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -1092,6 +1103,7 @@ Note that the function {\tt factor} is called whenever {\tt isSimpleNormalCrossi
 The function {\tt isSimpleNormalCrossing} is exposed to the user, so can be used independent of any $F$-pure threshold calculation.
 If the user sets its option {\tt IsLocal} to {\tt true} (its default value is {\tt false}), then the function checks whether the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower since Jacobian ideals are computed. Consider the following example illustrating this functionality.
 
+\medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
