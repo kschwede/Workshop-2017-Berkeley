@@ -643,9 +643,10 @@ o3 : List
 
 The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}.  When
 set to {\tt true} (the default value), {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order. 
-When $f$ is a monomial, say, $x_1^{a_n}\cdots x_n^{a_n}$, then its $F$-pure threshold is quickly computed as the minimum among the $1/a_i$.
-When $f$ is a a diagonal polynomial, a binomial, a form in two variables, 
-algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold (cf. \cite{ShibutaTakagiLCThresholds}).  
+
+If $f$ is a monomial, then its $F$-pure threshold is simply the minimum of the reciprocal of the exponent of each variable in $f$.
+When $f$ is a diagonal polynomial, a binomial, or a form in two variables, 
+algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.  Algorithms for computing $F$-pure thresholds of binomials also appear in \cite{ShibutaTakagiLCThresholds}, though they are only valid in certain special characteristics.
 
 {\small
 \setstretch{.67}
