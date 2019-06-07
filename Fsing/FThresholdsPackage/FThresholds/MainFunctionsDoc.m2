@@ -122,7 +122,7 @@ doc ///
     Key
         FinalAttempt
     Headline
-        an option for the function fpt to performa a final check attempting find an F-pure threshold
+        an option for the function fpt to perform a final check attempting find an F-pure threshold
     Description
         Text
             An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.
@@ -196,10 +196,7 @@ doc ///
             The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization.
             For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
         Example
-            L = {x, y, x + y, x + 3*y};
-            m = {2, 6, 9, 10};
-            fpt(L, m)
-            fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10)
+            fpt({x, y, x + y, x + 3*y}, {2, 6, 9, 10}) == o7
         Text
             When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu$ = @TO nu@{\tt (e,f)}, where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.
             At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval.
@@ -224,12 +221,11 @@ doc ///
         Example
             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
             fpt(f, DepthOfSearch => 3, Attempts => 2)
-            fpt(f, DepthOfSearch => 3, Attempts => 3) -- one more attempt improves the estimate
-            fpt(f, DepthOfSearch => 3, Attempts => 8) -- a few more and we find the answer
+            fpt(f, DepthOfSearch => 3, Attempts => 4) -- more attempts *always* improve the estimate
+            fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator) -- the exact answer, after a change of strategy
         Text
-            The useful option {\tt Bounds} allows the user to specify known lower and upper bounds for the $F$-pure threshold of $f$, in order to speed up computations or to refine previously obtained estimates. 
+            The option {\tt Bounds} allows the user to specify known lower and upper bounds for the $F$-pure threshold of $f$, in order to speed up computations or to refine previously obtained estimates. 
         Example
-            R = ZZ/5[x,y];
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
             fpt(f, DepthOfSearch => 3, Attempts => 5)
             fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
@@ -238,16 +234,16 @@ doc ///
             If successful, the new lower bound may coincide with the upper bound, in which case we can conclude that it is the desired $F$-pure threshold.
             If that is not the case, an $F$-regularity check is done at the new lower bound, to verify if it is the $F$-pure threshold.            
         Example
-            f = (x + y)^4*(x^2 + y^3)^6;
-            fpt(f, Attempts => 2, DepthOfSearch => 3)
-            fpt(f, Attempts => 2, DepthOfSearch => 3, FinalAttempt => true) -- FinalAttempt finds the fpt
+            f = -2*x^10*y^5-x^5*y^9-2*x^3*y^10+2*x^2*y^8-2*x*y^9;
+            numeric fpt(f, DepthOfSearch => 3)
+            numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true) -- FinalAttempt improves the estimate slightly
         Text
             The computations performed when {\tt FinalAttempt} is set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, this option should be used sparingly.
             It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.
         Example
-            f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
-            timing numeric fpt(f, DepthOfSearch => 2, FinalAttempt => true )
-            timing numeric fpt(f, DepthOfSearch => 2, Attempts => 5) -- a better answer in less time
+            f = -2*x^10*y^5-x^5*y^9-2*x^3*y^10+2*x^2*y^8-2*x*y^9;
+            timing numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
+            timing numeric fpt(f, DepthOfSearch => 3, Attempts => 4) -- a better answer in less time
             timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less time
         Text
             As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
