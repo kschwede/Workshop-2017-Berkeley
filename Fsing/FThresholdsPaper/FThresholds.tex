@@ -671,10 +671,10 @@ o3 : List
 \subsection{The option {\tt UseSpecialAlgorithms} for the {\tt fpt} function}
 
 The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}, which, when
-set to {\tt true} (the default value), {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order. 
+set to {\tt true} (the default value), {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order.
 
 If $f$ is a monomial, then its $F$-pure threshold is simply the minimum of the reciprocal of the exponent of each variable in $f$.
-When $f$ is a diagonal polynomial, a binomial, or a form in two variables, 
+When $f$ is a diagonal polynomial, a binomial, or a form in two variables,
 algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.  Algorithms for computing $F$-pure thresholds of binomials also appear in \cite{ShibutaTakagiLCThresholds}, though they are only valid in certain special characteristics.
 
 {\small
@@ -818,7 +818,7 @@ o18 : QQ
 }
 
 If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more than {\tt 2}, then  additional checks are performed at certain numbers within the interval.
-First, a number in the interval is selected, according to criteria specified by the value of the option {\tt GuessStrategy}; we refer the reader for the documentation of this option for more details.  
+First, a number in the interval is selected, according to criteria specified by the value of the option {\tt GuessStrategy}; we refer the reader for the documentation of this option for more details.
 Then the function {\tt compareFPT} is used to test that number. If that "guess" is correct, its value is returned; otherwise, the data returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
 
 {\small
@@ -835,7 +835,7 @@ o20 = {--, ---}
 
 o20 : List
 
-i21 : fpt(f, DepthOfSearch => 3, Attempts => 4) -- more attempts *always* 
+i21 : fpt(f, DepthOfSearch => 3, Attempts => 4) -- more attempts *always*
       improve the estimate
 
         1   4
@@ -844,7 +844,7 @@ o21 = {--, --}
 
 o21 : List
 
-i22 : fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator) 
+i22 : fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator)
       -- the exact answer, after a change of strategy
 
        1
@@ -857,7 +857,7 @@ o22 : QQ
 \medspace
 
 
-The option {\tt Bounds} allows the user to specify known lower and upper bounds for the $F$-pure threshold of $f$, in order to speed up computations or to refine previously obtained estimates.  
+The option {\tt Bounds} allows the user to specify known lower and upper bounds for the $F$-pure threshold of $f$, in order to speed up computations or to refine previously obtained estimates.
 
 {\small
 \setstretch{.67}
@@ -914,13 +914,13 @@ o28 : List
 \end{MyVerbatim}
 }
 \medspace
-  
+
 % f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
 % numeric fpt(f, DepthOfSearch => 3)
-% numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true) -- FinalAttempt improves the estimate slightly  
-            
-The computations performed when {\tt FinalAttempt} is set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, this option should be used sparingly. It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.            
-            
+% numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true) -- FinalAttempt improves the estimate slightly
+
+The computations performed when {\tt FinalAttempt} is set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, this option should be used sparingly. It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.
+
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
@@ -934,7 +934,7 @@ o30 = {.153461, .158333}
 
 o30 : Time
 
-i31 : timing numeric fpt(f, DepthOfSearch => 3, Attempts => 4) -- a better 
+i31 : timing numeric fpt(f, DepthOfSearch => 3, Attempts => 4) -- a better
       answer in less time
 
 o31 = {.153333, .158333}
@@ -942,7 +942,7 @@ o31 = {.153333, .158333}
 
 o31 : Time
 
-i32 : timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less 
+i32 : timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less
       time
 
        98
@@ -999,7 +999,7 @@ Computed F-signature secant line intercept: 449/6125 ...
 
 F-signature computation failed to find an improved lower bound ...
 
-fpt failed to find the exact answer; try increasing the value of 
+fpt failed to find the exact answer; try increasing the value of
 DepthOfSearch or Attempts.
 
 fpt lies in the interval ( 3/40, 2/25 ).
@@ -1047,12 +1047,12 @@ o4 : InfiniteNumber
 \noindent In this case, most options enabled by {\tt UseSpecialAlgorithms => true}
 are ignored except for the check for simple normal crossings.  {\tt FinalCheck => true}
 is also ignored.
-            
-\subsection{The function {\tt isSimpleNormalCrossings}} \label{subsec.SNC}
-As mentioned earlier, 
-when the option {\tt useSpecialFunctions} for the function {\tt fpt} is set to {\tt true}, if the polynomial $f$ is neither a diagonal polynomial, a binomial, or a form in two variables, there is a final check to verify whether $f$ is a product of factors in simple normal crossing. 
 
-Suppose that $f$ has factorization $f_1^{a_i} f_2^{a_2} \cdots f_n^{a_n}$.  Recall that its factors $f_i$ are said to be in 
+\subsection{The function {\tt isSimpleNormalCrossings}} \label{subsec.SNC}
+As mentioned earlier,
+when the option {\tt useSpecialFunctions} for the function {\tt fpt} is set to {\tt true}, if the polynomial $f$ is neither a diagonal polynomial, a binomial, or a form in two variables, there is a final check to verify whether $f$ is a product of factors in simple normal crossing.
+
+Suppose that $f$ has factorization $f_1^{a_i} f_2^{a_2} \cdots f_n^{a_n}$.  Recall that its factors $f_i$ are said to be in
 \emph{simple normal crossing} at a point if, locally, they form part of a regular system of parameters.  The function {\tt isSimpleNormalCrossings} determines whether $f$ has simple normal crossings by computing the Jacobian matrix of each subset of $\{ f_i \}_{i=1}^n$ (evaluated at the origin), and checking that these matrices have the expected rank, and that these subsets generate ideals of the appropriate height.
 
 {\small
@@ -1085,11 +1085,11 @@ o5 = false
 %             isSimpleNormalCrossing(x^2-y^2)
 %             isSimpleNormalCrossing(x*y*(x-y))
 %             isSimpleNormalCrossing(x^2-y*z)
-            
+
 If {\tt isSimpleNormalCrossing(f)} outputs true, then the $F$-pure threshold is easily computed, since is just the minimum of the values $1/a_i$, for $1 \leq i \leq n$.
 Note that the function {\tt factor} is called whenever {\tt isSimpleNormalCrossing} is used, which can sometimes make the verification slow.  The user can avoid this when using {\tt fpt} by setting {\tt UseSpecialAlgorithms} to {\tt false}.
 
-The function {\tt isSimpleNormalCrossing} is exposed to the user, so can be used independent of any $F$-pure threshold calculation.  
+The function {\tt isSimpleNormalCrossing} is exposed to the user, so can be used independent of any $F$-pure threshold calculation.
 If the user sets its option {\tt IsLocal} to {\tt true} (its default value is {\tt false}), then the function checks whether the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower since Jacobian ideals are computed. Consider the following example illustrating this functionality.
 
 {\small
