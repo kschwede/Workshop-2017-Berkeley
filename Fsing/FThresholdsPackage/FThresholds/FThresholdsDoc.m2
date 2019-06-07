@@ -31,7 +31,6 @@ document {
         {HREF{"https://sst.nu.edu.kz/en/zhibek-kadyrsizova/","Zhibek Kadyrsizova"}},
         {HREF{"http://www.katzman.staff.shef.ac.uk/", "Mordechai Katzman"}},
         {HREF{"https://www.hood.edu/academics/faculty/sara-malec","Sara Malec"}},
-        {"Maral Mostafazadehfard"},
         {HREF{"http://www.math.utah.edu/~robinson/", "Marcus Robinson"}}
     }
 }
