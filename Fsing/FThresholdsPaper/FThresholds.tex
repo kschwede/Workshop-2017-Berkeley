@@ -283,7 +283,7 @@ o12 = true
 
 It is well known that if $q=p^e$ for some nonnegative integer $e$, then \[ \nu_I^J(qp) = \nu_I^J(q)\cdot p + L\]  where the error term $L$ is nonnegative, and can be explicitly bounded from above in terms of $p$ and the number of generators of $I$ and $J$.  For instance, the error term $L$ is at most $p-1$ when $I$ is principal and $J$ is arbitrary.
 
-This implies that when searching for the maximal exponent defining {\tt nu(e,I,J)} for positive $e$, it is safe to start at $p$ times the output of {\tt nu(e-1,I,J)}, and one needn't search too far past this number.  This also suggests that the most efficient way to compute {\tt nu(e,I,J)} is to compute, successively, {\tt nu(s,I,J)}, for each $s = 0,\ldots,e$.  This is indeed how the computation is done in most cases.
+This implies that when searching for the maximal exponent defining {\tt nu(e,I,J)} for positive $e$, it is safe to start at $p$ times the output of {\tt nu(e-1,I,J)}, and one needn't search too far past this number.  This also suggests that the most efficient way to compute {\tt nu(e,I,J)} is to compute, successively, {\tt nu(s,I,J)}, for each integer $s = 0,\ldots,e$.  This is indeed how the computation is done in most cases.
 
 As pointed out in the introduction, if $f \in \mathfrak{m}$, the values $\nu^{\mathfrak{m}}_f(p^e)$ can be recovered from the $F$-pure threshold of $f$.
 This fact is used to speed up computations for certain polynomials whose $F$-pure thresholds can be computed quickly via specialized algorithms, namely diagonal polynomials, binomials, and forms in two variables (see Section \ref{sec.FPT}).  This feature can be disabled by setting the option {\tt UseSpecialAlgorithms} (default value {\tt true}) to {\tt false}.  Consider the following example, where $f$ is a diagonal polynomial.
@@ -1172,7 +1172,7 @@ o10 = true
 
 
 
-%\newpage
+\newpage
 \section{Future Directions}
 \label{sec.FutureDirections}
 
@@ -1182,13 +1182,15 @@ One natural candidate for improvement would be to extend functionality to better
 
 \begin{enumerate}
 \item Add more cases to {\tt UseSpecialAlgorithms}.
-\item Add the capability to compute non-local {\tt fpt} and non-local {\tt nu} via an option.
+%\item Add the capability to compute non-local {\tt fpt} and non-local {\tt nu} via an option.
 \item Write a function that will extract from this sequences $\{ \nu_f^{\idealm}(p^e) \}_{e=1}^{\infty}$ roots of Bernstein-Sato polynomials.  Especially, strata.
 
 \item Extend binary forms functions to handle more general $F$-thresholds (that is, with respect to diagonal ideals).  There is one tricky theoretical things, we don't know when this process would stop.  If we can do this, then we can compute $F$-pure thresholds of binary forms in non-standard gradings.  Cite the paper by Daniel and Pedro \cite{HernandezTeixeiraFThresholdFunctions}.
 \end{enumerate}
 
 
+
+\newpage
 \bibliographystyle{skalpha}
 \bibliography{MainBib}
 
