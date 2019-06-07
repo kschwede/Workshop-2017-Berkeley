@@ -125,7 +125,7 @@ doc ///
         an option for the function fpt to perform a final check attempting find an F-pure threshold
     Description
         Text
-            An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.
+            An option for the function @TO fpt@, specifying whether the convexity of the $F$-signature function and a secant line argument are to be used as an attempt to refine the interval containing the $F$-pure threshold, or to find its exact value.
             Takes on {\tt Boolean} values; default value is {\tt false}.
 ///
 
@@ -234,7 +234,7 @@ doc ///
             fpt(f, DepthOfSearch => 3, Attempts => 5)
             fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
         Text
-            If guessFPT is unsuccessful and {\tt FinalAttempt} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
+            If {\tt guessFPT} is unsuccessful and {\tt FinalAttempt} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
             If successful, the new lower bound may coincide with the upper bound, in which case we can conclude that it is the desired $F$-pure threshold.
             If that is not the case, an $F$-regularity check is done at the new lower bound, to verify if it is the $F$-pure threshold.            
         Example
@@ -295,38 +295,42 @@ doc ///
     Description
         Text
             In the computation of the $F$-pure threshold of a polynomial $f$, in nontrivial cases and when no special algorithm is used, the function @TO fpt@ uses @TO nu@ to find a closed interval [$A$, $B$] that contains the $F$-pure threshold of $f$.
-            The subroutine {\tt guessFPT} is then called, to first check whether one of the endpoints $B$ or $A$ is the $F$-pure threshold, and then to select rational points in the interval, and check how they are positioned with respect to the $F$-pure threshold, using the function @TO compareFPT@.
+            The subroutine {\tt guessFPT} is then called, to first check whether one of the endpoints $B$ or $A$ is the $F$-pure threshold, and then to select rational points in the interval, and check how they are positioned in relation to the $F$-pure threshold, using the function @TO compareFPT@.
             The option {\tt GuessStrategy} controls how this selection of numbers is done.
 
             We start by describing what happens when {\tt GuessStrategy} is set to {\tt null}, its default value.
-            First, a list consisting of all rational numbers in the interval ($A$, $B$) with denominator no larger than a certain fixed number is created.
-            Using the function @TO decomposeFraction@, each number $t$ in that list is written in the form $t = a/(p^b(p^c-1))$, where $p$ is the characteristic of the ring of $f$.
-            Then the list of candidates is sorted based on the following criteria:
+            First, a list consisting of all rational numbers in the interval ($A$, $B$) with denominator no larger than a certain fixed number $D$ is created ($D$ is chosen so that enough candidates are produced).
+            Using the function @TO decomposeFraction@, from the @TO TestIdeals@ package, each number $t$ in that list is written in the form $t = a$ /($p^b$ ($p^c$ -1)), where $p$ is the characteristic of the ring of $f$.
+            Then that list of candidates is sorted based on the criterion
 
-            1. Increasing "computational cost" $w_aa + w_bb + w_cc$, for certain weights $w_a$, $w_b$, and $w_c$, and refined by
+            1. Increasing "computational cost" $w_aa + w_bb + w_cc$, for certain weights $w_a$, $w_b$, and $w_c$, 
+            
+            and then refined by
 
-            2. Increasing distance from the midpoint of the interval.
+            2. Increasing distance from the midpoint of the interval ($A$, $B$).
 
-            Once this sorting is done, the first number in the list is selected, @TO compareFPT@ is called, and the result of the comparison is used to trim the list.
-            This process is iterated as many times as requested by the user, via the option {\tt Attempts}.
-
-            The default weights currently used in Criterion 1 are $w_a = 0$, $w_b = 1$, and $w_c = 1.5$.
+            Once this sorting is done, the first number in the list is selected, @TO compareFPT@ is called, and the result of that comparison is used to trim the list of candidates and narrow down the interval ($A$, $B$).
+            This process is iterated as many times as requested by the user, via the option {\tt Attempts}; if the list of candidates runs short, more are produced by increasing the maximum denominator $D$.
+             
+            The default weights currently used in Criterion 1 are $w_a =$ 0, $w_b =$ 1, and $w_c =$ 1.5.
             With these choices, we believe Criterion 1 is likely to prioritize numbers for which the computation of @TO compareFPT@ is most efficient.
             Criterion 2, on the other hand, aims at partitioning the interval as evenly as possible.
 
             The option {\tt GuessStrategy} allows the user to choose his or her own weights for Criterion 1.
-            The list is sorted based on the user's weights, and then the default weights and Criterion 2, respectively, are used as tie breakers.
-            For instance, if the user suspects that the $F$-pure threshold does not contain the characteristic $p$ in the denominator, then perhaps weights $w_a = 0$, $w_b = 1$, and $w_c = 0$ would be a reasonable choice.
-
-            GIVE EXAMPLE
-
-            The user may also pass custom functions that take either the candidate rational numbers $t$ as inputs, or pairs ($p$, $t$), where $p$ is the characteristic of the ambient ring.
-            The list of candidates is then sorted first by increasing values of that function, and Criteria 1 and 2 are, respectively, used as tie breakers.    
+            In that case, the list is sorted based on the user's weights, and then Criterion 1 with default weights and Criterion 2, respectively, are used as tie breakers.
+            For instance, if the user suspects that the (minimal) denominator of the $F$-pure threshold is prime to the characteristic $p$, then weights $w_a =$ 0, $w_b =$ 1, and $w_c =$ 0 might be a reasonable choice, to try to find that $F$-pure threshold with fewer trials.
+        Example
+            R = ZZ/7[x,y];
+            f = 2*x^10*y^10+2*x^9*y^8+2*x^7*y^10+3*x^10*y^5-3*x^2*y^8+3*x^4*y^5;
+            time fpt(f, Attempts => 5, DepthOfSearch => 3)
+            time fpt(f, Attempts => 5, DepthOfSearch => 3, GuessStrategy => {0, 1, 0})
+        Text
+            The user may also pass custom "cost" functions that take either the candidate rational numbers $t$ as inputs, or pairs ($p$, $t$), where $p$ is the characteristic of the ambient ring.
+            The list of candidates is then sorted first by increasing values of that function, and Criteria 1 and 2, respectively, are used as tie breakers.    
             For instance, if the user suspects the $F$-pure threshold has a small denominator, then passing the function {\tt denominator} may improve the accuracy of the computation (though it will likely decrease speed). 
         Example
             R = ZZ/5[x,y]; 
             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
-            fpt(f, DepthOfSearch => 3, Attempts => 7)
             time fpt(f, DepthOfSearch => 3, Attempts => 8)
             time fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator)
         Text
