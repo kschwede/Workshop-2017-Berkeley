@@ -556,12 +556,11 @@ o4 = 8
 
 The \emph{FrobeniusThresholds} package contains methods to
  test candidate values for an $F$-pure threshold, and even $F$-jumping numbers, even in some singular rings.
+ 
 Consider a  $\mathbb{Q}$-Gorenstein ring $R$ of characteristic $p>0$, whose index not divisible by $p$.
-Given a rational number $t$ and an element $f$ of $R$, the command {\tt isFPT(t,f)} outputs {\tt true} if $t$ is the $F$-pure threshold of $f$, and {\tt false} otherwise.
+Given a parameter $t \in \mathbb{Q}$ and an element $f$ of $R$, the command {\tt isFPT(t,f)} outputs {\tt true} if $t$ is the $F$-pure threshold of $f$, and {\tt false} otherwise.
 Moreover, the function {\tt compareFPT} provides further information about the relationship between $t$ and the $F$-pure threshold of $f$; namely,
-{\tt compareFPT(t, f)} returns {\tt-1} when $t < \fpt(f)$, {\tt 0} when $t = \fpt(f)$ and {\tt 1} when $t > \fpt(f)$.
-Setting the option {\tt IsLocal} to {\tt true} tells the function to consider the $F$-pure threshold at the origin.
-The following example illustrates this functionality.
+{\tt compareFPT(t, f)} returns {\tt-1} , {\tt 0}, {\tt 1} when $t$ is less than, equal to, or greater than, respectively, the $F$-pure threshold of $f$.  Setting the option {\tt IsLocal} to {\tt true} tells the function to consider the $F$-pure threshold at the origin.  The following example illustrates this functionality.
 
 {\small
 \setstretch{.67}
@@ -642,9 +641,9 @@ o3 : List
 
 The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}.  When
 set to {\tt true} (the default value), {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order. 
-When $f$ is a monomial, say, $x_1^{a_n}\cdots x_n^{a_n}$, then its $F$-pure threshold is quickly computed as the minimum among the $1/a_i$.
-When $f$ is a a diagonal polynomial, a binomial, a form in two variables, 
-algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold (cf. \cite{ShibutaTakagiLCThresholds}).  
+
+If $f = x_1^{a_n}\cdots x_n^{a_n}$, then its $F$-pure threshold is simply $\min \{ 1/a_1, \ldots, 1/a_n \}$.  When $f$ is a diagonal polynomial, a binomial, or a form in two variables, 
+algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.  We note that algorithms for computing $F$-pure thresholds of binomials in certain special characteristics appear in \cite{ShibutaTakagiLCThresholds}.
 
 {\small
 \setstretch{.67}
@@ -1091,15 +1090,24 @@ o10 = true
 \medspace
 
 
-%             R = QQ[x,y,z];
-%             f = (y - (x-1)^2)*y^2; --SNC at the origin, but not globally
-%             isSimpleNormalCrossing(f)
-%             isSimpleNormalCrossing(f, IsLocal=>false)
-%             g = (y-1)^2+(x-7)^2 --doesn't even pass through the origin
-%             isSimpleNormalCrossing(g)
-%             isSimpleNormalCrossing(g, IsLocal=>false)
-%             h = x*y^2*(x+1)^3*(y-1)^4; --SNC everywhere
-%             isSimpleNormalCrossing(h)
+%             R = QQ[x,y,z];
+
+%             f = (y - (x-1)^2)*y^2; --SNC at the origin, but not globally
+
+%             isSimpleNormalCrossing(f)
+
+%             isSimpleNormalCrossing(f, IsLocal=>false)
+
+%             g = (y-1)^2+(x-7)^2 --doesn't even pass through the origin
+
+%             isSimpleNormalCrossing(g)
+
+%             isSimpleNormalCrossing(g, IsLocal=>false)
+
+%             h = x*y^2*(x+1)^3*(y-1)^4; --SNC everywhere
+
+%             isSimpleNormalCrossing(h)
+
 %             isSimpleNormalCrossing(h, IsLocal=>false)
 
 \newpage
