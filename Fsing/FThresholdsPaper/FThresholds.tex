@@ -104,10 +104,6 @@ urlcolor=OliveGreen
 
 \maketitle
 
-% \begin{center}
-% {\large \textbf{The \emph{FrobeniusThresholds} package for \emph{Macaulay2}}}
-% \end{center}
-
 \section{Introduction}
 
 %This is for Karl
@@ -170,6 +166,7 @@ the \emph{$F$-threshold of $I$ with respect to $J$}.  These numbers are also rat
 The value $\ft^{\idealm}(I)$ is called the \emph{$F$-pure threshold of $I$}, and if $I = (f)$ is principal,  $\ft^{J}(f) := \ft^J(I)$ is called the \emph{$F$-threshold of $f$ with respect to $J$}.
 Like $F$-pure thresholds, $F$-thresholds can also be defined in terms of its test ideals.
 
+Finally, we point out that the  \emph{FrobeniusThresholds} package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper,M2}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.  In fact, both this package and \emph{TestIdeals} are derived from an older package \emph{PosChar}.
 
 \subsection*{Organization}
 
@@ -182,11 +179,9 @@ There are three main sections in this paper, which describe and illustrate the m
 \end{itemize}
 %{\color{red} Move this later}
 
-\subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors and contributors to the \emph{FrobeniusThresholds} package.
-Our package coauthors are Dan Smolkin {\color{red}(LIST MORE NAMES)}, and Zhibek Kadyrsizova, Moty Katzman {\color{red} (LIST MORE NAMES)} contributed valuable code to the package.
-%Erin Bela, Juliette Bruce, Sara Malec, Maral Mostafazadehfard, Marcus Robinson, Matthew Mastroeni
-
-The \emph{FrobeniusThresholds} package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper,M2}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.  In fact, both this package and \emph{TestIdeals} are derived from an older package \emph{PosChar}.
+\subsection*{Acknowledgements.}  First and foremost, the authors enthusiastically thank all authors and contributors to the
+\emph{FrobeniusThresholds} package.  {\color{red} (CHECK THESE NAMES)}
+Our package coauthors are Juliette Bruce and Daniel Smolkin.  Erin Bela, Zhibek Kadyrsizova, Moty Katzman, Sara Malec, and Marcus Robinson also contributed valuable code to the package.
 
 Thanks go to the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016.
 
