@@ -4,7 +4,7 @@ document {
     Key => FThresholds,
     Headline => "a package for computing F-pure thresholds and related invariants",
     EM "FThresholds", " is a package for computing ", TEX ///$F$///, "-pure thresholds,
-    ", TEX ///$F$///, "-jumping exponents, and related numerical measures of singularities in positive characteristic.",
+    ", TEX ///$F$///, "-jumping exponents, and related numerical measures of singularity in positive characteristic.",
     BR{},BR{},"The Frobenius endomorphism on a ring of prime characteristic ", TEX ///$p > 0$///,", which sends a ring element to its ", TEX ///$p$///,"-th power, is a fundamental tool in positive characteristic commutative algebra.  Kunz showed that regularity is characterized by the behavior of this map, and since then many other properties of Frobenius have been used to measure the 'severity' of singularities in commutative algebra. The ", TEX ///$F$///, "-pure threshold is a prominent
     object in this realm.", BR{},BR{},
     "This package relies heavily on the ", TO "TestIdeals", " package. Many special cases (binomials, diagonal polynomials, etc.) are", EM " seamlessly ",
@@ -20,12 +20,12 @@ document {
 	},
 	"The following example demonstrates some of the functionality of this package.",
  BR{},BR{},
-    EXAMPLE{"p = 131;","R = ZZ/p[x,y];","f = x^13 - y^5;","c = fpt(f)","compareFPT(c - 1/p^2, f)","compareFPT(c,  f)","compareFPT(c + 1/p, f)","isFJumpingExponent(36/65, f)"},
+    EXAMPLE{"p = 131;","R = ZZ/p[x,y];","f = x^13 - y^5;","c = fpt(f)","compareFPT(c - 1/p^2, f)","compareFPT(c, f)","compareFPT(c + 1/p, f)","isFJumpingExponent(36/65, f)"},
     BR{},BR{},
     BOLD "Acknowledgements:",BR{},BR{},
     "The authors would like to thank David Eisenbud, Daniel Grayson, Anurag Singh, Greg Smith, and Mike Stillman for useful conversations and comments on the development of this package.",BR{},BR{},
     BOLD "Contributors", BR{}, BR{},
-    "We sincerely thank the following people who contributed code to this package.",
+    "We sincerely thank the following people, who contributed code to this package.",
        UL {
         {HREF{"https://www.juniata.edu/academics/departments/mathematics/faculty.php", "Erin Bela"}},
         {HREF{"https://sst.nu.edu.kz/en/zhibek-kadyrsizova/","Zhibek Kadyrsizova"}},

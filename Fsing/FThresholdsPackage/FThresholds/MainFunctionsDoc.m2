@@ -234,14 +234,14 @@ doc ///
             If successful, the new lower bound may coincide with the upper bound, in which case we can conclude that it is the desired $F$-pure threshold.
             If that is not the case, an $F$-regularity check is done at the new lower bound, to verify if it is the $F$-pure threshold.            
         Example
-            f = -2*x^10*y^5-x^5*y^9-2*x^3*y^10+2*x^2*y^8-2*x*y^9;
+            f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
             numeric fpt(f, DepthOfSearch => 3)
             numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true) -- FinalAttempt improves the estimate slightly
         Text
             The computations performed when {\tt FinalAttempt} is set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, this option should be used sparingly.
             It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.
         Example
-            f = -2*x^10*y^5-x^5*y^9-2*x^3*y^10+2*x^2*y^8-2*x*y^9;
+            f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
             timing numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
             timing numeric fpt(f, DepthOfSearch => 3, Attempts => 4) -- a better answer in less time
             timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less time
@@ -296,8 +296,8 @@ doc ///
 
             We start by describing what happens when {\tt GuessStrategy} is set to {\tt null}, its default value.
             First, a list consisting of all rational numbers in the interval ($A$, $B$) with denominator no larger than a certain fixed number $D$ is created ($D$ is chosen so that enough candidates are produced).
-            Using the function @TO decomposeFraction@, from the @TO TestIdeals@ package, each number $t$ in that list is written in the form $t = a$ /($p^b$ ($p^c$ -1)), where $p$ is the characteristic of the ring of $f$.
-            Then that list of candidates is sorted based on the criterion
+            Using the function @TO decomposeFraction@, from the @TO TestIdeals@ package, each number $t$ in that list is written in the form $t = a$ /($p^b$ ($p^c$ - 1)), where $p$ is the characteristic of the ring of $f$.
+            That list of candidates is then sorted based on
 
             1. Increasing "computational cost" $w_aa + w_bb + w_cc$, for certain weights $w_a$, $w_b$, and $w_c$, 
             
@@ -306,33 +306,37 @@ doc ///
             2. Increasing distance from the midpoint of the interval ($A$, $B$).
 
             Once this sorting is done, the first number in the list is selected, @TO compareFPT@ is called, and the result of that comparison is used to trim the list of candidates and narrow down the interval ($A$, $B$).
-            This process is iterated as many times as requested by the user, via the option {\tt Attempts}; if the list of candidates runs short, more are produced by increasing the maximum denominator $D$.
+            This process is iterated as many times as requested by the user, via the option {\tt Attempts}.
+            If the supply of candidates runs low, more are produced by increasing the maximum denominator $D$.
              
             The default weights currently used in Criterion 1 are $w_a =$ 0, $w_b =$ 1, and $w_c =$ 1.5.
             With these choices, we believe Criterion 1 is likely to prioritize numbers for which the computation of @TO compareFPT@ is most efficient.
             Criterion 2, on the other hand, aims at partitioning the interval as evenly as possible.
 
-            The option {\tt GuessStrategy} allows the user to choose his or her own weights for Criterion 1.
+            The option {\tt GuessStrategy} allows the user to choose their own weights for Criterion 1.
             In that case, the list is sorted based on the user's weights, and then Criterion 1 with default weights and Criterion 2, respectively, are used as tie breakers.
             For instance, if the user suspects that the (minimal) denominator of the $F$-pure threshold is prime to the characteristic $p$, then weights $w_a =$ 0, $w_b =$ 1, and $w_c =$ 0 might be a reasonable choice, to try to find that $F$-pure threshold with fewer trials.
         Example
             R = ZZ/7[x,y];
-            f = 2*x^10*y^10+2*x^9*y^8+2*x^7*y^10+3*x^10*y^5-3*x^2*y^8+3*x^4*y^5;
+            f = 2*x^10*y^10 + 2*x^9*y^8 + 2*x^7*y^10 + 3*x^10*y^5 - 3*x^2*y^8 + 3*x^4*y^5;
             time fpt(f, Attempts => 5, DepthOfSearch => 3)
             time fpt(f, Attempts => 5, DepthOfSearch => 3, GuessStrategy => {0, 1, 0})
         Text
-            The user may also pass custom "cost" functions that take either the candidate rational numbers $t$ as inputs, or pairs ($p$, $t$), where $p$ is the characteristic of the ambient ring.
+            The user may also pass their own "cost" functions, that take either the candidate rational numbers $t$ as inputs, or pairs ($p$, $t$), where $p$ is the characteristic of the ambient ring.
             The list of candidates is then sorted first by increasing values of that function, and Criteria 1 and 2, respectively, are used as tie breakers.    
-            For instance, if the user suspects the $F$-pure threshold has a small denominator, then passing the function {\tt denominator} may improve the accuracy of the computation (though it will likely decrease speed). 
+            For instance, if the user suspects the $F$-pure threshold has a small denominator, then passing the function {\tt denominator} may help find the answer in fewer trials.
         Example
             R = ZZ/5[x,y]; 
             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
-            time fpt(f, DepthOfSearch => 3, Attempts => 8)
+            time fpt(f, DepthOfSearch => 3, Attempts => 10)
             time fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator)
         Text
             If the user suspects that the $F$-pure threshold contains a $p$ in its denominator, then a suitable function can be used to prioritize such numbers.
-            
-            GIVE EXAMPLE
+        Example
+            f = x^9*y^9 - 2*x^10*y^7 - x^5*y^7 + 2*x^4*y^8 + 2*x^5*y^6 + 2*x^8*y^2 + x^7*y^2;
+            costFunction = (p,t) -> if denominator(t) % p == 0 then 0 else 1;
+            time fpt(f, DepthOfSearch => 3, Attempts => 10)
+            time fpt(f, DepthOfSearch => 3, Attempts => 10, GuessStrategy => costFunction)
 ///
 
 doc ///
