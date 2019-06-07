@@ -482,20 +482,18 @@ binaryFormFPT ( List, List ) := QQ => opt -> ( L, m ) ->
 
 ---monomiaFPT computes the FPT of a monomial
 
-monomialFPT = method(
-    TypicalValue => QQ
-)
+monomialFPT = method( TypicalValue => QQ )
 
 monomialFPT RingElement := QQ => f -> (
-    1/max(first(exponents(f)))
-    )
+    1/(max first exponents f)
+)
 
 ---monomiaFPT computes the FPT of a SNC divisor monomial
 
 sncFPT = method(
     TypicalValue => QQ,
     Options=>{IsLocal => true}
-    )
+)
 
 sncFPT Product := QQ => o -> ff -> (
     if (o.IsLocal) then (
