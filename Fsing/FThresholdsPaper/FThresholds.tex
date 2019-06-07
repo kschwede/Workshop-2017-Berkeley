@@ -110,7 +110,8 @@ This paper describes the \emph{Macaulay2} \cite{M2} package \emph{FrobeniusThres
 
 Recall that a ring of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius map|that is, the ring endomorphism sending an element to its $p$-th power|is a pure morphism;  under natural geometric hypotheses, this is equivalent to the condition that the Frobenius morphism splits as a map of rings.
 
-The concept of $F$-purity has proven to be important in commutative algebra, and has a rich history.  Indeed, it first appeared in the work \cite{HochsterRobertsFrobeniusLocalCohomology}  of Hochster and Roberts to study local cohomology \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in  \cite{FedderFPureRat}, and was used to study global properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.
+The concept of $F$-purity has proven to be important in commutative algebra, and has a rich history.  Indeed, it first appeared in the work
+of Hochster and Roberts to study local cohomology \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in  \cite{FedderFPureRat}, and was used to study global properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.
 
 After the advent of tight closure \cite{HochsterHunekeTC1}, the usage of Frobenius to quantify singularity|that is, deviation from regularity|proliferated, and based on a connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the concept of $F$-purity was generalized to the context of \emph{pairs}.
 % $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a nonnegative real number considered a formal exponent.
@@ -439,8 +440,7 @@ o4 = 1209
 
 The option {\tt ContainmentTest} has a third possible value, {\tt FrobeniusPower}, which may produce a different result than the other two values.
 Given an ideal $I$, the first, third, and fourth authors introduced the notion of a (generalized) Frobenius power $I^{[n]}$ of $I$, when $n$ is an arbitrary positive integer, not necessarily of the form $n = p^e$ \cite{hernandez+etal.frobenius_powers}.
-When {\tt ContainmentTest} is set to {\tt FrobeniusPower}, rather than  computing $\nu_I^J(p^e)$, the function {\tt nu} computes the
-maximal integer $n$ for which $I^{[n]}$ is not contained in $J^{[p^e]}$.  This number is denoted $\mu_I^J(p^e)$ in \emph{loc.\ cit.}, and equals $\nu_I^J(p^e)$ when $I$ is replaced with a polynomial, or is a principal ideal, but need not agree in general.
+When {\tt ContainmentTest} is set to {\tt FrobeniusPower}, rather than  computing $\nu_I^J(p^e)$, the function {\tt nu} computes the maximal integer $n$ for which $I^{[n]}$ is not contained in $J^{[p^e]}$.  This number is denoted $\mu_I^J(p^e)$ in \emph{loc.\ cit.}, and equals $\nu_I^J(p^e)$ when $I$ is replaced with a polynomial, or is a principal ideal, but need not agree in general.
 For example, the two commands below give different output values.
 
 \medspace
@@ -468,16 +468,16 @@ o4 = 8
 \noindent In line with the philosophy described in the introduction, after appropriately normalizing and taking the limit as $e$ approaches infinity, the values $\mu_I^J(p^e)$ determine certain invariants of interest called \emph{critical exponents}.
 
 The last option we describe for {\tt nu} is {\tt IsLocal}.
-Notice that $\nu_I^\idealm(p^e)$ can be interpreted as the maximum integer $n>0$ for which $(I^n)^{[1/p^e]} \not\subseteq \idealm$.
-When computing its value globally, it is the maximum $n>0$ for which $(I^n)^{[1/p^e]} \neq R$, and when 
-the value of {\tt IsLocal} is set to {\tt false} (from its default {\tt true}), then {\tt nu} ignores the option {\tt ContainmentTest} and instead calculates determines this value $n$.
+Notice that $\nu_I^\idealm(p^e)$ can be interpreted as the maximum integer $n$ for which $(I^n)^{[1/p^e]}$ is not contained in $\idealm$. 
+When computing its value globally, it is the maximum integer $n$ for which $(I^n)^{[1/p^e]} \neq R$, and when 
+the value of {\tt IsLocal} is set to {\tt false} (from its default value {\tt true}), then {\tt nu} instead determines this value $n$.  Note that this value is also the minimum $\nu_I^\mathfrak{n}(p^e)$ among all maximal ideals $\mathfrak{n}$ of $R$.  
 
-
-\[
-\min_{J \in \mathfrak{m}-\Spec R} \nu_I^J(p^e)
-\]
+% 
+% \[
+% \min_{J \in \mathfrak{m}-\Spec R} \nu_I^J(p^e)
+% \]
 % This is done by instead of computing for which $n$ we have $I^{n} \subseteq J^{[p^e]}$ (or equivalently, $(I^n)^{[1/p^e]} \subseteq J$), it 
-by determining the values $n$ for which $(I^n)^{[1/p^e]}$ is a unit ideal.
+%by determining the values $n$ for which $(I^n)^{[1/p^e]}$ is a unit ideal.
 
 \medspace
 {\small
@@ -626,11 +626,11 @@ o4 = false
 }
 \medspace
 
-The general method applied calls upon functionality from the \emph{TestIdeals} package \cite{TestIdealsPackage, TestIdealsPaper}.  The functions {\tt testIdeal} and {\tt FPureModule} therein are used
+The general method applied calls upon functionality from the \emph{TestIdeals} package.  The functions {\tt testIdeal} and {\tt FPureModule} therein are used
 to compute the test ideals of $f$ with respect to the parameter $t$, and that with respect to $t - \varepsilon$, for $\varepsilon>0$ very small. For instance, as noted in the introduction, when $R$ is a polynomial ring, $t$ is the $F$-pure threshold of $f$ if and only if $\tau(R, f^t)$ is contained in the homogeneous maximal ideal, but
 $\tau(R, f^{t-\varepsilon})$ is not.
-(Note that for $R$ strongly $F$-regular and Gorenstein, {\tt FPureModule(t, f)} precisely computes $\tau(R, f^{t-\varepsilon})$.)
-%These commands work more generally, but they \emph{only} currently work when $R$ is $\bQ$-Gorenstein, with index not divisible by $p$.
+Note that for $R$ strongly $F$-regular and Gorenstein, {\tt FPureModule(t, f)} precisely computes $\tau(R, f^{t-\varepsilon})$.
+
 
 Since not only the $F$-pure thresholds, but also the higher $F$-jumping numbers, are determined by containment conditions on test ideals, the functionality is extended to determine whether a given number is an $F$-jumping number.
 Analogous syntax is used, as shown in the following example.
