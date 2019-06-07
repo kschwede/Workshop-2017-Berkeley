@@ -285,7 +285,7 @@ fSig := ( f, a, e ) ->
 )
 
 -- some constants associated with guessFPT
-numExtraCandidates := 30;
+numExtraCandidates := 40;
 minNumCandidates := 6;
 -- The default number of "random" checks to be performed
 attemptsDefault := 3;
@@ -414,18 +414,19 @@ fpt RingElement := o -> f ->
     if o.UseSpecialAlgorithms then
     (
         if o.Verbose then print "\nVerifying if special algorithms apply...";
-        if o.IsLocal and isDiagonal f then
-        (
-            if o.Verbose then
-            print "\nPolynomial is diagonal; calling diagonalFPT ...";
-            return diagonalFPT f
-        );
         if o.IsLocal and isMonomial f then
         (
             if o.Verbose then
             print "\nPolynomial is monomial; calling monomialFPT ...";
             return monomialFPT(f);
         );
+        if o.IsLocal and isDiagonal f then
+        (
+            if o.Verbose then
+                print "\nPolynomial is diagonal; calling diagonalFPT ...";
+                return diagonalFPT f
+                );
+
         if o.IsLocal and isBinomial f then
         (
             if o.Verbose then

@@ -9,10 +9,12 @@ doc ///
        determines whether a polynomial is a product of factors that are in simple normal crossing
     Usage
         isSimpleNormalCrossing(f)
-        isSimpleNormalCrossing(p)
+        isSimpleNormalCrossing(P)
     Inputs
         f:RingElement
             in a ring
+        P:Product
+            a product {\tt P} of ring elements 
         IsLocal => Boolean
             tells the function whether to only consider the behavior at the origin
         Verbose => Boolean
