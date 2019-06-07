@@ -427,7 +427,7 @@ FUNCTION {format.authors.bysame}
 FUNCTION {format.editors}
 { editor empty$
     { "" }
-    { editor format.names "a" change.case$ scize 
+    { editor format.names "a" change.case$ scize
       editor num.names$ #1 >
 	{ " (eds.)" * }
 	{ " (ed.)" * }
@@ -1192,7 +1192,7 @@ FUNCTION {calc.label}
   duplicate$
   year field.or.null purify$ #-1 #2 substring$
   *
-  'label := 
+  'label :=
   year field.or.null purify$ #-1 #4 substring$
   *
   sortify 'sort.label :=
@@ -1296,7 +1296,7 @@ FUNCTION {editor.organization.sort}
 }
 
 FUNCTION {presort}
-{ 
+{
   sort.label
   calc.label
   "    "
@@ -1448,5 +1448,3 @@ EXECUTE {end.bib}
 %%   Right bracket \]     Circumflex    \^     Underscore    \_
 %%   Grave accent  \`     Left brace    \{     Vertical bar  \|
 %%   Right brace   \}     Tilde         \~}
-
-
