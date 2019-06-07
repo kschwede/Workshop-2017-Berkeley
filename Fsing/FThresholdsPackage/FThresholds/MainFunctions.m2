@@ -397,15 +397,15 @@ fpt RingElement := o -> f ->
 	if o.Verbose then print "\nVerifying if special algorithms apply...";
 	if isDiagonal f then
 	(
-	    if o.Verbose then
-	        print "\nPolynomial is diagonal; calling diagonalFPT ...";
-            return diagonalFPT f
-        );
         if isMonomial f then
         (
             if o.Verbose then
             print "\nPolynomial is monomial; calling monomialFPT ...";
             return monomialFPT(f);
+        );
+	    if o.Verbose then
+	        print "\nPolynomial is diagonal; calling diagonalFPT ...";
+            return diagonalFPT f
         );
         if isBinomial f then
         (

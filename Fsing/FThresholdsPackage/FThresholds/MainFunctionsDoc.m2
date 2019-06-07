@@ -185,13 +185,17 @@ doc ///
              fpt(x^3 + y^3 + z^3 + x*y*z)
              fpt(x^5 + y^6 + z^7 + (x*y*z)^3)
         Text
-             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is diagonal polynomial, a monomial, a binomial, a form in two variables, or in simple normal crossing,  respectively.
-             If it sits in any of the first three cases, algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.  If it is in simple normal crossing, the $F$-pure threshold is easily computed. 
+             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or in simple normal crossing,  respectively.
+             If $f$ is a monomial, its $F$-pure threshold is easily computed.   
+             If it is either a a diagonal polynomial, a binomial, or a form in two variables, then algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.  If it is in simple normal crossing, the $F$-pure threshold is easily computed. 
+            Finally, if $f$ is none of the first four possibilities, the function @TO isSimpleNormalCrossing@ is called to check whether its factors are in simple normal crossing, in which case its $F$-pure threshold is found via a simple computation. 
         Example
+            fpt(x^3*y^4*z^5)
             fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
             fpt(x^2*y^6*z^10 + x^10*y^5*z^3) -- a binomial
             ZZ/5[x,y];
             fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a binary form
+
         Text
             The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization.
             For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
