@@ -51,7 +51,7 @@ doc ///
             namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold of {\tt f}.
     Description
         Text
-            Let $f$ be an element of a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not a divisor of $p$.
+            Let $f$ be an element of a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p$, whose index is not a divisor of $p$.
             Given a rational number $t$, the command {\tt compareFPT(t, f)} returns {\tt -1} if $t$ is less than the $F$-pure threshold of $f$, {\tt 1} if $t$ is greater than the $F$-pure threshold $f$, or {\tt 0} if $t$ equals the $F$-pure threshold.
         Example
             R = ZZ/7[x,y];
@@ -69,8 +69,8 @@ doc ///
              compareFPT(1/2, f)
              compareFPT(13/25, f)
         Text
-           Consider a Veronese subring (which is étale in codimension $1$),
-            so the fpt of the given polynomial (in this case $19/125$) should be independent of which ring we are in.
+           Consider a Veronese subring (which is étale in codimension 1),
+            so the $F$-pure threshold of the given polynomial (in this case 19/125) should be independent of which ring we are in.
         Example
             T = ZZ/5[a,b];
             S = ZZ/5[x,y,z,w];
@@ -88,16 +88,16 @@ doc ///
             R = ZZ/7[x,y];
             f = (x + 1)^3 - (y + 3)^2;
             compareFPT(5/6, f)
-            compareFPT(5/6, f, IsLocal=>true)
+            compareFPT(5/6, f, IsLocal => true)
         Text
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
-            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
+            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package.
-            The two values for {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
+            The two valid values for {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
 
             Setting the option {\tt Verbose} (default value {\tt false}) to {\tt true} produces verbose output.
     SeeAlso
@@ -165,7 +165,7 @@ doc ///
         GuessStrategy => Function
             specifies a function to be used to rank numbers to be tested
         GuessStrategy => List
-            specifies weights to be used rank numbers to be tested
+            specifies weights to be used to rank numbers to be tested
         IsLocal => Boolean
             specifies whether to compute the local $F$-pure threshold or the global $F$-pure threshold
         UseSpecialAlgorithms => Boolean
@@ -423,7 +423,7 @@ doc ///
             isFJumpingExponent(5/6, f)
             isFJumpingExponent(11/12, f)
         Text
-            The ring $R$ below is singular, and the jumping numbers of $f$ in the open unit interval are $1/4$, $1/2$ and $3/4$.
+            The ring $R$ below is singular, and the jumping numbers of $f$ in the open unit interval are 1/4, 1/2 and 3/4.
         Example
             R = ZZ/11[x,y,z]/(x*y - z^2);
             f = x^2;
@@ -445,7 +445,7 @@ doc ///
             We assume that the ring is a domain by default in order to speed up the computation.
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
-            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
+            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package.
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
@@ -520,7 +520,7 @@ doc ///
             We assume that the ring is a domain by default in order to speed up the computation.
 
             If the Gorenstein index of $R$ is known, the user should set the option {\tt QGorensteinIndex} to this value.
-            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between $1$ and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
+            Otherwise, the function attempts to find the Gorenstein index of $R$, assuming it is between 1 and the value passed to the option {\tt MaxCartierIndex} (default value {\tt 10}).
 
             The option {\tt FrobeniusRootStrategy} is passed to internal calls of functions from the @TO TestIdeals@ package.
             The two valid values of {\tt FrobeniusRootStrategy} are {\tt Substitution} and {\tt MonomialBasis}.
