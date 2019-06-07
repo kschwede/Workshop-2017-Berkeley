@@ -34,8 +34,8 @@ export{
     "Bounds",
     "compareFPT",
     "ContainmentTest",
+    "FinalAttempt",
     "fpt",
-    "FRegularityCheck",
     "FrobeniusPower",
     "FrobeniusRoot",
     "GuessStrategy",
@@ -45,7 +45,6 @@ export{
     "ReturnList",
     "Search",
     "StandardPower",
-    "UseFSignature",
     "isSimpleNormalCrossing",
     "UseSpecialAlgorithms"
 }

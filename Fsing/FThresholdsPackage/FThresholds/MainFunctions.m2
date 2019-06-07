@@ -270,7 +270,7 @@ fSig := ( f, a, e ) ->
 )
 
 -- some constants associated with guessFPT
-numExtraCandidates := 20;
+numExtraCandidates := 30;
 minNumCandidates := 6;
 -- The default number of "random" checks to be performed
 attemptsDefault := 3;
@@ -334,17 +334,14 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
 
 -- F-pure threshold estimation, at the origin.
 -- e is the max depth to search in.
--- FRegularityCheck is whether the last isFRegularPoly is run
---   (which can take a significant amount of time).
 fpt = method(
     Options =>
         {
 	    Attempts => attemptsDefault,
             Bounds => { 0, 1 },
 	    DepthOfSearch => 1,
-	    FRegularityCheck => false,
+	    FinalAttempt => false,
             GuessStrategy => null,
-	    UseFSignature => false,
 	    UseSpecialAlgorithms => true,
 	    Verbose => false
 	}
@@ -361,9 +358,8 @@ fpt RingElement := o -> f ->
 	    Attempts => ( k -> instance(k, ZZ) and k >= 0 ),
             Bounds => ( k -> instance(k, List) and #k == 2 ),
 	    DepthOfSearch => ( k -> instance(k, ZZ) and k > 0 ),
-	    FRegularityCheck => Boolean,
+	    FinalAttempt => Boolean,
             GuessStrategy => ( k -> (instance(k, List) and #k == 3) or instance(k, Function) or k === null ),
-	    UseFSignature => Boolean,
 	    UseSpecialAlgorithms => Boolean,
 	    Verbose => Boolean
 	}
@@ -476,7 +472,7 @@ fpt RingElement := o -> f ->
     ---------------------------------------
     -- F-SIGNATURE INTERCEPT COMPUTATION --
     ---------------------------------------
-    if o.UseFSignature then
+    if o.FinalAttempt then
     (
         if o.Verbose then print "\nBeginning F-signature computation ...";
         s1 := fSig( f, n-1, e );
@@ -500,32 +496,27 @@ fpt RingElement := o -> f ->
 	if LB < int then
         (
 	    if o.Verbose then
-	        print "\nF-signature intercept is an improved lower bound ...";
+	        print "\nF-signature intercept is an improved lower bound;\nUsing F-regularity to check if it is the fpt ...";
 	    LB = int;
-	    strictLB = false;
+            if not isFRegular( LB, f, IsLocal => true, AssumeDomain => true ) then
+            (
+	       if o.Verbose then
+	           print "\nFinal check successful; fpt is the lower bound.";
+	       return LB
+      	    )
+	    else
+	    (
+	        if o.Verbose then print "\nThe new lower bound is not the fpt ...";
+	        strictLB = true
+	    )
         )
         else if o.Verbose then
             print "\nF-signature computation failed to find an improved lower bound ...";
     );
 
-    ------------------------------
-    -- FINAL F-REGULARITY CHECK --
-    ------------------------------
-    if o.FRegularityCheck and not strictLB then
-    (
-	if o.Verbose then print "\nStarting final check ...";
-        if not isFRegular( LB, f, IsLocal => true, AssumeDomain => true ) then
-        (
-	   if o.Verbose then
-	       print "\nFinal check successful; fpt is the lower bound.";
-	   return LB
-      	)
-	else
-	(
-	    if o.Verbose then print "\nFRegularityCheck did not find the fpt ...";
-	    strictLB = true
-	)
-    );
+    -----------------
+    -- WRAPPING UP --
+    -----------------
     if o.Verbose then
     (
 	print "\nfpt failed to find the exact answer; try increasing the value of DepthOfSearch or Attempts.";
@@ -742,7 +733,7 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         print concatenate("compareFPT: testIdeal(f^(t-epsilon)) = ", toString( (computedHSLG* R1 ) : newDenom ));
     if isProper( ((computedHSLG * R1 ) : newDenom ) + locMax) then return 1;
     --the fpt we picked is too big
-    return 0;
+    0
     --it is the FPT!
 )
 

@@ -13,7 +13,6 @@ doc ///
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
             fpt(f, DepthOfSearch => 3, Attempts => 5)
             fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
-            fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
 ///
 
 doc ///
@@ -121,15 +120,25 @@ doc ///
 
 doc ///
     Key
+        FinalAttempt
+    Headline
+        an option for the function fpt to performa a final check attempting find an F-pure threshold
+    Description
+        Text
+            An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.
+            Takes on {\tt Boolean} values; default value is {\tt false}.
+///
+
+doc ///
+    Key
         fpt
         (fpt, RingElement)
         (fpt, List, List)
         [fpt, Attempts]
         [fpt, Bounds]
         [fpt, DepthOfSearch]
-        [fpt, FRegularityCheck]
+        [fpt, FinalAttempt]
         [fpt, GuessStrategy]
-        [fpt, UseFSignature]
         [fpt, UseSpecialAlgorithms]
         [fpt, Verbose]
     Headline
@@ -150,14 +159,12 @@ doc ///
             consisting of two numbers, known to be lower and upper bounds, respectively, of the $F$-pure threshold of {\tt f}
         DepthOfSearch => ZZ
             specifies the power of the characteristic to be used in a search for the $F$-pure threshold
-        FRegularityCheck => Boolean
-            specifies whether to check if the final lower bound is the $F$-pure threshold of {\tt f}
+        FinalAttempt => Boolean
+            specifies whether to use the $F$-signature function and a secant line argument to attempt to improve the $F$-pure threshold estimate
         GuessStrategy => Function
             specifies a function to be used to rank numbers to be tested
         GuessStrategy => List
             specifies weights to be used rank numbers to be tested
-        UseFSignature => Boolean
-            specifies whether to use the $F$-signature function and a secant line argument to attempt to improve the $F$-pure threshold estimate
         UseSpecialAlgorithms => Boolean
             specifies whether to check if {\tt f} is a diagonal polynomial, monomial, binomial, a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), or a simple normal crossing, and then apply appropriate algorithms
         Verbose => Boolean
@@ -226,26 +233,20 @@ doc ///
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
             fpt(f, DepthOfSearch => 3, Attempts => 5)
             fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
-            fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
         Text
-            If guessFPT is unsuccessful and {\tt UseFSignature} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
-        Example
-            f = x^5*y^6*(x + y)^9*(x^2 + y^3)^4;
-            numeric fpt(f, DepthOfSearch => 3)
-            numeric fpt(f, DepthOfSearch => 3, UseFSignature => true) -- a slightly sharper estimate
-        Text
-            When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run to verify whether the final lower bound for the $F$-pure threshold is the exact answer, if that check has not yet been performed.
+            If guessFPT is unsuccessful and {\tt FinalAttempt} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
+            If successful, the new lower bound may coincide with the upper bound, in which case we can conclude that it is the desired $F$-pure threshold.
+            If that is not the case, an $F$-regularity check is done at the new lower bound, to verify if it is the $F$-pure threshold.            
         Example
             f = (x + y)^4*(x^2 + y^3)^6;
             fpt(f, Attempts => 2, DepthOfSearch => 3)
-            fpt(f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true) -- UseFSignature improves the estimate
-            fpt(f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true, FRegularityCheck => true) -- FRegularityCheck nails it
+            fpt(f, Attempts => 2, DepthOfSearch => 3, FinalAttempt => true) -- FinalAttempt finds the fpt
         Text
-            The computations performed when {\tt UseFSignature} and {\tt FRegularityCheck} are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
+            The computations performed when {\tt FinalAttempt} is set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, this option should be used sparingly.
             It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.
         Example
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
-            timing numeric fpt(f, DepthOfSearch => 2, UseFSignature => true, FRegularityCheck => true)
+            timing numeric fpt(f, DepthOfSearch => 2, FinalAttempt => true )
             timing numeric fpt(f, DepthOfSearch => 2, Attempts => 5) -- a better answer in less time
             timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less time
         Text
@@ -253,22 +254,11 @@ doc ///
             Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
         Example
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
-            fpt(f, DepthOfSearch => 3, UseFSignature => true, Verbose => true)
+            fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
     SeeAlso
         compareFPT
         isFPT
         nu
-///
-
-doc ///
-    Key
-        FRegularityCheck
-    Headline
-        an option for the function fpt to use an F-regularity check as a final attempt to find an F-pure threshold
-    Description
-        Text
-            An option for the function @TO fpt@ specifying that, in a situation where the exact value of the $F$-pure threshold has not been not found, a final check be run to determine whether the final lower bound for the $F$-pure threshold equals the $F$-pure threshold.
-            Takes on {\tt Boolean} values; default value is {\tt false}.
 ///
 
 doc ///
@@ -669,17 +659,6 @@ doc ///
     SeeAlso
         ContainmentTest
         nu
-///
-
-doc ///
-    Key
-        UseFSignature
-    Headline
-        an option for the function fpt to use the F-signature function in the search for an F-pure threshold
-    Description
-        Text
-            An option for the function @TO fpt@ specifying whether the convexity of the $F$-signature function, and a secant line argument, are used to attempt to refine the interval containing the $F$-pure threshold.
-            Takes on {\tt Boolean} values; default value is {\tt false}.
 ///
 
 doc ///
