@@ -639,13 +639,14 @@ o3 : List
 }
 \medspace
 
-\subsection*{The option {\tt UseSpecialAlgorithms} for the {\tt fpt} function}
+\subsection{The option {\tt UseSpecialAlgorithms} for the {\tt fpt} function}
 
 The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}.  When
 set to {\tt true} (the default value), {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order. 
-When $f$ is a monomial, say, $x_1^{a_n}\cdots x_n^{a_n}$, then its $F$-pure threshold is quickly computed as the minimum among the $1/a_i$.
-When $f$ is a a diagonal polynomial, a binomial, a form in two variables, 
-algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold (cf. \cite{ShibutaTakagiLCThresholds}).  
+
+If $f$ is a monomial, then its $F$-pure threshold is simply the minimum of the reciprocal of the exponent of each variable in $f$.
+When $f$ is a diagonal polynomial, a binomial, or a form in two variables, 
+algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.  Algorithms for computing $F$-pure thresholds of binomials also appear in \cite{ShibutaTakagiLCThresholds}, though they are only valid in certain special characteristics.
 
 {\small
 \setstretch{.67}
@@ -704,18 +705,17 @@ o11 = true
 }
 \medspace
 
-If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into any of the four forementioned cases, then the function {\tt fpt} next calls {\tt isSimpleNormalCrossing(f)} to check whether the polynomial $f$ is a product of factors that are in simple normal crossing.  If this command returns {\tt true}, the $F$-pure threshold can easily be computed, and {\tt fpt} returns this value.  For more detail on the function {\tt isSimpleNormalCrossing} and on computing the $F$-pure threshold of a polynomial with simple normal crossings, please see the end of this section.
+If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into any of the four forementioned cases, then the function {\tt fpt} next calls {\tt isSimpleNormalCrossing(f)} to check whether the polynomial $f$ is a product of factors that are in simple normal crossing.  If this command returns {\tt true}, the $F$-pure threshold can easily be computed, and {\tt fpt} returns this value.  For more detail on the function {\tt isSimpleNormalCrossing} and on computing the $F$-pure threshold of a polynomial with simple normal crossings, please see Section \ref{subsec.SNC}.
 
 
-\subsection*{The {\tt fpt} function when no special algorithm applies}
+\subsection{How {\tt fpt} proceeds when no special algorithm applies}
+
+In the remainder of this section, we explain how the {\tt fpt} function proceeds when no special algorithm is available, or when {\tt UseSpecialAlgorithms} is set to {\tt false}, and describe the roles of the options {\tt DepthOfSearch} and {\tt Attempts}, whose values are both nonnegative integers.
+
+In this case, the {\tt fpt} function either computes, and outputs, the exact value of the $F$-pure threshold of $f$, or otherwise recursively computes a finite sequence of lower and upper bounds for this value, and outputs the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.
 
 
-In the remainder of this section, we describe the {\tt fpt} function when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false},  as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.
-
-In this case, very roughly speaking, the {\tt fpt} function will either compute, and output, the exact value of the $F$-pure threshold of $f$, and otherwise recursively compute a finite sequence of lower and upper bounds for this value, and output the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.
-
-
-In more detail, let $e$ denote the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval
+More specifically, let $e$ denote the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval
 %
 \begin{equation}
 \label{estimating-interval: e}
@@ -1003,7 +1003,7 @@ o36 : List
 }
 \medspace
 
-\subsection*{The function {\tt isSimpleNormalCrossings}}
+\subsection{The function {\tt isSimpleNormalCrossings}} \label{subsec.SNC}
 As mentioned earlier, 
 when the option {\tt useSpecialFunctions} for the function {\tt fpt} is set to {\tt true}, if the polynomial $f$ is neither a diagonal polynomial, a binomial, or a form in two variables, there is a final check to verify whether $f$ is a product of factors in simple normal crossing. 
 
