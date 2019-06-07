@@ -641,7 +641,7 @@ o3 : List
 
 \subsection{The option {\tt UseSpecialAlgorithms} for the {\tt fpt} function}
 
-The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}.  When
+The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}, which, when
 set to {\tt true} (the default value), {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order. 
 
 If $f$ is a monomial, then its $F$-pure threshold is simply the minimum of the reciprocal of the exponent of each variable in $f$.
@@ -698,7 +698,7 @@ i9 : L = {x, y, x + y, x + 3*y};
 
 i10 : m = {2, 6, 9, 10};
 
-i11 : fpt(L, m) == o7
+i11 : fpt(L, m) == o8
 
 o11 = true
 \end{MyVerbatim}
@@ -710,7 +710,7 @@ If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into an
 
 \subsection{How {\tt fpt} proceeds when no special algorithm applies}
 
-In the remainder of this section, we explain how the {\tt fpt} function proceeds when no special algorithm is available, or when {\tt UseSpecialAlgorithms} is set to {\tt false}, and describe the roles of the options {\tt DepthOfSearch} and {\tt Attempts}, whose values are both nonnegative integers.
+In the remainder of this section, we explain how the function  {\tt fpt} proceeds when no special algorithm is available, or when {\tt UseSpecialAlgorithms} is set to {\tt false}, and describe the roles of the options {\tt DepthOfSearch} and {\tt Attempts}, whose values are both nonnegative integers.
 
 In this case, the {\tt fpt} function either computes, and outputs, the exact value of the $F$-pure threshold of $f$, or otherwise recursively computes a finite sequence of lower and upper bounds for this value, and outputs the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.
 
@@ -729,33 +729,33 @@ With these estimates in hand, the subroutine {\tt guessFPT} is called to make so
 \setstretch{.67}
 \begin{MyVerbatim}
 
-i11 : f = x^2*(x + y)^3*(x + 3*y^2)^5;
+i12 : f = x^2*(x + y)^3*(x + 3*y^2)^5;
 
-i12 : fpt(f, Attempts => 0) -- a bad estimate
+i13 : fpt(f, Attempts => 0) -- a bad estimate
 
           1
-o12 = {0, -}
+o13 = {0, -}
           5
-
-o12 : List
-
-i13 : fpt(f, Attempts => 0, DepthOfSearch => 3) -- a better estimate
-
-        21   22
-o13 = {---, ---}
-       124  125
 
 o13 : List
 
-i14 : fpt(f, Attempts => 1, DepthOfSearch => 3) -- the right-hand
+i14 : fpt(f, Attempts => 0, DepthOfSearch => 3) -- a better estimate
+
+        21   22
+o14 = {---, ---}
+       124  125
+
+o14 : List
+
+i15 : fpt(f, Attempts => 1, DepthOfSearch => 3) -- the right-hand
 
       endpoint (nu+1)/p^e is the F-pure threshold
 
        22
-o14 = ---
+o15 = ---
       125
 
-o14 : QQ
+o15 : QQ
 
 \end{MyVerbatim}
 }
@@ -766,66 +766,63 @@ If  {\tt Attempts} is set to at least {\tt 2} and the right-hand endpoint $(\nu+
 \setstretch{.67}
 \begin{MyVerbatim}
 
-i15 : f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
+i16 : f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
 
-i16 : fpt(f, Attempts => 1, DepthOfSearch => 3)
+i17 : fpt(f, Attempts => 1, DepthOfSearch => 3)
 
        17   7
-o16 = {--, --}
+o17 = {--, --}
        62  25
 
-o16 : List
+o17 : List
 
-i17 : fpt(f, Attempts => 2, DepthOfSearch => 3) -- the left-hand endpoint
-
+i18 : fpt(f, Attempts => 2, DepthOfSearch => 3) -- the left-hand endpoint
       nu/(p^e-1) is the F-pure threshold
 
       17
-o17 = --
+o18 = --
       62
 
-o17 : QQ
+o18 : QQ
 
 \end{MyVerbatim}
 }
 
-If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more than {\tt 2}, then  additional checks are performed at certain numbers within the interval, chosen according to the criteria determined by the value of the option {\tt GuessStrategy}.  We refer the reader for the documentation of this strategy for more details.
-
-{\color{red}  This will need to be updated.  Maybe look at Pedro's new documentation.}
+If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more than {\tt 2}, then  additional checks are performed at certain numbers within the interval.
+First, a number in the interval is selected, according to criteria specified by the value of the option {\tt GuessStrategy}; we refer the reader for the documentation of this option for more details.  
+Then the function {\tt compareFPT} is used to test that number. If that "guess" is correct, its value is returned; otherwise, the data returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
 
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
 
-i18 : f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
+i19 : f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
 
-i19 : fpt(f, DepthOfSearch => 3, Attempts => 2)
+i20 : fpt(f, DepthOfSearch => 3, Attempts => 2)
 
         3   7
-o19 = {--, ---}
+o20 = {--, ---}
        62  125
-
-o19 : List
-
-i20 : fpt(f, DepthOfSearch => 3, Attempts => 3) -- an additional check
-
-      sharpens the estimate
-
-        3   1
-o20 = {--, --}
-       62  18
 
 o20 : List
 
-i21 : fpt(f, DepthOfSearch => 3, Attempts => 4) -- and one more finds
+i21 : fpt(f, DepthOfSearch => 3, Attempts => 4) -- more attempts *always* 
+      improve the estimate
 
-      the answer
+        1   4
+o21 = {--, --}
+       20  75
+
+o21 : List
+
+i22 : fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator) 
+      -- the exact answer, after a change of strategy
 
        1
-o21 = --
+o22 = --
       19
 
-o21 : QQ
+o22 : QQ
 \end{MyVerbatim}
 }
 \medspace
