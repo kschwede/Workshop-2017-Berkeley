@@ -678,7 +678,7 @@ o3 : List
 }
 \medspace
 
-\subsection{The option {\tt UseSpecialAlgorithms} for the {\tt fpt} function}
+\subsection{The option {\tt UseSpecialAlgorithms}}
 
 The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}, which, when set to {\tt true} (its default value), tells {\tt fpt} to first check whether $f$ is a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order.
 
@@ -734,10 +734,10 @@ o8 = true
 }
 \medspace
 
-If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into any of the four forementioned cases, then the function {\tt fpt} next calls {\tt isSimpleNormalCrossing(f)} to check whether the polynomial $f$ is a product of factors that are in simple normal crossing.  If this command returns {\tt true}, the $F$-pure threshold can easily be computed, and {\tt fpt} returns this value.  For more detail on the function {\tt isSimpleNormalCrossing} and on computing the $F$-pure threshold of a polynomial with simple normal crossings, please see Section \ref{subsec.SNC}.
+If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into any of the aforementioned cases, then the function {\tt fpt} next calls {\tt isSimpleNormalCrossing(f)} to check whether the polynomial $f$ is a product of factors that are in simple normal crossing, in which case the $F$-pure threshold can easily be computed.
+For more detail on the function {\tt isSimpleNormalCrossing} and on computing the $F$-pure threshold of a polynomial with simple normal crossings, please see Section \ref{subsec.SNC}.
 
-
-\subsection{How {\tt fpt} proceeds when no special algorithm applies}
+\subsection{When no special algorithm applies}
 
 In the remainder of this section, we explain how the function  {\tt fpt} proceeds when no special algorithm is available, or when {\tt UseSpecialAlgorithms} is set to {\tt false}, and describe the roles of the options {\tt DepthOfSearch} and {\tt Attempts}, whose values are both nonnegative integers.
 
@@ -821,7 +821,7 @@ o18 : QQ
 
 If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more than {\tt 2}, then  additional checks are performed at certain numbers within the interval.
 First, a number in the interval is selected, according to criteria specified by the value of the option {\tt GuessStrategy}; we refer the reader for the documentation of this option for more details.
-Then the function {\tt compareFPT} is used to test that number. If that "guess" is correct, its value is returned; otherwise, the data returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
+Then the function {\tt compareFPT} is used to test that number. If that ``guess'' is correct, its value is returned; otherwise, the data returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
 
 \medspace
 {\small
@@ -1058,9 +1058,7 @@ are ignored except for the check for simple normal crossings.  {\tt FinalCheck =
 is also ignored.
 
 \subsection{The function {\tt isSimpleNormalCrossings}} \label{subsec.SNC}
-As mentioned earlier,
-when the option {\tt useSpecialFunctions} for the function {\tt fpt} is set to {\tt true}, if the polynomial $f$ is neither a diagonal polynomial, a binomial, or a form in two variables, there is a final check to verify whether $f$ is a product of factors in simple normal crossing.
-
+As mentioned earlier, the function {\tt isSimpleNormalCrossings} verifies whether $f$ is a product of factors in simple normal crossing.
 Suppose that $f$ has factorization $f_1^{a_i} f_2^{a_2} \cdots f_n^{a_n}$.  Recall that its factors $f_i$ are said to be in
 \emph{simple normal crossing} at a point if, locally, they form part of a regular system of parameters.  The function {\tt isSimpleNormalCrossings} determines whether $f$ has simple normal crossings by computing the Jacobian matrix of each subset of $\{ f_i \}_{i=1}^n$ (evaluated at the origin), and checking that these matrices have the expected rank, and that these subsets generate ideals of the appropriate height.
 
