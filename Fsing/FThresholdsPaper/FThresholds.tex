@@ -467,7 +467,7 @@ o4 = 8
 \medspace
 \noindent In line with the philosophy described in the introduction, after appropriately normalizing and taking the limit as $e$ approaches infinity, the values $\mu_I^J(p^e)$ determine certain invariants of interest called \emph{critical exponents}.
 
-The last option we describe for {\tt nu} is {\tt IsLocal}.  When {\tt IsLocal => false} (the default is {\tt true}), then {\tt nu} ignores the option {\tt ContainmentTest} and the input ideal {\tt I}, and instead computes
+The last option we describe for {\tt nu} is {\tt IsLocal}.  When the value of {\tt IsLocal} is set to false (the default is {\tt true}), then {\tt nu} ignores the option {\tt ContainmentTest} and the input ideal {\tt I}, and instead computes
 \[
 \min_{J \in \mathfrak{m}-\Spec R} (\nu_I^J(p^e))
 \]
@@ -599,7 +599,7 @@ The \emph{FrobeniusThresholds} package contains methods to
 Consider a  $\mathbb{Q}$-Gorenstein ring $R$ of characteristic $p>0$, whose index not divisible by $p$.
 Given a parameter $t \in \mathbb{Q}$ and an element $f$ of $R$, the command {\tt isFPT(t,f)} outputs {\tt true} if $t$ is the $F$-pure threshold of $f$, and {\tt false} otherwise.
 Moreover, the function {\tt compareFPT} provides further information about the relationship between $t$ and the $F$-pure threshold of $f$; namely,
-{\tt compareFPT(t, f)} returns {\tt-1} , {\tt 0}, {\tt 1} when $t$ is less than, equal to, or greater than, respectively, the $F$-pure threshold of $f$.  Setting the option {\tt IsLocal} to {\tt true} tells the function to consider the $F$-pure threshold at the origin.  The following example illustrates this functionality.
+{\tt compareFPT(t, f)} returns {\tt-1}, {\tt 0}, or {\tt 1} when $t$ is less than, equal to, or greater than, respectively, the $F$-pure threshold of $f$.  Setting the option {\tt IsLocal} to {\tt true} tells the function to consider the $F$-pure threshold at the origin.  The following example illustrates this functionality.
 
 \medspace
 {\small
