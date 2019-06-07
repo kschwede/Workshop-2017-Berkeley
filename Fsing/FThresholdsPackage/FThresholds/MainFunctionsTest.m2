@@ -391,3 +391,14 @@ assert(fpt(f, IsLocal=>false) == 1);
 assert(fpt(1_R, IsLocal => false) == infinity);
 assert(fpt(0_R, IsLocal => false) == 0);
 ///
+
+TEST /// --fpt that's quick to compute
+R = ZZ/5[x,y];
+f = -x^6+x^5*y+x^2*y^4+x*y^5+y^6;
+phi = map(R, R, {x-1, y-1});
+g = phi(f);
+assert(fpt(f) == 1/3);
+assert(fpt(g) == infinity);
+assert(fpt(g, IsLocal=>false, Attempts => 10) == 1/3);
+assert(fpt(g, IsLocal=>false, DepthOfSearch => 2) == 1/3);
+///
