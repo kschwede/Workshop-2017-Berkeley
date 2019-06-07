@@ -197,7 +197,7 @@ doc ///
             fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
             fpt(x^2*y^6*z^10 + x^10*y^5*z^3) -- a binomial
             ZZ/5[x,y];
-            c = fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a binary form
+            c = fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a form in two variables
             fpt((x+y)^2*x^3) -- SNC
         Text
             The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization.
