@@ -365,6 +365,8 @@ fpt = method(
 
 fpt RingElement := o -> f ->
 (
+    if o.Verbose then print "\nStarting fpt ...";
+
     ---------------------
     -- RUN SEVERAL CHECKS
     ---------------------
@@ -391,16 +393,20 @@ fpt RingElement := o -> f ->
         return infinity;
         );
 
-    ------------------------------
-    -- DEAL WITH A TRIVIAL CASE --
-    ------------------------------
+    ----------------------------------
+    -- DEAL WITH SOME TRIVIAL CASES --
+    ----------------------------------
     if f == 0 then return 0;
--- maybe check for monomials too
+    if isMonomial f then
+        (
+            if o.Verbose then
+            print "\nPolynomial is monomial; calling monomialFPT ...";
+            return monomialFPT(f);
+        );
 
     ----------------------
     -- CHECK IF FPT = 1 --
     ----------------------
-    if o.Verbose then print "\nStarting fpt ...";
     if o.IsLocal and not isSubset( ideal f^(p-1), frobenius M ) then
     (
         if o.Verbose then print "\nnu(1,f) = p-1, so fpt(f) = 1.";
@@ -414,12 +420,6 @@ fpt RingElement := o -> f ->
     if o.UseSpecialAlgorithms then
     (
         if o.Verbose then print "\nVerifying if special algorithms apply...";
-        if o.IsLocal and isMonomial f then
-        (
-            if o.Verbose then
-            print "\nPolynomial is monomial; calling monomialFPT ...";
-            return monomialFPT(f);
-        );
         if o.IsLocal and isDiagonal f then
         (
             if o.Verbose then
