@@ -709,12 +709,12 @@ If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into an
 
 \subsection{How {\tt fpt} proceeds when no special algorithm applies}
 
-In the remainder of this section, we describe the {\tt fpt} function when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false},  as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.
+In the remainder of this section, we explain how the {\tt fpt} function proceeds when no special algorithm is available, or when {\tt UseSpecialAlgorithms} is set to {\tt false}, and describe the roles of the options {\tt DepthOfSearch} and {\tt Attempts}, whose values are both nonnegative integers.
 
-In this case, very roughly speaking, the {\tt fpt} function will either compute, and output, the exact value of the $F$-pure threshold of $f$, and otherwise recursively compute a finite sequence of lower and upper bounds for this value, and output the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.
+In this case, the {\tt fpt} function either computes, and outputs, the exact value of the $F$-pure threshold of $f$, or otherwise recursively computes a finite sequence of lower and upper bounds for this value, and outputs the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.
 
 
-In more detail, let $e$ denote the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval
+More specifically, let $e$ denote the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval
 %
 \begin{equation}
 \label{estimating-interval: e}
