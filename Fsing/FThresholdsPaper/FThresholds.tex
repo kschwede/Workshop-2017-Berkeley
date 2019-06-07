@@ -466,6 +466,12 @@ The last option we describe for {\tt nu} is {\tt IsLocal}.  When {\tt IsLocal =>
 \]
 This is done by instead of computing for which $n$ we have $I^{n} \subseteq J^{[p^e]}$ (or equivalently, $(I^n)^{[1/p^e]} \subseteq J$), it computes for which $n$ we have $(I^n)^{[1/p^e]}$ is a unit ideal.
 
+The last option we describe for {\tt nu} is {\tt IsLocal}.  When {\tt IsLocal => false} (the default is {\tt true}), then {\tt nu} ignores the option {\tt ContainmentTest} and the input ideal {\tt I}, and instead computes
+\[
+\min_{J \in \mathfrak{m}-\Spec R} (\nu_I^J(p^e))
+\]
+This is done by instead of computing for which $n$ we have $I^{n} \subseteq J^{[p^e]}$ (or equivalently, $(I^n)^{[1/p^e]} \subseteq J$), it computes for which $n$ we have $(I^n)^{[1/p^e]}$ is a unit ideal.
+
 
 % R = ZZ/3[x,y];
 % m = ideal(x, y);
