@@ -270,7 +270,7 @@ fSig := ( f, a, e ) ->
 )
 
 -- some constants associated with guessFPT
-numExtraCandidates := 30;
+numExtraCandidates := 40;
 minNumCandidates := 6;
 -- The default number of "random" checks to be performed
 attemptsDefault := 3;
