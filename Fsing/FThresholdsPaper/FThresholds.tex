@@ -166,7 +166,7 @@ Like $F$-pure thresholds, $F$-thresholds can also be defined in terms of its tes
 
 Finally, we point out that the  \emph{FrobeniusThresholds} package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper,M2}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.  In fact, both this package and \emph{TestIdeals} are derived (and have greatly grown) from an older package \emph{PosChar}.
 
-\subsection*{Organization}
+\subsection{Organization}
 
 There are three main sections in this paper, which describe and illustrate the main functionality implemented in the package \emph{FrobeniusThresholds}.
 \begin{itemize}
@@ -317,11 +317,11 @@ o4 = 3756
 % time nu(3, f, UseSpecialAlgorithms => false)
 
 
-\subsection*{Options for the {\tt nu} function}
+\subsection{Options for {\tt nu}}
 
-We now describe the options available for the function {\tt nu}.  We focus primarily on the case where the second input is an ideal $I$, since the options work analogously when the second input is instead a polynomial $f$.
+We now describe the options available for the function {\tt nu}.  We focus primarily on the case where the second input is an ideal $I$, since the options work analogously when it is instead a polynomial $f$.
 
-In general, the function {\tt nu} works by searching through the list of integers $n$, and checking containments of the $n$-th power of $I$ in a specified Frobenius power of $J$.
+In general, the function {\tt nu} works by searching through a list of integers $n$, and checking containments of the $n$-th power of $I$ in a specified Frobenius power of $J$.
 The user can specify how this search is approached through the  option {\tt Search}.  Namely, a binary search is used when {\tt Search} is set to {\tt Binary} (and this is the option's default value), and a linear search is run when it is set to {\tt Linear}.
 
 \medspace
@@ -398,7 +398,7 @@ i9 : nu(5, f, Verbose => true)
 %nu(5, f, ReturnList => true)
 %nu(5, f, Verbose => true)
 
-As described in the introduction, the integer $\nu_I^J(p^e)$ is defined in terms of the containment conditions on powers of ideals.
+As described in the introduction, the integer $\nu_I^J(p^e)$ is defined in terms of containment conditions on powers of ideals.
 For positive integers $n$ and $e$, and an ideal $I$ contained in the radical of another ideal $J$, we have that
 \begin{equation*}
   I^n \subseteq J^{[p^e]} \Longleftrightarrow (I^n)^{[1/p^e]} \subseteq J
@@ -439,7 +439,7 @@ o4 = 1209
 The option {\tt ContainmentTest} has a third possible value, {\tt FrobeniusPower}, which may produce a different result than the other two values.
 Given an ideal $I$, the first, third, and fourth authors introduced the notion of a (generalized) Frobenius power $I^{[n]}$ of $I$, when $n$ is an arbitrary positive integer, not necessarily of the form $n = p^e$ \cite{hernandez+etal.frobenius_powers}.
 When {\tt ContainmentTest} is set to {\tt FrobeniusPower}, rather than  computing $\nu_I^J(p^e)$, the function {\tt nu} computes the
-maximal integer $n$ for which $I^{[n]}$ is not contained in $J^{[p^e]}$.  This number is denoted $\mu_I^J(p^e)$ in \emph{loc.\ cit.}, and equals $\nu_I^J(p^e)$ when $I$ is replaced with a polynomial, or is a principal ideal, but need not coincide in general.
+maximal integer $n$ for which $I^{[n]}$ is not contained in $J^{[p^e]}$.  This number is denoted $\mu_I^J(p^e)$ in \emph{loc.\ cit.}, and equals $\nu_I^J(p^e)$ when $I$ is replaced with a polynomial, or is a principal ideal, but need not agree in general.
 For example, the two commands below give different output values.
 
 \medspace
@@ -462,39 +462,43 @@ i4 : nu(3, m^5, ContainmentTest => FrobeniusPower)
 o4 = 8
 \end{MyVerbatim}
 }
-
 \medspace
+
 \noindent In line with the philosophy described in the introduction, after appropriately normalizing and taking the limit as $e$ approaches infinity, the values $\mu_I^J(p^e)$ determine certain invariants of interest called \emph{critical exponents}.
 
-The last option we describe for {\tt nu} is {\tt IsLocal}.  When the value of {\tt IsLocal} is set to false (the default is {\tt true}), then {\tt nu} ignores the option {\tt ContainmentTest} and the input ideal {\tt I}, and instead computes
+The last option we describe for {\tt nu} is {\tt IsLocal}.  When the value of {\tt IsLocal} is set to {\tt false} (the default is {\tt true}), then {\tt nu} ignores the option {\tt ContainmentTest} and the input ideal {\tt I}, and instead calculates
 \[
-\min_{J \in \mathfrak{m}-\Spec R} (\nu_I^J(p^e))
+\min_{J \in \mathfrak{m}-\Spec R} \nu_I^J(p^e)
 \]
-This is done by instead of computing for which $n$ we have $I^{n} \subseteq J^{[p^e]}$ (or equivalently, $(I^n)^{[1/p^e]} \subseteq J$), it computes for which $n$ we have $(I^n)^{[1/p^e]}$ is a unit ideal.
+% This is done by instead of computing for which $n$ we have $I^{n} \subseteq J^{[p^e]}$ (or equivalently, $(I^n)^{[1/p^e]} \subseteq J$), it 
+by determining the values $n$ for which $(I^n)^{[1/p^e]}$ is a unit ideal.
 
 \medspace
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-    i1 : R = ZZ/7[x,y];
 
-    i2 : f = (x-1)^3 - (y-2)^2;
+i1 : R = ZZ/7[x,y];
 
-    i3 : nu(1, f)
+i2 : f = (x-1)^3 - (y-2)^2;
 
-    o3 = infinity
+i3 : nu(1, f)
 
-    o3 : InfiniteNumber
+o3 = infinity
 
-    i4 : nu(1, f, IsLocal => false)
+o3 : InfiniteNumber
 
-    o4 = 5
+i4 : nu(1, f, IsLocal => false)
 
-    i5 : nu(1, x^3-y^2)
+o4 = 5
 
-    o5 = 5
+o4 : QQ
 
-    o5 : QQ
+i5 : nu(1, x^3-y^2)
+
+o5 = 5
+
+o5 : QQ
 \end{MyVerbatim}
 }
 
