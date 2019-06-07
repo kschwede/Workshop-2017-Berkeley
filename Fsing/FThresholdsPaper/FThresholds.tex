@@ -670,11 +670,11 @@ o3 : List
 
 \subsection{The option {\tt UseSpecialAlgorithms} for the {\tt fpt} function}
 
-The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}.  When
-set to {\tt true} (the default value), {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order.
+The {\tt fpt} function has the option {\tt UseSpecialAlgorithms}, which, when
+set to {\tt true} (the default value), {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing, in that order. 
 
 If $f$ is a monomial, then its $F$-pure threshold is simply the minimum of the reciprocal of the exponent of each variable in $f$.
-When $f$ is a diagonal polynomial, a binomial, or a form in two variables,
+When $f$ is a diagonal polynomial, a binomial, or a form in two variables, 
 algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.  Algorithms for computing $F$-pure thresholds of binomials also appear in \cite{ShibutaTakagiLCThresholds}, though they are only valid in certain special characteristics.
 
 {\small
@@ -727,7 +727,7 @@ i9 : L = {x, y, x + y, x + 3*y};
 
 i10 : m = {2, 6, 9, 10};
 
-i11 : fpt(L, m) == o7
+i11 : fpt(L, m) == o8
 
 o11 = true
 \end{MyVerbatim}
@@ -739,7 +739,7 @@ If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into an
 
 \subsection{How {\tt fpt} proceeds when no special algorithm applies}
 
-In the remainder of this section, we explain how the {\tt fpt} function proceeds when no special algorithm is available, or when {\tt UseSpecialAlgorithms} is set to {\tt false}, and describe the roles of the options {\tt DepthOfSearch} and {\tt Attempts}, whose values are both nonnegative integers.
+In the remainder of this section, we explain how the function  {\tt fpt} proceeds when no special algorithm is available, or when {\tt UseSpecialAlgorithms} is set to {\tt false}, and describe the roles of the options {\tt DepthOfSearch} and {\tt Attempts}, whose values are both nonnegative integers.
 
 In this case, the {\tt fpt} function either computes, and outputs, the exact value of the $F$-pure threshold of $f$, or otherwise recursively computes a finite sequence of lower and upper bounds for this value, and outputs the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.
 
@@ -758,33 +758,33 @@ With these estimates in hand, the subroutine {\tt guessFPT} is called to make so
 \setstretch{.67}
 \begin{MyVerbatim}
 
-i11 : f = x^2*(x + y)^3*(x + 3*y^2)^5;
+i12 : f = x^2*(x + y)^3*(x + 3*y^2)^5;
 
-i12 : fpt(f, Attempts => 0) -- a bad estimate
+i13 : fpt(f, Attempts => 0) -- a bad estimate
 
           1
-o12 = {0, -}
+o13 = {0, -}
           5
-
-o12 : List
-
-i13 : fpt(f, Attempts => 0, DepthOfSearch => 3) -- a better estimate
-
-        21   22
-o13 = {---, ---}
-       124  125
 
 o13 : List
 
-i14 : fpt(f, Attempts => 1, DepthOfSearch => 3) -- the right-hand
+i14 : fpt(f, Attempts => 0, DepthOfSearch => 3) -- a better estimate
+
+        21   22
+o14 = {---, ---}
+       124  125
+
+o14 : List
+
+i15 : fpt(f, Attempts => 1, DepthOfSearch => 3) -- the right-hand
 
       endpoint (nu+1)/p^e is the F-pure threshold
 
        22
-o14 = ---
+o15 = ---
       125
 
-o14 : QQ
+o15 : QQ
 
 \end{MyVerbatim}
 }
@@ -795,197 +795,179 @@ If  {\tt Attempts} is set to at least {\tt 2} and the right-hand endpoint $(\nu+
 \setstretch{.67}
 \begin{MyVerbatim}
 
-i15 : f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
+i16 : f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
 
-i16 : fpt(f, Attempts => 1, DepthOfSearch => 3)
+i17 : fpt(f, Attempts => 1, DepthOfSearch => 3)
 
        17   7
-o16 = {--, --}
+o17 = {--, --}
        62  25
 
-o16 : List
+o17 : List
 
-i17 : fpt(f, Attempts => 2, DepthOfSearch => 3) -- the left-hand endpoint
-
+i18 : fpt(f, Attempts => 2, DepthOfSearch => 3) -- the left-hand endpoint
       nu/(p^e-1) is the F-pure threshold
 
       17
-o17 = --
+o18 = --
       62
 
-o17 : QQ
+o18 : QQ
 
 \end{MyVerbatim}
 }
 
-If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more than {\tt 2}, then  additional checks are performed at certain numbers within the interval, chosen according to the criteria determined by the value of the option {\tt GuessStrategy}.  We refer the reader for the documentation of this strategy for more details.
-
-{\color{red}  This will need to be updated.  Maybe look at Pedro's new documentation.}
+If neither endpoint is the $F$-pure threshold and {\tt Attempts} is set to more than {\tt 2}, then  additional checks are performed at certain numbers within the interval.
+First, a number in the interval is selected, according to criteria specified by the value of the option {\tt GuessStrategy}; we refer the reader for the documentation of this option for more details.  
+Then the function {\tt compareFPT} is used to test that number. If that "guess" is correct, its value is returned; otherwise, the data returned by {\tt compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by {\tt Attempts}.
 
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
 
-i18 : f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
+i19 : f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
 
-i19 : fpt(f, DepthOfSearch => 3, Attempts => 2)
+i20 : fpt(f, DepthOfSearch => 3, Attempts => 2)
 
         3   7
-o19 = {--, ---}
+o20 = {--, ---}
        62  125
-
-o19 : List
-
-i20 : fpt(f, DepthOfSearch => 3, Attempts => 3) -- an additional check
-
-      sharpens the estimate
-
-        3   1
-o20 = {--, --}
-       62  18
 
 o20 : List
 
-i21 : fpt(f, DepthOfSearch => 3, Attempts => 4) -- and one more finds
+i21 : fpt(f, DepthOfSearch => 3, Attempts => 4) -- more attempts *always* 
+      improve the estimate
 
-      the answer
+        1   4
+o21 = {--, --}
+       20  75
+
+o21 : List
+
+i22 : fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator) 
+      -- the exact answer, after a change of strategy
 
        1
-o21 = --
+o22 = --
       19
 
-o21 : QQ
+o22 : QQ
 \end{MyVerbatim}
 }
 \medspace
 
-If {\tt guessFPT} is unsuccessful and {\tt UseFSignature} is set to {\tt true}, then the {\tt fpt} function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
+
+The option {\tt Bounds} allows the user to specify known lower and upper bounds for the $F$-pure threshold of $f$, in order to speed up computations or to refine previously obtained estimates.  
 
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
 
-i22 : f = x^5*y^6*(x + y)^9*(x^2 + y^3)^4;
+i23 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 
-i23 : fpt(f, DepthOfSearch => 3)
+i24 : fpt(f, DepthOfSearch => 3, Attempts => 5)
 
-        2   1
-o23 = {--, --}
-       31  14
 
-o23 : List
-
-i24 : fpt(f, DepthOfSearch => 3, UseFSignature => true)
-
-        181   1
-o24 = {----, --}
-       2750  14
+        3   1
+o24 = {--, --}
+       40  13
 
 o24 : List
 
-i25 : numeric o23
+i25 : fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo)
 
-o25 = {.0645161, .0714286}
+        24   1
+o25 = {---, --}
+       313  13
 
 o25 : List
-
-i26 : numeric o24 -- UseFSignature sharpened the estimate a bit
-
-o26 = {.0658182, .0714286}
-
-o26 : List
 \end{MyVerbatim}
 }
 \medspace
 
-When {\tt FRegularityCheck} is set to {\tt true} and no exact answer has been found, a final check is run to verify whether the final lower bound for the $F$-pure threshold is the exact answer (if it has not already been eliminated as a possibility).
+% f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
+% fpt(f, DepthOfSearch => 3, Attempts => 5)
+% fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo)
+
+If {\tt guessFPT} is unsuccessful and {\tt FinalAttempt} is set to {\tt true}, the {\tt fpt} function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
+If successful, the new lower bound may coincide with the upper bound, in which case we can conclude that it is the desired $F$-pure threshold.
+If this is not the case, an $F$-regularity check is done at the new lower bound, to verify if it is the $F$-pure threshold.
 
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
 
-i27 : f = (x + y)^4*(x^2 + y^3)^6;
+i26 : f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
 
-i28 : fpt( f, Attempts => 2, DepthOfSearch => 3 )
+i27 : numeric fpt(f, DepthOfSearch => 3)
 
-        3   13
-o28 = {--, ---}
-       31  125
+o27 = {.153226, .158333}
+
+o27 : List
+
+i28 : numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
+      -- FinalAttempt improves the estimate slightly
+
+o28 = {.153461, .158333}
 
 o28 : List
-
-i29 : fpt(f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true)
-
-      -- UseFSignature improves the answer a bit
-
-        1   13
-o29 = {--, ---}
-       10  125
-
-o29 : List
-
-i30 : fpt(f, Attempts => 2, DepthOfSearch => 3, UseFSignature => true,
-
-      FRegularityCheck => true) -- FRegularityCheck finds the answer
-
-       1
-o30 = --
-      10
-
-o30 : QQ
 \end{MyVerbatim}
 }
 \medspace
-
-The computations performed when {\tt UseFSignature} and {\tt FRegularityCheck} are set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, these options should be used sparingly.
-            It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch} instead.
-
+  
+% f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
+% numeric fpt(f, DepthOfSearch => 3)
+% numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true) -- FinalAttempt improves the estimate slightly  
+            
+The computations performed when {\tt FinalAttempt} is set to {\tt true} are often slow, and often fail to improve the estimate, and for this reason, this option should be used sparingly. It is often more effective to increase the values of {\tt Attempts} or {\tt DepthOfSearch}, instead.            
+            
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
 
-i31 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
+i29 : f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
 
-i32 : timing numeric fpt(f, DepthOfSearch => 3, UseFSignature => true,
+i30 : timing numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
 
-      FRegularityCheck => true)
+o30 = {.153461, .158333}
+      -- 1.29156 seconds
 
-o32 = {.0733061, .0769231}
-      -- 2.68899 seconds
+o30 : Time
 
-o32 : Time
-
-i33 : timing numeric fpt(f, Attempts => 5, DepthOfSearch => 3) -- a better
-
+i31 : timing numeric fpt(f, DepthOfSearch => 3, Attempts => 4) -- a better 
       answer in less time
 
-o33 = {.075, .0769231}
-      -- .893389 seconds
+o31 = {.153333, .158333}
+      -- .554321 seconds
 
-o33 : Time
+o31 : Time
 
-i34 : timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less
+i32 : timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less 
       time
 
-       48
-o34 = ---
+       98
+o32 = ---
       625
-      -- .361882 seconds
+      -- .274657 seconds
 
-o34 : Time
+o32 : Time
 \end{MyVerbatim}
 }
 \medspace
 
-As seen in several examples above, when the exact  $F$-pure threshold of $f$ is not found, a list containing the endpoints of an interval containing its value is returned.  Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
+% f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
+% timing numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
+% timing numeric fpt(f, DepthOfSearch => 3, Attempts => 4) -- a better answer in less time
+% timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less time
 
+As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned. Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to true, the precise interval will be printed.
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
 
-i35 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
+i33 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 
-i36 : fpt(f, DepthOfSearch => 3, UseFSignature => true, Verbose => true)
+i34 : fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
 
 Starting fpt ...
 
@@ -1005,7 +987,7 @@ The right-hand endpoint is not the fpt ...
 
 The left-hand endpoint is not the fpt ...
 
-guessFPT narrowed the interval down to ( 9/124, 1/13 ) ...
+guessFPT narrowed the interval down to ( 3/40, 2/25 ) ...
 
 Beginning F-signature computation ...
 
@@ -1015,28 +997,62 @@ Second F-signature computed: s(f,nu/p^e) = 64/15625 ...
 
 Computed F-signature secant line intercept: 449/6125 ...
 
-F-signature intercept is an improved lower bound ...
+F-signature computation failed to find an improved lower bound ...
 
-fpt failed to find the exact answer; try increasing the value of
-
+fpt failed to find the exact answer; try increasing the value of 
 DepthOfSearch or Attempts.
 
-fpt lies in the interval [ 449/6125, 1/13 ).
+fpt lies in the interval ( 3/40, 2/25 ).
 
-        449   1
-o36 = {----, --}
-       6125  13
+        3   2
+o34 = {--, --}
+       40  25
 
-o36 : List
+o34 : List
 \end{MyVerbatim}
 }
 \medspace
 
-\subsection{The function {\tt isSimpleNormalCrossings}} \label{subsec.SNC}
-As mentioned earlier,
-when the option {\tt useSpecialFunctions} for the function {\tt fpt} is set to {\tt true}, if the polynomial $f$ is neither a diagonal polynomial, a binomial, or a form in two variables, there is a final check to verify whether $f$ is a product of factors in simple normal crossing.
+Finally, we point out that one can set the option {\tt IsLocal} from its default value of {\tt true} to {\tt false}, to compute the $F$-pure threshold globally. In other words, it computes the minimum of the $F$-pure threshold at all maximal ideals.
 
-Suppose that $f$ has factorization $f_1^{a_i} f_2^{a_2} \cdots f_n^{a_n}$.  Recall that its factors $f_i$ are said to be in
+{\small
+\setstretch{.67}
+\begin{MyVerbatim}
+
+i1 : R = ZZ/7[x,y];
+
+i2 : f = (y-1)^2-(x-1)^3;
+
+i3 : fpt(f, IsLocal => false)
+
+     5
+o3 = -
+     6
+
+o3 : QQ
+
+i4 : fpt(f)
+
+o4 = infinity
+
+o4 : InfiniteNumber
+\end{MyVerbatim}
+}
+\medspace
+% R = ZZ/7[x,y];
+% f = (y-1)^2-(x-1)^3;
+% fpt(f, IsLocal => false)
+% fpt(f)
+
+\noindent In this case, most options enabled by {\tt UseSpecialAlgorithms => true}
+are ignored except for the check for simple normal crossings.  {\tt FinalCheck => true}
+is also ignored.
+            
+\subsection{The function {\tt isSimpleNormalCrossings}} \label{subsec.SNC}
+As mentioned earlier, 
+when the option {\tt useSpecialFunctions} for the function {\tt fpt} is set to {\tt true}, if the polynomial $f$ is neither a diagonal polynomial, a binomial, or a form in two variables, there is a final check to verify whether $f$ is a product of factors in simple normal crossing. 
+
+Suppose that $f$ has factorization $f_1^{a_i} f_2^{a_2} \cdots f_n^{a_n}$.  Recall that its factors $f_i$ are said to be in 
 \emph{simple normal crossing} at a point if, locally, they form part of a regular system of parameters.  The function {\tt isSimpleNormalCrossings} determines whether $f$ has simple normal crossings by computing the Jacobian matrix of each subset of $\{ f_i \}_{i=1}^n$ (evaluated at the origin), and checking that these matrices have the expected rank, and that these subsets generate ideals of the appropriate height.
 
 {\small
@@ -1069,11 +1085,11 @@ o5 = false
 %             isSimpleNormalCrossing(x^2-y^2)
 %             isSimpleNormalCrossing(x*y*(x-y))
 %             isSimpleNormalCrossing(x^2-y*z)
-
+            
 If {\tt isSimpleNormalCrossing(f)} outputs true, then the $F$-pure threshold is easily computed, since is just the minimum of the values $1/a_i$, for $1 \leq i \leq n$.
 Note that the function {\tt factor} is called whenever {\tt isSimpleNormalCrossing} is used, which can sometimes make the verification slow.  The user can avoid this when using {\tt fpt} by setting {\tt UseSpecialAlgorithms} to {\tt false}.
 
-The function {\tt isSimpleNormalCrossing} is exposed to the user, so can be used independent of any $F$-pure threshold calculation.
+The function {\tt isSimpleNormalCrossing} is exposed to the user, so can be used independent of any $F$-pure threshold calculation.  
 If the user sets its option {\tt IsLocal} to {\tt true} (its default value is {\tt false}), then the function checks whether the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower since Jacobian ideals are computed. Consider the following example illustrating this functionality.
 
 {\small
@@ -1140,6 +1156,9 @@ o10 = true
 %             isSimpleNormalCrossing(h)
 
 %             isSimpleNormalCrossing(h, IsLocal=>false)
+
+
+
 
 \newpage
 \section{Future Directions}
