@@ -56,12 +56,11 @@ nu1 ( RingElement, Ideal ) := ZZ => ( f, J ) -> nu1( ideal f, J )
 -- testRoot(J,a,I,e) checks whether J^a is a subset of I^[p^e] by checking whether (J^a)^[1/p^e] is a subset of I
 testRoot = ( J, a, I, e ) -> isSubset( frobeniusRoot( e, a, J ), I )
 
---this does the same check, but globally, igornoring I completely
+--this does the same check, but globally, ignoring I completely
 --(essentially taking the minimum over all prime I)
-testGlobalRoot = (J, a, I, e) ->
-    not isUnitIdeal(frobeniusRoot(e, a, J))
+testGlobalRoot = ( J, a, I, e ) -> not isUnitIdeal frobeniusRoot( e, a, J )
 
-testPower = ( J, a, I, e ) -> isSubset( if (isIdeal J) then J^a else ideal(J)^a, frobenius(e,I) )
+testPower = ( J, a, I, e ) -> isSubset( if (isIdeal J) then J^a else ideal J^a, frobenius( e, I ) )
 
 -- testFrobeniusPower(J,a,I,e) checks whether J^[a] is a subset of I^[p^e]
 testFrobeniusPower = method( TypicalValue => Boolean )
@@ -200,6 +199,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
         if o.UseSpecialAlgorithms then
         (
             fpt := null;
+            if isMonomial g then fpt = monomialFPT g;
             if isDiagonal g then fpt = diagonalFPT g;
             if isBinomial g then fpt = binomialFPT g;
             if fpt =!= null then
@@ -218,22 +218,20 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     conTest := o.ContainmentTest;
     -- choose appropriate containment test, if not specified by user
     if conTest === null then conTest = (if isPrincipal then FrobeniusRoot else StandardPower);
-    if (o.IsLocal == false) then conTest = GlobalFrobeniusRoot;
-    if o.Verbose then print("nuInternal: using conTest:" | toString conTest);
+    if not o.IsLocal then conTest = GlobalFrobeniusRoot;
+    if o.Verbose then print("nuInternal: using comparison test " | toString conTest);
     testFct := test#(conTest);
     local N;
     local nu;
-    if (o.IsLocal) then (
-        nu = nu1( g, J );
-    ) else nu = 0;
+    nu = if o.IsLocal then nu1( g, J ) else 0;
     theList := { nu };
     if o.Verbose then print( "nu(1) = " | toString nu );
 
     ----------------------
     -- EVERY OTHER CASE --
     ----------------------
-	N = if isPrincipal or conTest === FrobeniusPower
-	   then p else (numgens trim J)*(p-1) + 1;
+    N = if isPrincipal or conTest === FrobeniusPower then p 
+        else (numgens trim J)*(p-1) + 1;
     scan( 1..n, e ->
         (
            nu = searchFct( g, J, e, p*nu, (nu + 1)*N, testFct );
@@ -398,11 +396,11 @@ fpt RingElement := o -> f ->
     ----------------------------------
     if f == 0 then return 0;
     if isMonomial f then
-        (
-            if o.Verbose then
-            print "\nPolynomial is monomial; calling monomialFPT ...";
-            return monomialFPT(f);
-        );
+    (
+        if o.Verbose then
+            print "\nPolynomial is a monomial; calling monomialFPT ...";
+        return monomialFPT f;
+    );
 
     ----------------------
     -- CHECK IF FPT = 1 --
@@ -440,11 +438,11 @@ fpt RingElement := o -> f ->
             return binaryFormFPT( f, Verbose => o.Verbose )
         );
         prod := factor f;
-        if isSimpleNormalCrossing(prod, IsLocal=>o.IsLocal) then
+        if isSimpleNormalCrossing(prod, IsLocal => o.IsLocal) then
         (
             if o.Verbose then
-                print "\nPolynomial is snc; calling sncFPT ...";
-            return sncFPT(prod, IsLocal=>o.IsLocal);
+                print "\nPolynomial is a simple normal crossing; calling sncFPT ...";
+            return sncFPT(prod, IsLocal => o.IsLocal);
         );
     );
     if o.Verbose then print "\nSpecial fpt algorithms were not used ...";

@@ -314,8 +314,8 @@ doc ///
         a valid value for the option ContainmentTest
     Description
         Text
-            A valid value for the option @TO ContainmentTest@ specifying Frobenius roots be used, and not localized, when verifying containments of powers of ideals.
-            This is turned on by default if {\tt IsLocal => true} is specified in {\tt nu} and {\tt ContainmentTest => false}.
+            A valid value for the option @TO ContainmentTest@ specifying that Frobenius roots be used, and not localized, when verifying containments of powers of ideals.
+            This is turned on by default if {\tt IsLocal} is set to {\tt false} in @TO nu@.
     SeeAlso
         ContainmentTest
         nu
