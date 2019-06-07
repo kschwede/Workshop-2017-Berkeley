@@ -197,7 +197,7 @@ doc ///
             fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
             fpt(x^2*y^6*z^10 + x^10*y^5*z^3) -- a binomial
             ZZ/5[x,y];
-            c = fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a binary form
+            c = fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a form in two variables
             fpt((x+y)^2*x^3) -- SNC
         Text
             The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization.
@@ -573,7 +573,7 @@ doc ///
         :ZZ
             the largest integer {\tt \nu\ = \nu(p^e)} such that {\tt I^{\nu}} (or {\tt f^{\nu}}, or {\tt I^{[\nu]}}, depending on the arguments and options passed) is not contained in {\tt J^{[p^e]}}
         :InfiniteNumber
-            if {\tt I} or {\tt f} is not contained in the radical of $J$
+            if {\tt I} or {\tt f} is not contained in the radical of $J$, or if in the non local case, {\tt I} is a unit
         :List
             containing {\tt \nu(p^i)}, for {\tt i = 0,\ldots,e}
     Description
@@ -656,7 +656,8 @@ doc ///
             time nu(2, M, M^2) -- uses binary search (default)
             time nu(2, M, M^2, Search => Linear) -- but linear seach gets luckier
         Text
-            The option {\tt IsLocal} (default value {\tt true}) can be turned off to tell {\tt nu} to effectively do the computation over all possible maximal ideals $J$ and take the minimum.
+            The option {\tt IsLocal} (default value {\tt true}) can be turned off to tell {\tt nu} to effectively do the computation over all possible maximal ideals $J$ and take the minimum (any user specified $J$ is ignored).
+            Setting {\tt IsLocal => false} will override user choices of {\tt ContainmentTest} as those choices are not compatible with the non-local computation.
         Example
             R = ZZ/7[x,y];
             f = (x-1)^3 - (y-2)^2;
