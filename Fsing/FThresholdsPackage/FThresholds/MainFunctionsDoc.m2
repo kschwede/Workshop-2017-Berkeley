@@ -178,7 +178,7 @@ doc ///
        :QQ
            the $F$-pure threshold of {\tt f}
        :InfiniteNumber
-           the $F$-pure threshold of {\tt f}, if {\tt f} does not vanish at the origin (or anywhere is {\tt IsLocal => false})
+           the $F$-pure threshold of {\tt f}, if {\tt f} does not vanish at the origin (or anywhere if {\tt IsLocal => false})
     Description
          Text
              Given a polynomial $f$ with coefficients in a finite field, the function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
@@ -564,7 +564,7 @@ doc ///
         ContainmentTest => Symbol
             specifies the manner in which to verify the containment of powers of {\tt I} or {\tt f} in {\tt J^{[p^e]}}
         IsLocal => Boolean
-            if true, tells the function to work over all possible maximal ideals J
+            if true, tells the function to take the minimum value over all possible maximal ideals J
         ReturnList => Boolean
             specifies whether to return the list {\tt \{\nu(1),\ldots,\nu(p^e)\}}, as opposed to just {\tt \nu(p^e)}
         Search => Symbol
@@ -577,7 +577,7 @@ doc ///
         :ZZ
             the largest integer {\tt \nu\ = \nu(p^e)} such that {\tt I^{\nu}} (or {\tt f^{\nu}}, or {\tt I^{[\nu]}}, depending on the arguments and options passed) is not contained in {\tt J^{[p^e]}}
         :InfiniteNumber
-            if {\tt I} or {\tt f} is not contained in the radical of $J$
+            if {\tt I} or {\tt f} is not contained in the radical of $J$, or when {\tt IsLocal => false}, if {\tt I} or {\tt f} is a unit ideal
         :List
             containing {\tt \nu(p^i)}, for {\tt i = 0,\ldots,e}
     Description
