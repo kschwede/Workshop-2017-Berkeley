@@ -706,7 +706,7 @@ o11 = true
 If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into any of the four forementioned cases, then the function {\tt fpt} next calls {\tt isSimpleNormalCrossing(f)} to check whether the polynomial $f$ is a product of factors that are in simple normal crossing.  If this command returns {\tt true}, the $F$-pure threshold can easily be computed, and {\tt fpt} returns this value.  For more detail on the function {\tt isSimpleNormalCrossing} and on computing the $F$-pure threshold of a polynomial with simple normal crossings, please see the end of this section.
 
 
-\subsection*{Searching for the $F$-pure threshold when no special algorithm applies}
+\subsection*{The {\tt fpt} function when no special algorithm applies}
 
 
 In the remainder of this section, we describe the {\tt fpt} function when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false},  as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.
