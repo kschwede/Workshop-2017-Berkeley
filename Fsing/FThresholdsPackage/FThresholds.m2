@@ -42,6 +42,7 @@ export{
     "fpt",
     "FrobeniusPower",
     "FrobeniusRoot",
+    "GlobalFrobeniusRoot",
     "GuessStrategy",
     "isFJumpingExponent",
     "isFPT",

@@ -343,3 +343,51 @@ f = x^3*(y-x^2)^2*((z+1)^2 - (w-1)^2)^1;
 assert(fpt(f) == 1/3);
 assert(fpt(f, DepthOfSearch=>3, UseSpecialAlgorithms=>false) == 1/3);
 ///
+
+TEST /// --IsLocal vs not IsLocal for nu
+R = ZZ/5[x,y];
+f = y^2-x^3;
+g = (y-1)^2-(x-1)^3;
+assert(nu(1,f) == nu(1,g, IsLocal => false));
+assert(nu(2,f) == nu(2,g, IsLocal => false));
+assert(nu(1,g) == infinity);
+///
+
+TEST /// --IsLocal vs not IsLocal for nu, in more variables!
+R = ZZ/5[x,y,u,v];
+f = x^2*y-u*v^3;
+g = (x-1)^2*(y-4)-(u-2)*(v-3)^3;
+assert(nu(1,f) == nu(1,g, IsLocal => false));
+assert(nu(2,f) == nu(2,g, IsLocal => false));
+assert(nu(1,g) == infinity);
+///
+
+TEST /// --IsLocal vs not IsLocal for fpt
+R = ZZ/5[x,y];
+f = y^2-x^3;
+g = (y-1)^2 - (x-2)^3;
+assert(fpt(f) == fpt(g, IsLocal=>false));
+assert(fpt(g) == infinity);
+R = ZZ/7[x,y];
+f = y^2-x^3;
+g = (y-1)^2 - (x-2)^3;
+assert(fpt(f) == fpt(g, IsLocal => false));
+assert(fpt(g) == infinity);
+R = ZZ/2[x,y];
+f = y^2-x^3;
+g = (y-1)^2 - (x-2)^3;
+assert(fpt(f) == fpt(g, IsLocal => false));
+assert(fpt(g) == infinity);
+R = ZZ/11[x,y]; --a SNC case
+f = x*y^2*(x-1)^3*(y-1)^4;
+assert(fpt(f) == 1/2);
+assert(fpt(f, IsLocal=>false) == 1/4);
+///
+
+TEST /// --fpt IsLocal => false, boundary cases
+R = ZZ/7[x,y,z];
+f = (x-1)*(y-3)-(z-2)^2;
+assert(fpt(f, IsLocal=>false) == 1);
+assert(fpt(1_R, IsLocal => false) == infinity);
+assert(fpt(0_R, IsLocal => false) == 0);
+///

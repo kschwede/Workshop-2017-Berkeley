@@ -493,11 +493,20 @@ monomialFPT RingElement := QQ => f -> (
 ---monomiaFPT computes the FPT of a SNC divisor monomial
 
 sncFPT = method(
-    TypicalValue => QQ
+    TypicalValue => QQ,
+    Options=>{IsLocal => true}
     )
 
-sncFPT Product := QQ => f -> (
-    1/max(toList apply(f, t->t#1))
+sncFPT Product := QQ => o -> ff -> (
+    if (o.IsLocal) then (
+        local myRing;
+        if (#ff > 0) then myRing = (ring ff#0#0) else return infinity;
+        local z1;
+        myMax := ideal(vars myRing);
+        myList := select(toList ff, z -> (z1 = sub(z#0, myRing); return (z1%myMax == 0);) );
+        return (1/max(toList apply(myList, t->t#1)));
+        )
+    else return (1/max(toList apply(ff, t->t#1)));
     )
 
     ---computes whether something is SNC
