@@ -273,11 +273,11 @@ assert(not isFJumpingExponent(1/3, f));
 TEST ///--more isLocal testing
 R = ZZ/13[x,y];
 f = y*((y+1)-(x-1)^2)*(x-2)*(x+y-2); --four lines trhough one point, and 2 lines through the origin.
-assert(isFJumpingExponent(3/4, f) == true);
-assert(isFJumpingExponent(3/4, f, IsLocal=>true) == false);
-assert(isFPT(1/2, f) == true);
-assert(isFPT(1/2, f, IsLocal=>true) == false);
-assert(isFPT(1, f, IsLocal=>true) == true);
+assert(isFJumpingExponent(3/4, f));
+assert(not isFJumpingExponent(3/4, f, IsLocal => true));
+assert(isFPT(1/2, f));
+assert(not isFPT(1/2, f, IsLocal => true));
+assert(isFPT(1, f, IsLocal => true));
 ///
 
 TEST /// --degenerate cases
