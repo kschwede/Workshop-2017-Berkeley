@@ -315,7 +315,10 @@ o4 = 3756
 % time nu(3, f)
 % time nu(3, f, UseSpecialAlgorithms => false)
 
-We now describe the options available for the function {\tt nu}, and we focus primarily on the case where the second input is an ideal $I$, since the options work analogously when the second input is instead a polynomial $f$.
+
+\subsection*{Options for the {\tt nu} function}
+
+We now describe the options available for the function {\tt nu}.  We focus primarily on the case where the second input is an ideal $I$, since the options work analogously when the second input is instead a polynomial $f$.
 
 In general, the function {\tt nu} works by searching through the list of integers $n$, and checking containments of the $n$-th power of $I$ in a specified Frobenius power of $J$.
 The user can specify how this search is approached through the  option {\tt Search}.  Namely, a binary search is used when {\tt Search} is set to {\tt Binary} (and this is the option's default value), and a linear search is run when it is set to {\tt Linear}.
@@ -686,16 +689,16 @@ o10 = true
 }
 \medspace
 
-If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into any of the three forementioned cases, then the function {\tt fpt} next checks whether the polynomial $f$ is a product of factors that are in simple normal crossing, in which case its $F$-pure threshold is easily computed.
+If {\tt UseSpecialAlgorithms} is set to {\tt true} and $f$ does not fall into any of the three forementioned cases, then the function {\tt fpt} next calls {\tt isSimpleNormalCrossing(f)} to check whether the polynomial $f$ is a product of factors that are in simple normal crossing.  If this command returns {\tt true}, the $F$-pure threshold can easily be computed, and {\tt fpt} returns this value.  For more detail on the function {\tt isSimpleNormalCrossing} and on computing the $F$-pure threshold of a polynomial with simple normal crossings, please see the end of this section. 
 
-We briefly describe the algorithm that checks whether the polynomial $f$ factors as a product of functions $f = \prod_i f_i^{a_i}$ that are in simple normal crossing with each other, in which case, the $F$-pure threshold is just the minimum of the $1/a_i$. Recall that a set of elements $\{f_i\}$ is said to be in simple normal crossing at a point, if locally, the $f_i$ form part of a regular system of parameters.  The functionality verifies this by computing the Jacobian matrix of each subset of the $f_i$ (evaluated at the origin), and checking that these matrices have the expected rank.  It is also verified that these subsets generate ideals of the correct height.  Note that {\tt factor f} is called, which may be slow.  The user can avoid this factorization call by setting {\tt UseSpecialAlgorithms} to {\tt false}.
 
-This method for determining whether $f$ is a product of factors that are in simple normal crossing is implemented in the function {\tt isSimpleNormalCrossing}, which is also exposed to the user.
-Note that if one sets the option {\tt IsLocal} for this function to {\tt true}, then {\tt isSimpleNormalCrossing} checks that the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower (as Jacobian ideals are computed).
+
+
 
 In the remainder of this section, we describe the {\tt fpt} function when no special algorithm is available, or {\tt UseSpecialAlgorithms} is set to {\tt false},  as well as the roles of the options {\tt DepthOfSearch}, and {\tt Attempts}, both nonnegative integers.
 
 In this case, very roughly speaking, the {\tt fpt} function will either compute, and output, the exact value of the $F$-pure threshold of $f$, and otherwise recursively compute a finite sequence of lower and upper bounds for this value, and output the last of these, which will be the tightest among all computed.  The value of the option {\tt DepthOfSearch} determines the precision of the initial set of bounds, and the option {\tt Attempts}, in conjunction with some various subroutines, determines whether, and how, to produce new, tighter bounds from the previous ones.
+
 
 In more detail, let $e$ denote the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.  The {\tt fpt} function first computes $\nu=\nu_f(p^e)$, which agrees with the output of {\tt nu(e,f)}.  It is well known that the $F$-pure threshold of $f$ is greater than $\nu/p^e$ and at most $(\nu+1)/p^e$, and applying  \cite[Proposition 4.2]{HernandezFPurityOfHypersurfaces} to this lower bound tells us that the $F$-pure threshold of $f$ must be at least $\nu/(p^e-1)$.  In summary, we know that the $F$-pure threshold of $f$ must lie in the closed interval
 %
@@ -984,6 +987,15 @@ o36 : List
 \end{MyVerbatim}
 }
 \medspace
+
+\subsection*{The function {\tt isSimpleNormalCrossings}}
+
+
+We briefly describe the algorithm that checks whether the polynomial $f$ factors as a product of functions $f = \prod_i f_i^{a_i}$ that are in simple normal crossing with each other, in which case, the $F$-pure threshold is just the minimum of the $1/a_i$. Recall that a set of elements $\{f_i\}$ is said to be in simple normal crossing at a point, if locally, the $f_i$ form part of a regular system of parameters.  The functionality verifies this by computing the Jacobian matrix of each subset of the $f_i$ (evaluated at the origin), and checking that these matrices have the expected rank.  It is also verified that these subsets generate ideals of the correct height.  Note that {\tt factor f} is called, which may be slow.  The user can avoid this factorization call by setting {\tt UseSpecialAlgorithms} to {\tt false}.
+
+This method for determining whether $f$ is a product of factors that are in simple normal crossing is implemented in the function {\tt isSimpleNormalCrossing}, which is also exposed to the user.
+Note that if one sets the option {\tt IsLocal} for this function to {\tt true}, then {\tt isSimpleNormalCrossing} checks that the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower (as Jacobian ideals are computed).
+
 
 
 \newpage
