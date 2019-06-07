@@ -6,13 +6,13 @@ doc ///
     Description
         Text
             An option for the function @TO fpt@ specifying bounds for the $F$-pure threshold.
-            Takes on lists consisting of two numbers, namely a lower and an upper bound for the $F$-pure threshold being computed. 
+            Takes on lists consisting of two numbers, namely a lower and an upper bound for the $F$-pure threshold being computed.
             This useful feature allows the user to refine bounds obtained in previous computations, as illustrated below.
         Example
             R = ZZ/5[x,y];
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
             fpt(f, DepthOfSearch => 3, Attempts => 5)
-            fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
+            fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo)
 ///
 
 doc ///
@@ -139,10 +139,11 @@ doc ///
         [fpt, DepthOfSearch]
         [fpt, FinalAttempt]
         [fpt, GuessStrategy]
+        [fpt, IsLocal]
         [fpt, UseSpecialAlgorithms]
         [fpt, Verbose]
     Headline
-        attempt to compute the F-pure threshold of a polynomial at the origin
+        attempt to compute the F-pure threshold of a polynomial at the origin or globally
     Usage
         fpt(f)
         fpt(L, m)
@@ -165,6 +166,8 @@ doc ///
             specifies a function to be used to rank numbers to be tested
         GuessStrategy => List
             specifies weights to be used rank numbers to be tested
+        IsLocal => Boolean
+            specifies whether to compute the local $F$-pure threshold or the global $F$-pure threshold
         UseSpecialAlgorithms => Boolean
             specifies whether to check if {\tt f} is a diagonal polynomial, monomial, binomial, a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), or a simple normal crossing, and then apply appropriate algorithms
         Verbose => Boolean
@@ -175,7 +178,7 @@ doc ///
        :QQ
            the $F$-pure threshold of {\tt f}
        :InfiniteNumber
-           the $F$-pure threshold of {\tt f}, if {\tt f} does not vanish at the origin
+           the $F$-pure threshold of {\tt f}, if {\tt f} does not vanish at the origin (or anywhere is {\tt IsLocal => false})
     Description
          Text
              Given a polynomial $f$ with coefficients in a finite field, the function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
@@ -186,21 +189,20 @@ doc ///
              fpt(x^5 + y^6 + z^7 + (x*y*z)^3)
         Text
              If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or in simple normal crossing,  respectively.
-             If $f$ is a monomial, its $F$-pure threshold is easily computed.   
-             If it is either a a diagonal polynomial, a binomial, or a form in two variables, then algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.  If it is in simple normal crossing, the $F$-pure threshold is easily computed. 
-            Finally, if $f$ is none of the first four possibilities, the function @TO isSimpleNormalCrossing@ is called to check whether its factors are in simple normal crossing, in which case its $F$-pure threshold is found via a simple computation. 
+             If $f$ is a monomial, its $F$-pure threshold is easily computed.
+             If it is either a a diagonal polynomial, a binomial, or a form in two variables, then algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.  If it is in simple normal crossing, the $F$-pure threshold is easily computed.
+            Finally, if $f$ is none of the first four possibilities, the function @TO isSimpleNormalCrossing@ is called to check whether its factors are in simple normal crossing, in which case its $F$-pure threshold is found via a simple computation.
         Example
             fpt(x^3*y^4*z^5)
             fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
             fpt(x^2*y^6*z^10 + x^10*y^5*z^3) -- a binomial
             ZZ/5[x,y];
-            fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a binary form
-
+            c = fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a binary form
         Text
             The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization.
             For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
         Example
-            fpt({x, y, x + y, x + 3*y}, {2, 6, 9, 10}) == o7
+            fpt({x, y, x + y, x + 3*y}, {2, 6, 9, 10}) == c
         Text
             When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu$ = @TO nu@{\tt (e,f)}, where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.
             At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval.
@@ -228,15 +230,15 @@ doc ///
             fpt(f, DepthOfSearch => 3, Attempts => 4) -- more attempts *always* improve the estimate
             fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator) -- the exact answer, after a change of strategy
         Text
-            The option {\tt Bounds} allows the user to specify known lower and upper bounds for the $F$-pure threshold of $f$, in order to speed up computations or to refine previously obtained estimates. 
+            The option {\tt Bounds} allows the user to specify known lower and upper bounds for the $F$-pure threshold of $f$, in order to speed up computations or to refine previously obtained estimates.
         Example
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
             fpt(f, DepthOfSearch => 3, Attempts => 5)
-            fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo) 
+            fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo)
         Text
             If {\tt guessFPT} is unsuccessful and {\tt FinalAttempt} is set to {\tt true}, the fpt function proceeds to use the convexity of the $F$-signature function and a secant line argument to attempt to narrow down the interval bounding the $F$-pure threshold.
             If successful, the new lower bound may coincide with the upper bound, in which case we can conclude that it is the desired $F$-pure threshold.
-            If that is not the case, an $F$-regularity check is done at the new lower bound, to verify if it is the $F$-pure threshold.            
+            If that is not the case, an $F$-regularity check is done at the new lower bound, to verify if it is the $F$-pure threshold.
         Example
             f = -2*x^10*y^5-x^5*y^9-2*x^3*y^10+2*x^2*y^8-2*x*y^9;
             numeric fpt(f, DepthOfSearch => 3)
@@ -255,6 +257,23 @@ doc ///
         Example
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
             fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
+        Text
+            Setting the option {\tt IsLocal => false} can be used to tell the
+            function to compute the $F$-pure threshold globally.  In other words, it computes
+            the minimum of the $F$-pure threshold at all maximal ideals.
+        Example
+            R = ZZ/7[x,y];
+            f = (y-1)^2-(x-1)^3;
+            fpt(f, IsLocal => false)
+            fpt(f)
+        Text
+            In this case, most options enabled by {\tt UseSpecialAlgorithms => true}
+            are ignored except for the check for simple normal crossings.  {\tt FinalCheck => true}
+            is also ignored.  Consider a simple normal crossings case.
+        Example
+            f = x*y^2*(x-1)^3*(y-1)^4;
+            fpt(f)
+            fpt(f, IsLocal=>false)
     SeeAlso
         compareFPT
         isFPT
@@ -289,6 +308,20 @@ doc ///
 
 doc ///
     Key
+        GlobalFrobeniusRoot
+    Headline
+        a valid value for the option ContainmentTest
+    Description
+        Text
+            A valid value for the option @TO ContainmentTest@ specifying Frobenius roots be used, and not localized, when verifying containments of powers of ideals.
+            This is turned on by default if {\tt IsLocal => true} is specified in {\tt nu} and {\tt ContainmentTest => false}.
+    SeeAlso
+        ContainmentTest
+        nu
+///
+
+doc ///
+    Key
         GuessStrategy
     Headline
         an option for the function fpt to specify the criterion used for selecting numbers to check
@@ -303,15 +336,15 @@ doc ///
             Using the function @TO decomposeFraction@, from the @TO TestIdeals@ package, each number $t$ in that list is written in the form $t = a$ /($p^b$ ($p^c$ -1)), where $p$ is the characteristic of the ring of $f$.
             Then that list of candidates is sorted based on the criterion
 
-            1. Increasing "computational cost" $w_aa + w_bb + w_cc$, for certain weights $w_a$, $w_b$, and $w_c$, 
-            
+            1. Increasing "computational cost" $w_aa + w_bb + w_cc$, for certain weights $w_a$, $w_b$, and $w_c$,
+
             and then refined by
 
             2. Increasing distance from the midpoint of the interval ($A$, $B$).
 
             Once this sorting is done, the first number in the list is selected, @TO compareFPT@ is called, and the result of that comparison is used to trim the list of candidates and narrow down the interval ($A$, $B$).
             This process is iterated as many times as requested by the user, via the option {\tt Attempts}; if the list of candidates runs short, more are produced by increasing the maximum denominator $D$.
-             
+
             The default weights currently used in Criterion 1 are $w_a =$ 0, $w_b =$ 1, and $w_c =$ 1.5.
             With these choices, we believe Criterion 1 is likely to prioritize numbers for which the computation of @TO compareFPT@ is most efficient.
             Criterion 2, on the other hand, aims at partitioning the interval as evenly as possible.
@@ -326,16 +359,16 @@ doc ///
             time fpt(f, Attempts => 5, DepthOfSearch => 3, GuessStrategy => {0, 1, 0})
         Text
             The user may also pass custom "cost" functions that take either the candidate rational numbers $t$ as inputs, or pairs ($p$, $t$), where $p$ is the characteristic of the ambient ring.
-            The list of candidates is then sorted first by increasing values of that function, and Criteria 1 and 2, respectively, are used as tie breakers.    
-            For instance, if the user suspects the $F$-pure threshold has a small denominator, then passing the function {\tt denominator} may improve the accuracy of the computation (though it will likely decrease speed). 
+            The list of candidates is then sorted first by increasing values of that function, and Criteria 1 and 2, respectively, are used as tie breakers.
+            For instance, if the user suspects the $F$-pure threshold has a small denominator, then passing the function {\tt denominator} may improve the accuracy of the computation (though it will likely decrease speed).
         Example
-            R = ZZ/5[x,y]; 
+            R = ZZ/5[x,y];
             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
             time fpt(f, DepthOfSearch => 3, Attempts => 8)
             time fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator)
         Text
             If the user suspects that the $F$-pure threshold contains a $p$ in its denominator, then a suitable function can be used to prioritize such numbers.
-            
+
             GIVE EXAMPLE
 ///
 
@@ -502,6 +535,7 @@ doc ///
         (nu, ZZ, RingElement, Ideal)
         (nu, ZZ, RingElement)
         [nu, ContainmentTest]
+        [nu, IsLocal]
         [nu, ReturnList]
         [nu, Search]
         [nu, UseSpecialAlgorithms]
@@ -524,6 +558,8 @@ doc ///
             in the polynomial ring $R$; if omitted, {\tt J} is assumed to be the ideal generated by the variables of $R$
         ContainmentTest => Symbol
             specifies the manner in which to verify the containment of powers of {\tt I} or {\tt f} in {\tt J^{[p^e]}}
+        IsLocal => Boolean
+            if true, tells the function to work over all possible maximal ideals J
         ReturnList => Boolean
             specifies whether to return the list {\tt \{\nu(1),\ldots,\nu(p^e)\}}, as opposed to just {\tt \nu(p^e)}
         Search => Symbol
@@ -618,6 +654,15 @@ doc ///
             M = ideal(x, y, z);
             time nu(2, M, M^2) -- uses binary search (default)
             time nu(2, M, M^2, Search => Linear) -- but linear seach gets luckier
+        Text
+            The option {\tt IsLocal} (default value {\tt true}) can be turned off to tell {\tt nu} to effectively do the computation over all possible maximal ideals $J$ and take the minimum.
+        Example
+            R = ZZ/7[x,y];
+            f = (x-1)^3 - (y-2)^2;
+            nu(1, f)
+            nu(1, f, IsLocal => false)
+            g = x^3 - y^2
+            nu(1, g)
         Text
             The option {\tt ReturnList} (default value {\tt false}) can be used to request that the output be not only $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=0,\ldots,e$.
         Example
