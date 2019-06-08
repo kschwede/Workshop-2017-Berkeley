@@ -225,7 +225,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     local nu;
     nu = if o.IsLocal then nu1( g, J ) else 0;
     theList := { nu };
-    if o.Verbose then print( "nu(1) = " | toString nu );
+    if o.Verbose then print( "ν(1) = " | toString nu );
 
     ----------------------
     -- EVERY OTHER CASE --
@@ -235,7 +235,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     scan( 1..n, e ->
         (
            nu = searchFct( g, J, e, p*nu, (nu + 1)*N, testFct );
-           if o.Verbose then print( "nu(p^" | toString e | ") = " | toString nu );
+           if o.Verbose then print( "ν(p^" | toString e | ") = " | toString nu );
            theList = append( theList, nu )
         )
     );
@@ -340,8 +340,8 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
         if counter <= maxChecks and #candidateList <= minNumCandidates then
             candidateList = fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy )
     );
-    if o.Verbose then
-        print( "\nguessFPT narrowed the interval down to ( " | toString A | ", " | toString B | " ) ..." );
+    if o.Verbose and ( A != a or B != b ) then
+        print( "\nguessFPT narrowed the interval down to (" | toString A | "," | toString B | ") ..." );
     { A, B }
 )
 
@@ -407,7 +407,7 @@ fpt RingElement := o -> f ->
     ----------------------
     if o.IsLocal and not isSubset( ideal f^(p-1), frobenius M ) then
     (
-        if o.Verbose then print "\nnu(1,f) = p-1, so fpt(f) = 1.";
+        if o.Verbose then print "\nν(1,f) = p-1, so fpt(f) = 1.";
         return 1
     );
     if o.Verbose then print "\nfpt is not 1 ...";
@@ -458,13 +458,13 @@ fpt RingElement := o -> f ->
     strictUB := false;
     if o.Verbose then
     (
-         print( "\nnu has been computed: nu = nu(" | toString e | ",f) = " | toString n | " ..." );
-         print( "\nfpt lies in the interval [ nu/(p^e-1), (nu+1)/p^e ] = [ " | toString LB | ", " | toString UB | " ] ..." )
+         print( "\nν has been computed: ν = ν(" | toString e | ",f) = " | toString n | " ..." );
+         print( "\nfpt lies in the interval [ν/(p^e-1),(ν+1)/p^e] = [" | toString LB | "," | toString UB | "] ..." )
     );
     if LB < (o.Bounds)#0 then
     (
         if o.Verbose then
-            print( "\nThe lower bound nu/(p^e-1) = " | toString LB | " was replaced with " | toString( (o.Bounds)#0 ) );
+            print( "\nThe lower bound ν/(p^e-1) = " | toString LB | " was replaced with " | toString( (o.Bounds)#0 ) );
         LB = (o.Bounds)#0
     );
     if UB > (o.Bounds)#1 then
@@ -485,7 +485,8 @@ fpt RingElement := o -> f ->
 	( LB, UB ) = toSequence guess;
 	strictUB = true;
 	if o.Attempts >= 2 then strictLB = true
-    );
+    )
+    else if o.Verbose then print "guessFPT not called...";    
 
     ---------------------------------------
     -- F-SIGNATURE INTERCEPT COMPUTATION --
@@ -495,10 +496,10 @@ fpt RingElement := o -> f ->
         if o.Verbose then print "\nBeginning F-signature computation ...";
         s1 := fSig( f, n-1, e );
         if o.Verbose then
-	    print( "\nFirst F-signature computed: s(f,(nu-1)/p^e) = " | toString s1 | " ..." );
+	    print( "\nFirst F-signature computed: s(f,(ν-1)/p^e) = " | toString s1 | " ..." );
         s2 := fSig( f, n, e );
         if o.Verbose then
-            print( "\nSecond F-signature computed: s(f,nu/p^e) = " | toString s2 | " ..." );
+            print( "\nSecond F-signature computed: s(f,ν/p^e) = " | toString s2 | " ..." );
         -- Compute intercept of line through ((nu-1)/p^2,s1) and (nu/p^e,s2)
         int := xInt( (n-1)/p^e, s1, n/p^e, s2 );
         if o.Verbose then
@@ -540,11 +541,11 @@ fpt RingElement := o -> f ->
 	print "\nfpt failed to find the exact answer; try increasing the value of DepthOfSearch or Attempts.";
         print(
 	    "\nfpt lies in the interval " |
-	    ( if strictLB then "( " else "[ " ) |
+	    ( if strictLB then "(" else "[" ) |
 	    toString LB |
-	    ", " |
+	    "," |
 	    toString UB |
-	    ( if strictUB then " )." else " ]." )
+	    ( if strictUB then ")." else "]." )
         )
     );
     { LB, UB }

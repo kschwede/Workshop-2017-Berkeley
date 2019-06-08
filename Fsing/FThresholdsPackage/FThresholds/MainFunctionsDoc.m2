@@ -188,22 +188,20 @@ doc ///
              fpt(x^3 + y^3 + z^3 + x*y*z)
              fpt(x^5 + y^6 + z^7 + (x*y*z)^3)
         Text
-             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is a monomial, a diagonal polynomial, a binomial, a form in two variables, or in simple normal crossing,  respectively.
-             If $f$ is a monomial, its $F$-pure threshold is easily computed.
-             If it is either a a diagonal polynomial, a binomial, or a form in two variables, then algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.  If it is in simple normal crossing, the $F$-pure threshold is easily computed.
-            Finally, if $f$ is none of the first four possibilities, the function @TO isSimpleNormalCrossing@ is called to check whether its factors are in simple normal crossing, in which case its $F$-pure threshold is found via a simple computation.
+             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is a diagonal polynomial, a binomial, a form in two variables, or in simple normal crossing,  respectively.
+             If it is either a a diagonal polynomial, a binomial, or a form in two variables, then algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.  
+             If it is in simple normal crossing, the $F$-pure threshold is easily computed.
         Example
-            fpt(x^3*y^4*z^5) -- a monomial
             fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
             fpt(x^2*y^6*z^10 + x^10*y^5*z^3) -- a binomial
+            fpt((x + y + z)^6*y^7*z^10) -- SNC
             ZZ/5[x,y];
-            c = fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a form in two variables
-            fpt((x+y)^2*x^3) -- SNC
+            fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a form in two variables
         Text
             The computation of the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and can sometimes hang when attempting that factorization.
             For this reason, when a factorization is already known, the user can pass to {\tt fpt} a list containing all the pairwise prime linear factors of $f$ and a list containing their respective multiplicities.
         Example
-            fpt({x, y, x + y, x + 3*y}, {2, 6, 9, 10}) == c
+            fpt({x, y, x + y, x + 3*y}, {2, 6, 9, 10}) == oo
         Text
             When no special algorithm is available or {\tt UseSpecialAlgorithms} is set to {\tt false}, {\tt fpt} computes $\nu$ = @TO nu@{\tt (e,f)}, where $e$ is the value of the option {\tt DepthOfSearch}, which conservatively defaults to {\tt 1}.
             At this point, we know that the $F$-pure threshold of $f$ lies in the closed interval [$\nu/(p^e-1),(\nu+1)/p^e$], and the subroutine {\tt guessFPT} is called to make some "educated guesses" in an attempt to find the $F$-pure threshold, or at least narrow down the above interval.
@@ -254,7 +252,7 @@ doc ///
             timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less time
         Text
             As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
-            Whether that interval is open, closed, or a mixed interval depends on the options passed; if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
+            Whether that interval is open, closed, or a mixed interval depends on the options passed (it will be open whenever {\tt Attempts} is set to at least {\tt 3}); if the option {\tt Verbose} is set to {\tt true}, the precise interval will be printed.
         Example
             f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
             fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
@@ -639,7 +637,7 @@ doc ///
             time nu(3, f) -- ContainmentTest is set to FrobeniusRoot, by default
             time nu(3, f, ContainmentTest => StandardPower)
         Text
-            Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above, {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$^{th} (generalized) Frobenius power of $I$ is not contained in the $p^e$-th Frobenius power of $J$.
+            Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above, {\tt nu(e, I, J, ContainmentTest => FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$^{th} (generalized) Frobenius power of $I$ is not contained in the $p^e$-th Frobenius power of $J$.
             Here, the $n$^{th} Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper {\it Frobenius Powers} by Hernández, Teixeira, and Witt.
             In particular, {\tt nu(e,I,J)} and {\tt nu(e,I,J,ContainmentTest=>FrobeniusPower)} need not agree.
             However, they will agree when $I$ is a principal ideal.
@@ -663,14 +661,14 @@ doc ///
             The option {\tt IsLocal} (default value {\tt true}) can be turned off to tell {\tt nu} to effectively do the computation over all possible maximal ideals $J$ and take the minimum.
         Example
             R = ZZ/7[x,y];
-            f = (x-1)^3 - (y-2)^2;
+            f = (x - 1)^3 - (y - 2)^2;
             nu(1, f)
             nu(1, f, IsLocal => false)
-            g = x^3 - y^2
-            nu(1, g)
         Text
             The option {\tt ReturnList} (default value {\tt false}) can be used to request that the output be not only $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=0,\ldots,e$.
         Example
+            R = ZZ/5[x,y,z];
+            f = x^2*y^4 + y^2*z^7 + z^2*x^8;
             nu(5, f, ReturnList => true)
         Text
             Alternatively, the option {\tt Verbose} (default value {\tt false}) can be used to request that the values $\nu_I^J(p^i)$ ($i=0,\ldots,e$) be printed as they are computed, to monitor the progress of the computation.
