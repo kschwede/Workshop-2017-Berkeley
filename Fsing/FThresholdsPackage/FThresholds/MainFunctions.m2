@@ -752,10 +752,8 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
     );
     if o.Verbose or debugLevel > 1 then
         print concatenate("compareFPT: testIdeal(f^(t-epsilon)) = ", toString( (computedHSLG* R1 ) : newDenom ));
-    if isProper( ((computedHSLG * R1 ) : newDenom ) + locMax) then return 1;
-    --the fpt we picked is too big
-    0
-    --it is the FPT!
+    if isProper( ((computedHSLG * R1 ) : newDenom ) + locMax) then 1 --the fpt we picked is too big
+    else 0 --it is the FPT!
 )
 
 compareFPTPoly = method( Options => { IsLocal => false, FrobeniusRootStrategy => Substitution, Verbose => false } )
@@ -800,9 +798,8 @@ compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
     );
     if o.Verbose or debugLevel > 1 then
         print concatenate("compareFPTPoly: testIdeal(f^(t-epsilon)) = ", toString(computedHSLG ));
-    if isProper (computedHSLG + locMax) then return 1;
-    --the fpt we picked is too small
-    0 --it is the FPT!
+    if isProper (computedHSLG + locMax) then 1 --the fpt we picked is too small 
+    else 0 --it is the FPT!
 )
 
 -- isInForbiddenInterval takes a prime number p and a rational number t

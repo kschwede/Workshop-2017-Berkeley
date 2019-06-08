@@ -8,22 +8,7 @@
 --*************************************************
 
 --*************************************************
---Basic Manipulations with Numbers
---*************************************************
---===============================================================================
-
--- denominator ZZ := x -> 1
--- numerator ZZ := x -> x
-
---===============================================================================
-
---Finds the fractional part of a number.
--- fracPart = x -> x - floor x
-
---===============================================================================
-
---*************************************************
---Manipulations with Vectors
+--Manipulations with Lists
 --*************************************************
 
 --===============================================================================
@@ -50,18 +35,9 @@ positivePositions = L -> positions( L, x -> x > 0 )
 
 --===============================================================================
 
--- -- Given a list L and a function f, minimalBy( L, f ) selects the elements
--- -- of L with minimal value of f
--- minimalBy = ( L, f ) ->
--- (
---     minValue := min( f \ L );
---     select( L, i -> f(i) == minValue )
--- )
-
---===============================================================================
-
 --*************************************************
---Tests for various types of polynomials
+-- Tests for various types of polynomials and 
+-- other objects
 --*************************************************
 
 --===============================================================================
@@ -80,19 +56,6 @@ isPolynomialOverPosCharField = method( TypicalValue => Boolean )
 isPolynomialOverPosCharField RingElement := Boolean => F ->
     isPolynomial F and isField( kk := coefficientRing ring F ) and char kk > 0
 
--*
---===============================================================================
-
---isPolynomialOverFiniteField(F) checks if F is a polynomial over a finite field.
-isPolynomialOverFiniteField = method( TypicalValue => Boolean )
-
--- isPolynomialOverFiniteField (RingElement) := Boolean => F ->
---     isPolynomialOverPosCharField( F ) and isFinitePrimeField coefficientRing ring F
-
-isPolynomialOverFiniteField RingElement := Boolean => F ->
-    isPolynomialOverPosCharField F and  ( try (coefficientRing ring F)#order then true else false )
-*-
-
 --===============================================================================
 
 -- isDefinedOverFiniteField checks if somethethig is a polynomial ring over a
@@ -110,7 +73,6 @@ isDefinedOverFiniteField RingElement := Boolean => f ->
 
 --===============================================================================
 
-
 --Determines whether a polynomial f is a diagonal polynomial (i.e., of the form
 --x_1^(a_1)+...+x_n^(a_n)) over a field of positive characteristic
 isDiagonal = method( TypicalValue => Boolean )
@@ -118,7 +80,6 @@ isDiagonal = method( TypicalValue => Boolean )
 isDiagonal RingElement := Boolean => f ->
     isPolynomialOverPosCharField f  and
     product( exponents f, v -> #(positions( v, x -> x != 0 )) ) == 1
-
 
 --===============================================================================
 
@@ -149,18 +110,7 @@ isBinaryForm RingElement := Boolean => F ->
 -- isHomogeneous is avoided below to account for non-standard gradings
     isPolynomial F and numgens ring F == 2 and same apply( exponents F, i -> sum i)
 
--*
 --===============================================================================
-
---isNonconstantBinaryForm(F) checks if F is a nonconstant homogeneous polynomial
--- in two variables. See warning under "isBinaryForm".
-isNonConstantBinaryForm = method( TypicalValue => Boolean )
-
-isNonConstantBinaryForm RingElement := Boolean => F ->
-    isBinaryForm F  and ( apply( exponents F, i -> sum i) )#0 > 0
-
---===============================================================================
-*-
 
 --isLinearBinaryForm(F) checks if F is a linearform in two variables. See warning
 --under "isBinaryForm".
@@ -264,6 +214,8 @@ checkOptions ( OptionTable, List ) := ( o, L ) ->
 	)
     )
 )
+
+--===============================================================================
 
 -- passOptions selects a subset of options from an OptionTable
 passOptions = method()
