@@ -219,13 +219,13 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- choose appropriate containment test, if not specified by user
     if conTest === null then conTest = (if isPrincipal then FrobeniusRoot else StandardPower);
     if not o.IsLocal then conTest = GlobalFrobeniusRoot;
-    if o.Verbose then print("nuInternal: using comparison test " | toString conTest);
+    if o.Verbose then print("\nnuInternal: using comparison test " | toString conTest);
     testFct := test#(conTest);
     local N;
     local nu;
     nu = if o.IsLocal then nu1( g, J ) else 0;
     theList := { nu };
-    if o.Verbose then print( "ν(1) = " | toString nu );
+    if o.Verbose then print( "\nν(1) = " | toString nu );
 
     ----------------------
     -- EVERY OTHER CASE --

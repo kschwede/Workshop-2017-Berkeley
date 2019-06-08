@@ -327,11 +327,11 @@ doc ///
     Description
         Text
             In the computation of the $F$-pure threshold of a polynomial $f$, in nontrivial cases and when no special algorithm is used, the function @TO fpt@ uses @TO nu@ to find a closed interval [$A$, $B$] that contains the $F$-pure threshold of $f$.
-            The subroutine {\tt guessFPT} is then called, to first check whether one of the endpoints $B$ or $A$ is the $F$-pure threshold, and then to select rational points in the interval, and check how they are positioned in relation to the $F$-pure threshold, using the function @TO compareFPT@.
+            The subroutine {\tt guessFPT} is then called, to first check whether one of the endpoints $B$ or $A$ is the $F$-pure threshold, and then to select rational numbers in the interval, and check how they are positioned in relation to the $F$-pure threshold, using the function @TO compareFPT@.
             The option {\tt GuessStrategy} controls how this selection of numbers is done.
 
             We start by describing what happens when {\tt GuessStrategy} is set to {\tt null}, its default value.
-            First, a list consisting of all rational numbers in the interval ($A$, $B$) with denominator no larger than a certain fixed number $D$ is created ($D$ is chosen so that enough candidates are produced).
+            First, a list consisting of all rational numbers in the interval ($A$, $B$) with denominator no larger than a certain fixed number $D$ is created, where $D$ is chosen so that enough candidates are produced.
             Using the function @TO decomposeFraction@, from the @TO TestIdeals@ package, each number $t$ in that list is written in the form $t = a$ /($p^b$ ($p^c$ - 1)), where $p$ is the characteristic of the ring of $f$.
             That list of candidates is then sorted based on
 
@@ -350,8 +350,8 @@ doc ///
             Criterion 2, on the other hand, aims at partitioning the interval as evenly as possible.
 
             The option {\tt GuessStrategy} allows the user to choose their own weights for Criterion 1.
-            In that case, the list is sorted based on the user's weights, and then Criterion 1 with default weights and Criterion 2, respectively, are used as tie breakers.
-            For instance, if the user suspects that the (minimal) denominator of the $F$-pure threshold is prime to the characteristic $p$, then weights $w_a =$ 0, $w_b =$ 1, and $w_c =$ 0 might be a reasonable choice, to try to find that $F$-pure threshold with fewer trials.
+            In that case, the list is sorted based on Criterion 1 with the user's weights, and then Criterion 1 with default weights and Criterion 2, respectively, are used as tie breakers.
+            For instance, if the user suspects that the (minimal) denominator of the $F$-pure threshold is prime to the characteristic $p$, then weights $w_a =$ 0, $w_b =$ 1, and $w_c =$ 0 might be a reasonable choice to try to find that $F$-pure threshold with fewer trials.
         Example
             R = ZZ/7[x,y];
             f = 2*x^10*y^10 + 2*x^9*y^8 + 2*x^7*y^10 + 3*x^10*y^5 - 3*x^2*y^8 + 3*x^4*y^5;
@@ -360,14 +360,14 @@ doc ///
         Text
             The user may also pass their own "cost" functions, that take either the candidate rational numbers $t$ as inputs, or pairs ($p$, $t$), where $p$ is the characteristic of the ambient ring.
             The list of candidates is then sorted first by increasing values of that function, and Criteria 1 and 2, respectively, are used as tie breakers.
-            For instance, if the user suspects the $F$-pure threshold has a small denominator, then passing the function {\tt denominator} may help find the answer in fewer trials.
+            For instance, if the user suspects the $F$-pure threshold has a small denominator, then passing the function @TO denominator@ may help find the answer in fewer trials.
         Example
             R = ZZ/5[x,y];
             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
             time fpt(f, DepthOfSearch => 3, Attempts => 10)
             time fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator)
         Text
-            If the user suspects that the $F$-pure threshold contains a $p$ in its denominator, then a suitable function can be used to prioritize such numbers.
+            If the user suspects that the minimal denominator of the $F$-pure threshold is a multiple of $p$, then a suitable function can be used to prioritize such numbers.
         Example
             f = x^9*y^9 - 2*x^10*y^7 - x^5*y^7 + 2*x^4*y^8 + 2*x^5*y^6 + 2*x^8*y^2 + x^7*y^2;
             costFunction = (p,t) -> if denominator(t) % p == 0 then 0 else 1;
