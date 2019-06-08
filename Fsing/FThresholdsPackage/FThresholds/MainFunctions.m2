@@ -146,11 +146,11 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     checkOptions( o,
 	{
 	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null },
+            IsLocal => Boolean,
 	    ReturnList => Boolean,
 	    Search => { Binary, Linear },
 	    UseSpecialAlgorithms => Boolean,
-	    Verbose => Boolean,
-        IsLocal => Boolean
+	    Verbose => Boolean
 	}
     );
     -- Check if f is defined over a finite field
@@ -163,10 +163,12 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- Return list with zeros if f is 0 (per Blickle-Mustata-Smith convention)
     if f == 0 then return if o.ReturnList then toList( (n + 1):0 ) else 0;
     -- Return list with infinities if f is not in the radical of J
-    if (o.IsLocal) then (
+    if o.IsLocal then 
+    (
         inRadical := if isIdeal f then isSubset( f, radical J ) else isSubset( ideal f, radical J );
-        if not inRadical then return if o.ReturnList then toList( (n + 1):infinity ) else infinity;
+        if not inRadical then return if o.ReturnList then toList( (n + 1):infinity ) else infinity
     );
+
     --------------------------------
     -- DEAL WITH PRINCIPAL IDEALS --
     --------------------------------
