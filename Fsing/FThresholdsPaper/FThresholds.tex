@@ -200,11 +200,10 @@ If $f$ is a nonzero polynomial contained in the radical of an ideal $J$, then th
 %, the maximal integer exponent such that $f^n$ is not contained in $J^{[p^e]}$.
 more generally, if a nonzero ideal $I$ is contained in the radical of $J$, then \texttt{nu(e,I,J)} outputs $\nu_I^J(p^e)$. Consider the following example.  %, the maximal integer exponent $n$ such that $I^n$ is not contained in $J^{[p^e]}$.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-
 i1 : R = ZZ/11[x,y];
 
 i2 : I = ideal(x^2 + y^3, x*y);
@@ -226,7 +225,7 @@ i6 : nu(1, f, J)
 o6 = 10
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 % R = ZZ/11[x,y];
 % I = ideal(x^2 + y^3, x*y);
@@ -237,11 +236,10 @@ o6 = 10
 
 We highlight some degenerate cases:  If $f$ is the zero polynomial, then \texttt{nu(e,f,J)} outputs \texttt{0}, and if $f$ is \emph{not} contained in the radical of $J$, then the output is instead \texttt{infinity}.  These degenerate cases extend analogously to the command \texttt{nu(e,I,J)}.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-
 i7 : nu(1, 0_R, J)
 
 o7 = 0
@@ -253,18 +251,17 @@ o8 = infinity
 o8 : InfiniteNumber
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 %nu(1, 0_R, J)
 %nu(1, 1_R, J)
 
 If the third argument is omitted from the function \texttt{nu}, it is assumed to be the maximal ideal $\idealm$.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-
 i9 : R = ZZ/17[x,y,z];
 
 i10 : f = x^3 + y^4 + z^5;
@@ -278,7 +275,7 @@ i12 : nu(2, f) == nu(2, f, m)
 o12 = true
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 %R = ZZ/17[x,y,z];
 %f = x^3 + y^4 + z^5;
@@ -292,29 +289,28 @@ This implies that when searching for the maximal exponent defining \texttt{nu(e,
 As pointed out in the introduction, if $f \in \mathfrak{m}$, the values $\nu^{\mathfrak{m}}_f(p^e)$ can be recovered from the $F$-pure threshold of $f$.
 This fact is used to speed up computations for certain polynomials whose $F$-pure thresholds can be computed quickly via specialized algorithms, namely diagonal polynomials, binomials, and forms in two variables (see Section \ref{sec.FPT}).  This feature can be disabled by setting the option \texttt{UseSpecialAlgorithms} (default value \texttt{true}) to \texttt{false}.  Consider the following example, where $f$ is a diagonal polynomial.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i13 : R = ZZ/17[x,y,z];
 
-i1 : R = ZZ/17[x,y,z];
+i14 : f = x^3 + y^4 + z^5; -- a diagonal polynomial
 
-i2 : f = x^3 + y^4 + z^5; -- a diagonal polynomial
+i15 : time nu(3, f)
+     -- used 0.0108065 seconds
 
-i3 : time nu(3, f)
-     -- used 0.00552312 seconds
+o15 = 3756
 
-o3 = 3756
+o15 : QQ
 
-o4 : QQ
+i16 : time nu(3, f, UseSpecialAlgorithms => false)
+     -- used 0.209325 seconds
 
-i4 : time nu(3, f, UseSpecialAlgorithms => false)
-     -- used 0.155826 seconds
-
-o4 = 3756
+o16 = 3756
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 % R = ZZ/17[x,y,z];
 % f = x^3 + y^4 + z^5; -- a diagonal polynomial
@@ -329,41 +325,40 @@ We now describe the options available for the function \texttt{nu}.  We focus pr
 In general, the function \texttt{nu} works by searching through a list of integers $n$, and checking containments of the $n$-th power of $I$ in a specified Frobenius power of $J$.
 The user can specify how this search is approached through the  option \texttt{Search}.  Namely, a binary search is used when \texttt{Search} is set to \texttt{Binary} (and this is the option's default value), and a linear search is run when it is set to \texttt{Linear}.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i17 : R = ZZ/5[x,y,z];
 
-i1 : R = ZZ/5[x,y,z];
+i18 : f = x^2*y^4 + y^2*z^7 + z^2*x^8;
 
-i2 : f = x^2*y^4 + y^2*z^7 + z^2*x^8;
+i19 : time nu(5, f) -- uses binary search (default)
+     -- used 0.350179 seconds
 
-i3 : time nu(5, f) -- uses binary search (default)
-     -- used 0.313778 seconds
+o19 = 1124
 
-o3 = 1124
+i20 : time nu(5, f, Search => Linear)
+     -- used 0.485823 seconds
 
-i4 : time nu(5, f, Search => Linear)
-     -- used 0.441903 seconds
+o20 = 1124
 
-o4 = 1124
+i21 : m = ideal(x, y, z);
 
-i5 : m = ideal(x, y, z);
+o21 : Ideal of R
 
-o5 : Ideal of R
+i22 : time nu(2, m, m^2) -- uses binary search (default)
+     -- used 1.71206 seconds
 
-i6 : time nu(2, m, m^2) -- uses binary search (default)
-     -- used 1.58258 seconds
+o22 = 97
 
-o6 = 97
+i23 : time nu(2, m, m^2, Search => Linear) -- but linear seach gets luckier
+     -- used 0.536135 seconds
 
-i7 : time nu(2, m, m^2, Search => Linear) -- but linear seach gets luckier
-     -- used 0.531175 seconds
-
-o7 = 97
+o23 = 97
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 %R = ZZ/5[x,y,z];
 %f = x^2*y^4 + y^2*z^7 + z^2*x^8;
@@ -377,18 +372,20 @@ o7 = 97
 If the option \texttt{ReturnList} is changed from its default value of \texttt{false} to \texttt{true}, rather than simply outputting $\nu_I^J(p^e)$, \texttt{nu} outputs a list of the values $\nu_I^J(p^s)$, for $s=0,\ldots,e$.
 Alternatively, the same information can be found by setting the option \texttt{Verbose} to \texttt{true} (its default value is \texttt{false}), to request that each of these values $\nu_I^J(p^s)$ is printed as they are iteratively computed.  This can also serve a way to monitor the progress of the computation.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i8 : nu(5, f, ReturnList => true)
+i24 : nu(5, f, ReturnList => true)
 
-o8 = {0, 1, 8, 44, 224, 1124}
+o24 = {0, 1, 8, 44, 224, 1124}
 
-o8 : List
+o24 : List
 
-i9 : nu(5, f, Verbose => true)
+i25 : nu(5, f, Verbose => true)
+
 nuInternal: using comparison test FrobeniusRoot
+
 ν(1) = 0
 ν(p^1) = 1
 ν(p^2) = 8
@@ -396,10 +393,10 @@ nuInternal: using comparison test FrobeniusRoot
 ν(p^4) = 224
 ν(p^5) = 1124
 
-o9 = 1124
+o25 = 1124
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 %nu(5, f, ReturnList => true)
 %nu(5, f, Verbose => true)
@@ -414,27 +411,26 @@ The option \texttt{ContainmentTest} for \texttt{nu} allows the user to choose wh
 If \texttt{ContainmentTest} is set to \texttt{StandardPower}, then \texttt{nu(e,I,J)} is computed by testing the left-hand containment above, and when it is set to \texttt{FrobeniusRoot}, the right-hand containment is checked.
 For efficiency reasons, the default value for \texttt{ContainmentTest} is set to  \texttt{FrobeniusRoot} if the second argument passed to \texttt{nu} is a polynomial, and is set to \texttt{StandardPower} if it is an ideal.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i26 : R = ZZ/11[x,y,z];
 
-i1 : R = ZZ/11[x,y,z];
+i27 : f = x^3 + y^3 + z^3 + x*y*z;
 
-i2 : f = x^3 + y^3 + z^3 + x*y*z;
+i28 : time nu(3, f) -- ContainmentTest is set to FrobeniusRoot, by default
+     -- used 0.127375 seconds
 
-i3 : time nu(3, f) -- ContainmentTest is set to FrobeniusRoot, by default
-     -- used 0.116697 seconds
+o28 = 1209
 
-o3 = 1209
+i29 : time nu(3, f, ContainmentTest => StandardPower)
+     -- used 9.57149 seconds
 
-i4 : time nu(3, f, ContainmentTest => StandardPower)
-     -- used 9.65013 seconds
-
-o4 = 1209
+o29 = 1209
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 % R = ZZ/11[x,y,z];
 % f = x^3 + y^3 + z^3 + x*y*z;
@@ -445,27 +441,26 @@ The option \texttt{ContainmentTest} has a third possible value, \texttt{Frobeniu
 Given an ideal $I$, the first, third, and fourth authors introduced the notion of a (generalized) Frobenius power $I^{[n]}$ of $I$, when $n$ is an arbitrary positive integer, not necessarily of the form $n = p^e$ \cite{hernandez+etal.frobenius_powers}.
 When \texttt{ContainmentTest} is set to \texttt{FrobeniusPower}, rather than  computing $\nu_I^J(p^e)$, the function \texttt{nu} computes the maximal integer $n$ for which $I^{[n]}$ is not contained in $J^{[p^e]}$.  This number is denoted $\mu_I^J(p^e)$ in \emph{loc.\ cit.}, and equals $\nu_I^J(p^e)$ when $I$ is replaced with a polynomial, or is a principal ideal.  However, these number need not agree in general, as we see below.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i30 : R = ZZ/3[x,y];
 
-i1 : R = ZZ/3[x,y];
+i31 : m = ideal(x, y);
 
-i2 : m = ideal(x, y);
+o31 : Ideal of R
 
-o2 : Ideal of R
+i32 : nu(3, m^5)
 
-i3 : nu(3, m^5)
+o32 = 10
 
-o3 = 10
+i33 : nu(3, m^5, ContainmentTest => FrobeniusPower)
 
-i4 : nu(3, m^5, ContainmentTest => FrobeniusPower)
-
-o4 = 8
+o33 = 8
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
  In line with the philosophy described in the introduction, after appropriately normalizing and taking the limit as $e$ approaches infinity, the values $\mu_I^J(p^e)$ determine certain invariants of interest called \emph{critical exponents}.
 
@@ -481,26 +476,23 @@ the value of \texttt{IsLocal} is set to \texttt{false} (from its default value \
 % This is done by instead of computing for which $n$ we have $I^{n} \subseteq J^{[p^e]}$ (or equivalently, $(I^n)^{[1/p^e]} \subseteq J$), it 
 %by determining the values $n$ for which $(I^n)^{[1/p^e]}$ is a unit ideal.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i34 : R = ZZ/7[x,y];
 
-i1 : R = ZZ/7[x,y];
+i35 : f = (x - 1)^3 - (y - 2)^2;
 
-i2 : f = (x-1)^3 - (y-2)^2;
+i36 : nu(1, f)
 
-i3 : nu(1, f)
+o36 = infinity
 
-o3 = infinity
+o36 : InfiniteNumber
 
-o3 : InfiniteNumber
+i37 : nu(1, f, IsLocal => false)
 
-i4 : nu(1, f, IsLocal => false)
-
-o4 = 5
-
-o4 : QQ
+o37 = 5
 \end{MyVerbatim}
 }
 
@@ -520,11 +512,10 @@ Given a parameter $t \in \mathbb{Q}$ and an element $f$ of $R$, the command \tex
 Moreover, the function \texttt{compareFPT} provides further information about the relationship between $t$ and the $F$-pure threshold of $f$; namely,
 \texttt{compareFPT(t, f)} returns {\tt-1}, \texttt{0}, or \texttt{1} when $t$ is less than, equal to, or greater than, respectively, the $F$-pure threshold of $f$.  Setting the option \texttt{IsLocal} to \texttt{true} tells the function to consider the $F$-pure threshold at the origin.  The following example illustrates this functionality.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-
 i1 : R = ZZ/11[x, y, z]/(x^2 - y*(z - 1));
 
 i2 : compareFPT(5/11, z - 1)
@@ -540,7 +531,7 @@ i4 : isFPT(1/2, z - 1, IsLocal => true)
 o4 = false
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 The general method applied calls upon functionality from the \emph{TestIdeals} package.  The functions \texttt{testIdeal} and \texttt{FPureModule} therein are used
 to compute the test ideals of $f$ with respect to the parameter $t$, and that with respect to $t - \varepsilon$, for $\varepsilon>0$ very small. For instance, as noted in the introduction, when $R$ is a polynomial ring, $t$ is the $F$-pure threshold of $f$ if and only if $\tau(R, f^t)$ is contained in the homogeneous maximal ideal, but
@@ -551,33 +542,37 @@ Note that for $R$ strongly $F$-regular and Gorenstein, \texttt{FPureModule(t, f)
 Since not only the $F$-pure thresholds, but also the higher $F$-jumping numbers, are determined by containment conditions on test ideals, the functionality is extended to determine whether a given number is an $F$-jumping number.
 Analogous syntax is used, as shown in the following example.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i1 : R = ZZ/11[x, y, z]/(x^2 - y*(z - 1));
 
-i49 : R = ZZ/13[x, y];
+i2 : compareFPT(5/11, z - 1)
 
-i50 : f = y*((y + 1) - (x - 1)^2)*(x - 2)*(x + y - 2);
+o2 = -1
 
-i51 : isFJumpingExponent(3/4, f)
+i3 : isFPT(1/2, z - 1)
 
-o51 = true
+o3 = true
+
+i4 : isFPT(1/2, z - 1, IsLocal => true)
+
+o4 = false
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 \section{The \texttt{fpt} function}
 \label{sec.FPT}
 
 The core function in the package \emph{FrobeniusThresholds} is called \texttt{fpt}.  Throughout this section, let $f$ be a polynomial with coefficients in a finite field of characteristic $p$. When passed the polynomial $f$, the function \texttt{fpt} attempts to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.  Otherwise, it returns lower and upper bounds for the $F$-pure threshold, as demonstrated below.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-
-i1 : ZZ/5[x,y,z];
+i1 : R = ZZ/5[x,y,z];
 
 i2 : fpt(x^3 + y^3 + z^3 + x*y*z)
 
@@ -589,14 +584,14 @@ o2 : QQ
 
 i3 : fpt(x^5 + y^6 + z^7 + (x*y*z)^3)
 
-      1  2
-o3 = {-, -}
-      3  5
+       7  2
+o3 = {--, -}
+      25  5
 
 o3 : List
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 \subsection{The option \texttt{UseSpecialAlgorithms}}
 
@@ -606,11 +601,10 @@ The \texttt{fpt} function has an option called \texttt{UseSpecialAlgorithms}, wh
 When $f$ is a diagonal polynomial, a binomial, or a form in two variables, algorithms of Hern\'andez \cite{HernandezFInvariantsOfDiagonalHyp, HernandezFPureThresholdOfBinomial}, or Hern\'andez and Teixeira \cite{HernandezTeixeiraFThresholdFunctions},  are executed to compute the $F$-pure threshold.
 Algorithms for computing $F$-pure thresholds of binomials also appear in \cite{ShibutaTakagiLCThresholds}, though they are only valid in certain special characteristics.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-
 i4 : fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
 
       94
@@ -627,7 +621,7 @@ o5 = ----
 
 o5 : QQ
 
-i6 : ZZ/5[x,y];
+i6 : R = ZZ/5[x,y];
 
 i7 : fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a form in two variables
 
@@ -638,24 +632,23 @@ o7 = -----
 o7 : QQ
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 The above noted algorithm for computing the $F$-pure threshold of a binary form $f$ requires factoring $f$ into linear forms, and \texttt{fpt} can sometimes hang when attempting that factorization, when the factorization occurs in a Galois field of excessively large order.
 This is a situation when the user will want to set the option \texttt{UseSpecialAlgorithms} to \texttt{false}.
 However, when a factorization is already known, instead of passing $f$ to \texttt{fpt}, the user can pass a list containing all the pairwise coprime linear factors of $f$ to \texttt{fpt}, and a list containing their respective multiplicities.
 
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-
 i8 : fpt({x, y, x + y, x + 3*y}, {2, 6, 9, 10}) == oo
 
 o8 = true
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 If \texttt{UseSpecialAlgorithms} is set to \texttt{true} and $f$ does not fall into any of the aforementioned cases, then the function \texttt{fpt} next calls \texttt{isSimpleNormalCrossing(f)} to check whether the polynomial $f$ is a product of factors that are in simple normal crossing, in which case the $F$-pure threshold can easily be computed.
 For more detail on the function \texttt{isSimpleNormalCrossing} and on computing the $F$-pure threshold of a polynomial with simple normal crossings, please see Section \ref{subsec.SNC}.
@@ -677,68 +670,63 @@ More specifically, let $e$ denote the value of the option \texttt{DepthOfSearch}
 
 With these estimates in hand, the subroutine \texttt{guessFPT} is called to make some ``educated guesses" in an attempt to identify the $F$-pure threshold within this interval, or at least narrow down this interval to produce improved estimates.  The number of ``guesses" is controlled by the option \texttt{Attempts}, which conservatively defaults to \texttt{3}.  If \texttt{Attempts} is set to \texttt{0}, then \texttt{guessFPT} is bypassed. If  \texttt{Attempts} is set to at least \texttt{1}, then a first check is run to verify whether the right-hand endpoint $(\nu+1)/p^e$ of the above interval \eqref{estimating-interval: e} is the $F$-pure threshold.  We illustrate this below.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i9 : f = x^2*(x + y)^3*(x + 3*y^2)^5;
 
-i12 : f = x^2*(x + y)^3*(x + 3*y^2)^5;
-
-i13 : fpt(f, Attempts => 0) -- a bad estimate
+i10 : fpt(f, Attempts => 0) -- a bad estimate
 
           1
-o13 = {0, -}
+o10 = {0, -}
           5
 
-o13 : List
+o10 : List
 
-i14 : fpt(f, Attempts => 0, DepthOfSearch => 3) -- a better estimate
+i11 : fpt(f, Attempts => 0, DepthOfSearch => 3) -- a better estimate
 
         21   22
-o14 = {---, ---}
+o11 = {---, ---}
        124  125
 
-o14 : List
+o11 : List
 
-i15 : fpt(f, Attempts => 1, DepthOfSearch => 3) -- the right-hand
-
+i12 : fpt(f, Attempts => 1, DepthOfSearch => 3) -- the right-hand
       endpoint (nu+1)/p^e is the F-pure threshold
 
        22
-o15 = ---
+o12 = ---
       125
 
-o15 : QQ
-
+o12 : QQ
 \end{MyVerbatim}
 }
 
 If  \texttt{Attempts} is set to at least \texttt{2} and the right-hand endpoint $(\nu+1)/p^e$ of the interval \eqref{estimating-interval: e} is not the $F$-pure threshold, then a second check is run to verify whether the left-hand endpoint $\nu/(p^e-1)$ of this interval is the $F$-pure threshold.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i13 : f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
 
-i16 : f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
-
-i17 : fpt(f, Attempts => 1, DepthOfSearch => 3)
+i14 : fpt(f, Attempts => 1, DepthOfSearch => 3)
 
        17   7
-o17 = {--, --}
+o14 = {--, --}
        62  25
 
-o17 : List
+o14 : List
 
-i18 : fpt(f, Attempts => 2, DepthOfSearch => 3) -- the left-hand endpoint
+i15 : fpt(f, Attempts => 2, DepthOfSearch => 3) -- the left-hand endpoint
       nu/(p^e-1) is the F-pure threshold
 
       17
-o18 = --
+o15 = --
       62
 
-o18 : QQ
-
+o15 : QQ
 \end{MyVerbatim}
 }
 
@@ -746,71 +734,68 @@ If neither endpoint is the $F$-pure threshold and \texttt{Attempts} is set to mo
 First, a number in the interval is selected, according to criteria specified by the value of the option \texttt{GuessStrategy}; we refer the reader for the documentation of this option for more details.
 Then the function \texttt{compareFPT} is used to test that number. If that ``guess'' is correct, its value is returned; otherwise, the data returned by \texttt{compareFPT} is used to narrow down the interval, and this process is repeated as many times as specified by \texttt{Attempts}.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i16 : f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
 
-i19 : f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
-
-i20 : fpt(f, DepthOfSearch => 3, Attempts => 2)
+i17 : fpt(f, DepthOfSearch => 3, Attempts => 2)
 
         3   7
-o20 = {--, ---}
+o17 = {--, ---}
        62  125
 
-o20 : List
+o17 : List
 
-i21 : fpt(f, DepthOfSearch => 3, Attempts => 4) -- more attempts *always*
+i18 : fpt(f, DepthOfSearch => 3, Attempts => 4) -- more attempts *always*
       improve the estimate
 
         1   4
-o21 = {--, --}
+o18 = {--, --}
        20  75
 
-o21 : List
+o18 : List
 
-i22 : fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator)
+i19 : fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator)
       -- the exact answer, after a change of strategy
 
        1
-o22 = --
+o19 = --
       19
 
-o22 : QQ
+o19 : QQ
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 
 The option \texttt{Bounds} allows the user to specify known lower and upper bounds for the $F$-pure threshold of $f$, in order to speed up computations or to refine previously obtained estimates.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i20 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 
-i23 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
-
-i24 : fpt(f, DepthOfSearch => 3, Attempts => 5)
-
+i21 : fpt(f, DepthOfSearch => 3, Attempts => 5)
 
         3   1
-o24 = {--, --}
+o21 = {--, --}
        40  13
 
-o24 : List
+o21 : List
 
-i25 : fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo)
+i22 : fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo)
 
         24   1
-o25 = {---, --}
+o22 = {---, --}
        313  13
 
-o25 : List
+o22 : List
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 % f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 % fpt(f, DepthOfSearch => 3, Attempts => 5)
@@ -820,28 +805,27 @@ If \texttt{guessFPT} is unsuccessful and \texttt{FinalAttempt} is set to \texttt
 If successful, the new lower bound may coincide with the upper bound, in which case we can conclude that it is the desired $F$-pure threshold.
 If this is not the case, an $F$-regularity check is done at the new lower bound, to verify if it is the $F$-pure threshold.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i23 : f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
 
-i26 : f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
+i24 : numeric fpt(f, DepthOfSearch => 3)
 
-i27 : numeric fpt(f, DepthOfSearch => 3)
+o24 = {.153226, .158333}
 
-o27 = {.153226, .158333}
+o24 : List
 
-o27 : List
-
-i28 : numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
+i25 : numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
       -- FinalAttempt improves the estimate slightly
 
-o28 = {.153461, .158333}
+o25 = {.153461, .158333}
 
-o28 : List
+o25 : List
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 % f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
 % numeric fpt(f, DepthOfSearch => 3)
@@ -849,40 +833,39 @@ o28 : List
 
 The computations performed when \texttt{FinalAttempt} is set to \texttt{true} are often slow, and often fail to improve the estimate, and for this reason, this option should be used sparingly. It is often more effective to increase the values of \texttt{Attempts} or \texttt{DepthOfSearch}, instead.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i26 : f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
 
-i29 : f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
+i27 : timing numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
 
-i30 : timing numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
+o27 = {.153461, .158333}
+      -- 1.37902 seconds
 
-o30 = {.153461, .158333}
-      -- 1.29156 seconds
+o27 : Time
 
-o30 : Time
-
-i31 : timing numeric fpt(f, DepthOfSearch => 3, Attempts => 4) -- a better
+i28 : timing numeric fpt(f, DepthOfSearch => 3, Attempts => 4) -- a better
       answer in less time
 
-o31 = {.153333, .158333}
-      -- .554321 seconds
+o28 = {.153333, .158333}
+      -- .614248 seconds
 
-o31 : Time
+o28 : Time
 
-i32 : timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less
+i29 : timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less
       time
 
        98
-o32 = ---
+o29 = ---
       625
-      -- .274657 seconds
+      -- .297493 seconds
 
-o32 : Time
+o29 : Time
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 % f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
 % timing numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
@@ -892,14 +875,13 @@ o32 : Time
 As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
 Whether that interval is open, closed, or a mixed interval depends on the options passed (it will be \emph{open} whenever \texttt{Attempts} is set to at least \texttt{3}); if the option \texttt{Verbose} is set to true, the precise interval will be printed.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i30 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 
-i33 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
-
-i34 : fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
+i31 : fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
 
 Starting fpt ...
 
@@ -909,9 +891,9 @@ Verifying if special algorithms apply...
 
 Special fpt algorithms were not used ...
 
-nu has been computed: nu = nu(3,f) = 9 ...
+ν has been computed: ν = ν(3,f) = 9 ...
 
-fpt lies in the interval [ nu/(p^e-1), (nu+1)/p^e ] = [ 9/124, 2/25 ] ...
+fpt lies in the interval [ν/(p^e-1),(ν+1)/p^e] = [9/124,2/25] ...
 
 Starting guessFPT ...
 
@@ -919,13 +901,13 @@ The right-hand endpoint is not the fpt ...
 
 The left-hand endpoint is not the fpt ...
 
-guessFPT narrowed the interval down to ( 3/40, 2/25 ) ...
+guessFPT narrowed the interval down to (3/40,2/25) ...
 
 Beginning F-signature computation ...
 
-First F-signature computed: s(f,(nu-1)/p^e) = 456/15625 ...
+First F-signature computed: s(f,(ν-1)/p^e) = 456/15625 ...
 
-Second F-signature computed: s(f,nu/p^e) = 64/15625 ...
+Second F-signature computed: s(f,ν/p^e) = 64/15625 ...
 
 Computed F-signature secant line intercept: 449/6125 ...
 
@@ -934,44 +916,43 @@ F-signature computation failed to find an improved lower bound ...
 fpt failed to find the exact answer; try increasing the value of
 DepthOfSearch or Attempts.
 
-fpt lies in the interval ( 3/40, 2/25 ).
+fpt lies in the interval (3/40,2/25).
 
         3   2
-o34 = {--, --}
+o31 = {--, --}
        40  25
 
-o34 : List
+o31 : List
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 Finally, we point out that one can set the option \texttt{IsLocal} from its default value of \texttt{true} to \texttt{false}, to compute the $F$-pure threshold globally. In other words, it computes the minimum of the $F$-pure threshold at all maximal ideals.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i32 : R = ZZ/7[x,y];
 
-i1 : R = ZZ/7[x,y];
+i33 : f = (y - 1)^2-(x - 1)^3;
 
-i2 : f = (y-1)^2-(x-1)^3;
+i34 : fpt(f, IsLocal => false)
 
-i3 : fpt(f, IsLocal => false)
+      5
+o34 = -
+      6
 
-     5
-o3 = -
-     6
+o34 : QQ
 
-o3 : QQ
+i35 : fpt(f)
 
-i4 : fpt(f)
+o35 = infinity
 
-o4 = infinity
-
-o4 : InfiniteNumber
+o35 : InfiniteNumber
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 % R = ZZ/7[x,y];
 % f = (y-1)^2-(x-1)^3;
 % fpt(f, IsLocal => false)
@@ -986,36 +967,25 @@ As mentioned earlier, the function \texttt{isSimpleNormalCrossings} verifies whe
 Suppose that $f$ has factorization $f_1^{a_i} f_2^{a_2} \cdots f_n^{a_n}$.  Recall that its factors $f_i$ are said to be in
 \emph{simple normal crossing} at a point if, locally, they form part of a regular system of parameters.  The function \texttt{isSimpleNormalCrossings} determines whether $f$ has simple normal crossings by computing the Jacobian matrix of each subset of $\{ f_i \}_{i=1}^n$ (evaluated at the origin), and checking that these matrices have the expected rank, and that these subsets generate ideals of the appropriate height.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i36 : R = ZZ/7[x, y, z];
 
-i1 : R = ZZ/7[x, y, z];
+i37 : isSimpleNormalCrossing(x^2 - y^2)
 
-i2 : isSimpleNormalCrossing(x^3*y^2)
+o37 = true
 
-o2 = true
+i38 : isSimpleNormalCrossing(x^2 - y*z)
 
-i3 : isSimpleNormalCrossing(x^2-y^2)
-
-o3 = true
-
-i4 : isSimpleNormalCrossing(x*y*(x-y))
-
-o4 = false
-
-i5 : isSimpleNormalCrossing(x^2-y*z)
-
-o5 = false
+o38 = false
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 %             R = ZZ/7[x,y,z];
-%             isSimpleNormalCrossing(x^3*y^2)
 %             isSimpleNormalCrossing(x^2-y^2)
-%             isSimpleNormalCrossing(x*y*(x-y))
 %             isSimpleNormalCrossing(x^2-y*z)
 
 If \texttt{isSimpleNormalCrossing(f)} outputs true, then the $F$-pure threshold is easily computed, since is just the minimum of the values $1/a_i$, for $1 \leq i \leq n$.
@@ -1024,50 +994,34 @@ Note that the function \texttt{factor} is called whenever \texttt{isSimpleNormal
 The function \texttt{isSimpleNormalCrossing} is exposed to the user, so can be used independent of any $F$-pure threshold calculation.
 If the user sets its option \texttt{IsLocal} to \texttt{true} (its default value is \texttt{false}), then the function checks whether the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower since Jacobian ideals are computed. Consider the following example illustrating this functionality.
 
-\medspace
+\bigskip
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
+i39 : R = QQ[x, y, z];
 
-i1 : R = QQ[x, y, z];
+i40 : f = (y - (x - 1)^2)*y^2; --SNC at the origin, but not globally
 
-i2 : f = (y - (x-1)^2)*y^2; --SNC at the origin, but not globally
+i41 : isSimpleNormalCrossing(f)
 
-i3 : isSimpleNormalCrossing(f)
+o41 = true
 
-o3 = true
+i42 : isSimpleNormalCrossing(f, IsLocal => false)
 
-i4 : isSimpleNormalCrossing(f, IsLocal=>false)
+o42 = false
 
-o4 = false
+i43 : g = x*y^2*(x + 1)^3*(y - 1)^4; --SNC everywhere
 
-i5 : g = (y-1)^2+(x-7)^2 --doesn't even pass through the origin
+i44 : isSimpleNormalCrossing(g)
 
-       2    2
-o5 = x  + y  - 14x - 2y + 50
+o44 = true
 
-o5 : R
+i45 : isSimpleNormalCrossing(g, IsLocal => false)
 
-i6 : isSimpleNormalCrossing(g)
-
-o6 = true
-
-i7 : isSimpleNormalCrossing(g, IsLocal=>false)
-
-o7 = false
-
-i8 : h = x*y^2*(x+1)^3*(y-1)^4; --SNC everywhere
-
-i9 : isSimpleNormalCrossing(h)
-
-o9 = true
-
-i10 : isSimpleNormalCrossing(h, IsLocal=>false)
-
-o10 = true
+o45 = true
 \end{MyVerbatim}
 }
-\medspace
+\bigskip
 
 
 %             R = QQ[x,y,z];
@@ -1078,17 +1032,11 @@ o10 = true
 
 %             isSimpleNormalCrossing(f, IsLocal=>false)
 
-%             g = (y-1)^2+(x-7)^2 --doesn't even pass through the origin
+%             g = x*y^2*(x+1)^3*(y-1)^4; --SNC everywhere
 
 %             isSimpleNormalCrossing(g)
 
 %             isSimpleNormalCrossing(g, IsLocal=>false)
-
-%             h = x*y^2*(x+1)^3*(y-1)^4; --SNC everywhere
-
-%             isSimpleNormalCrossing(h)
-
-%             isSimpleNormalCrossing(h, IsLocal=>false)
 
 
 
