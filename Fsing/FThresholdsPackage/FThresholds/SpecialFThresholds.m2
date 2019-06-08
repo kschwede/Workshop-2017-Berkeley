@@ -56,7 +56,7 @@ firstCarry = ( p, w ) ->
 --===============================================================================
 
 -- Computes the F-pure threshold of a diagonal hypersurface
--- x_1^(a_1) + ... +x_n^(a_n) using Daniel Hernandez' algorithm
+-- x_1^(a_1) + ... +x_n^(a_n) using Daniel Hernández' algorithm
 
 diagonalFPT = method( TypicalValue => QQ )
 
@@ -123,7 +123,7 @@ polytopeDefiningPoints = ( v, w ) ->
 --outputs the one with the largest coordinate sum
 maxCoordinateSum = L -> L#( maxPosition( sum \ L ) )
 
---Finds the "delta" in Daniel Hernandez's algorithm
+--Finds the "delta" in Daniel Hernández's algorithm
 --for F-pure thresholds of binomials
 dCalculation = ( w, N, p ) ->
 (
@@ -138,7 +138,7 @@ dCalculation = ( w, N, p ) ->
 )
 
 --Given the "truncation" points  P1 and P2 and two vectors v and w defining the
--- binomial, outputs the "epsilon" in Daniel Hernandez's algorithm for
+-- binomial, outputs the "epsilon" in Daniel Hernández's algorithm for
 -- F-thresholds of binomials
 calculateEpsilon = ( P1, P2, v, w ) ->
 (
@@ -154,7 +154,7 @@ calculateEpsilon = ( P1, P2, v, w ) ->
 )
 
 -- Computes the FPT of a binomial
--- Based on the work of Daniel Hernandez, and implemented by Emily Witt
+-- Based on the work of Daniel Hernández, and implemented by Emily Witt
 binomialFPT = method( TypicalValue => QQ )
 
 binomialFPT RingElement := QQ => g ->
@@ -193,7 +193,7 @@ binomialFPT RingElement := QQ => g ->
 ---------------------------------------------------------------------------------
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
--- Based on the work of Hernandez and Teixeira
+-- Based on the work of Hernández and Teixeira
 
 -*
     Remark: At this point, only commands for computations of F-pure thresholds

@@ -1,7 +1,7 @@
 -- tests for fpt computations that call special algorithms
 
 --Below, we verify computations for a binomial from Example 4.3-4.5 in
---"F-pure thresholds of binomial hypersurfaces" by D. Hernandez.
+--"F-pure thresholds of binomial hypersurfaces" by D. Hernández.
 --In each case, fpt is as computed in SpecialFThresholdTest.m2
 --and nu's are read off from this.
 --binomial test 1
@@ -106,7 +106,7 @@ assert( fpt( L, { 3, 32, 2, 32, 73, 84 } ) == 1876511604631928967209492374761176
 
 --------------------------------------------------------------
 --Below, our computations are based on results in the paper
---"Frobenius Powers of some monomial ideals" by Hernandez, Teixeira, Witt
+--"Frobenius Powers of some monomial ideals" by Hernández, Teixeira, Witt
 TEST ///
 ZZ/5[x,y];
 M=ideal(x,y);
@@ -204,7 +204,7 @@ assert(not isFPT(2/p, f))
 assert(not isFPT(1/(p+1), f))
 ///
 
-TEST /// --an F-jumping number that is not the FPT, taken from a paper of Hernandez and Teixeira
+TEST /// --an F-jumping number that is not the FPT, taken from a paper of Hernández and Teixeira
 p = 5;
 R = ZZ/p[x,y];
 f = x^7*y^10*(x+y)^13*(x+2*y)^16;
@@ -312,7 +312,7 @@ assert(compareFPT(1/2, f, IsLocal=>true) == -1);
 assert(compareFPT(1, y, IsLocal=>true) == 0);
 ///
 
-TEST /// --an example from Canton-Hernandez-Schwede-Witt
+TEST /// --an example from Canton-Hernández-Schwede-Witt
  n = 3; d = 5;
  p = 19;
  N = d*(n*(d-2)-d);

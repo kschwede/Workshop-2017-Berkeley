@@ -6,7 +6,7 @@ Authors => {
      Email => "juliette.bruce@math.wisc.edu",
      HomePage => "https://juliettebruce.github.io/"
      },
-     {Name => "Daniel Hernandez",
+     {Name => "Daniel Hernández",
      Email => "hernandez@ku.edu",
      HomePage => "https://hernandez.faculty.ku.edu"
      },
