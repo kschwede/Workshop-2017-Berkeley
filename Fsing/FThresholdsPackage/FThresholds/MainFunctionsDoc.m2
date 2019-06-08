@@ -332,7 +332,7 @@ doc ///
 
             We start by describing what happens when {\tt GuessStrategy} is set to {\tt null}, its default value.
             First, a list consisting of all rational numbers in the interval ($A$, $B$) with denominator no larger than a certain fixed number $D$ is created ($D$ is chosen so that enough candidates are produced).
-            Using the function @TO decomposeFraction@, from the @TO TestIdeals@ package, each number $t$ in that list is written in the form $t = a$ /($p^b$ ($p^c$ - 1)), where $p$ is the characteristic of the ring of $f$.
+            Using the function @TO decomposeFraction@ from the @TO TestIdeals@ package, each number $t$ in that list is written in the form $t = a$ /($p^b$ ($p^c$ - 1)), where $p$ is the characteristic of the ambient ring.
             That list of candidates is then sorted based on
 
             1. Increasing "computational cost" $w_aa + w_bb + w_cc$, for certain weights $w_a$, $w_b$, and $w_c$,
