@@ -203,11 +203,23 @@ isProper Ideal := Boolean => I -> not isUnitIdeal I
 
 -- FINDING RATIONAL NUMBERS IN AN INTERVAL
 
+-- This function is meant to estimate the computational cost
+-- of comparing a rational number t with the fpt of a polynomial.
+-- Right now, the standard way to compute this cost is as a
+-- linear function of the numbers (a,b,c) returned by 
+-- decomposeFraction(p,t). In the future, we may try using the 
+-- base p expansion of a in this estimate.
+ 
+cost = method()
+
+-- These are the default weights, so the computatinal cost is 
+-- assumed to be proportional to b + 1.5*c.
 defaultWeights := { 0, 1, 1.5 }
 
-weight = method()
-
-weight ( ZZ, QQ, List ) := ( p, t, userWeights ) ->
+-- This is for the case where the user passes his/her own weights.
+-- The computational cost computed with the user's weights is
+-- given priority, by being placed first in the list returned.
+cost ( ZZ, QQ, List ) := ( p, t, userWeights ) ->
 (
      decomp := decomposeFraction( p, t );
      uW := sum( decomp, userWeights, (i, j) -> i*j );
@@ -215,7 +227,10 @@ weight ( ZZ, QQ, List ) := ( p, t, userWeights ) ->
      { uW, dW }
 )
 
-weight ( ZZ, QQ, Function ) := ( p, t, userFunction ) ->
+-- This is for the case where the user passes his/her own cost function.
+-- The computational cost computed with the user's function is given 
+-- priority, by being placed first in the list returned.
+cost ( ZZ, QQ, Function ) := ( p, t, userFunction ) ->
 (
      decomp := decomposeFraction( p, t );
      uW := try userFunction t  else userFunction( p, t );
@@ -223,33 +238,42 @@ weight ( ZZ, QQ, Function ) := ( p, t, userFunction ) ->
      { uW, dW }
 )
 
-weight ( ZZ, QQ, Nothing ) := ( p, t, userFunction ) ->
+-- This is for the case where the user does not pass anything.
+cost ( ZZ, QQ, Nothing ) := ( p, t, userFunction ) ->
 (
      decomp := decomposeFraction( p, t );
      { sum( decomp, defaultWeights, (i, j) -> i*j ) }
 )
 
---this finds rational numbers in an interval, and ranks them based on the value that
---has the smallest computational expense
---we assume that each 1/(p^e-1) takes 1.5*e more computations than a 1/p value.
+--===============================================================================
+
+-- This finds rational numbers in an interval, and sorts them based on the value 
+-- that has the smallest computational expense. 
+-- This sorting is done by considering the user-specified cost weights/function, 
+-- the cost computed with our default weights, and the distance from the midpoint
+-- of the interval, and relies on the fact that the function "sort" sorts lists 
+-- of lists lexicographically.  
 fptWeightedGuessList = ( p, A, B, minGenSize, userCriterion ) ->
 (
-    if A >= B then error "fptWeightedGuessList: Expected third argument to be greater than second";
+    if A >= B then 
+        error "fptWeightedGuessList: Expected third argument to be greater than second";
     coreDenom := ceiling (1/(B - A))^(2/3);
     numList := findNumbersBetween( A, B, coreDenom );
     midpt := (B - A)/2;
     while #numList < minGenSize do
-        ( coreDenom = 2*coreDenom; numList = findNumbersBetween( A, B, coreDenom ) );
+    ( 
+        coreDenom = 2*coreDenom;
+        numList = findNumbersBetween( A, B, coreDenom ) 
+    );
     -- now that we have a list with enough rational numbers between a and b,
     -- compute their weights
-    guessList := apply( numList, t ->
-        join( weight( p, t, userCriterion ), { abs(t - midpt), t } )
-    );
-    sort guessList
+    sort apply( numList, t ->
+        join( cost( p, t, userCriterion ), { abs(t - midpt), t } )
+    )
 )
 
 --This function finds rational numbers in the range of the interval (A,B)
---with the given denominator, it is a helper function for fptWeightedGuessList
+--with the given denominator D; it is a helper function for fptWeightedGuessList
 findNumberBetweenWithDenom = ( A, B, myDenom ) ->
 (
     upperBound := ceiling( B*myDenom - 1 )/myDenom;
