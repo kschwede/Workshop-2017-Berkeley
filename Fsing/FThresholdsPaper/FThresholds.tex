@@ -209,7 +209,7 @@ Finally, we point out that the  \emph{FrobeniusThresholds} package builds heavil
 % \end{itemize}
 % %{\color{red} Move this later}
 
-\subsection*{Acknowledgements.}  The authors enthusiastically thank everyone who helped complete the \emph{FrobeniusThresholds} package. 
+\subsection*{Acknowledgements.}  The authors enthusiastically thank everyone who helped complete the \emph{FrobeniusThresholds} package.
 Our package coauthors are Juliette Bruce and Daniel Smolkin.  Erin Bela, Zhibek Kadyrsizova, Moty Katzman, Sara Malec, and Marcus Robinson also contributed valuable code to the package.
 
 Thanks go to the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016.
@@ -418,7 +418,7 @@ o25 = 1124
 %nu(5, f, ReturnList => true)
 %nu(5, f, Verbose => true)
 
-As described in the introduction, the integer $\nu_I^J(p^e)$ is the maximal integer $n$ such that the $n$-th power of $I$ does not lie in the $p^e$-th Frobenius power of $J$.  However, 
+As described in the introduction, the integer $\nu_I^J(p^e)$ is the maximal integer $n$ such that the $n$-th power of $I$ does not lie in the $p^e$-th Frobenius power of $J$.  However,
 \begin{equation*}
   I^n \subseteq J^{[p^e]} \Longleftrightarrow (I^n)^{[1/p^e]} \subseteq J
 \end{equation*}
@@ -486,11 +486,11 @@ Recall that $\nu_I^\idealm(p^e)$ can be interpreted as the maximum integer $n$ f
 When computing its value globally, it is the maximum integer $n$ for which $(I^n)^{[1/p^e]}$ is not the unit ideal.  When 
 the value of \texttt{IsLocal} is set to \texttt{false} (from its default value \texttt{true}), then \texttt{nu} instead determines this maximal integer $n$, which can also be characterized as the minimal integer $\nu_I^\mathfrak{n}(p^e)$ as $\mathfrak{n}$ varies among all maximal ideals of the ring.  
 
-% 
+%
 % \[
 % \min_{J \in \mathfrak{m}-\Spec R} \nu_I^J(p^e)
 % \]
-% This is done by instead of computing for which $n$ we have $I^{n} \subseteq J^{[p^e]}$ (or equivalently, $(I^n)^{[1/p^e]} \subseteq J$), it 
+% This is done by instead of computing for which $n$ we have $I^{n} \subseteq J^{[p^e]}$ (or equivalently, $(I^n)^{[1/p^e]} \subseteq J$), it
 %by determining the values $n$ for which $(I^n)^{[1/p^e]}$ is a unit ideal.
 
 \bigskip
@@ -1051,8 +1051,8 @@ o42 = false
 \section{Possible Future Directions}
 \label{sec.FutureDirections}
 
-One natural direction of development would be to better incorporate the test ideals $\tau(I^t)$ when computing $F$-thresholds when the ideal $I$ is nonprincipal.
-The theoretical foundation for computing such test ideals has already been laid out in \cite{SchwedeTuckerTestIdealsOfNonPrincipal}, but such an update to the \emph{FrobeniusThresholds} package would require the  \emph{TestIdeals} package to be updated first.
+One natural direction of development would be to better incorporate the test ideals $\tau(I^t)$ when computing $F$-thresholds in the case where the ideal $I$ is nonprincipal.
+The theoretical foundation for computing such test ideals has already largely been worked out in \cite{SchwedeTuckerTestIdealsOfNonPrincipal}, but such an update to the \emph{FrobeniusThresholds} package would require the  \emph{TestIdeals} package to be updated first.
 
 At the moment, the specialized algorithms called by the \texttt{fpt} function for computing the $F$-pure threshold of a homogeneous polynomial in two variables limits us to working with the standard grading on the ambient polynomial ring.  Clearly, it is desirable to be able to work with nonstandard gradings as well, and results of \cite{HernandezTeixeiraFThresholdFunctions} suggest an algorithm for doing so.  Thus, the package could be improved by finalizing and implementing such an algorithm.
 

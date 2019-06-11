@@ -141,8 +141,8 @@ Algorithms for computing $F$-pure thresholds from \cite{HernandezFInvariantsOfDi
 
 \subsection*{Acknowledgements}
 The authors thank other contributors of the \emph{TestIdeals} package, namely
-Erin Bela, Juliette Bruce, Drew Ellingson, Matthew Mastroeni, and Maral Mostafazadehfard.
-This paper, and the finishing touches to the \emph{TestIdeals} package, were made at the University of Utah in 2018, and the visiting authors thank the Department of Mathematics for its hospitality.  The authors also thank the referees for their numerous useful comments on both this paper and the code.
+Erin Bela, Juliette Bruce, Drew Ellingson, Matthew Mastroeni, and Maral Mostafazadehfard.  We also thank the referees as well as Thomas Polstra for pointing out typos in a previous version of this paper.  We also thank the referees for numerous useful comments on the package.
+This paper, and the finishing touches to the \emph{TestIdeals} package, were made at the University of Utah in 2018, and the visiting authors thank the Department of Mathematics for its hospitality.  The authors also thank the referees for their numerous useful comments on both this paper and the code.  Additional work on the package was also done at the Institute of Mathematics and its Applications for its generous support for a 2019 Coding Sprint on the \emph{FThresholds} package.
 
 \section{Frobenius powers and Frobenius roots}\label{Section: Frobenius powers and Frobenius roots}
 
@@ -914,15 +914,18 @@ We briefly explain how this is computed:  First, we find a \emph{test element}.
 We recall that, roughly, an element of the Jacobian ideal that is not contained in any minimal prime is a test element \cite{HochsterFoundations}.  We compute test elements by computing random partial derivatives (and linear combinations thereof) until we find an element that does not vanish at all the minimal primes.  This method is much faster than computing the entire Jacobian ideal.  If it is known that the ring is a domain, setting \texttt{AssumeDomain => true} can speed this up further.
 \end{remark}
 
-After the test element $c$ has been identified, we pull back the ideal $\omega_R$ to an ideal $J \subseteq S$.  Next, we compute the following ascending sequence of ideals:
+After the test element $c$ has been identified, we pull back the ideal $\omega_R$ to an ideal $J \subseteq S$.  Next, we compute the following ascending sequence of ideals where $u$ represents $T:\omega_{R^{1/p^e}} \to \omega_R$ as above:
 \begin{equation}
+{\arraycolsep=1.4pt
 \label{eq.AscendIdealExplanation}
 \begin{array}{lll}
-J_1 &\colonequals   J + (c J)^{[1/p]} & \\
-J_2 &\colonequals   J_1 + (c J_1)^{[1/p]} & = J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} \\
-J_3 &\colonequals    J_2 + (cJ_2)^{[1/p]} & = J + (c J)^{[1/p]} + (c^{1+p} J)^{[1/p^2]} + (c^{1+p+p^2} J)^{[1/p^3]} \\
+J_0 & \colonequals  cJ \\
+J_1 &\colonequals   J_0 + (u J_0)^{[1/p]} & \\
+J_2 &\colonequals   J_1 + (u J_1)^{[1/p]} & = J_0 + (u J_0)^{[1/p]} + (u^{1+p} J_0)^{[1/p^2]} \\
+J_3 &\colonequals    J_2 + (uJ_2)^{[1/p]} & = J_0 + (u J_0)^{[1/p]} + (u^{1+p} J_0)^{[1/p^2]} + (u^{1+p+p^2} J_0)^{[1/p^3]} \\
 \vdots
 \end{array}
+}
 \end{equation}
 As soon as this ascending sequence of ideals stabilizes, we are done.
 In fact, because this strategy is used in several contexts, the user can call it directly for a chosen ideal $J$ and $u$ with the function \texttt{ascendIdeal} (this is done for test ideals below).
