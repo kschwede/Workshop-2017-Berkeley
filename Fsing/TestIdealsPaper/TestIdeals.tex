@@ -914,8 +914,9 @@ We briefly explain how this is computed:  First, we find a \emph{test element}.
 We recall that, roughly, an element of the Jacobian ideal that is not contained in any minimal prime is a test element \cite{HochsterFoundations}.  We compute test elements by computing random partial derivatives (and linear combinations thereof) until we find an element that does not vanish at all the minimal primes.  This method is much faster than computing the entire Jacobian ideal.  If it is known that the ring is a domain, setting \texttt{AssumeDomain => true} can speed this up further.
 \end{remark}
 
-After the test element $c$ has been identified, we pull back the ideal $\omega_R$ to an ideal $J \subseteq S$.  Next, we compute the following ascending sequence of ideals:
+After the test element $c$ has been identified, we pull back the ideal $\omega_R$ to an ideal $J \subseteq S$.  Next, we compute the following ascending sequence of ideals where $u$ represents $T:\omega_{R^{1/p^e}} \to \omega_R$ as above:
 \begin{equation}
+{\arraycolsep=1.4pt
 \label{eq.AscendIdealExplanation}
 \begin{array}{lll}
 J_0 & \colonequals  cJ \\
@@ -924,6 +925,7 @@ J_2 &\colonequals   J_1 + (u J_1)^{[1/p]} & = J_0 + (u J_0)^{[1/p]} + (u^{1+p} J
 J_3 &\colonequals    J_2 + (uJ_2)^{[1/p]} & = J_0 + (u J_0)^{[1/p]} + (u^{1+p} J_0)^{[1/p^2]} + (u^{1+p+p^2} J_0)^{[1/p^3]} \\
 \vdots
 \end{array}
+}
 \end{equation}
 As soon as this ascending sequence of ideals stabilizes, we are done.
 In fact, because this strategy is used in several contexts, the user can call it directly for a chosen ideal $J$ and $u$ with the function \texttt{ascendIdeal} (this is done for test ideals below).
