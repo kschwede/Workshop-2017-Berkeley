@@ -632,10 +632,10 @@ doc ///
             That is, the $p^e$-th Frobenius root of $I^n$ is first computed, and a check is then run to see if it lies in $J$.
             The output is unaffected, but this option often speeds up computations, specially when a polynomial or principal ideal is passed as the second argument.
         Example
-            R = ZZ/11[x,y,z];
+            R = ZZ/5[x,y,z];
             f = x^3 + y^3 + z^3 + x*y*z;
-            time nu(3, f) -- ContainmentTest is set to FrobeniusRoot, by default
-            time nu(3, f, ContainmentTest => StandardPower)
+            time nu(4, f) -- ContainmentTest is set to FrobeniusRoot, by default
+            time nu(4, f, ContainmentTest => StandardPower)
         Text
             Finally, when {\tt ContainmentTest} is set to {\tt FrobeniusPower}, then instead of producing the invariant $\nu_I^J(p^e)$ as defined above, {\tt nu(e, I, J, ContainmentTest => FrobeniusPower)} instead outputs the maximal integer $n$ such that the $n$^{th} (generalized) Frobenius power of $I$ is not contained in the $p^e$-th Frobenius power of $J$.
             Here, the $n$^{th} Frobenius power of $I$, when $n$ is a nonnegative integer, is as defined in the paper {\it Frobenius Powers} by Hernández, Teixeira, and Witt.

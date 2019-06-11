@@ -31,8 +31,8 @@ nu(2, f) == nu(2, f, m)
 
 R = ZZ/17[x,y,z];
 f = x^3 + y^4 + z^5; -- a diagonal polynomial
-time nu(3, f)
-time nu(3, f, UseSpecialAlgorithms => false)
+time nu(5, f)
+time nu(5, f, UseSpecialAlgorithms => false)
 
 ------------------------------------------------------------------
 

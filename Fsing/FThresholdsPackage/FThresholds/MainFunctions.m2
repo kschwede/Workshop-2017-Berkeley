@@ -204,11 +204,13 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
             if isMonomial g then fpt = monomialFPT g;
             if isDiagonal g then fpt = diagonalFPT g;
             if isBinomial g then fpt = binomialFPT g;
+            if isBinaryForm g then fpt = binaryFormFPT g;
+            if isSimpleNormalCrossing g then fpt = sncFPT g;
             if fpt =!= null then
             return
             (
-                if o.ReturnList then apply( n + 1, i -> p^i*adicTruncation( p, i, fpt ) )
-                else p^n*adicTruncation( p, n, fpt )
+                if o.ReturnList then apply( n + 1, i -> lift( p^i*adicTruncation( p, i, fpt ), ZZ ) )
+                else lift( p^n*adicTruncation( p, n, fpt ), ZZ )
             )
         )
     );

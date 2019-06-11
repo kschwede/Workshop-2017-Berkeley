@@ -265,6 +265,7 @@ fptWeightedGuessList = ( p, A, B, minGenSize, userCriterion ) ->
         coreDenom = 2*coreDenom;
         numList = findNumbersBetween( A, B, coreDenom ) 
     );
+-- print( coreDenom, #numList );
     -- now that we have a list with enough rational numbers between a and b,
     -- compute their weights
     sort apply( numList, t ->
@@ -302,17 +303,6 @@ findNumbersBetween = ( A, B, maxDenom ) ->
         i = i + 1
     );
     sort unique outList
-)
-
--- numberWithMinimalDenominator(A,B,D) finds the number in the open interval
--- (A,B) with minimal denominator, starting the search with denominator D.
--- Returns sequence with the denominator and the number in (A,B) with that
--- denominator.
-numberWithMinimalDenominator = (A, B, D) ->
-(
-    d := D;
-    while ceiling( d*B - 1) < floor( d*A + 1 ) do d = d + 1;
-    ( d, floor( d*A + 1 )/d )
 )
 
 --===============================================================================
