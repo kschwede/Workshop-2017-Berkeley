@@ -205,7 +205,9 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
             if isDiagonal g then fpt = diagonalFPT g;
             if isBinomial g then fpt = binomialFPT g;
             if isBinaryForm g then fpt = binaryFormFPT g;
-            if isSimpleNormalCrossing g then fpt = sncFPT g;
+            prod := factor g;
+            if isSimpleNormalCrossing prod then
+                fpt = sncFPT prod;
             if fpt =!= null then
             return
             (
@@ -287,8 +289,8 @@ fSig := ( f, a, e ) ->
 )
 
 -- some constants associated with guessFPT
-numExtraCandidates := 40;
-minNumCandidates := 6;
+numExtraCandidates := 35;
+minNumCandidates := 10;
 -- The default number of "random" checks to be performed
 attemptsDefault := 3;
 
@@ -318,18 +320,24 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
 	    return a
 	)
         else if o.Verbose then print "\nThe left-hand endpoint is not the fpt ...";
-    -- Now proceed with more checks, selecting numbers in the current
-    --   interval with minimal denominator
+    -- Now proceed with more checks
     counter := 3;
     local t;
     local comp;
     ( A, B ) := ( a, b );
     p := char ring f;
-    candidateList := fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy );
+    numList := { { 0, 1 }, { 1, 1 } }; -- initial list = { 0, 1 }
+    local extraGuy;
+    local costList;
     while counter <= maxChecks do
     (
-        --  pick candidate with minimal weight
-        t = last first candidateList; --the candidate list should already be sorted
+        -- if running out of numbers, load up
+        if #numList < minNumCandidates + 2 then
+            ( costList, numList ) = fptGuess(p, A, B, numExtraCandidates, o.GuessStrategy, numList )
+        else 
+            -- recompute distances and resort
+            costList = sort apply( costList, c -> replace( -2, abs( (A+B)/2 - last c ), c ) );
+        t = last first costList;
         comp = compareFPT( t, f, IsLocal => o.IsLocal );
         if comp == 0 then  -- found exact FPT! YAY!
         (
@@ -337,12 +345,25 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     	        print( "\nguessFPT found the exact value for fpt(f) in try number " | toString counter | "." );
     	    return t
     	);
-        if comp == 1 then ( B = t; candidateList = select( candidateList, a -> last a < t ) ) -- fpt < t
-    	else ( A = t; candidateList = select( candidateList, a -> last a > t ) ); -- fpt > t
-        counter = counter + 1;
-        -- if not done and running short on candidates, load up some more
-        if counter <= maxChecks and #candidateList <= minNumCandidates then
-            candidateList = fptWeightedGuessList( p, A, B, maxChecks + numExtraCandidates, o.GuessStrategy )
+        if comp == 1 then -- t > fpt
+        (
+            B = t; 
+            -- will need the first element >= B in numList, and all the preceding ones
+            extraGuy = numList#(position( numList, a -> num a >= t ));
+            numList = append( select( numList, a -> num a < t ), extraGuy );
+            -- make the above more efficient, using the fact that list is sorted
+            costList = select( costList, a -> last a < t );
+        )
+    	else -- t < fpt
+        ( 
+            A = t; 
+            -- will need the last element <= A in numList, and all the subsequent ones
+            extraGuy = numList#(#numList-1-position( reverse numList, a -> num a <= t ));
+            numList = prepend( extraGuy, select( numList, a -> num a > t ) );
+            -- make the above more efficient, using the fact that list is sorted
+            costList = select( costList, a -> last a > t )
+        );
+        counter = counter + 1
     );
     if o.Verbose and ( A != a or B != b ) then
         print( "\nguessFPT narrowed the interval down to (" | toString A | "," | toString B | ") ..." );
@@ -455,7 +476,7 @@ fpt RingElement := o -> f ->
     -- COMPUTE NU TO FIND UPPER AND LOWER BOUNDS --
     -----------------------------------------------
     e := o.DepthOfSearch;
-    n := nu( e, f, IsLocal => o.IsLocal);
+    n := nu( e, f, IsLocal => o.IsLocal, UseSpecialAlgorithms => false );
     LB := n/(p^e - 1); -- lower bound (because of forbidden intervals)
     UB := (n + 1)/p^e; -- upper bound
     strictLB := false; -- at this point, LB and UB *could* be the fpt
