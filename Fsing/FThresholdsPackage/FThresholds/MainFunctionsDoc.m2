@@ -239,7 +239,7 @@ doc ///
             If successful, the new lower bound may coincide with the upper bound, in which case we can conclude that it is the desired $F$-pure threshold.
             If that is not the case, an $F$-regularity check is done at the new lower bound, to verify if it is the $F$-pure threshold.
         Example
-            f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
+            f = x^9*y^8+2*x^6*y^10+2*x^8*y^6+x^9*y^3-x^2*y^10+2*x^4*y^7;
             numeric fpt(f, DepthOfSearch => 3)
             numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true) -- FinalAttempt improves the estimate slightly
         Text
@@ -364,15 +364,15 @@ doc ///
         Example
             R = ZZ/5[x,y];
             f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
-            time fpt(f, DepthOfSearch => 3, Attempts => 10)
+            time fpt(f, DepthOfSearch => 3, Attempts => 8)
             time fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator)
         Text
             If the user suspects that the minimal denominator of the $F$-pure threshold is a multiple of $p$, then a suitable function can be used to prioritize such numbers.
         Example
             f = x^9*y^9 - 2*x^10*y^7 - x^5*y^7 + 2*x^4*y^8 + 2*x^5*y^6 + 2*x^8*y^2 + x^7*y^2;
             costFunction = (p,t) -> if denominator(t) % p == 0 then 0 else 1;
-            time fpt(f, DepthOfSearch => 3, Attempts => 10)
-            time fpt(f, DepthOfSearch => 3, Attempts => 10, GuessStrategy => costFunction)
+            time fpt(f, DepthOfSearch => 3, Attempts => 15)
+            time fpt(f, DepthOfSearch => 3, Attempts => 15, GuessStrategy => costFunction)
 ///
 
 doc ///
