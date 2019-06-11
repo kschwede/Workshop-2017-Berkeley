@@ -267,7 +267,6 @@ num = a -> a#0/a#1
 -- This allows us to "zero in" on the interval (A,B).
 refine = (A, B, oldList) -> 
 (
-    local d;
     L := oldList;
     L = apply( toList(0..(#L-2)), i -> { L#i, L#i + L#(i+1) } );
     L = flatten L;
@@ -284,7 +283,9 @@ refine = (A, B, oldList) ->
 findNumbers = (A, B, minNumber, oldList) -> 
 (
     L := oldList;
-    T := while #L < minNumber + 2 do L = refine(A, B, L); 
+    -- the "+2" below compensates for the fact that the first and last 
+    -- numbers on the list are actually not in (A,B).
+    while #L < minNumber + 2 do L = refine(A, B, L); 
     L
 )
 
