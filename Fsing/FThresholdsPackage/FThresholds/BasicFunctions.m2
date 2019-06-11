@@ -245,67 +245,65 @@ cost ( ZZ, QQ, Nothing ) := ( p, t, userFunction ) ->
      { sum( decomp, defaultWeights, (i, j) -> i*j ) }
 )
 
--*
---===============================================================================
+-- In the code below, rational numbers are expressed as {numerator, denominator}, 
+-- to avoid repeated calls to the numerator and denominator functions. 
+-- The function num converts such a list to an actual number.
+num = a -> a#0/a#1 
 
--- This finds rational numbers in an interval, and sorts them based on the value 
--- that has the smallest computational expense. 
--- This sorting is done by considering the user-specified cost weights/function, 
--- the cost computed with our default weights, and the distance from the midpoint
--- of the interval, and relies on the fact that the function "sort" sorts lists 
--- of lists lexicographically.  
-fptWeightedGuessList = ( p, A, B, minGenSize, userCriterion ) ->
+-- **Farey sums**
+-- Suppose a/b and c/d are reduced fractions, and that there is no rational number
+-- with denominator <= max(b,d) between them. Then p/q := (a+c)/(b+d) is a reduced 
+-- fraction, known as the Farey sum of a/b and c/d, and a/b, p/q, c/d are 
+-- consecutive elements in the list of rational numbers with denominator <= b+c.
+
+-- The commands below are meant to create and refine lists of rational numbers in 
+-- the interval (A,B). However, to generate such numbers and refine existing 
+-- lists, we need to also include one number <=A and another >= B. 
+
+-- The function refine takes one such list, and inserts Farey sums between each 
+-- consecutive pair of numbers. If the first Farey sum inserted is <= A, the 
+-- first element of the original list is dropped; likewise, if the last Farey 
+-- sum inserted is >= B, the last element of the original list is dropped.
+-- This allows us to "zero in" on the interval (A,B).
+refine = (A, B, oldList) -> 
+(
+    local d;
+    L := oldList;
+    L = apply( toList(0..(#L-2)), i -> { L#i, L#i + L#(i+1) } );
+    L = flatten L;
+    if num last L < B then L = append( L, last oldList );
+    if num L#1 <= A then L = drop( L, 1 );
+    L
+)
+
+-- findNumbers takes a list of rational numbers and refines
+-- it until there are minNumber elements in (A,B).
+-- Uncommenting "loadUp" will ensure that all numbers with 
+-- denominator <= some D are included; will tipically return
+-- a lot more than minNumber elements.
+findNumbers = (A, B, minNumber, oldList) -> 
+(
+    L := oldList;
+    T := while #L < minNumber + 2 do L = refine(A, B, L); 
+    L
+)
+
+-- Takes a list of numbers and refines so it includes at least minNumber elements
+-- in (A,B). Returns a sorted list with numbers and ranks, and the raw list of
+-- rational numbers, expressed as pairs.
+fptGuess = ( p, A, B, minNumber, userCriterion, oldList ) ->
 (
     if A >= B then 
         error "fptWeightedGuessList: Expected third argument to be greater than second";
-    coreDenom := ceiling (1/(B - A))^(2/3);
-    numList := findNumbersBetween( A, B, coreDenom );
+    numList := findNumbers( A, B, minNumber, oldList );
     midpt := (B - A)/2;
-    while #numList < minGenSize do
-    ( 
-        coreDenom = 2*coreDenom;
-        numList = findNumbersBetween( A, B, coreDenom ) 
+    -- now that we have a list with enough rational numbers between A and B,
+    -- compute their costs
+    numCostList := apply( drop(drop(numList,1),-1), t ->
+        join( cost( p, num t, userCriterion ), { abs( num(t) - midpt), num t } )
     );
-    -- now that we have a list with enough rational numbers between a and b,
-    -- compute their weights
-    sort apply( numList, t ->
-        join( cost( p, t, userCriterion ), { abs(t - midpt), t } )
-    )
+    ( sort numCostList, numList )
 )
-
---This function finds rational numbers in the range of the interval (A,B)
---with the given denominator D; it is a helper function for fptWeightedGuessList
-findNumberBetweenWithDenom = ( A, B, myDenom ) ->
-(
-    upperBound := ceiling( B*myDenom - 1 )/myDenom;
-    --finds the number with denominator myDenom less than the upper
-    --bound of myInterv
-    lowerBound := floor( A*myDenom + 1 )/myDenom;
-    --finds the number with denominator myDenom greater than the lower
-     -- bound of myInterv
-    if upperBound >= lowerBound then
-    --first we check whether there is anything to search for
-        apply( 1 + numerator( (upperBound - lowerBound)*myDenom ), i -> lowerBound + i/myDenom )
-    else { }
-)
-
---This function finds rational numbers in the range of
---the interval; the max denominator allowed is listed.
-findNumbersBetween = ( A, B, maxDenom ) ->
-(
-    divisionChecks :=  new MutableList from maxDenom:true;
-    -- creates a list with maxDenom elements all set to true.
-    outList := {};
-    i := 2;
-    while i <= maxDenom do
-    (
-        outList = join( outList, findNumberBetweenWithDenom( A, B, i ) );
-        i = i + 1
-    );
-    sort unique outList
-)
-
-*-
 
 --===============================================================================
 
@@ -348,136 +346,4 @@ splittingField RingElement := GaloisField => F ->
 )
 
 --===============================================================================
-
--- Below, rational numbers are expressed as lists {numerator, denominator}, to 
--- avoid repeated calls to the numerator and denominator functions. 
--- The function num converts such a list to an actual number.
-num = a -> a#0/a#1 
-
--- **Farey sums**
--- Suppose a/b and c/d are reduced fractions, and that there is no rational number
--- with denominator <= max(b,d) between them. Then p/q := (a+c)/(b+d) is a reduced 
--- fraction, known as the Farey sum of a/b and c/d, and a/b, p/q, c/d are 
--- consecutive elements in the list of rational numbers with denominator <= b+c.
-
--- The commands below are meant to create and refine lists of rational numbers in 
--- the interval (A,B). However, to generate such numbers and refine existing 
--- lists, we need to also include one number <=A and another >= B. 
-
--- The function refine takes one such list, and inserts Farey sums between each 
--- consecutive pair of numbers. If the first Farey sum inserted is <= A, the 
--- first element of the original list is dropped; likewise, if the last Farey 
--- sum inserted is >= B, the last element of the original list is dropped.
--- This allows us to "zero in" on the interval (A,B).
-refine = (A, B, oldList) -> 
-(
-    local d;
-    L := oldList;
-    L = apply( toList(0..(#L-2)), i -> { L#i, L#i + L#(i+1) } );
-    L = flatten L;
-    if num last L < B then L = append( L, last oldList );
-    if num L#1 <= A then L = drop( L, 1 );
-    L
-)
-
--*
--- Given two consecutive elements in the list of rational numbers with
--- denominator <= maxDenom, the function next finds the next one on the list.
-next = (a,b,maxDenom) -> 
-    { 
-        floor( (maxDenom + a#1)/b#1 )*b#0 - a#0, 
-        floor( (maxDenom + a#1)/b#1 )*b#1 - a#1 
-    }
-
--- Given two consecutive elements in the list of rational numbers with
--- denominator <= maxDenom, the function previous finds the previous one on the list.
-previous = (a,b,maxDenom) -> 
-    { 
-        floor( (maxDenom + b#1)/a#1 )*a#0 - b#0, 
-        floor( (maxDenom + b#1)/a#1 )*a#1 - b#1 
-    }
-
--- the function loadUp takes a list of rational numbers, finds the maximum 
--- denominator, and expands that list so that *all* numbers with denominator
--- less than or equal to that maximum denominator are included.
-loadUp = (A,B,incompleteList) ->
-(
-    maxDenom := max last transpose incompleteList;
-    n := #incompleteList;
-    i0 := position( incompleteList, a -> a#1 == maxDenom);
-    L := { incompleteList#i0 };
-    local newElem;
-    if i0 <= n - 2 then
-    (
-        newElem = incompleteList#(i0+1);
-        L = append( L, newElem );
-        while num newElem < B do
-        (
-            newElem = next( L#-2, L#-1, maxDenom );
-            L = append( L, newElem )
-        );
-    );
-    if i0 >= 1 then
-    (
-        newElem = incompleteList#( i0 - 1 );
-        L = prepend( newElem, L );
-        while num newElem > A do
-        (
-            newElem = previous( L#0, L#1, maxDenom );
-            L = prepend( newElem, L )
-        );
-    );
-    L
-)
-*-
-
--- findNumbers takes a list of rational numbers and refines
--- it until there are minNumber elements in (A,B).
--- Uncommenting "loadUp" will ensure that all numbers with 
--- denominator <= some D are included; will tipically return
--- a lot more than minNumber elements.
-findNumbers = (A, B, minNumber, oldList) -> 
-(
-    L := oldList;
-    T := while #L < minNumber + 2 do L = refine(A, B, L); 
---    loadUp(A,B,L)
-    L
-)
-
--- This version loads up at each iteration; returns closer to minNumber
--- elements, but is slower. 
--- findNumbers = (A, B, minNumber, oldList) -> 
--- (
---     L := oldList;
---     T := while #L < minNumber do 
---         (L = refine(A, B, L); 
---          L = loadUp(A,B,L));
---      L
--- )
-
--- This version uses the size of denominator as a criterion for stopping.
--- findNumbers = (A, B, coreDenom, oldList) -> 
--- (
---     L := oldList;
---     T := while max last transpose L < coreDenom do 
---         L = refine(A, B, L); 
---     loadUp(A,B,L)
--- )
-
--- Takes a list of numbers and refines so it includes at least minNumber elements
--- in (A,B). Returns a sorted list with numbers and ranks, and the raw list of
--- rational numbers, expressed as pairs.
-fptGuess = ( p, A, B, minNumber, userCriterion, oldList ) ->
-(
-    if A >= B then 
-        error "fptWeightedGuessList: Expected third argument to be greater than second";
-    numList := findNumbers( A, B, minNumber, oldList );
-    midpt := (B - A)/2;
-    -- now that we have a list with enough rational numbers between A and B,
-    -- compute their costs
-    numCostList := apply( drop(drop(numList,1),-1), t ->
-        join( cost( p, num t, userCriterion ), { abs( num(t) - midpt), num t } )
-    );
-    ( sort numCostList, numList )
-)
 
