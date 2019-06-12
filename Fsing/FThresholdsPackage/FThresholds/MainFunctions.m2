@@ -323,12 +323,12 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     -- Now proceed with more checks
     counter := 3;
     local t;
+    local i;
     local comp;
+    local costList;
     ( A, B ) := ( a, b );
     p := char ring f;
     numList := { { 0, 1 }, { 1, 1 } }; -- initial list = { 0, 1 }
-    local extraGuy;
-    local costList;
     while counter <= maxChecks do
     (
         -- if running out of numbers, load up
@@ -349,18 +349,16 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
         (
             B = t; 
             -- will need the first element >= B in numList, and all the preceding ones
-            extraGuy = numList#(position( numList, a -> num a >= t ));
-            numList = append( select( numList, a -> num a < t ), extraGuy );
-            -- make the above more efficient, using the fact that list is sorted
-            costList = select( costList, a -> last a < t );
+            i = position( numList, x -> num x >= B );
+            numList = take( numList, i + 1 );
+            costList = select( costList, a -> last a < t )
         )
     	else -- t < fpt
         ( 
             A = t; 
             -- will need the last element <= A in numList, and all the subsequent ones
-            extraGuy = numList#(#numList-1-position( reverse numList, a -> num a <= t ));
-            numList = prepend( extraGuy, select( numList, a -> num a > t ) );
-            -- make the above more efficient, using the fact that list is sorted
+            i = position( numList, x -> num x > A );
+            numList = drop( numList, i - 1 );
             costList = select( costList, a -> last a > t )
         );
         counter = counter + 1
