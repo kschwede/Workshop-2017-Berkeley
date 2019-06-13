@@ -232,9 +232,10 @@ cost ( ZZ, QQ, List ) := ( p, t, userWeights ) ->
 -- priority, by being placed first in the list returned.
 cost ( ZZ, QQ, Function ) := ( p, t, userFunction ) ->
 (
-     decomp := decomposeFraction( p, t );
-     uW := try userFunction t  else userFunction( p, t );
-     dW := sum( decomp, defaultWeights, (i, j) -> i*j );
+     (a, b, c) := decomposeFraction( p, t );
+     uW := try userFunction t  else 
+           (try userFunction( p, t ) else userFunction(p, a, b, c));
+     dW := sum( {a, b, c}, defaultWeights, (i, j) -> i*j );
      { uW, dW }
 )
 

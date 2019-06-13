@@ -334,7 +334,7 @@ TEST /// --fpt tests for SNC
 R = ZZ/7[x,y,z];
 f = x*(y-z)^2*(x-y-z)^3;
 assert(fpt(f) == 1/3);
-assert(fpt(f, UseSpecialAlgorithms=>false,Verbose=>true) == 1/3);
+assert(fpt(f, UseSpecialAlgorithms=>false) == 1/3);
 ///
 
 TEST /// --fpt tests for SNC

@@ -755,33 +755,31 @@ Then the function \texttt{compareFPT} is used to test that number. If that ``gue
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i16 : f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
+i12 : f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
 
-i17 : fpt(f, DepthOfSearch => 3, Attempts => 2)
-
-        3   7
-o17 = {--, ---}
-       62  125
-
-o17 : List
-
-i18 : fpt(f, DepthOfSearch => 3, Attempts => 4) -- more attempts *always*
-      improve the estimate
+i13 : fpt(f, DepthOfSearch => 3, Attempts => 4)
 
         1   4
-o18 = {--, --}
+o13 = {--, --}
        20  75
 
-o18 : List
+o13 : List
 
-i19 : fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator)
-      -- the exact answer, after a change of strategy
+i14 : fpt(f, DepthOfSearch => 3, Attempts => 6)
+
+        13   4
+o14 = {---, --}
+       250  75
+
+o14 : List
+
+i15 : fpt(f, DepthOfSearch => 3, Attempts => 8) 
 
        1
-o19 = --
+o15 = --
       19
 
-o19 : QQ
+o15 : QQ
 \end{MyVerbatim}
 }
 \bigskip
@@ -826,27 +824,23 @@ If this is not the case, an $F$-regularity check is done at the new lower bound,
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i23 : f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
+i2 : f = 2*x^10*y^8+x^4*y^7-2*x^3*y^8;
 
-i24 : numeric fpt(f, DepthOfSearch => 3)
+i3 : numeric fpt(f, DepthOfSearch => 3)
 
-o24 = {.153226, .158333}
+o3 = {.14, .144}
 
-o24 : List
+o3 : List
 
-i25 : numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
-      -- FinalAttempt improves the estimate slightly
+i4 : numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
+     -- FinalAttempt improves the estimate slightly
 
-o25 = {.153461, .158333}
+o4 = {.142067, .144}
 
-o25 : List
+o4 : List
 \end{MyVerbatim}
 }
 \bigskip
-
-% f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
-% numeric fpt(f, DepthOfSearch => 3)
-% numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true) -- FinalAttempt improves the estimate slightly
 
 The computations performed when \texttt{FinalAttempt} is set to \texttt{true} are often slow, and often fail to improve the estimate, and for this reason, this option should be used sparingly. It is often more effective to increase the values of \texttt{Attempts} or \texttt{DepthOfSearch}, instead.
 
@@ -854,40 +848,33 @@ The computations performed when \texttt{FinalAttempt} is set to \texttt{true} ar
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i26 : f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
+i35 : time numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
+     -- used 0.684759 seconds
 
-i27 : timing numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
+o35 = {.142067, .144}
 
-o27 = {.153461, .158333}
-      -- 1.37902 seconds
+o35 : List
 
-o27 : Time
+i36 : time fpt(f, DepthOfSearch => 3, Attempts => 7) 
+     -- used 0.405148 seconds
 
-i28 : timing numeric fpt(f, DepthOfSearch => 3, Attempts => 4) -- a better
-      answer in less time
+      1
+o36 = -
+      7
 
-o28 = {.153333, .158333}
-      -- .614248 seconds
+o36 : QQ
 
-o28 : Time
+i37 : time fpt(f, DepthOfSearch => 4) 
+     -- used 0.365025 seconds
 
-i29 : timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less
-      time
+      1
+o37 = -
+      7
 
-       98
-o29 = ---
-      625
-      -- .297493 seconds
-
-o29 : Time
+o37 : QQ
 \end{MyVerbatim}
 }
 \bigskip
-
-% f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
-% timing numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
-% timing numeric fpt(f, DepthOfSearch => 3, Attempts => 4) -- a better answer in less time
-% timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less time
 
 As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
 Whether that interval is open, closed, or a mixed interval depends on the options passed (it will be \emph{open} whenever \texttt{Attempts} is set to at least \texttt{3}); if the option \texttt{Verbose} is set to true, the precise interval will be printed.
@@ -901,9 +888,7 @@ Whether that interval is open, closed, or a mixed interval depends on the option
 {\small
 \setstretch{.67}
 \begin{MyVerbatim}
-i30 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
-
-i31 : fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
+i39 : fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
 
 Starting fpt ...
 
@@ -913,9 +898,9 @@ Verifying if special algorithms apply...
 
 Special fpt algorithms were not used ...
 
-ν has been computed: ν = ν(3,f) = 9 ...
+ν has been computed: ν = ν(3,f) = 17 ...
 
-fpt lies in the interval [ν/(p^e-1),(ν+1)/p^e] = [9/124,2/25] ...
+fpt lies in the interval [ν/(p^e-1),(ν+1)/p^e] = [17/124,18/125] ...
 
 Starting guessFPT ...
 
@@ -923,28 +908,31 @@ The right-hand endpoint is not the fpt ...
 
 The left-hand endpoint is not the fpt ...
 
-guessFPT narrowed the interval down to (3/40,2/25) ...
+guessFPT narrowed the interval down to (7/50,18/125) ...
 
 Beginning F-signature computation ...
 
-First F-signature computed: s(f,(ν-1)/p^e) = 456/15625 ...
+First F-signature computed: s(f,(ν-1)/p^e) = 793/15625 ...
 
-Second F-signature computed: s(f,ν/p^e) = 64/15625 ...
+Second F-signature computed: s(f,ν/p^e) = 342/15625 ...
 
-Computed F-signature secant line intercept: 449/6125 ...
+Computed F-signature secant line intercept: 8009/56375 ...
 
-F-signature computation failed to find an improved lower bound ...
+F-signature intercept is an improved lower bound;
+Using F-regularity to check if it is the fpt ...
+
+The new lower bound is not the fpt ...
 
 fpt failed to find the exact answer; try increasing the value of
 DepthOfSearch or Attempts.
 
-fpt lies in the interval (3/40,2/25).
+fpt lies in the interval (8009/56375,18/125).
 
-        3   2
-o31 = {--, --}
-       40  25
+        8009   18
+o39 = {-----, ---}
+       56375  125
 
-o31 : List
+o39 : List
 \end{MyVerbatim}
 }
 \bigskip

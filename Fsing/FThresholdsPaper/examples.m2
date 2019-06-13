@@ -124,9 +124,9 @@ fpt(f, Attempts => 2, DepthOfSearch => 3) -- the left-hand endpoint nu/(p^e-1) i
 ------------------------------------------------------------------
 
 f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
-fpt(f, DepthOfSearch => 3, Attempts => 2)
-fpt(f, DepthOfSearch => 3, Attempts => 4) -- more attempts *always* improve the estimate
-fpt(f, DepthOfSearch => 3, Attempts => 4, GuessStrategy => denominator) -- the exact answer, after a change of strategy
+fpt(f, DepthOfSearch => 3, Attempts => 4)
+fpt(f, DepthOfSearch => 3, Attempts => 6)
+fpt(f, DepthOfSearch => 3, Attempts => 8) 
 
 ------------------------------------------------------------------
 
@@ -136,20 +136,18 @@ fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo)
 
 ------------------------------------------------------------------
 
-f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
+f = 2*x^10*y^8+x^4*y^7-2*x^3*y^8;
 numeric fpt(f, DepthOfSearch => 3)
 numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true) -- FinalAttempt improves the estimate slightly
 
 ------------------------------------------------------------------
 
-f = -2*x^10*y^5 - x^5*y^9 - 2*x^3*y^10 + 2*x^2*y^8 - 2*x*y^9;
-timing numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
-timing numeric fpt(f, DepthOfSearch => 3, Attempts => 4) -- a better answer in less time
-timing fpt(f, DepthOfSearch => 4) -- the exact answer in even less time
+time numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
+time fpt(f, DepthOfSearch => 3, Attempts => 7) 
+time fpt(f, DepthOfSearch => 4) 
 
 ------------------------------------------------------------------
 
-f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
 
 ------------------------------------------------------------------
