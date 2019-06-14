@@ -6,7 +6,7 @@
 --*******************************************************************************
 
 --*******************************************************************************
---Manipulations with Lists
+-- Manipulations with Lists
 --*******************************************************************************
 
 --===============================================================================
@@ -14,7 +14,7 @@
 getNumAndDenom = method( TypicalValue => List )
 
 -- Takes a rational vector u and returns a pair (a,q), where a
---is an integer vector and q an integer such that u=a/q.
+-- is an integer vector and q an integer such that u=a/q.
 getNumAndDenom List := List => u ->
 (
     den := lcm apply( u, denominator );
@@ -24,7 +24,7 @@ getNumAndDenom List := List => u ->
 
 --===============================================================================
 
---Selects or finds positions of nonzero, zero, positive entries in a list
+-- Selects or finds positions of nonzero, zero, positive entries in a list
 selectNonzero = L -> select( L, x -> x != 0 )
 selectPositive = L -> select( L, x -> x > 0 )
 nonzeroPositions = L -> positions( L, x -> x != 0 )
@@ -39,15 +39,15 @@ positivePositions = L -> positions( L, x -> x > 0 )
 
 --===============================================================================
 
---isPolynomial(F) checks if F is a polynomial
+-- isPolynomial(F) checks if F is a polynomial
 isPolynomial = method( TypicalValue => Boolean )
 
 isPolynomial RingElement := Boolean => F -> isPolynomialRing ring F
 
 --===============================================================================
 
---isPolynomialOverPosCharField(F) checks if F is a polynomial over a field
---of positive characteristic
+-- isPolynomialOverPosCharField(F) checks if F is a polynomial over a field
+-- of positive characteristic
 isPolynomialOverPosCharField = method( TypicalValue => Boolean )
 
 isPolynomialOverPosCharField RingElement := Boolean => F ->
@@ -60,7 +60,7 @@ isPolynomialOverPosCharField RingElement := Boolean => F ->
 isDefinedOverFiniteField = method( TypicalValue => Boolean )
 
 isDefinedOverFiniteField Ring := Boolean => R ->
-    isPolynomialRing R and  (try (coefficientRing R)#order then true else false)
+    isPolynomialRing R and (try (coefficientRing R)#order then true else false)
 
 isDefinedOverFiniteField Ideal := Boolean => I ->
     isDefinedOverFiniteField ring I
@@ -70,56 +70,59 @@ isDefinedOverFiniteField RingElement := Boolean => f ->
 
 --===============================================================================
 
---Determines whether a polynomial f is a diagonal polynomial (i.e., of the form
---x_1^(a_1)+...+x_n^(a_n)) over a field of positive characteristic
+-- Determines whether a polynomial f is a diagonal polynomial (i.e., of the form
+-- x_1^(a_1)+...+x_n^(a_n)) over a field of positive characteristic
 isDiagonal = method( TypicalValue => Boolean )
 
 isDiagonal RingElement := Boolean => f ->
     isPolynomialOverPosCharField f  and
-    product( exponents f, v -> #(positions( v, x -> x != 0 )) ) == 1
+        product( exponents f, v -> #(positions( v, x -> x != 0 )) ) == 1
 
 --===============================================================================
 
---Returns true if the polynomial is a monomial
+-- Returns true if the polynomial is a monomial
 isMonomial = method( TypicalValue => Boolean )
 
-isMonomial RingElement := Boolean => f ->
-    isPolynomial f and #( terms f ) == 1
+isMonomial RingElement := Boolean => f -> isPolynomial f and #( terms f ) == 1
 
 --===============================================================================
 
---Returns true if the polynomial is a binomial over a field of positive characteristic
+-- Returns true if the polynomial is a binomial over a field of positive 
+-- characteristic
 isBinomial = method( TypicalValue => Boolean )
 
-isBinomial (RingElement) := Boolean => f ->
+isBinomial RingElement := Boolean => f ->
     isPolynomialOverPosCharField f and #( terms f ) == 2
 
 --===============================================================================
 
---isBinaryForm(F) checks if F is a (standard) homogeneous polynomial in two variables.
---WARNING: what we are really testing is if the *ring* of F is a polynomial ring
--- in two variables, and not whether F explicitly involves two variables.
--- (For example, if F=x+y is an element of QQ[x,y,z], this test will return "false";
--- if G=x is an element of QQ[x,y], this test will return "true".)
+-- isBinaryForm(F) checks if F is a (standard) homogeneous polynomial in two 
+-- variables.
+-- WARNING: what we are really testing is if the *ring* of F is a polynomial ring
+-- in two variables, and not whether F explicitly involves two variables. (For 
+-- example, if F = x+y is an element of QQ[x,y,z], this test will return "false";
+-- if G = x is an element of QQ[x,y], this test will return "true".)
 isBinaryForm = method( TypicalValue => Boolean )
 
 isBinaryForm RingElement := Boolean => F ->
--- isHomogeneous is avoided below to account for non-standard gradings
-    isPolynomial F and numgens ring F == 2 and same apply( exponents F, i -> sum i)
+    isPolynomial F and 
+        numgens ring F == 2 and 
+        same apply( exponents F, i -> sum i )
+-- isHomogeneous is avoided above to account for non-standard gradings
 
 --===============================================================================
 
---isLinearBinaryForm(F) checks if F is a linearform in two variables. See warning
---under "isBinaryForm".
+-- isLinearBinaryForm(F) checks if F is a linearform in two variables. See 
+-- warning under "isBinaryForm".
 isLinearBinaryForm = method( TypicalValue => Boolean )
 
 isLinearBinaryForm RingElement := Boolean => F ->
-    isBinaryForm F and ( apply( exponents F, i -> sum i) )#0 == 1
+    isBinaryForm F and first apply( exponents F, i -> sum i) == 1
 
 --===============================================================================
 
 --*******************************************************************************
---Handling of options
+-- Handling of options
 --*******************************************************************************
 
 --===============================================================================
@@ -155,13 +158,13 @@ checkOptions ( OptionTable, List ) := ( o, L ) ->
 -- passOptions selects a subset of options from an OptionTable
 passOptions = method()
 
-passOptions ( OptionTable, List ) := (o, L) ->
+passOptions ( OptionTable, List ) := ( o, L ) ->
     new OptionTable from apply( L, k -> k => o#k )
 
 --===============================================================================
 
 --*******************************************************************************
---Creating and testing ideals
+-- Creating and testing ideals
 --*******************************************************************************
 
 --===============================================================================
@@ -196,7 +199,7 @@ isProper Ideal := Boolean => I -> not isUnitIdeal I
 --===============================================================================
 
 --*******************************************************************************
---Finding rational numbers in an interval
+-- Finding rational numbers in an interval
 --*******************************************************************************
 
 --===============================================================================
@@ -206,8 +209,8 @@ isProper Ideal := Boolean => I -> not isUnitIdeal I
 -- This function is meant to estimate the computational cost
 -- of comparing a rational number t with the fpt of a polynomial.
 -- Right now, the standard way to compute this cost is as a
--- linear function of the numbers (a,b,c) returned by 
--- decomposeFraction(p,t). In the future, we may try using the 
+-- linear function of the numbers (a, b, c) returned by 
+-- decomposeFraction(p, t). In the future, we may try using the 
 -- base p expansion of a in this estimate.
  
 cost = method()
@@ -222,9 +225,9 @@ defaultWeights := { 0, 1, 1.5 }
 cost ( ZZ, QQ, List ) := ( p, t, userWeights ) ->
 (
      decomp := decomposeFraction( p, t );
-     uW := sum( decomp, userWeights, (i, j) -> i*j );
-     dW := sum( decomp, defaultWeights, (i, j) -> i*j );
-     { uW, dW }
+     userCost := sum( decomp, userWeights, ( i, j ) -> i*j );
+     defaultCost := sum( decomp, defaultWeights, ( i, j ) -> i*j );
+     { userCost, defaultCost }
 )
 
 -- This is for the case where the user passes his/her own cost function.
@@ -232,18 +235,18 @@ cost ( ZZ, QQ, List ) := ( p, t, userWeights ) ->
 -- priority, by being placed first in the list returned.
 cost ( ZZ, QQ, Function ) := ( p, t, userFunction ) ->
 (
-     (a, b, c) := decomposeFraction( p, t );
-     uW := try userFunction t  else 
-           (try userFunction( p, t ) else userFunction(p, a, b, c));
-     dW := sum( {a, b, c}, defaultWeights, (i, j) -> i*j );
-     { uW, dW }
+     ( a, b, c ) := decomposeFraction( p, t );
+     userCost := try userFunction t  else 
+         try userFunction( p, t ) else userFunction( p, a, b, c );
+     defaultCost := sum( { a, b, c }, defaultWeights, ( i, j ) -> i*j );
+     { userCost, defaultCost }
 )
 
 -- This is for the case where the user does not pass anything.
 cost ( ZZ, QQ, Nothing ) := ( p, t, userFunction ) ->
 (
      decomp := decomposeFraction( p, t );
-     { sum( decomp, defaultWeights, (i, j) -> i*j ) }
+     { sum( decomp, defaultWeights, ( i, j ) -> i*j ) }
 )
 
 -- In the code below, rational numbers are expressed as {numerator, denominator}, 
@@ -254,34 +257,32 @@ num = a -> a#0/a#1
 -- **Farey sums**
 -- Suppose a/b and c/d are reduced fractions, and that there is no rational number
 -- with denominator <= max(b,d) between them. Then p/q := (a+c)/(b+d) is a reduced 
--- fraction, known as the Farey sum of a/b and c/d, and a/b, p/q, c/d are 
--- consecutive elements in the list of rational numbers with denominator <= b+c.
+-- fraction, known as the Farey sum (or mediant) of a/b and c/d. Moreover,  a/b, 
+-- p/q, c/d are consecutive elements in the list of rational numbers with 
+-- denominator <= b+d.
 
 -- The commands below are meant to create and refine lists of rational numbers in 
--- the interval (A,B). However, to generate such numbers and refine existing 
--- lists, we need to also include one number <=A and another >= B. 
+-- an interval (A,B). However, to generate such numbers and refine existing 
+-- lists, we need to also include one (single) number <=A and another >= B. 
 
--- The function refine takes one such list, and inserts Farey sums between each 
+-- The function 'refine' takes one such list, and inserts Farey sums between each 
 -- consecutive pair of numbers. If the first Farey sum inserted is <= A, the 
 -- first element of the original list is dropped; likewise, if the last Farey 
 -- sum inserted is >= B, the last element of the original list is dropped.
 -- This allows us to "zero in" on the interval (A,B).
-refine = (A, B, oldList) -> 
+refine = ( A, B, oldList ) -> 
 (
     L := oldList;
-    L = apply( toList(0..(#L-2)), i -> { L#i, L#i + L#(i+1) } );
+    L = apply( toList( 0..(#L-2) ), i -> { L#i, L#i + L#(i+1) } );
     L = flatten L;
     if num last L < B then L = append( L, last oldList );
     if num L#1 <= A then L = drop( L, 1 );
     L
 )
 
--- findNumbers takes a list of rational numbers and refines
--- it until there are minNumber elements in (A,B).
--- Uncommenting "loadUp" will ensure that all numbers with 
--- denominator <= some D are included; will tipically return
--- a lot more than minNumber elements.
-findNumbers = (A, B, minNumber, oldList) -> 
+-- findNumbers takes a list of rational numbers and refines it until there are 
+-- minNumber elements in (A,B).
+findNumbers = ( A, B, minNumber, oldList ) -> 
 (
     L := oldList;
     -- the "+2" below compensates for the fact that the first and last 
@@ -290,19 +291,21 @@ findNumbers = (A, B, minNumber, oldList) ->
     L
 )
 
--- Takes a list of numbers and refines so it includes at least minNumber elements
--- in (A,B). Returns a sorted list with numbers and ranks, and the raw list of
--- rational numbers, expressed as pairs.
+-- fptGuess takes a list of numbers and refines so it includes at least minNumber 
+-- elements in (A,B). Returns a sorted list with ranks (costs) and numbers, and 
+-- the raw list of rational numbers, expressed as pairs.
+-- This relies on the fact that the function 'sort' sorts lists of lists 
+-- lexicographically.
 fptGuess = ( p, A, B, minNumber, userCriterion, oldList ) ->
 (
     if A >= B then 
         error "fptWeightedGuessList: Expected third argument to be greater than second";
     numList := findNumbers( A, B, minNumber, oldList );
-    midpt := (B - A)/2;
-    -- now that we have a list with enough rational numbers between A and B,
-    -- compute their costs
-    numCostList := apply( drop(drop(numList,1),-1), t ->
-        join( cost( p, num t, userCriterion ), { abs( num(t) - midpt), num t } )
+    -- distance from the midpoint of the interval will be used as tie-breakers    
+    midpt := (B - A)/2; 
+    -- remove first and last #s, which are not in (A,B), and compute weights 
+    numCostList := apply( drop( drop( numList, 1 ), -1 ), 
+        t -> join( cost( p, num t, userCriterion ), { abs( num(t) - midpt ), num t } )
     );
     ( sort numCostList, numList )
 )
@@ -310,12 +313,12 @@ fptGuess = ( p, A, B, minNumber, userCriterion, oldList ) ->
 --===============================================================================
 
 --*******************************************************************************
---Miscelaneous
+-- Miscelaneous
 --*******************************************************************************
 
 --===============================================================================
 
---Finds the x-intercept of a line passing through two points
+-- Finds the x-intercept of a line passing through two points
 xInt = ( x1, y1, x2, y2 ) ->
 (
     if y1 == y2 then error "xInt: y1 == y2, so there is no intersection";
@@ -333,7 +336,7 @@ factorsAndMultiplicities = method( TypicalValue => List )
 factorsAndMultiplicities RingElement := List => F ->
     apply( toList factor F, toList )
 
---splittingField returns the splittingField of a polynomial over a finite field
+-- splittingField returns the splittingField of a polynomial over a finite field
 splittingField = method( TypicalValue => GaloisField )
 
 splittingField RingElement := GaloisField => F ->
