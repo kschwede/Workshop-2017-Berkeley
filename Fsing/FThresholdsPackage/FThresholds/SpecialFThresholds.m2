@@ -4,13 +4,7 @@
 ---------------------------------------------------------------------------------
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
--- Main functions: diagonalFPT, binomialFPT, binaryFormFPT, monomialFPT
-
--- Auxiliary Functions: factorOutMonomial, monomialFactor, twoIntersection,
---    allIntersections, isInPolytope, isInInteriorPolytope,
---    polytopeDefiningPoints, maxCoordinateSum, dCalculation, calculateEpsilon
---    setFTData, isInUpperRegion, isInLowerRegion, neighborInUpperRegion, isCP,
---    findCPBelow, binaryFormFPTInternal
+-- Main functions: diagonalFPT, binomialFPT, binaryFormFPT, sncFPT
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
@@ -18,8 +12,9 @@
 ---------------------------------------------------------------------------------
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
---Given a vector w of rational integers in [0,1], returns a number of digits
--- such that it suffices to check to see if the components of w add without carrying in base p
+-- Given a vector w of rational numbers in [0,1], returns a number of digits
+-- such that is sufficient to check to see if the components of w add without 
+-- carrying in base p
 carryTest = ( p, w ) ->
 (
     if any( w, x -> x < 0 or x > 1 ) then
@@ -76,26 +71,27 @@ diagonalFPT RingElement := QQ => f ->
 ---------------------------------------------------------------------------------
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
---Given input vectors v={a_1,...,a_n} and w={b_1,...,b_n}, gives the
---corresponding vectors that omit all a_i and b_i such that a_i=b_i
+-- Given input vectors v = {a_1,...,a_n} and w = {b_1,...,b_n}, gives the
+-- corresponding vectors that omit all a_i and b_i such that a_i = b_i
 factorOutMonomial = ( v, w ) ->
 (
     diffCoords := nonzeroPositions( v - w );
     ( v_diffCoords, w_diffCoords )
 )
 
---Given input vectors v={a_1,...,a_n} and w={b_1,...,b_n}, gives the
---vector of the a_i for which a_i=b_i
+-- Given input vectors v = {a_1,...,a_n} and w = {b_1,...,b_n}, gives the
+-- vector of the a_i for which a_i = b_i
 monomialFactor = ( v, w ) -> v_( zeroPositions( v - w ) )
 
---Given two vectors v={v0,v1} and w={w0,w1} in the real plane, finds
---the intersection of the associated lines v0*x+w0*y=1 and v1*x+w1*y=1, if it exists
+-- Given two vectors v = {v0,v1} and w = {w0,w1} in the real plane, finds
+-- the intersection of the associated lines v0*x + w0*y = 1 and v1*x + w1*y = 1, 
+-- if it exists
 twoIntersection = ( v, w ) ->
     if ( d := det matrix { v, w } ) != 0 then { w#1 - w#0 , v#0 - v#1 } / d
 
---Given two vectors v={v0,...vn} and w={w0,...,wn}, list the nonnegative
---intersections of all lines vi*x+wi*y=1 and vj*x+wj*y=1,
---and the intersections of the lines vi*x=1 and wi*y=1 with the axes
+-- Given two vectors v = {v0,...vn} and w = {w0,...,wn}, list the nonnegative
+-- intersections of all lines vi*x + wi*y = 1 and vj*x + wj*y = 1, and the 
+-- intersections of the lines vi*x = 1 and wi*y = 1 with the axes
 allIntersections = ( v, w ) ->
 (
     L1 := apply( subsets( #v, 2 ), k -> twoIntersection( v_k, w_k ) );
@@ -105,26 +101,27 @@ allIntersections = ( v, w ) ->
     select( join( L1, L2, L3 ), x -> x#0 >= 0 and x#1 >= 0 )
 )
 
---Given a point a=(x,y) in the real plane and two vectors v={v0,...,vn} and
--- w={w0,...,wn}, checks whether a is in the polytope defined by the equations vi*x+wi*y<=1
+-- Given a point a = (x,y) in the real plane and two vectors v = {v0,...,vn} and
+-- w = {w0,...,wn}, checks whether a is in the polytope defined by the 
+-- inequalities vi*x + wi*y <= 1
 isInPolytope = ( a, v, w ) -> all( v, w, ( i, j ) -> i*a#0 + j*a#1 <= 1 )
 
---Given a point a=(x,y) in the real plane and two vectors
---v={v0,...,vn} and w={w0,...,wn}, checks whether a is in
---the interion of the polytope defined by the equations vi*x+wi*y<=1
+-- Given a point a = (x,y) in the real plane and two vectors v = {v0,...,vn} and 
+-- w = {w0,...,wn}, checks whether a is in the interior of the polytope defined 
+-- by the inequalities vi*x+wi*y <= 1
 isInInteriorPolytope = ( a, v, w ) -> all( v, w, ( i, j ) -> i*a#0 + j*a#1 < 1 )
 
---Given two vectors v and w of the same length, outputs
---a list of the defining vectors of the polytope as in isInPolytope
+-- Given two vectors v and w of the same length, outputs a list of the defining 
+-- vectors of the polytope as in isInPolytope
 polytopeDefiningPoints = ( v, w ) ->
     select( allIntersections( v, w ), a -> isInPolytope( a, v, w ) )
 
---Given a list of coordinates in the real plane,
---outputs the one with the largest coordinate sum
+-- Given a list of coordinates in the real plane, outputs the one with the 
+-- largest coordinate sum
 maxCoordinateSum = L -> L#( maxPosition( sum \ L ) )
 
---Finds the "delta" in Daniel Hernández's algorithm
---for F-pure thresholds of binomials
+-- Finds the "delta" in Daniel Hernández's algorithm for F-pure thresholds of 
+-- binomials
 dCalculation = ( w, N, p ) ->
 (
     i := N + 1;
@@ -137,7 +134,7 @@ dCalculation = ( w, N, p ) ->
     i + 1
 )
 
---Given the "truncation" points  P1 and P2 and two vectors v and w defining the
+-- Given the "truncation" points  P1 and P2 and two vectors v and w defining the
 -- binomial, outputs the "epsilon" in Daniel Hernández's algorithm for
 -- F-thresholds of binomials
 calculateEpsilon = ( P1, P2, v, w ) ->
@@ -153,14 +150,12 @@ calculateEpsilon = ( P1, P2, v, w ) ->
     max( X, Y )
 )
 
--- Computes the FPT of a binomial
+-- Computes the FPT of a binomial.
 -- Based on the work of Daniel Hernández, and implemented by Emily Witt
 binomialFPT = method( TypicalValue => QQ )
 
 binomialFPT RingElement := QQ => g ->
 (
---    if not isBinomial g then
---        error "binomialFPT: expected a binomial over a field of positive characteristic";
     p := char ring g;
     ( v, w ) := toSequence exponents g;
     FPT := 0;
@@ -172,7 +167,7 @@ binomialFPT RingElement := QQ => g ->
 	L := firstCarry( p, maxPt );
 	if L == -1 then FPT = sum maxPt else
 	(
-	    d := dCalculation( maxPt, L-1, p );
+	    d := dCalculation( maxPt, L - 1, p );
 	    P := adicTruncation( p, d, maxPt );
 	    P1 := P + { 0, 1/p^d };
 	    P2 := P + { 1/p^d, 0 };
@@ -180,12 +175,10 @@ binomialFPT RingElement := QQ => g ->
      	 )
      );
      monFPT := min apply( selectNonzero mon, x -> 1/x );
-     	 -- monFPT = the FPT of the monomial factored out from g;
-     	 -- if there are no nonzero terms in mon, min will return infinity
+     -- monFPT = the FPT of the monomial factored out from g;
+     -- if there are no nonzero terms in mon, min will return infinity
      min( FPT, monFPT )
 )
-
-
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
@@ -430,8 +423,6 @@ binaryFormFPT = method(
 *-
 binaryFormFPT RingElement :=  QQ => opt ->  F ->
 (
---   if not isNonConstantBinaryForm F then
---       error "binaryFormFPT: a nonconstant homogeneous polynomial in 2 variables is expected";
     -- because factoring is the weakness of this algorithm, we try to avoid it
     -- by first checking if fpt=lct
     deg := (degree F)_0;
@@ -479,6 +470,12 @@ binaryFormFPT ( List, List ) := QQ => opt -> ( L, m ) ->
 	Verbose => opt#Verbose
     )
 )
+
+--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+---------------------------------------------------------------------------------
+-- Functions for computing FPTs of monomials and simple normal crossings
+---------------------------------------------------------------------------------
+--%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 ---monomiaFPT computes the FPT of a monomial
 
