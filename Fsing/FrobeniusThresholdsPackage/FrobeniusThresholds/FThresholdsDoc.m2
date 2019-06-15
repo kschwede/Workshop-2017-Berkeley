@@ -1,9 +1,9 @@
 
 
 document {
-    Key => FThresholds,
+    Key => FrobeniusThresholds,
     Headline => "a package for computing F-pure thresholds and related invariants",
-    EM "FThresholds", " is a package for computing ", TEX ///$F$///, "-pure thresholds,
+    EM "FrobeniusThresholds", " is a package for computing ", TEX ///$F$///, "-pure thresholds,
     ", TEX ///$F$///, "-jumping exponents, and related numerical measures of singularity in positive characteristic.",
     BR{},BR{},"The Frobenius endomorphism on a ring of prime characteristic ", TEX ///$p > 0$///,", which sends a ring element to its ", TEX ///$p$///,"-th power, is a fundamental tool in positive characteristic commutative algebra.  Kunz showed that regularity is characterized by the behavior of this map, and since then many other properties of Frobenius have been used to measure the 'severity' of singularities in commutative algebra. The ", TEX ///$F$///, "-pure threshold is a prominent
     object in this realm.", BR{},BR{},

@@ -1,4 +1,4 @@
-newPackage( "FThresholds",
+newPackage( "FrobeniusThresholds",
 Version => "2.0",
 Date => "June 5th, 2019",
 Authors => {
@@ -56,26 +56,26 @@ export{
 
 --*************************************************
 
-load "./FThresholds/DivisorPatch.m2" --some helper functions
+load "./FrobeniusThresholds/DivisorPatch.m2" --some helper functions
 
-load "./FThresholds/BasicFunctions.m2"
+load "./FrobeniusThresholds/BasicFunctions.m2"
 
-load "./FThresholds/MainFunctions.m2"
+load "./FrobeniusThresholds/MainFunctions.m2"
 
-load "./FThresholds/SpecialFThresholds.m2"
+load "./FrobeniusThresholds/SpecialFThresholds.m2"
 
 -- DOCUMENTATION
 
 beginDocumentation()
 
-load "./FThresholds/FThresholdsDoc.m2"
+load "./FrobeniusThresholds/FThresholdsDoc.m2"
 
-load "./FThresholds/MainFunctionsDoc.m2"
+load "./FrobeniusThresholds/MainFunctionsDoc.m2"
 
-load "./FThresholds/SpecialFThresholdsDoc.m2"
+load "./FrobeniusThresholds/SpecialFThresholdsDoc.m2"
 
 -- TESTS
 
-load "./FThresholds/MainFunctionsTest.m2"
+load "./FrobeniusThresholds/MainFunctionsTest.m2"
 
-load "./FThresholds/SpecialFThresholdsTest.m2"
+load "./FrobeniusThresholds/SpecialFThresholdsTest.m2"
