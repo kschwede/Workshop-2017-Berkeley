@@ -317,6 +317,8 @@ We now describe the options available for the function \texttt{nu}.
 As pointed out in the introduction, if $f \in \mathfrak{m}$, the values $\nu^{\mathfrak{m}}_f(p^e)$ can be recovered from the $F$-pure threshold of $f$.
 This is used to speed up computations for certain polynomials whose $F$-pure thresholds can be computed quickly via specialized algorithms, namely diagonal polynomials, binomials, and forms in two variables (see Section \ref{sec.FPT}).  This feature can be disabled by setting the option \texttt{UseSpecialAlgorithms} (default value \texttt{true}) to \texttt{false}.  Consider the following example, where $f$ is a diagonal polynomial.
 \todo{Explain why the user might want to disable this.}
+\daniel{Why would one want to do this?}
+
 \bigskip
 {\small
 \setstretch{.67}
@@ -882,6 +884,19 @@ Whether that interval is open, closed, or a mixed interval depends on the option
 \pedro[inline]{
    Maybe the example below could be omitted, to shorten the paper.
    I think that just telling the reader that the interval is printed when Verbose is activated is enough.
+}
+
+\daniel[inline]{I like the explanation provided by activating Verbose, and so I kind of think that it would be cool to show this off.  However, I also understand if others want to omit it, and I wouldn't object if anyone has a strong preference.}
+
+\daniel[inline]{Should the line 
+\begin{center}
+ν has been computed: ν = ν(3,f) = 17 ...
+\end{center}
+instead be
+\begin{center}
+ν has been computed: ν = nu(3,f) = 17 ...
+\end{center}
+on the 5th line of the Verbose output?  I think this would be consistent with the paper, but whoever wrote this might have had a specific reason for doing it this way.
 }
 
 \bigskip
