@@ -481,10 +481,10 @@ o33 = 8
 
  In line with the philosophy described in the introduction, after appropriately normalizing and taking the limit as $e$ approaches infinity, the values $\mu_I^J(p^e)$ determine certain invariants of interest called \emph{critical exponents}.
 
-The last option we describe for \texttt{nu} is \texttt{IsLocal}.
+The last option we describe for \texttt{nu} is \texttt{AtOrigin}.
 Recall that $\nu_I^\idealm(p^e)$ can be interpreted as the maximum integer $n$ for which $(I^n)^{[1/p^e]}$ is not contained in $\idealm$. 
 When computing its value globally, it is the maximum integer $n$ for which $(I^n)^{[1/p^e]}$ is not the unit ideal.  When 
-the value of \texttt{IsLocal} is set to \texttt{false} (from its default value \texttt{true}), then \texttt{nu} instead determines this maximal integer $n$, which can also be characterized as the minimal integer $\nu_I^\mathfrak{n}(p^e)$ as $\mathfrak{n}$ varies among all maximal ideals of the ring.  
+the value of \texttt{AtOrigin} is set to \texttt{false} (from its default value \texttt{true}), then \texttt{nu} instead determines this maximal integer $n$, which can also be characterized as the minimal integer $\nu_I^\mathfrak{n}(p^e)$ as $\mathfrak{n}$ varies among all maximal ideals of the ring.  
 
 %
 % \[
@@ -507,7 +507,7 @@ o36 = infinity
 
 o36 : InfiniteNumber
 
-i37 : nu(1, f, IsLocal => false)
+i37 : nu(1, f, AtOrigin => false)
 
 o37 = 5
 \end{MyVerbatim}
@@ -527,7 +527,7 @@ The \emph{FrobeniusThresholds} package contains methods to
 Consider a  $\mathbb{Q}$-Gorenstein ring $R$ of characteristic $p>0$, whose index not divisible by $p$.
 Given a parameter $t \in \mathbb{Q}$ and an element $f$ of $R$, the command \texttt{isFPT(t,f)} outputs \texttt{true} if $t$ is the $F$-pure threshold of $f$, and \texttt{false} otherwise.
 Moreover, the function \texttt{compareFPT} provides further information about the relationship between $t$ and the $F$-pure threshold of $f$; namely,
-\texttt{compareFPT(t, f)} returns {\tt-1}, \texttt{0}, or \texttt{1} when $t$ is less than, equal to, or greater than, respectively, the $F$-pure threshold of $f$.  Setting the option \texttt{IsLocal} to \texttt{true} tells the function to consider the $F$-pure threshold at the origin.  The following example illustrates this functionality.
+\texttt{compareFPT(t, f)} returns {\tt-1}, \texttt{0}, or \texttt{1} when $t$ is less than, equal to, or greater than, respectively, the $F$-pure threshold of $f$.  Setting the option \texttt{AtOrigin} to \texttt{true} tells the function to consider the $F$-pure threshold at the origin.  The following example illustrates this functionality.
 
 \bigskip
 {\small
@@ -543,7 +543,7 @@ i3 : isFPT(1/2, z - 1)
 
 o3 = true
 
-i4 : isFPT(1/2, z - 1, IsLocal => true)
+i4 : isFPT(1/2, z - 1, AtOrigin => true)
 
 o4 = false
 \end{MyVerbatim}
@@ -573,7 +573,7 @@ i3 : isFPT(1/2, z - 1)
 
 o3 = true
 
-i4 : isFPT(1/2, z - 1, IsLocal => true)
+i4 : isFPT(1/2, z - 1, AtOrigin => true)
 
 o4 = false
 \end{MyVerbatim}
@@ -937,7 +937,7 @@ o39 : List
 }
 \bigskip
 
-Finally, we point out that one can set the option \texttt{IsLocal} from its default value of \texttt{true} to \texttt{false}, to compute the $F$-pure threshold globally. In other words, it computes the minimum of the $F$-pure threshold at all maximal ideals.
+Finally, we point out that one can set the option \texttt{AtOrigin} from its default value of \texttt{true} to \texttt{false}, to compute the $F$-pure threshold globally. In other words, it computes the minimum of the $F$-pure threshold at all maximal ideals.
 
 \bigskip
 {\small
@@ -947,7 +947,7 @@ i32 : R = ZZ/7[x,y];
 
 i33 : f = (y - 1)^2-(x - 1)^3;
 
-i34 : fpt(f, IsLocal => false)
+i34 : fpt(f, AtOrigin => false)
 
       5
 o34 = -
@@ -965,7 +965,7 @@ o35 : InfiniteNumber
 \bigskip
 % R = ZZ/7[x,y];
 % f = (y-1)^2-(x-1)^3;
-% fpt(f, IsLocal => false)
+% fpt(f, AtOrigin => false)
 % fpt(f)
 
 \noindent In this case, most options enabled by \texttt{UseSpecialAlgorithms => true}
@@ -1002,7 +1002,7 @@ If \texttt{isSimpleNormalCrossing(f)} outputs true, then the $F$-pure threshold 
 Note that the function \texttt{factor} is called whenever \texttt{isSimpleNormalCrossing} is used, which can sometimes make the verification slow.  The user can avoid this when using \texttt{fpt} by setting \texttt{UseSpecialAlgorithms} to \texttt{false}.
 
 The function \texttt{isSimpleNormalCrossing} is exposed to the user, so can be used independent of any $F$-pure threshold calculation.
-If the user sets its option \texttt{IsLocal} to \texttt{true} (its default value is \texttt{false}), then the function checks whether the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower since Jacobian ideals are computed. Consider the following example illustrating this functionality.
+If the user sets its option \texttt{AtOrigin} to \texttt{true} (its default value is \texttt{false}), then the function checks whether the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower since Jacobian ideals are computed. Consider the following example illustrating this functionality.
 
 \bigskip
 {\small
@@ -1016,7 +1016,7 @@ i41 : isSimpleNormalCrossing(f)
 
 o41 = true
 
-i42 : isSimpleNormalCrossing(f, IsLocal => false)
+i42 : isSimpleNormalCrossing(f, AtOrigin => false)
 
 o42 = false
 \end{MyVerbatim}
@@ -1030,13 +1030,13 @@ o42 = false
 
 %             isSimpleNormalCrossing(f)
 
-%             isSimpleNormalCrossing(f, IsLocal=>false)
+%             isSimpleNormalCrossing(f, AtOrigin=>false)
 
 %             g = x*y^2*(x+1)^3*(y-1)^4; --SNC everywhere
 
 %             isSimpleNormalCrossing(g)
 
-%             isSimpleNormalCrossing(g, IsLocal=>false)
+%             isSimpleNormalCrossing(g, AtOrigin=>false)
 
 
 

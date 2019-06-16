@@ -184,11 +184,11 @@ I also changed the HSLList to M, N in the examples though.
 
 In
 
-	If you pass the IsLocal parameter, this will
+	If you pass the AtOrigin parameter, this will
 
 surely you intended to say instead
 
-	If you pass the "true" as the value of the IsLocal parameter, this will
+	If you pass the "true" as the value of the AtOrigin parameter, this will
 
 --------------------------------------
 [Pedro] Fixed.

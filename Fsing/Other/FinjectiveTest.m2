@@ -32,7 +32,7 @@ TEST /// --FPureModule cone over ordinary elliptic curve
 
 TEST /// --the isLocal option
     R = ZZ/5[x,y,z]/ideal((x-2)^3 + y^3 + z^3); --supersingular
-    assert( isFinjective(R, IsLocal=>true) );
+    assert( isFinjective(R, AtOrigin=>true) );
     assert( not isFinjective(R) );
 ///
 

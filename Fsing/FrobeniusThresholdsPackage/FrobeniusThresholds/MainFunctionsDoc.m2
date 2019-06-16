@@ -23,7 +23,7 @@ doc ///
         [compareFPT, FrobeniusRootStrategy]
         [compareFPT, AssumeDomain]
         [compareFPT, QGorensteinIndex]
-        [compareFPT, IsLocal]
+        [compareFPT, AtOrigin]
         [compareFPT, Verbose]
     Headline
         determine whether a given number is less than, greater than, or equal to the F-pure threshold
@@ -38,7 +38,7 @@ doc ///
             indicates whether the ambient ring of {\tt f}  is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
-        IsLocal => Boolean
+        AtOrigin => Boolean
             tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
@@ -83,12 +83,12 @@ doc ///
             compareFPT(19/124, g)
             compareFPT(19/125 - 1/1000, g)
         Text
-            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) will tell the function to consider the $F$-pure threshold at the origin.
+            Setting the {\tt AtOrigin} option to {\tt true} (its default value is {\tt false}) will tell the function to consider the $F$-pure threshold at the origin.
         Example
             R = ZZ/7[x,y];
             f = (x + 1)^3 - (y + 3)^2;
             compareFPT(5/6, f)
-            compareFPT(5/6, f, IsLocal => true)
+            compareFPT(5/6, f, AtOrigin => true)
         Text
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
@@ -139,7 +139,7 @@ doc ///
         [fpt, DepthOfSearch]
         [fpt, FinalAttempt]
         [fpt, GuessStrategy]
-        [fpt, IsLocal]
+        [fpt, AtOrigin]
         [fpt, UseSpecialAlgorithms]
         [fpt, Verbose]
     Headline
@@ -166,7 +166,7 @@ doc ///
             specifies a function to be used to rank numbers to be tested
         GuessStrategy => List
             specifies weights to be used to rank numbers to be tested
-        IsLocal => Boolean
+        AtOrigin => Boolean
             specifies whether to compute the local $F$-pure threshold or the global $F$-pure threshold
         UseSpecialAlgorithms => Boolean
             specifies whether to check if {\tt f} is a diagonal polynomial, monomial, binomial, a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), or a simple normal crossing, and then apply appropriate algorithms
@@ -178,7 +178,7 @@ doc ///
        :QQ
            the $F$-pure threshold of {\tt f}
        :InfiniteNumber
-           the $F$-pure threshold of {\tt f}, if {\tt f} does not vanish at the origin (or anywhere if {\tt IsLocal => false})
+           the $F$-pure threshold of {\tt f}, if {\tt f} does not vanish at the origin (or anywhere if {\tt AtOrigin => false})
     Description
          Text
              Given a polynomial $f$ with coefficients in a finite field, the function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
@@ -255,13 +255,13 @@ doc ///
         Example
             fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
         Text
-            Setting the option {\tt IsLocal => false} can be used to tell the
+            Setting the option {\tt AtOrigin => false} can be used to tell the
             function to compute the $F$-pure threshold globally.  In other words, it computes
             the minimum of the $F$-pure threshold at all maximal ideals.
         Example
             R = ZZ/7[x,y];
             f = (y - 1)^2 - (x - 1)^3;
-            fpt(f, IsLocal => false)
+            fpt(f, AtOrigin => false)
             fpt(f)
         Text
             In this case, most options enabled by {\tt UseSpecialAlgorithms => true} are ignored except for the check for simple normal crossings.  
@@ -270,7 +270,7 @@ doc ///
         Example
             f = x*y^2*(x - 1)^3*(y - 1)^4;
             fpt(f)
-            fpt(f, IsLocal => false)
+            fpt(f, AtOrigin => false)
     SeeAlso
         compareFPT
         isFPT
@@ -311,7 +311,7 @@ doc ///
     Description
         Text
             A valid value for the option @TO ContainmentTest@ specifying that Frobenius roots be used, and not localized, when verifying containments of powers of ideals.
-            This is turned on by default if {\tt IsLocal} is set to {\tt false} in @TO nu@.
+            This is turned on by default if {\tt AtOrigin} is set to {\tt false} in @TO nu@.
     SeeAlso
         ContainmentTest
         nu
@@ -374,7 +374,7 @@ doc ///
         [isFJumpingExponent, FrobeniusRootStrategy]
         [isFJumpingExponent, MaxCartierIndex]
         [isFJumpingExponent, QGorensteinIndex]
-        [isFJumpingExponent, IsLocal]
+        [isFJumpingExponent, AtOrigin]
         [isFJumpingExponent, Verbose]
     Headline
         whether a given number is an F-jumping exponent
@@ -389,7 +389,7 @@ doc ///
             indicates whether the ambient ring of {\tt f}  is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
-        IsLocal => Boolean
+        AtOrigin => Boolean
             tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
@@ -422,13 +422,13 @@ doc ///
             isFJumpingExponent(2/3, f)
             isFJumpingExponent(3/4, f)
         Text
-            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) tells the function to consider only $F$-jumping exponents at the origin.
+            Setting the {\tt AtOrigin} option to {\tt true} (its default value is {\tt false}) tells the function to consider only $F$-jumping exponents at the origin.
             The following example considers a polynomial that looks locally analytically like two lines at the origin and 4 lines at (2,0).
         Example
             R = ZZ/13[x,y];
             f = y*((y + 1) - (x - 1)^2)*(x - 2)*(x + y - 2);
             isFJumpingExponent(3/4, f)
-            isFJumpingExponent(3/4, f, IsLocal => true)
+            isFJumpingExponent(3/4, f, AtOrigin => true)
         Text
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
@@ -454,7 +454,7 @@ doc ///
         [isFPT, FrobeniusRootStrategy]
         [isFPT, MaxCartierIndex]
         [isFPT, QGorensteinIndex]
-        [isFPT, IsLocal]
+        [isFPT, AtOrigin]
         [isFPT, Verbose]
     Headline
         checks whether a given rational number is the F-pure threshold
@@ -469,7 +469,7 @@ doc ///
             indicates whether the ambient ring of {\tt f} is an integral domain
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
-        IsLocal => Boolean
+        AtOrigin => Boolean
             tells the function whether to only consider the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
@@ -499,11 +499,11 @@ doc ///
             isFPT(1/3 + 1/10000, x)
             isFPT(1/3 - 1/10000, x)
         Text
-            Setting the {\tt IsLocal} option to {\tt true} (its default value is {\tt false}) will tell the function to consider the $F$-pure threshold at the origin.
+            Setting the {\tt AtOrigin} option to {\tt true} (its default value is {\tt false}) will tell the function to consider the $F$-pure threshold at the origin.
         Example
             R = ZZ/11[x,y,z]/(x^2 - y*(z - 1));
             isFPT(1/2, z - 1)
-            isFPT(1/2, z - 1, IsLocal => true)
+            isFPT(1/2, z - 1, AtOrigin => true)
         Text
             If the ambient ring $R$ is not a domain, the option {\tt AssumeDomain} should be set to {\tt false}.
             We assume that the ring is a domain by default in order to speed up the computation.
@@ -529,7 +529,7 @@ doc ///
         (nu, ZZ, RingElement, Ideal)
         (nu, ZZ, RingElement)
         [nu, ContainmentTest]
-        [nu, IsLocal]
+        [nu, AtOrigin]
         [nu, ReturnList]
         [nu, Search]
         [nu, UseSpecialAlgorithms]
@@ -552,7 +552,7 @@ doc ///
             in the polynomial ring $R$; if omitted, {\tt J} is assumed to be the ideal generated by the variables of $R$
         ContainmentTest => Symbol
             specifies the manner in which to verify the containment of powers of {\tt I} or {\tt f} in {\tt J^{[p^e]}}
-        IsLocal => Boolean
+        AtOrigin => Boolean
             if true, tells the function to take the minimum value over all possible maximal ideals J
         ReturnList => Boolean
             specifies whether to return the list {\tt \{\nu(1),\ldots,\nu(p^e)\}}, as opposed to just {\tt \nu(p^e)}
@@ -566,7 +566,7 @@ doc ///
         :ZZ
             the largest integer {\tt \nu\ = \nu(p^e)} such that {\tt I^{\nu}} (or {\tt f^{\nu}}, or {\tt I^{[\nu]}}, depending on the arguments and options passed) is not contained in {\tt J^{[p^e]}}
         :InfiniteNumber
-            if {\tt I} or {\tt f} is not contained in the radical of $J$, or when {\tt IsLocal => false}, if {\tt I} or {\tt f} is a unit ideal
+            if {\tt I} or {\tt f} is not contained in the radical of $J$, or when {\tt AtOrigin => false}, if {\tt I} or {\tt f} is a unit ideal
         :List
             containing {\tt \nu(p^i)}, for {\tt i = 0,\ldots,e}
     Description
@@ -649,12 +649,12 @@ doc ///
             time nu(2, M, M^2) -- uses binary search (default)
             time nu(2, M, M^2, Search => Linear) -- but linear seach gets luckier
         Text
-            The option {\tt IsLocal} (default value {\tt true}) can be turned off to tell {\tt nu} to effectively do the computation over all possible maximal ideals $J$ and take the minimum.
+            The option {\tt AtOrigin} (default value {\tt true}) can be turned off to tell {\tt nu} to effectively do the computation over all possible maximal ideals $J$ and take the minimum.
         Example
             R = ZZ/7[x,y];
             f = (x - 1)^3 - (y - 2)^2;
             nu(1, f)
-            nu(1, f, IsLocal => false)
+            nu(1, f, AtOrigin => false)
         Text
             The option {\tt ReturnList} (default value {\tt false}) can be used to request that the output be not only $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=0,\ldots,e$.
         Example

@@ -597,7 +597,7 @@ cohomologies.
 
 By default the algorithm checks for $F$-injectivity at all points of $\Spec R$.  However, one
 can choose to check $F$-injectivity only at the origin by setting the
-option \texttt{IsLocal} to  \texttt{true}.
+option \texttt{AtOrigin} to  \texttt{true}.
 
 \medskip
 {\small\setstretch{.67}
@@ -608,7 +608,7 @@ i2 : isFInjective R -- R is not globally F-injective...
 
 o2 = false
 
-i3 : isFInjective(R, IsLocal => true) -- but is F-injective at the origin
+i3 : isFInjective(R, AtOrigin => true) -- but is F-injective at the origin
 
 o3 = true
 \end{MyVerbatim}
@@ -704,7 +704,7 @@ allows the user to specify the $\mathbb{Q}$-Gorenstein index of the ring.
 
 
 The default behavior of \texttt{isFRegular} is that it checks for strong $F$-regularity
-globally. If the option \texttt{IsLocal} is set to \texttt{true}, the algorithm will only
+globally. If the option \texttt{AtOrigin} is set to \texttt{true}, the algorithm will only
 check $F$-regularity at the origin, by checking whether the computed test ideal is in the irrelevant ideal.
 Below are examples for both a ring and a pair.
 
@@ -718,7 +718,7 @@ i2 : isFRegular R -- R is not globally F-regular...
 
 o2 = false
 
-i3 : isFRegular(R, IsLocal => true) -- but is F-regular at the origin
+i3 : isFRegular(R, AtOrigin => true) -- but is F-regular at the origin
 
 o3 = true
 
@@ -730,7 +730,7 @@ i6 : isFRegular(5/6, f) -- (R,f^(5/6)) is not F-regular...
 
 o6 = false
 
-i7 : isFRegular(5/6, f, IsLocal => true) -- but is F-regular at the origin
+i7 : isFRegular(5/6, f, AtOrigin => true) -- but is F-regular at the origin
 
 o7 = true
 \end{MyVerbatim}
@@ -778,8 +778,8 @@ o6 = true
 The algorithm works by applying Fedder's Criterion {\cite{FedderFPureRat}}, which states that a
 local ring $(R, \mathfrak{m})$ is $F$-pure if and only if $(I^{[p]} : I)
 \not\subseteq \mathfrak{m}^{[p]}$.
-When \texttt{IsLocal} is set to \texttt{true}, the algorithm checks $F$-purity only at the origin, by explicitly checking the above
-containment. When \texttt{IsLocal} is set to \texttt{false}, which is its default value, the
+When \texttt{AtOrigin} is set to \texttt{true}, the algorithm checks $F$-purity only at the origin, by explicitly checking the above
+containment. When \texttt{AtOrigin} is set to \texttt{false}, which is its default value, the
 algorithm computes the non $F$-pure locus, by applying \texttt{frobeniusRoot}
 to $I^{[p]} :I$. If the non $F$-pure locus is the whole ring, the algorithm
 returns \texttt{true}.
@@ -828,7 +828,7 @@ $\omega_{R} \subseteq M$;  see the next section for the description of a test mo
 The options \texttt{AssumeDomain} and \texttt{FrobeniusRootStrategy} can be
 used to improve the speed of the \texttt{testModule} computation. By default,
 these options are set to \texttt{false} and \texttt{Substitution}, respectively.
-Finally, if \texttt{IsLocal} is set to \texttt{true}, then $F$-rationality is checked only at the origin.
+Finally, if \texttt{AtOrigin} is set to \texttt{true}, then $F$-rationality is checked only at the origin.
 
 
 \section{Test ideals}\label{Section: Test Ideals}

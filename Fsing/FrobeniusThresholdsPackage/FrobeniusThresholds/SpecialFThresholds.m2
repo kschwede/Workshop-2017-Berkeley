@@ -485,11 +485,11 @@ monomialFPT RingElement := QQ => f -> 1/(max first exponents f)
 
 ---sncFPT computes the FPT of a SNC divisor monomial
 
-sncFPT = method( TypicalValue => QQ, Options => { IsLocal => true } )
+sncFPT = method( TypicalValue => QQ, Options => { AtOrigin => true } )
 
 sncFPT Product := QQ => o -> ff -> 
 (
-    if o.IsLocal then 
+    if o.AtOrigin then 
     (
         local myRing;
         if #ff > 0 then myRing = ring ff#0#0 else return infinity;
@@ -504,7 +504,7 @@ sncFPT Product := QQ => o -> ff ->
     ---computes whether something is SNC
 isSimpleNormalCrossing = method(
     TypicalValue => Boolean,
-    Options => { IsLocal => true, Verbose => false }
+    Options => { AtOrigin => true, Verbose => false }
 )
 
 isSimpleNormalCrossing RingElement := Boolean => o -> ff -> 
@@ -521,19 +521,19 @@ isSimpleNormalCrossing Product := Boolean => o -> ff ->
     d := dim myRing;
     local myMax;
     local newd;
-    myMax = if o.IsLocal then ideal myRing_* else ideal 0_myRing;
+    myMax = if o.AtOrigin then ideal myRing_* else ideal 0_myRing;
     --set the ring, if an empty product is passed, then it is SNC
     termList := toList apply( ff, t -> sub( t#0, myRing ) ); --strip the powers from the product
     if o.Verbose then print( "isSimpleNormalCrossing: here are the terms " | toString termList );
     termList = select( termList, z -> not isUnit z); --strip out units that factor returned
-    if o.IsLocal then termList = select( termList, z -> z%myMax == 0 );
+    if o.AtOrigin then termList = select( termList, z -> z%myMax == 0 );
     if o.Verbose then print( "isSimpleNormalCrossing: here are the relevant terms " | toString termList );
-    if o.IsLocal and #termList == d and myMax == ideal apply( termList, t -> t % (myMax^2) ) then 
+    if o.AtOrigin and #termList == d and myMax == ideal apply( termList, t -> t % (myMax^2) ) then 
         return true;  --if we obviously have a regular sop at the origin
     if o.Verbose then print "isSimpleNormalCrossing: not obviously a regular sop at the origin";
     strata := subsets termList;
     if instance( myRing, PolynomialRing ) then strata = delete( {}, strata );
-    if o.IsLocal and instance( myRing, PolynomialRing ) then
+    if o.AtOrigin and instance( myRing, PolynomialRing ) then
     (   --we can just compute jacobian matrices
         phi := map( coefficientRing myRing, myRing );
         if o.Verbose then 

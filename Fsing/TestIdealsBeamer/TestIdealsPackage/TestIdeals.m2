@@ -119,7 +119,7 @@ export{
     "frobeniusTraceOnCanonicalModule", --Karl (this is Moty's find u function, but it returns a list if Macaulay2 doesn't identify 1 element).
     "isCohenMacaulay", --Karl (added recently, if anyone has ideas to improve this...)
     "isFRational", --Karl (added recently).
-    "IsLocal", --an option for isCohenMacaulay, isFRational, etc.
+    "AtOrigin", --an option for isCohenMacaulay, isFRational, etc.
     "testModule", --Karl (this subsumes a bunch of older functions)
     "parameterTestIdeal",
 
@@ -1418,10 +1418,10 @@ passOptions ( OptionTable, List ) := (o, L) ->
 
     --warning, this only works if R is equidimensional.  If Spec R has disjoint components of different dimensions
     --then this function will return false, even if R is Cohen-Macaulay.
-    isCohenMacaulay = method(Options => {IsLocal => false});
+    isCohenMacaulay = method(Options => {AtOrigin => false});
 
     isCohenMacaulay(Ring) := o->(R1) ->(
-        if (o.IsLocal == true) then (
+        if (o.AtOrigin == true) then (
             isCM(R1)
         )
         else (
@@ -1455,13 +1455,13 @@ passOptions ( OptionTable, List ) := (o, L) ->
 
     --next we write an isFRational function
 
-    isFRational = method(Options => {AssumeDomain => false, IsLocal => false, AssumeCM => false, FrobeniusRootStrategy=>Substitution });
+    isFRational = method(Options => {AssumeDomain => false, AtOrigin => false, AssumeCM => false, FrobeniusRootStrategy=>Substitution });
 
     isFRational(Ring) := o->(R1) ->(
         flag := true;
         --first verify if it is CM
         if (o.AssumeCM == false) then(
-            if (not isCohenMacaulay(R1, IsLocal => o.IsLocal)) then (
+            if (not isCohenMacaulay(R1, AtOrigin => o.AtOrigin)) then (
                 flag = false;
             );
         );
@@ -1469,7 +1469,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
         if (flag == true) then (
             --note we don't compute the test module if we know that the ring is not CM.
             MList := testModule(R1, passOptions( o, { AssumeDomain, FrobeniusRootStrategy } ) );
-            if (o.IsLocal == true) then (
+            if (o.AtOrigin == true) then (
                 paraTestIdeal := (MList#0):(MList#1);
                 myMaxIdeal := sub(maxIdeal(ambient R1), R1);
                 flag = not isSubset(paraTestIdeal, myMaxIdeal);
@@ -1680,7 +1680,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
     	AssumeCM => false,
     	AssumeReduced => true,
     	AssumeNormal => false,
-    	IsLocal => false
+    	AtOrigin => false
         }
     )
     --originally written by Drew Ellingson, with assistance from Karl Schwede
@@ -1700,7 +1700,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
 
         -- F-Injectivity fast to compute on dim(S)-dim(R), so we check there seperately by default
         if (o.CanonicalStrategy === Katzman) then (
-            if (isFInjectiveCanonicalStrategy(R1, passOptions( o, { IsLocal, FrobeniusRootStrategy } ) ) == false) then ( -- if F-injectivity fails in top dimension, no need to try any others
+            if (isFInjectiveCanonicalStrategy(R1, passOptions( o, { AtOrigin, FrobeniusRootStrategy } ) ) == false) then ( -- if F-injectivity fails in top dimension, no need to try any others
             	return false;
         	);
         )
@@ -1734,7 +1734,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
 
     --the following is an internal function, it checks if is F-injective at the top cohomology (quickly)
     isFInjectiveCanonicalStrategy = method(
-        Options => {FrobeniusRootStrategy => Substitution, IsLocal => false}
+        Options => {FrobeniusRootStrategy => Substitution, AtOrigin => false}
     )
 
     isFInjectiveCanonicalStrategy(Ring) := o->(R1) -> (
@@ -1749,7 +1749,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
             curIdeal = curIdeal + frobeniusRoot(1, {1}, {u1#i}, J1);
             i = i+1;
         );
-        if (o.IsLocal == true) then (
+        if (o.AtOrigin == true) then (
             myMax := maxIdeal(S1);
             paramFideal := curIdeal : J1;
             return not isSubset(paramFideal, myMax);
@@ -2014,7 +2014,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
     	AssumeDomain => false,
     	DepthOfSearch => 2,
     	MaxCartierIndex => 10,
-    	IsLocal => false,
+    	AtOrigin => false,
     	FrobeniusRootStrategy => Substitution,
     	QGorensteinIndex => 0
         }
@@ -2027,7 +2027,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
       --      return nonQGorensteinIsFregular( o.DepthOfSearch, {0}, {1_R1}, R1, AssumeDomain => o.AssumeDomain, FrobeniusRootStrategy => o.FrobeniusRootStrategy );
         tau := testIdeal( R1, passOptions( o, { AssumeDomain, MaxCartierIndex, FrobeniusRootStrategy, QGorensteinIndex } ) );
     --    tau := testIdeal( R1, AssumeDomain => o.AssumeDomain, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy => o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex);
-        if o.IsLocal then isSubset( ideal 1_R1, tau + maxIdeal R1 )
+        if o.AtOrigin then isSubset( ideal 1_R1, tau + maxIdeal R1 )
         else isSubset( ideal 1_R1, tau )
     )
 
@@ -2040,7 +2040,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
         R1 := ring ff;
         tau := testIdeal( tt, ff, passOptions( o, { AssumeDomain, MaxCartierIndex, FrobeniusRootStrategy, QGorensteinIndex } ) );
     --    tau := testIdeal( tt, ff, AssumeDomain => o.AssumeDomain, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy => o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex );
-        if o.IsLocal then isSubset( ideal 1_R1, tau + maxIdeal R1 )
+        if o.AtOrigin then isSubset( ideal 1_R1, tau + maxIdeal R1 )
         else isSubset( ideal 1_R1, tau )
     )
 
@@ -2052,7 +2052,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
         R1 := ring ffList#0;
         tau := testIdeal( ttList, ffList, passOptions( o, { AssumeDomain,, MaxCartierIndex, FrobeniusRootStrategy, QGorensteinIndex } ) );
     --    tau := testIdeal( ttList, ffList, AssumeDomain => o.AssumeDomain, MaxCartierIndex => o.MaxCartierIndex, FrobeniusRootStrategy => o.FrobeniusRootStrategy, QGorensteinIndex => o.QGorensteinIndex);
-        if o.IsLocal then isSubset( ideal 1_R1, tau + maxIdeal R1 )
+        if o.AtOrigin then isSubset( ideal 1_R1, tau + maxIdeal R1 )
         else isSubset( ideal 1_R1, tau )
     )
 
@@ -2093,7 +2093,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
     -- Note:  We first check if I is generated by a regular sequence.
 
     isFPure = method(
-        Options => { FrobeniusRootStrategy => Substitution, IsLocal => false }
+        Options => { FrobeniusRootStrategy => Substitution, AtOrigin => false }
     )
 
     isFPure Ring := o -> R1 ->
@@ -2102,7 +2102,7 @@ passOptions ( OptionTable, List ) := (o, L) ->
     isFPure Ideal := o -> I1 ->
     (
         p1 := char ring I1;
-        if o.IsLocal then
+        if o.AtOrigin then
         (
             maxideal := maxIdeal I1;
             if codim(I1) == numgens(I1) then
@@ -3507,7 +3507,7 @@ doc ///
         [isFRegular, FrobeniusRootStrategy]
         [isFRegular, MaxCartierIndex]
         [isFRegular, QGorensteinIndex]
-        [isFRegular, IsLocal]
+        [isFRegular, AtOrigin]
         [isFRegular, DepthOfSearch]
     Headline
         whether a ring or pair is strongly F-regular
@@ -3533,7 +3533,7 @@ doc ///
             sets the maximum Gorenstein index to search for when working with a Q-Gorenstein ambient ring
         QGorensteinIndex => ZZ
             specifies the Q-Gorenstein index of the ring
-        IsLocal => Boolean
+        AtOrigin => Boolean
             specifies whether to check F-regularity just at the origin
         DepthOfSearch => ZZ
             specifies how hard to try to prove a non-Q-Gorenstein ring is F-regular
@@ -3558,24 +3558,24 @@ doc ///
             isFRegular(4/5, f)
             isFRegular(4/5-1/100000, f)
         Text
-            When checking whether a ring or pair is strongly F-regular, the option IsLocal determines if this is checked at the origin or everywhere (default is {\tt false}, which corresponds to everywhere).  If you set {\tt IsLocal=>true}, it will only check this at the origin.
+            When checking whether a ring or pair is strongly F-regular, the option AtOrigin determines if this is checked at the origin or everywhere (default is {\tt false}, which corresponds to everywhere).  If you set {\tt AtOrigin=>true}, it will only check this at the origin.
         Example
             R = ZZ/7[x,y,z]/ideal((x-1)^3+(y+1)^3+z^3);
             isFRegular(R)
-            isFRegular(R, IsLocal=>true)
+            isFRegular(R, AtOrigin=>true)
             S = ZZ/13[x,y,z]/ideal(x^3+y^3+z^3);
             isFRegular(S)
-            isFRegular(S, IsLocal=>true)
+            isFRegular(S, AtOrigin=>true)
         Text
-            Here is an example of {\tt IsLocal} behavior with a pair.
+            Here is an example of {\tt AtOrigin} behavior with a pair.
         Example
             R = ZZ/13[x,y];
             f = (y-2)^2 - (x-3)^3;
             isFRegular(5/6, f)
-            isFRegular(5/6, f, IsLocal=>true)
+            isFRegular(5/6, f, AtOrigin=>true)
             g = y^2 - x^3;
             isFRegular(5/6, g)
-            isFRegular(5/6, g, IsLocal=>true)
+            isFRegular(5/6, g, AtOrigin=>true)
         Text
             The option {\tt AssumeDomain => true} is used when finding a test element.  The default value is {\tt false}.  The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
         Text
@@ -3599,7 +3599,7 @@ doc ///
         isFPure
         (isFPure, Ring)
         (isFPure, Ideal)
-        [isFPure, IsLocal]
+        [isFPure, AtOrigin]
         [isFPure, FrobeniusRootStrategy]
     Headline
         whether a ring is F-pure
@@ -3611,7 +3611,7 @@ doc ///
             the ring to check F-purity of
         I: Ideal
             the defining ideal of the ring to check F-purity of
-        IsLocal => Boolean
+        AtOrigin => Boolean
             whether the F-purity is checked at the origin or everwhere
         FrobeniusRootStrategy => Symbol
             choose the strategy for internal frobeniusRoot calls
@@ -3636,16 +3636,16 @@ doc ///
             isFPure(ideal(y^2-x^3))
             isFPure(ideal(z^2-x*y*z+x*y^2+x^2*y))
         Text
-            The option {\tt IsLocal} controls whether F-purity is checked at the origin or everywhere.  If you set {\tt IsLocal=>true} (default is {\tt false}), it will only check this at the origin.
+            The option {\tt AtOrigin} controls whether F-purity is checked at the origin or everywhere.  If you set {\tt AtOrigin=>true} (default is {\tt false}), it will only check this at the origin.
         Example
             R = ZZ/5[x,y,z]/ideal((x-1)^3+(y-2)^3+z^3);
             isFPure(R)
-            isFPure(R, IsLocal=>true)
+            isFPure(R, AtOrigin=>true)
             S = ZZ/13[x,y,z]/ideal(x^3+y^3+z^3);
             isFPure(S)
-            isFPure(S, IsLocal=>true)
+            isFPure(S, AtOrigin=>true)
         Text
-            Note there is a difference in the strategy for the local or non-local computations.  In fact, checking it everywhere can sometimes be faster than checking the origin.  If {\tt IsLocal=>false} then the function computes @TO frobeniusRoot@ applied to $I^{[p]} : I$, if {\tt IsLocal=>true} then the function checks wheter or not $I^{[p^e]} : I$ is contained in $m^{[p^e]}$ where $m$ is the maximal ideal generated by the variables.
+            Note there is a difference in the strategy for the local or non-local computations.  In fact, checking it everywhere can sometimes be faster than checking the origin.  If {\tt AtOrigin=>false} then the function computes @TO frobeniusRoot@ applied to $I^{[p]} : I$, if {\tt AtOrigin=>true} then the function checks wheter or not $I^{[p^e]} : I$ is contained in $m^{[p^e]}$ where $m$ is the maximal ideal generated by the variables.
         Text
             The option {\tt FrobeniusRootStrategy} is passed to internal @TO frobeniusRoot@ calls.
     SeeAlso
@@ -3840,20 +3840,20 @@ doc ///
     Key
         isCohenMacaulay
         (isCohenMacaulay, Ring)
-        [isCohenMacaulay, IsLocal]
+        [isCohenMacaulay, AtOrigin]
     Headline
         determines if a ring is Cohen-Macaulay
     Usage
         isCohenMacaulay(R)
     Inputs
         R:Ring
-        IsLocal => Boolean
+        AtOrigin => Boolean
             instead call the isCM function from the Depth package which checks if the ring is Cohen-Macaulay only at the origin.
     Outputs
         :Boolean
     Description
         Text
-            Determines if a ring is Cohen-Macaulay.  If you pass the {\tt IsLocal parameter}, this will simply call the @TO isCM@ function in the {\tt Depth} package, which checks whether the ring is Cohen-Macaulay at the origin.  This function checks the Cohen-Macaulay property globally and sometimes is much faster than the local computation.
+            Determines if a ring is Cohen-Macaulay.  If you pass the {\tt AtOrigin parameter}, this will simply call the @TO isCM@ function in the {\tt Depth} package, which checks whether the ring is Cohen-Macaulay at the origin.  This function checks the Cohen-Macaulay property globally and sometimes is much faster than the local computation.
         Example
             T = ZZ/5[x,y];
             S = ZZ/5[a,b,c,d];
@@ -3871,7 +3871,7 @@ doc ///
 
 doc ///
     Key
-        IsLocal
+        AtOrigin
     Headline
         an option used to specify whether to only work locally
     Description
@@ -3883,7 +3883,7 @@ doc ///
     Key
         isFRational
         (isFRational, Ring)
-        [isFRational, IsLocal]
+        [isFRational, AtOrigin]
         [isFRational, AssumeCM]
         [isFRational, AssumeDomain]
         [isFRational, FrobeniusRootStrategy]
@@ -3893,7 +3893,7 @@ doc ///
         isFRational(R)
     Inputs
         R:Ring
-        IsLocal => Boolean
+        AtOrigin => Boolean
             check F-rationality only at the origin and call the isCM command from the depth package
         AssumeCM => Boolean
             assume whether the ring is Cohen-Macaulay
@@ -3905,7 +3905,7 @@ doc ///
         :Boolean
     Description
         Text
-            Determines if a ring is F-rational.  If you pass it {\tt IsLocal=>true}, it will only check if the ring is F-rational at the origin (this can be slower).  If you pass it {\tt AssumeCM=>true}, it will not verify that the ring is Cohen-Macaulay.
+            Determines if a ring is F-rational.  If you pass it {\tt AtOrigin=>true}, it will only check if the ring is F-rational at the origin (this can be slower).  If you pass it {\tt AssumeCM=>true}, it will not verify that the ring is Cohen-Macaulay.
         Example
             T = ZZ/5[x,y];
             S = ZZ/5[a,b,c,d];
@@ -4031,7 +4031,7 @@ doc ///
         isFInjective
         (isFInjective, Ring)
         [isFInjective, FrobeniusRootStrategy]
-        [isFInjective, IsLocal]
+        [isFInjective, AtOrigin]
         [isFInjective, AssumeCM]
         [isFInjective, AssumeNormal]
         [isFInjective, AssumeReduced]
@@ -4044,7 +4044,7 @@ doc ///
         R:Ring
         FrobeniusRootStrategy => Symbol
             choose the strategy for internal frobeniusRoot calls
-        IsLocal => Boolean
+        AtOrigin => Boolean
             specify whether to check F-injectivity only at the origin
         AssumeCM => Boolean
             assume the ring is Cohen-Macaulay
@@ -4094,11 +4094,11 @@ doc ///
             time isFInjective(R)
             time isFInjective(R, CanonicalStrategy=>null)
         Text
-            If you set the option {\tt IsLocal => true} (default {\tt false}) it will only check F-injectivity at the origin.  Otherwise it will check it everywhere.  Note checking at the origin can be slower than checking it everywhere.  Consider the example of the following non-F-injective ring.
+            If you set the option {\tt AtOrigin => true} (default {\tt false}) it will only check F-injectivity at the origin.  Otherwise it will check it everywhere.  Note checking at the origin can be slower than checking it everywhere.  Consider the example of the following non-F-injective ring.
         Example
             R = ZZ/7[x,y,z]/ideal( (x-1)^5 + (y+1)^5 + z^5 );
             isFInjective(R)
-            isFInjective(R, IsLocal=>true)
+            isFInjective(R, AtOrigin=>true)
         Text
             If {\tt AssumeCM=>true} then the function only checks the Frobenius action on top cohomology (which is typically much faster).  The default value is {\tt false}.  Note, that it can give an incorrect answer if the non-injective Frobenius occurs in a lower degree.  Consider the example of the cone over a supersingular elliptic curve times $P^1$.
         Example
@@ -4669,7 +4669,7 @@ TEST /// --FPureModule cone over ordinary elliptic curve
 
 TEST /// --the isLocal option
     R = ZZ/5[x,y,z]/ideal((x-2)^3 + y^3 + z^3); --supersingular
-    assert( isFInjective(R, IsLocal=>true) );
+    assert( isFInjective(R, AtOrigin=>true) );
     assert( not isFInjective(R) );
 ///
 

@@ -248,13 +248,13 @@ f2 = map(T, R, {a^3, a^2*b, a*b^2, b^3});
 g = x^7-w^3;
 h = a^21-b^9;
 assert(compareFPT(19/125, g) == 0);
-assert(compareFPT(19/125, g, IsLocal=>true) == 0);
+assert(compareFPT(19/125, g, AtOrigin=>true) == 0);
 assert(compareFPT(18/124, g) == -1);
-assert(compareFPT(18/124, g, IsLocal=>true) == -1);
+assert(compareFPT(18/124, g, AtOrigin=>true) == -1);
 assert(compareFPT((5*19+1)/625, g) == 1);
-assert(compareFPT((5*19+1)/625, g, IsLocal=>true) == 1);
+assert(compareFPT((5*19+1)/625, g, AtOrigin=>true) == 1);
 assert(compareFPT(19/125, h) == 0);
-assert(compareFPT(19/125, h, IsLocal=>true) == 0);
+assert(compareFPT(19/125, h, AtOrigin=>true) == 0);
 assert(isFJumpingExponent(2/5, h));
 assert(not isFJumpingExponent((2*5^3-1)/5^4, h));
 assert(isFJumpingExponent(2/5, g));
@@ -274,10 +274,10 @@ TEST ///--more isLocal testing
 R = ZZ/13[x,y];
 f = y*((y+1)-(x-1)^2)*(x-2)*(x+y-2); --four lines trhough one point, and 2 lines through the origin.
 assert(isFJumpingExponent(3/4, f));
-assert(not isFJumpingExponent(3/4, f, IsLocal => true));
+assert(not isFJumpingExponent(3/4, f, AtOrigin => true));
 assert(isFPT(1/2, f));
-assert(not isFPT(1/2, f, IsLocal => true));
-assert(isFPT(1, f, IsLocal => true));
+assert(not isFPT(1/2, f, AtOrigin => true));
+assert(isFPT(1, f, AtOrigin => true));
 ///
 
 TEST /// --degenerate cases
@@ -296,20 +296,20 @@ assert(fpt(f) == 4/5);
 assert(fpt(g) == 4/5);
 ///
 
-TEST /// --IsLocal checking
+TEST /// --AtOrigin checking
 R = ZZ/11[x,y];
 f = (x+1)^2-(y+1)^3;
 assert(compareFPT(5/6-1/(6*11), f) == 0);
-assert(compareFPT(5/6-1/(6*11), f, IsLocal=>true) == -1);
-assert(compareFPT(1, f, IsLocal=>true) == 0);
+assert(compareFPT(5/6-1/(6*11), f, AtOrigin=>true) == -1);
+assert(compareFPT(1, f, AtOrigin=>true) == 0);
 ///
 
-TEST /// --more IsLocal checking
+TEST /// --more AtOrigin checking
 R = ZZ/7[x,y,z]/ideal(x*(y-1)-z^2);
 f = y-1;
 assert(compareFPT(1/2, f) == 0);
-assert(compareFPT(1/2, f, IsLocal=>true) == -1);
-assert(compareFPT(1, y, IsLocal=>true) == 0);
+assert(compareFPT(1/2, f, AtOrigin=>true) == -1);
+assert(compareFPT(1, y, AtOrigin=>true) == 0);
 ///
 
 TEST /// --an example from Canton-Hernández-Schwede-Witt
@@ -344,52 +344,52 @@ assert(fpt(f) == 1/3);
 assert(fpt(f, DepthOfSearch=>3, UseSpecialAlgorithms=>false) == 1/3);
 ///
 
-TEST /// --IsLocal vs not IsLocal for nu
+TEST /// --AtOrigin vs not AtOrigin for nu
 R = ZZ/5[x,y];
 f = y^2-x^3;
 g = (y-1)^2-(x-1)^3;
-assert(nu(1,f) == nu(1,g, IsLocal => false));
-assert(nu(2,f) == nu(2,g, IsLocal => false));
+assert(nu(1,f) == nu(1,g, AtOrigin => false));
+assert(nu(2,f) == nu(2,g, AtOrigin => false));
 assert(nu(1,g) == infinity);
 ///
 
-TEST /// --IsLocal vs not IsLocal for nu, in more variables!
+TEST /// --AtOrigin vs not AtOrigin for nu, in more variables!
 R = ZZ/5[x,y,u,v];
 f = x^2*y-u*v^3;
 g = (x-1)^2*(y-4)-(u-2)*(v-3)^3;
-assert(nu(1,f) == nu(1,g, IsLocal => false));
-assert(nu(2,f) == nu(2,g, IsLocal => false));
+assert(nu(1,f) == nu(1,g, AtOrigin => false));
+assert(nu(2,f) == nu(2,g, AtOrigin => false));
 assert(nu(1,g) == infinity);
 ///
 
-TEST /// --IsLocal vs not IsLocal for fpt
+TEST /// --AtOrigin vs not AtOrigin for fpt
 R = ZZ/5[x,y];
 f = y^2-x^3;
 g = (y-1)^2 - (x-2)^3;
-assert(fpt(f) == fpt(g, IsLocal=>false));
+assert(fpt(f) == fpt(g, AtOrigin=>false));
 assert(fpt(g) == infinity);
 R = ZZ/7[x,y];
 f = y^2-x^3;
 g = (y-1)^2 - (x-2)^3;
-assert(fpt(f) == fpt(g, IsLocal => false));
+assert(fpt(f) == fpt(g, AtOrigin => false));
 assert(fpt(g) == infinity);
 R = ZZ/2[x,y];
 f = y^2-x^3;
 g = (y-1)^2 - (x-2)^3;
-assert(fpt(f) == fpt(g, IsLocal => false));
+assert(fpt(f) == fpt(g, AtOrigin => false));
 assert(fpt(g) == infinity);
 R = ZZ/11[x,y]; --a SNC case
 f = x*y^2*(x-1)^3*(y-1)^4;
 assert(fpt(f) == 1/2);
-assert(fpt(f, IsLocal=>false) == 1/4);
+assert(fpt(f, AtOrigin=>false) == 1/4);
 ///
 
-TEST /// --fpt IsLocal => false, boundary cases
+TEST /// --fpt AtOrigin => false, boundary cases
 R = ZZ/7[x,y,z];
 f = (x-1)*(y-3)-(z-2)^2;
-assert(fpt(f, IsLocal=>false) == 1);
-assert(fpt(1_R, IsLocal => false) == infinity);
-assert(fpt(0_R, IsLocal => false) == 0);
+assert(fpt(f, AtOrigin=>false) == 1);
+assert(fpt(1_R, AtOrigin => false) == infinity);
+assert(fpt(0_R, AtOrigin => false) == 0);
 ///
 
 TEST /// --fpt that's quick to compute
@@ -399,6 +399,6 @@ phi = map(R, R, {x-1, y-1});
 g = phi(f);
 assert(fpt(f) == 1/3);
 assert(fpt(g) == infinity);
-assert(fpt(g, IsLocal=>false, Attempts => 10) == 1/3);
-assert(fpt(g, IsLocal=>false, DepthOfSearch => 2) == 1/3);
+assert(fpt(g, AtOrigin=>false, Attempts => 10) == 1/3);
+assert(fpt(g, AtOrigin=>false, DepthOfSearch => 2) == 1/3);
 ///

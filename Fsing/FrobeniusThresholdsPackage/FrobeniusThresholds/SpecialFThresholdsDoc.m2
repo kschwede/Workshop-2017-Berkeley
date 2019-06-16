@@ -3,7 +3,7 @@ doc ///
         isSimpleNormalCrossing
         (isSimpleNormalCrossing, RingElement)
         (isSimpleNormalCrossing, Product)
-        [isSimpleNormalCrossing, IsLocal]
+        [isSimpleNormalCrossing, AtOrigin]
         [isSimpleNormalCrossing, Verbose]
     Headline
        whether a polynomial is a product of factors that are in simple normal crossing
@@ -15,7 +15,7 @@ doc ///
             a polynomial
         P:Product
             a product of polynomials 
-        IsLocal => Boolean
+        AtOrigin => Boolean
             tells the function whether to only consider the behavior at the origin
         Verbose => Boolean
             toggles verbose output
@@ -33,18 +33,18 @@ doc ///
             isSimpleNormalCrossing(x*y*(x - y))
             isSimpleNormalCrossing(x^2 - y*z)
         Text
-            The option {\tt IsLocal} (default value {\tt true}) is used to specify whether we should work at the origin (when {\tt true}) or globally (when {\tt false}).
+            The option {\tt AtOrigin} (default value {\tt true}) is used to specify whether we should work at the origin (when {\tt true}) or globally (when {\tt false}).
         Example
             R = QQ[x,y,z];
             f = (y - (x - 1)^2)*y^2; --SNC at the origin, but not globally
             isSimpleNormalCrossing(f)
-            isSimpleNormalCrossing(f, IsLocal => false)
+            isSimpleNormalCrossing(f, AtOrigin => false)
             g = (y - 1)^2 + (x - 7)^2 --doesn't even pass through the origin
             isSimpleNormalCrossing(g)
-            isSimpleNormalCrossing(g, IsLocal => false)
+            isSimpleNormalCrossing(g, AtOrigin => false)
             h = x*y^2*(x + 1)^3*(y - 1)^4; --SNC everywhere
             isSimpleNormalCrossing(h)
-            isSimpleNormalCrossing(h, IsLocal => false)
+            isSimpleNormalCrossing(h, AtOrigin => false)
         Text
             Setting the option {\tt Verbose} (default value {\tt false}) to {\tt true} produces verbose output.
 ///

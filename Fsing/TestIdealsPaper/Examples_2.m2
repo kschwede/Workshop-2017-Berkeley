@@ -66,7 +66,7 @@ loadPackage "TestIdeals"
 
 R = ZZ/7[x,y,z]/((x - 1)^5 + (y + 1)^5 + z^5);
 isFInjective R -- R is not globally F-injective...
-isFInjective(R, IsLocal => true) -- but is F-injective at the origin
+isFInjective(R, AtOrigin => true) -- but is F-injective at the origin
 
 ------------------------------------------------------------------------------------------
 restart; 
@@ -94,11 +94,11 @@ loadPackage "TestIdeals"
 
 R = ZZ/7[x,y,z]/((x - 1)^3 + (y + 1)^3 + z^3);
 isFRegular R -- R is not globally F-regular...
-isFRegular(R, IsLocal => true) -- but is F-regular at the origin
+isFRegular(R, AtOrigin => true) -- but is F-regular at the origin
 R = ZZ/13[x,y];
 f = (y - 2)^2 - (x - 3)^3;
 isFRegular(5/6, f) -- (R,f^(5/6)) is not F-regular...
-isFRegular(5/6, f, IsLocal => true) -- but is F-regular at the origin
+isFRegular(5/6, f, AtOrigin => true) -- but is F-regular at the origin
 
 ------------------------------------------------------------------------------------------
 restart; 

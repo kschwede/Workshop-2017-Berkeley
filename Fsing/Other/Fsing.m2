@@ -163,7 +163,7 @@ export{
     "findSplittingsOfIdeal", --Karl (this is Moty's find u function, but it returns a list if Macaulay2 doesn't identify 1 element).
     "isCohenMacaulay", --Karl (added recently, if anyone has ideas to improve this...)
     "isFrational", --Karl (added recently).
-    "IsLocal", --an option for isCohenMacaulay, isFrational, etc.
+    "AtOrigin", --an option for isCohenMacaulay, isFrational, etc.
     "randomSubset",
     "testModule", --Karl (this subsumes a bunch of older functions)
     

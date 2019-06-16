@@ -68,7 +68,7 @@ nu(3, m^5, ContainmentTest => FrobeniusPower)
 R = ZZ/7[x,y];
 f = (x - 1)^3 - (y - 2)^2;
 nu(1, f)
-nu(1, f, IsLocal => false)
+nu(1, f, AtOrigin => false)
 
 ------------------------------------------------------------------
 -- COMPARISONS
@@ -79,7 +79,7 @@ restart
 R = ZZ/11[x, y, z]/(x^2 - y*(z - 1));
 compareFPT(5/11, z - 1)
 isFPT(1/2, z - 1)
-isFPT(1/2, z - 1, IsLocal => true)
+isFPT(1/2, z - 1, AtOrigin => true)
 
 ------------------------------------------------------------------
 
@@ -154,7 +154,7 @@ fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
 
 R = ZZ/7[x,y];
 f = (y - 1)^2-(x - 1)^3;
-fpt(f, IsLocal => false)
+fpt(f, AtOrigin => false)
 fpt(f)
 
 ------------------------------------------------------------------
@@ -168,7 +168,7 @@ isSimpleNormalCrossing(x^2 - y*z)
 R = QQ[x, y, z];
 f = (y - (x - 1)^2)*y^2; --SNC at the origin, but not globally
 isSimpleNormalCrossing(f)
-isSimpleNormalCrossing(f, IsLocal => false)
+isSimpleNormalCrossing(f, AtOrigin => false)
 g = x*y^2*(x + 1)^3*(y - 1)^4; --SNC everywhere
 isSimpleNormalCrossing(g)
-isSimpleNormalCrossing(g, IsLocal => false)
+isSimpleNormalCrossing(g, AtOrigin => false)

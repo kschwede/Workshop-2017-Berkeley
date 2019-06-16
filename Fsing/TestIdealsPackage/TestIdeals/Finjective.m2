@@ -257,7 +257,7 @@ isFInjective = method(
 	AssumeCM => false,
 	AssumeReduced => true,
 	AssumeNormal => false,
-	IsLocal => false
+	AtOrigin => false
     }
 )
 --originally written by Drew Ellingson, with assistance from Karl Schwede
@@ -279,7 +279,7 @@ isFInjective Ring := Boolean => o-> R1 ->
     if o.CanonicalStrategy === Katzman then
     (
 	-- if F-injectivity fails in top dimension, no need to try any others
-         if not isFInjectiveCanonicalStrategy(R1, passOptions( o, { IsLocal, FrobeniusRootStrategy } ) )  then return false
+         if not isFInjectiveCanonicalStrategy(R1, passOptions( o, { AtOrigin, FrobeniusRootStrategy } ) )  then return false
     )
     else i = i - 1;
 
@@ -313,7 +313,7 @@ isFInjective Ring := Boolean => o-> R1 ->
 --the following is an internal function, it checks if is F-injective at the top cohomology (quickly)
 isFInjectiveCanonicalStrategy = method(
     TypicalValue => Boolean,
-    Options => { FrobeniusRootStrategy => Substitution, IsLocal => false }
+    Options => { FrobeniusRootStrategy => Substitution, AtOrigin => false }
 )
 
 isFInjectiveCanonicalStrategy Ring := Boolean => o -> R1 ->
@@ -325,7 +325,7 @@ isFInjectiveCanonicalStrategy Ring := Boolean => o -> R1 ->
     u1 := frobeniusTraceOnCanonicalModule( I1, J1 );
     curIdeal := ideal 0_S1;
     scan( u1, u -> curIdeal = curIdeal + frobeniusRoot( 1, {1}, {u}, J1 ) );
-    if o.IsLocal then
+    if o.AtOrigin then
     (
         myMax := maxIdeal S1;
         paramFideal := curIdeal : J1;

@@ -256,12 +256,12 @@ The {\tt CanonicalStrategy} tag can be used to modify the strategy the algorithm
 
 There are a number of options to improve the performance of the algorithm if the ring of interest is nice enough. If the ring is Cohen-Macaulay then setting {\tt AssumeCM => true} lets the algorithm check the Frobenius action only on top cohomology (which is typically much faster).  The default value is {\tt false}. Of course, telling the algorithm to assume the ring is Cohen-Macaulay when it is not can lead to an incorrect answer if the non-injective Frobenius occurs in a lower degree. For an example of this see the documentation.  If the ring is reduced then setting {\tt AssumedReduced => true} avoids computing the bottom local cohomology, if the ring is normal then setting {\tt AssumeNormal => true} avoids computing the bottom two local cohomologies. The default setting for both of these tags is {\tt false}. 
 
-By default the algorithm checks for $F$-injectivity everywhere however one can choose to check $F$-injectivity only at the origin by setting the option {\tt IsLocal => true}. 
+By default the algorithm checks for $F$-injectivity everywhere however one can choose to check $F$-injectivity only at the origin by setting the option {\tt AtOrigin => true}. 
 \begin{verbatim}
 i2 : R = ZZ/5[x,y,z]/ideal( (x-1)^4 + y^4 + z^4 );
 i3 : isFinjective(R)
 o3 = false
-i4 : isFinjective(R, IsLocal=>true)
+i4 : isFinjective(R, AtOrigin=>true)
 o4 = true
 \end{verbatim}
 
@@ -303,19 +303,19 @@ If the input ring is $\mathbb{Q}$-Gorenstein then in each of the cases above the
 In the case that $R$ is $\mathbb{Q}$-Gorenstein, the algorithm works by computing the test ideal of the ring (or the pair) and then uses {\tt isSubset} to check if $(1)$  is contained in the test ideal. In the non-$\mathbb{Q}$-Gorenstein case the algorithm checks for strong $F$-regularity by checking if $(1)$ is contained in better and better approximations of the test ideal. To compute approximations of the test ideal the algorithm uses {\tt frobeniusRoot} to compute the $e$th root of $c(I^{[p^{e}]} : I)$ (in the case we are checking strong F-regularity for a ring, appropriate modifications are made for pairs). If at any step $(1)$ is contained in the approximation then then the algorithm returns {\tt true}. Otherwise the algorithm continues checking for each $e$ until a specified limit is reached. The default limit is 2 and can be changed using {\tt DepthOfSearch => ZZ}.  
 
 
-The default behavior of {\tt isFregular} checks for strong $F$-regularity everywhere. If the option {\tt IsLocal => true}, the algorithm will only check at the origin (this uses a similar computation but checks for the containment of $(1)$ instead of the test ideal plus the maximal ideal at the origin). Below is an example for both a ring and a pair. 
+The default behavior of {\tt isFregular} checks for strong $F$-regularity everywhere. If the option {\tt AtOrigin => true}, the algorithm will only check at the origin (this uses a similar computation but checks for the containment of $(1)$ instead of the test ideal plus the maximal ideal at the origin). Below is an example for both a ring and a pair. 
 
 \begin{verbatim}
 i2 : R = ZZ/7[x,y,z]/ideal((x-1)^3+(y-2)^3+z^3);
 i3 : isFregular(R)
 o3 = false
-i4 : isFregular(R, IsLocal=>true)
+i4 : isFregular(R, AtOrigin=>true)
 o4 = true
 i5 : R = ZZ/13[x,y];
 i6 : f = (y-2)^2 - (x-3)^3;
 i7 : isFregular(5/6, f)
 o7 = false
-i8 : isFregular(5/6, f, IsLocal=>true)
+i8 : isFregular(5/6, f, AtOrigin=>true)
 o8 = true
 \end{verbatim}
 
