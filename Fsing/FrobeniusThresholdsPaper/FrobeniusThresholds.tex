@@ -115,60 +115,60 @@ urlcolor=OliveGreen
 \date{\today}
 
 \begin{abstract}
-   This article describes the \emph{Macaulay2} package \emph{FrobeniusThresholds}.
-   This package is designed to estimate and calculate $F$-pure thresholds, more general $F$-thresholds, and related numerical invariants arising in the study of singularities in prime characteristic commutative algebra.
+   This article describes the \emph{Macaulay2} package \emph{FrobeniusThresholds}, designed to estimate and calculate $F$-pure thresholds, more general $F$-thresholds, and related numerical invariants arising in the study of singularities in prime characteristic commutative algebra.
 \end{abstract}
 
 \subjclass[2010]{13A35}
 
-\keywords{Macaulay2, Frobenius, $F$-singularity, $F$-pure threshold, $F$-threshold}
+\keywords{\emph{Macaulay2}, Frobenius, $F$-singularity, $F$-pure threshold, $F$-threshold}
 
 \maketitle
 
 \section{Introduction}
 
-This paper describes the \emph{Macaulay2} package \emph{FrobeniusThresholds} \cite{M2, FThresholdsPackage}.  This package provides tools for computing certain fundamental invariants in positive characteristic commutative algebra.  More precisely, this package concerns the effective computation of \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.
+This paper describes the \emph{Macaulay2} package \emph{FrobeniusThresholds} \cite{M2, FThresholdsPackage}, which provides tools for computing or estimating certain fundamental invariants in positive characteristic commutative algebra, namely \emph{$F$-pure thresholds}, \emph{$F$-thresholds}, and \emph{$F$-jumping exponents}.
+Recall that a ring of prime characteristic $p>0$ is \emph{$F$-pure} if the Frobenius map|that is, the ring endomorphism sending an element to its $p$-th power|is a pure morphism;  under natural geometric hypotheses, this is equivalent to the condition that the Frobenius morphism splits as a map of rings.
+The concept of $F$-purity has proven to be important in commutative algebra, and has a rich history.
+Indeed, it first appeared in the work of Hochster and Roberts to study local cohomology \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in  \cite{FedderFPureRat}, and was used to study global properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.
 
-Recall that a ring of prime characteristic $p>0$ is said to be \emph{$F$-pure} if the Frobenius map|that is, the ring endomorphism sending an element to its $p$-th power|is a pure morphism;  under natural geometric hypotheses, this is equivalent to the condition that the Frobenius morphism splits as a map of rings.
-
-The concept of $F$-purity has proven to be important in commutative algebra, and has a rich history.  Indeed, it first appeared in the work
-of Hochster and Roberts to study local cohomology \cite{HochsterRobertsFrobeniusLocalCohomology}, was compared with rational singularities in  \cite{FedderFPureRat}, and was used to study global properties of Schubert varieties in \cite{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}.
-
-After the advent of tight closure \cite{HochsterHunekeTC1}, the use of Frobenius to quantify singularity|that is, deviation from regularity|proliferated, and based on a connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the concept of $F$-purity was generalized to the context of \emph{pairs}.
+After the advent of tight closure \cite{HochsterHunekeTC1}, the use of the Frobenius map to quantify singularity|that is, deviation from regularity|proliferated, and based on a connection discovered between $F$-pure and \emph{log canonical} singularities \cite{HaraWatanabeFRegFPure}, the concept of $F$-purity was generalized to the context of \emph{pairs}.
 % $(R, f^t)$, where $f$ is an element of $R$, and $t$ is a nonnegative real number considered a formal exponent.
+Along these lines, the \emph{$F$-pure threshold} was defined in analogy with the \emph{log canonical threshold} \cite{TakagiWatanabeFPureThresh}, and \emph{$F$-thresholds} were introduced as a natural extension \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
 
-Along these lines, the \emph{$F$-pure threshold} %associated to an element of $R$
-was defined in analogy with the \emph{log canonical threshold} \cite{TakagiWatanabeFPureThresh}, and
-%The $F$-pure threshold of the pair $(R, f)$ is the supremum over all $t$ for which $(R, f^t)$ is $F$-pure.
-\emph{$F$-thresholds} were then introduced as a family of invariants that naturally extend the notion of an $F$-pure threshold \cite{MustataTakagiWatanabeFThresholdsAndBernsteinSato}.
-
-Though the $F$-pure threshold is defined in analogy with the log canonical threshold, their connection extends beyond mere analogy. For example, suppose $h$ is a polynomial with integer coefficients, and that $h_p$ is the polynomial obtained by reducing the coefficients of $h$ modulo a prime $p$.  Then, the $F$-pure thresholds of the reductions $h_p$ converge to the log canonical threshold of $h$ as $p$ tends to infinity \cite{HaraYoshidaGeneralizationOfTightClosure}.
+The connection between the $F$-pure threshold and the log canonical threshold, however, extends beyond mere analogy.
+For example, suppose $h$ is a polynomial with integer coefficients, and that $h_p$ is the polynomial obtained by reducing the coefficients of $h$ modulo a prime $p$.  Then, the $F$-pure thresholds of the reductions $h_p$ converge to the log canonical threshold of $h$ as $p$ tends to infinity \cite{HaraYoshidaGeneralizationOfTightClosure}.
 A related result is that of Zhu, who proved that the log canonical threshold of $h$ is at least the $F$-pure threshold of any reduction $h_p$ \cite[Corollary 4.2]{ZhuLogCanoincalThresholdsInPositiveChar}.
 
-This latter result is interesting from a computational perspective, in that it provides lower bounds for log canonical thresholds.  Furthermore, though there is a general purpose implementation of an algorithm for computing log canonical thresholds in the \emph{Dmodules} package \cite{DmodulesSource}, it happens that the function for computing $F$-pure thresholds contained in the \emph{FrobeniusThresholds} package is typically much faster, especially so in low characteristic.
-Note that the  \emph{MultiplierIdeals}  package also computes log canonical thresholds in many special cases, including monomial ideals, hyperplane arrangements, generic determinantal ideals, and certain binomial ideals \cite{MultiplierIdealsPackage, MultiplierIdealsArticle}.
+This latter result is interesting from a computational perspective, in that it provides lower bounds for log canonical thresholds.
+Though there is a general purpose implementation of an algorithm for computing log canonical thresholds in the \emph{Dmodules} package \cite{DmodulesSource}\footnote{The  \emph{MultiplierIdeals}  package also computes log canonical thresholds in many special cases, including monomial ideals, hyperplane arrangements, generic determinantal ideals, and certain binomial ideals \cite{MultiplierIdealsPackage, MultiplierIdealsArticle}.
+}, the function for computing $F$-pure thresholds contained in the \emph{FrobeniusThresholds} package is typically much faster, especially so in low characteristic.
 
-In summary,  the $F$-pure threshold is an interesting numerical invariant, and is related to many other measures of singularity across all characteristics.
+In summary,  the $F$-pure threshold is an interesting numerical invariant, related to many other measures of singularity across all characteristics, and has been the focus of intense study over the past fifteen years.
 Unfortunately, it is typically difficult to calculate.
-Nevertheless, $F$-pure thresholds have been the focus of intense study over the past fifteen years, and the package \emph{FrobeniusThresholds} is centered on calculating and estimating the $F$-pure threshold and other $F$-thresholds, with the function \texttt{fpt} at its core.
+The package \emph{FrobeniusThresholds} is centered on calculating and estimating the $F$-pure threshold and other $F$-thresholds, with the function \texttt{fpt} at its core.
+It builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.
+In fact, both this package and \emph{TestIdeals} are derived from, and have greatly expanded, the older package \emph{PosChar}.
 
 \subsection{Some background and notation}
-Although much of the functionality implemented in \emph{FrobeniusThresholds} is not restricted to regular ambient rings (see Section~\ref{sec.IsFPT}), for the sake of concreteness, in this introduction  we will work in a polynomial ring over a finite field of  characteristic $p$.
+Although some of the functionality implemented in \emph{FrobeniusThresholds} is not restricted to regular ambient rings (see Section~\ref{sec.IsFPT}), for the sake of concreteness, in this introduction  we will work in a polynomial ring over a finite field of  characteristic $p$.
 % In fact,  we will work in this context exclusively in this introduction.
 % Thus, unless otherwise stated, all ring elements and ideals under consideration are regarded as elements in such a ring.
 The ideal of this ring generated by its variables is denoted $\idealm$.
 
-Let us outline a way in which natural numerical invariants in prime characteristic commutative algebra are often constructed:  For every natural number $e$, associate to some fixed set of data|often, a collection of polynomials and ideals|an integer describing something of relevance that depends on $e$ (e.g., the dimension of some interesting vector space constructed in terms of your initial data).   Finally, normalize this integer by dividing by some power of $p^e$, and then take the limit as the integer $e$ tends to infinity.  The resulting limit, if it exists, should then encode some interesting information about your initial set of data.
+Let us outline a way in which natural numerical invariants in prime characteristic commutative algebra are often constructed:  For every natural number $e$, associate to some fixed data---often, a collection of polynomials or ideals---an integer describing something of relevance that depends on $e$ (e.g., the dimension of some interesting vector space constructed in terms of your initial data).
+Normalize this integer by dividing by some power of $p^e$, and then take the limit as the integer $e$ tends to infinity.
+The resulting limit, if it exists, should then encode some interesting information about your initial data.
 
 Consider a nonzero polynomial $f$ and a natural number $e$.  If $f$ does not vanish at the origin, then set $\nu_f^{\idealm}(p^e) := \infty$.  Otherwise, $f \in \idealm$, and we instead define
 \[ \nu_f^{\idealm}(p^e) \coloneqq  \max \{ n>0 : f^n \notin \idealm^{[p^e]} \} \]
 where $\idealm^{[p^e]}$ denotes the $p^e$-th Frobenius power of $\idealm$, that is, the ideal generated by the $p^e$-th powers of the elements of $\idealm$.
 It is not hard to see that this number is the largest power of $f$ that is part of a free basis for the localization of the ambient polynomial ring at the origin, over its subring of $p^e$-th powers.
-As noted earlier, this number also has a natural interpretation in terms of $F$-purity of pairs.
+%As noted earlier, this number also has a natural interpretation in terms of $F$-purity of pairs.
 Following our outline, we define
 \[ \ft^{\idealm}(f) \coloneqq  \lim_{e \to \infty} \frac{ \nu_f^{\idealm}(p^e)}{p^e}. \]
 
-Inspired by its connections with the $F$-purity of pairs,  this limit is called the \emph{$F$-pure threshold} of $f$ at the origin.  This limit exists, and is finite when $f \in \idealm$.  In the latter case, the limit is also rational, but this is far from obvious  \cite{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds}.
+This limit exists, and is a rational number when $f\in \idealm$, but this is far from obvious  \cite{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds}.
+Inspired by its connections with the $F$-purity of pairs,  this limit is called the \emph{$F$-pure threshold} of $f$ at the origin.
 
 The $F$-pure threshold is closely related to many other fundamental concepts in prime characteristic commutative algebra.   For instance,
 \[ \ft^{\idealm}(f) = \inf \{ t>0 : \tau(f^t)  \subseteq \idealm \} = \sup \{ t>0 : \sigma( f^t) \neq 0 \} \]
@@ -195,7 +195,6 @@ the \emph{$F$-threshold of $I$ with respect to $J$}.  These numbers are also rat
 The value $\ft^{\idealm}(I)$ is called the \emph{$F$-pure threshold of $I$}, and if $I = \langle f \rangle$ is principal,  $\ft^{J}(f) \coloneqq  \ft^J(I)$ is called the \emph{$F$-threshold of $f$ with respect to $J$}.
 Like $F$-pure thresholds, $F$-thresholds can also be defined in terms of test ideals.
 
-Finally, we point out that the  \emph{FrobeniusThresholds} package builds heavily upon the \emph{TestIdeals} package for \emph{Macaulay2} \cite{TestIdealsPackage, TestIdealsPaper}, which provides a broad range of functionality for effective computation in prime characteristic commutative algebra.  In fact, both this package and \emph{TestIdeals} are derived from, and have greatly expanded, the older package \emph{PosChar}.
 
 % \subsection{Organization}
 
@@ -209,8 +208,7 @@ Finally, we point out that the  \emph{FrobeniusThresholds} package builds heavil
 % \end{itemize}
 % %{\color{red} Move this later}
 
-\subsection*{Acknowledgements.}  The authors enthusiastically thank everyone who helped complete the \emph{FrobeniusThresholds} package.
-Our package coauthors are Juliette Bruce and Daniel Smolkin.  Erin Bela, Zhibek Kadyrsizova, Moty Katzman, Sara Malec, and Marcus Robinson also contributed valuable code to the package.
+\subsection*{Acknowledgements.}  The authors enthusiastically thank everyone who helped complete the \emph{FrobeniusThresholds} package: the package coauthors Juliette Bruce and Daniel Smolkin, and contributors  Erin Bela, Zhibek Kadyrsizova, Moty Katzman, Sara Malec, and Marcus Robinson.
 
 Thanks go to the organizers of the \emph{Macaulay2} workshops where much of the functionality described herein was developed, hosted by Wake Forest University in 2012, the University of California, Berkeley in 2014 and 2017, Boise State University in 2015, and the University of Utah in 2016.
 
@@ -225,7 +223,8 @@ We first consider the \texttt{nu} function, a fundamental component of the packa
 
 If $f$ is a nonzero polynomial contained in the radical of an ideal $J$, then the command \texttt{nu(e,f,J)} outputs the integer $\nu_f^J(p^e)$ defined in the introduction, and
 %, the maximal integer exponent such that $f^n$ is not contained in $J^{[p^e]}$.
-more generally, if a nonzero ideal $I$ is contained in the radical of $J$, then \texttt{nu(e,I,J)} outputs $\nu_I^J(p^e)$. Consider the following example.  %, the maximal integer exponent $n$ such that $I^n$ is not contained in $J^{[p^e]}$.
+more generally, if a nonzero ideal $I$ is contained in the radical of $J$, then \texttt{nu(e,I,J)} outputs $\nu_I^J(p^e)$.
+%Consider the following example.  %, the maximal integer exponent $n$ such that $I^n$ is not contained in $J^{[p^e]}$.
 
 \bigskip
 {\small
