@@ -47,7 +47,6 @@ time nu(2, m, m^2, Search => Linear) -- but linear seach gets luckier
 ------------------------------------------------------------------
 
 nu(5, f, ReturnList => true)
-nu(5, f, Verbose => true)
 
 ------------------------------------------------------------------
 
@@ -86,6 +85,7 @@ isFPT(1/2, z - 1, AtOrigin => true)
 R = ZZ/13[x, y];
 f = y*((y + 1) - (x - 1)^2)*(x - 2)*(x + y - 2);
 isFJumpingExponent(3/4, f)
+isFPT(3/4, f)
 
 ------------------------------------------------------------------
 -- FPTS
@@ -136,7 +136,7 @@ fpt(f, DepthOfSearch => 3, Attempts => 5, Bounds => oo)
 
 ------------------------------------------------------------------
 
-f = 2*x^10*y^8+x^4*y^7-2*x^3*y^8;
+f = 2*x^10*y^8 + x^4*y^7 - 2*x^3*y^8;
 numeric fpt(f, DepthOfSearch => 3)
 numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true) -- FinalAttempt improves the estimate slightly
 
@@ -153,7 +153,7 @@ fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
 ------------------------------------------------------------------
 
 R = ZZ/7[x,y];
-f = (y - 1)^2-(x - 1)^3;
+f = x*(y - 1)^2 - y*(x - 1)^3;
 fpt(f, AtOrigin => false)
 fpt(f)
 

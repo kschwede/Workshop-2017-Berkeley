@@ -481,7 +481,7 @@ fpt RingElement := o -> f ->
     strictUB := false;
     if o.Verbose then
     (
-         print( "\nν has been computed: ν = ν(" | toString e | ",f) = " | toString n | " ..." );
+         print( "\nν has been computed: ν = nu(" | toString e | ",f) = " | toString n | " ..." );
          print( "\nfpt lies in the interval [ν/(p^e-1),(ν+1)/p^e] = [" | toString LB | "," | toString UB | "] ..." )
     );
     if LB < (o.Bounds)#0 then
