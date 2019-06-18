@@ -489,16 +489,17 @@ sncFPT = method( TypicalValue => QQ, Options => { AtOrigin => true } )
 
 sncFPT Product := QQ => o -> ff -> 
 (
+    if #ff == 0 then return infinity;
+    myList := toList ff; 
     if o.AtOrigin then 
     (
-        local myRing;
-        if #ff > 0 then myRing = ring ff#0#0 else return infinity;
-        local z1;
+        -- need to select factors contained in the homogeneous max ideal
+        myRing := ring ff#0#0;
         myMax := ideal myRing_*;
-        myList := select( toList ff, z -> sub( z#0, myRing ) % myMax == 0 );
-        1/max( toList apply( myList, t -> t#1 ) )
-    )
-    else 1/max( toList apply( ff, t -> t#1 ) )
+        myList = select( myList, z -> sub( z#0, myRing ) % myMax == 0 );
+        if #myList == 0 then infinity
+    );
+    1/max( last \ myList )
 )
 
     ---computes whether something is SNC

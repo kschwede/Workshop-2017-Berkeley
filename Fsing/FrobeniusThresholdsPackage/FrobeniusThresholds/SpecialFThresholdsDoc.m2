@@ -21,7 +21,7 @@ doc ///
             toggles verbose output
     Outputs
         :Boolean
-            {\tt true} if the factors of {\tt f} are in simple normal crossing, {\tt false} if not
+            {\tt true} if the factors of {\tt f} are in simple normal crossing, {\tt false} otherwise
     Description
         Text
             Let $f$ be an element of a {\tt PolynomialRing}, or an object of class {\tt Product} representing a factorization of a  polynomial $f$.

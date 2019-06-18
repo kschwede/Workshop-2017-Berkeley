@@ -616,7 +616,7 @@ o8 = true
 }
 \medskip
 
-If \texttt{UseSpecialAlgorithms} is set to \texttt{true} and $f$ does not fall into any of the aforementioned cases, then the function \texttt{fpt} next calls \texttt{isSimpleNormalCrossing(f)} (see Section~\ref{subsec.SNC}) to check whether the polynomial $f$ is a product of factors that are in simple normal crossing, in which case the $F$-pure threshold is simply the reciprocal of the largest multiplicity occurring in that factorization.  
+If \texttt{UseSpecialAlgorithms} is set to \texttt{true} and $f$ does not fall into any of the aforementioned cases, then the function \texttt{fpt} next calls \texttt{isSimpleNormalCrossing(f)} (see Section~\ref{subsec.SNC}) to check whether the polynomial $f$ is (locally, at the origin) a product of factors that are in simple normal crossing, in which case the $F$-pure threshold is simply the reciprocal of the largest multiplicity occurring in that factorization.  
 % If \texttt{isSimpleNormalCrossing(f)} outputs true, then the $F$-pure threshold is easily computed, since is just the minimum of the values $1/a_i$, for $1 \leq i \leq n$.
 Note that the function \texttt{factor} is called whenever \texttt{isSimpleNormalCrossing} is used, which can sometimes make the verification slow.  The user can avoid this by setting \texttt{UseSpecialAlgorithms} to \texttt{false}.
 
