@@ -8,7 +8,7 @@
 \hskip-1\wd7\penalty 10000\box7} "
 }
 
-@ARTICLE{hernandez+etal.frobenius_powers,
+@unpublished{hernandez+etal.frobenius_powers,
   Title                    = {Frobenius powers},
   Author                   = {Hern\'andez, D. J. AND Teixeira, P. AND Witt, E. E.},
   Note                     = {preprint, \href{https://arxiv.org/abs/1802.02705}{arXiv:1802.02705 [math.AC]}},
@@ -21,42 +21,43 @@
  @misc{MultiplierIdealsPackage,
        title = {{MultiplierIdeals: A \emph{Macaulay2} package. Version~1.1}},
        author = {Zach Teitler and Bart Snapp and Claudiu Raicu},
-       howpublished = {A \emph{Macaulay2} package available at \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}}
+       note = {available at \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}}
      }
 
      @article{MultiplierIdealsArticle,
-       title = {{Software for multiplier ideals}},
-       author = {Zach Teitler and Bart Snapp and Claudiu Raicu},
-       journal = {The Journal of Software for Algebra and Geometry},
-       volume = {7},
-       year = {2015},
+ AUTHOR = {Teitler, Zach},
+     TITLE = {Software for multiplier ideals},
+   JOURNAL = {J. Softw. Algebra Geom.},
+  FJOURNAL = {Journal of Software for Algebra and Geometry},
+    VOLUME = {7},
+      YEAR = {2015},
+     PAGES = {1--8}
      }
 
  @misc{TestIdealsPackage,
-       title = {{TestIdeals: A package for calculations of singularities in positive characteristic. Version~1.01}},
-       author = {Erin Bela and Alberto F. Boix and Juliette Bruce and Drew Ellingson and Daniel Hernandez and Zhibek Kadyrsizova and Mordechai Katzman and Sara Malec and Matthew Mastroeni and Maral Mostafazadehfard and Marcus Robinson and Karl Schwede and Dan Smolkin and Pedro Teixeira and Emily Witt},
-       howpublished = {A \emph{Macaulay2} package available at \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}}
+       title = {{TestIdeals: a package for calculations of singularities in positive characteristic. Version~1.01}},
+       author = {Erin Bela and Alberto F. Boix and Juliette Bruce and Drew Ellingson and Daniel J. Hern\'andez and Zhibek Kadyrsizova and Mordechai Katzman and Sara Malec and Matthew Mastroeni and Maral Mostafazadehfard and Marcus Robinson and Karl Schwede and Dan Smolkin and Pedro Teixeira and Emily E. Witt},
+       note = {available at \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}}
      }
 
 @misc{FThresholdsPackage,
-       title = {{FThresholds: A package for calculations of F-thresholds. Version~2.0}},
-       author = {Daniel Hernandez and Karl Schwede and Dan Smolkin and Pedro Teixeira and Emily Witt},
-       howpublished = {A \emph{Macaulay2} package available at \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}}
+       title = {{FrobeniusThresholds: a package for computing {$F$}-pure thresholds and related invariants. Version~2.0}},
+       author = {Juliette Bruce and Daniel J. Hern\'andez and Karl Schwede and Dan Smolkin and Pedro Teixeira and Emily E. Witt},
+       note = {available at \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}}
      }
 
 @misc{DmodulesSource,
         title = {{Dmodules: functions for computations with D-modules. Version~1.4.0.1}},
         author = {Anton Leykin and Harrison Tsai},
-        howpublished = {A \emph{Macaulay2} package available at \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}}
+        note = {available at \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}}
       }
 
 
-@ARTICLE{TestIdealsPaper,
+@unpublished{TestIdealsPaper,
   author = {Boix, A. F. AND Hern\'andez, D. J. AND Kadyrsizova, Z. AND Katzman, M. AND Malec, S. AND Mastroeni, M. AND Mostafazadeh\-fard, M. AND Robinson, M. AND Schwede, K. AND Smolkin, D. AND Teixeira, P. AND Witt, E. E.},
-  title = {{The TestIdeals Package for Macaulay2}},
-  journal = {Preprint available at arxiv.org/pdf/1810.02770},
-  year = {2018},
-  fjournal = {Preprint available at arxiv.org/pdf/1810.02770}
+  title = {{The \emph{TestIdeals} package for \emph{Macaulay2}}},
+  note = {preprint, \href{https://arxiv.org/abs/1810.02770}{arXiv:1810.02770 [math.AC]}},
+  year = {2018}
 }
 
 
@@ -778,7 +779,6 @@ MRREVIEWER = {Scott R. Nollet},
   year = {2008},
   volume = {57},
   pages = {43--61},
-  note = {Special volume in honor of Melvin Hochster},
   doi = {10.1307/mmj/1220879396},
   fjournal = {Michigan Mathematical Journal},
   issn = {0026-2285},
@@ -810,12 +810,16 @@ MRREVIEWER = {Scott R. Nollet},
   url = {http://dx.doi.org/10.1007/s00208-009-0461-2}
 }
 
-@ARTICLE{BlickleSchwedeTuckerFSigPairs1,
-  author = {Blickle, Manuel and Schwede, Karl and Tucker, Kevin},
-  title = {{$F$}-signature of pairs and the asymptotic behavior of {F}robenius
-	splittings},
-  year = {2011},
-  note = {arXiv:1107.1082, to appear in Advances in Mathematics}
+@article {BlickleSchwedeTuckerFSigPairs1,
+    AUTHOR = {Blickle, Manuel and Schwede, Karl and Tucker, Kevin},
+     TITLE = {{$F$}-signature of pairs and the asymptotic behavior of
+              {F}robenius splittings},
+   JOURNAL = {Adv. Math.},
+  FJOURNAL = {Advances in Mathematics},
+    VOLUME = {231},
+      YEAR = {2012},
+    NUMBER = {6},
+     PAGES = {3232--3258}
 }
 
 @ARTICLE{BlickleSchwedeTuckerTestAlterations,
@@ -2166,10 +2170,10 @@ MRREVIEWER = {Scott R. Nollet},
   mrreviewer = {H. B. Laufer}
 }
 
-@MISC{M2,
-  author = {Grayson, Daniel R. and Stillman, Michael E.},
-  title = {Macaulay2, a software system for research in algebraic geometry},
-  howpublished = {Available at \href{http://www.math.uiuc.edu/Macaulay2/}% {http://www.math.uiuc.edu/Macaulay2/}}
+@Misc{M2,
+          author = {Grayson, Daniel R. and Stillman, Michael E.},
+          title = {Macaulay2, a software system for research in algebraic geometry},
+          note = {available at \url{http://www.math.uiuc.edu/Macaulay2/}}
 }
 
 @MISC{PushForward,
@@ -2614,14 +2618,9 @@ MRREVIEWER = {Scott R. Nollet},
   journal = {Trans. Amer. Math. Soc.},
   year = {2003},
   volume = {355},
-  pages = {3143--3174 (electronic)},
+  pages = {3143--3174},
   number = {8},
-  coden = {TAMTAM},
-  fjournal = {Transactions of the American Mathematical Society},
-  issn = {0002-9947},
-  mrclass = {13A35},
-  mrnumber = {MR1974679 (2004i:13003)},
-  mrreviewer = {Irena Swanson}
+  fjournal = {Transactions of the American Mathematical Society}
 }
 
 @UNPUBLISHED{HarborneAsymptoticInvariantsSlides,
@@ -2886,13 +2885,7 @@ MRREVIEWER = {Scott R. Nollet},
     VOLUME = {19},
       YEAR = {2012},
     NUMBER = {2},
-     PAGES = {389--401},
-      ISSN = {1073-2780},
-   MRCLASS = {13A35},
-  MRNUMBER = {2955770},
-MRREVIEWER = {Adela N. Vraciu},
-       DOI = {10.4310/MRL.2012.v19.n2.a11},
-       URL = {https://doi.org/10.4310/MRL.2012.v19.n2.a11},
+     PAGES = {389--401}
 }
 
 @PHDTHESIS{DanielThesis,
@@ -3210,11 +3203,7 @@ MRREVIEWER = {Adela N. Vraciu},
   volume = {21},
   pages = {117--172},
   number = {2},
-  fjournal = {Advances in Mathematics},
-  issn = {0001-8708},
-  mrclass = {14B15 (13C15 14M99)},
-  mrnumber = {MR0417172 (54 \#5230)},
-  mrreviewer = {Gerhard Pfister}
+  fjournal = {Advances in Mathematics}
 }
 
 @ARTICLE{HochsterRobertsRingsOfInvariants,
@@ -4851,12 +4840,7 @@ Journal of Symbolic Computation 60, 29-46
   volume = {122},
   pages = {27--40},
   number = {1},
-  coden = {ANMAAH},
-  fjournal = {Annals of Mathematics. Second Series},
-  issn = {0003-486X},
-  mrclass = {14M15 (20G10)},
-  mrnumber = {MR799251 (86k:14038)},
-  mrreviewer = {H. H. Andersen}
+  fjournal = {Annals of Mathematics. Second Series}
 }
 
 @ARTICLE{MehtaSrinivasRatImpliesFRat,
@@ -5205,10 +5189,7 @@ MRREVIEWER = {Shin-Yao Jow},
   booktitle = {European Congress of Mathematics},
   publisher = {Eur. Math. Soc., Z\"urich},
   year = {2005},
-  pages = {341--364},
-  mrclass = {13A35 (14B05)},
-  mrnumber = {MR2185754 (2007b:13010)},
-  mrreviewer = {Karen E. Smith}
+  pages = {341--364}
 }
 
 @ARTICLE{NadelMultiplierIdeals,
@@ -6706,11 +6687,7 @@ MRREVIEWER = {R. C. Hartshorne},
   pages = {278--297},
   number = {1},
   coden = {JALGA4},
-  fjournal = {Journal of Algebra},
-  issn = {0021-8693},
-  mrclass = {13A35},
-  mrnumber = {MR2097584 (2006a:13010)},
-  mrreviewer = {Oleg N. Popov}
+  fjournal = {Journal of Algebra}
 }
 
 @ARTICLE{TakagiYoshidaGeneralizedTestIdealsAndSymbolicPowers,
@@ -7667,11 +7644,5 @@ MRREVIEWER = {Manuel Blickle},
     VOLUME = {287},
       YEAR = {2017},
     NUMBER = {3-4},
-     PAGES = {1235--1253},
-      ISSN = {0025-5874},
-   MRCLASS = {14E18 (14B05 14E15 14G17)},
-  MRNUMBER = {3719534},
-MRREVIEWER = {Ching-Jui Lai},
-       DOI = {10.1007/s00209-017-1866-3},
-       URL = {https://doi.org/10.1007/s00209-017-1866-3},
+     PAGES = {1235--1253}
 }

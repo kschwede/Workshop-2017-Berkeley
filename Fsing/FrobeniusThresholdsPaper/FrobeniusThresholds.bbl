@@ -13,27 +13,35 @@
 \begin{thebibliography}{BHK{\etalchar{+}}18}
 
 \bibitem[BBB{\etalchar{+}}]{TestIdealsPackage}
-{\sc E.~Bela, A.~F. Boix, J.~Bruce, D.~Ellingson, D.~Hernandez, Z.~Kadyrsizova,
-  M.~Katzman, S.~Malec, M.~Mastroeni, M.~Mostafazadehfard, M.~Robinson,
-  K.~Schwede, D.~Smolkin, P.~Teixeira, and E.~Witt}: \emph{{TestIdeals: A
-  package for calculations of singularities in positive characteristic.
-  Version~1.01}}.
+{\sc E.~Bela, A.~F. Boix, J.~Bruce, D.~Ellingson, D.~J. Hern\'andez,
+  Z.~Kadyrsizova, M.~Katzman, S.~Malec, M.~Mastroeni, M.~Mostafazadehfard,
+  M.~Robinson, K.~Schwede, D.~Smolkin, P.~Teixeira, and E.~E. Witt}:
+  \emph{{TestIdeals: a package for calculations of singularities in positive
+  characteristic. Version~1.01}}, available at
+  \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}.
 
 \bibitem[BMS08]{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds}
 {\sc M.~Blickle, M.~Musta{\c{t}}{\v{a}}, and K.~E. Smith}: \emph{Discreteness
   and rationality of {$F$}-thresholds}, Michigan Math. J. \textbf{57} (2008),
-  43--61, Special volume in honor of Melvin Hochster.
+  43--61.
 
-\bibitem[BST11]{BlickleSchwedeTuckerFSigPairs1}
+\bibitem[BST12]{BlickleSchwedeTuckerFSigPairs1}
 {\sc M.~Blickle, K.~Schwede, and K.~Tucker}: \emph{{$F$}-signature of pairs and
-  the asymptotic behavior of {F}robenius splittings}, arXiv:1107.1082, to
-  appear in Advances in Mathematics.
+  the asymptotic behavior of {F}robenius splittings}, Adv. Math. \textbf{231}
+  (2012), no.~6, 3232--3258.
 
 \bibitem[BHK{\etalchar{+}}18]{TestIdealsPaper}
 {\sc A.~F. Boix, D.~J. Hern\'andez, Z.~Kadyrsizova, M.~Katzman, S.~Malec,
   M.~Mastroeni, M.~Mostafazadeh\-fard, M.~Robinson, K.~Schwede, D.~Smolkin,
-  P.~Teixeira, and E.~E. Witt}: \emph{{The TestIdeals Package for Macaulay2}},
-  Preprint available at arxiv.org/pdf/1810.02770 (2018).
+  P.~Teixeira, and E.~E. Witt}: \emph{{The \emph{TestIdeals} package for
+  \emph{Macaulay2}}}, preprint,
+  \href{https://arxiv.org/abs/1810.02770}{arXiv:1810.02770 [math.AC]}, 2018.
+
+\bibitem[BHS{\etalchar{+}}]{FThresholdsPackage}
+{\sc J.~Bruce, D.~J. Hern\'andez, K.~Schwede, D.~Smolkin, P.~Teixeira, and
+  E.~E. Witt}: \emph{{FrobeniusThresholds: a package for computing {$F$}-pure
+  thresholds and related invariants. Version~2.0}}, available at
+  \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}.
 
 \bibitem[Fed83]{FedderFPureRat}
 {\sc R.~Fedder}: \emph{{$F$}-purity and rational singularity}, Trans. Amer.
@@ -41,7 +49,8 @@
 
 \bibitem[GS]{M2}
 {\sc D.~R. Grayson and M.~E. Stillman}: \emph{Macaulay2, a software system for
-  research in algebraic geometry}.
+  research in algebraic geometry}, available at
+  \url{http://www.math.uiuc.edu/Macaulay2/}.
 
 \bibitem[HW02]{HaraWatanabeFRegFPure}
 {\sc N.~Hara and K.-I. Watanabe}: \emph{{$F$}-regular and {$F$}-pure rings vs.\
@@ -51,7 +60,7 @@
 \bibitem[HY03]{HaraYoshidaGeneralizationOfTightClosure}
 {\sc N.~Hara and K.-I. Yoshida}: \emph{A generalization of tight closure and
   multiplier ideals}, Trans. Amer. Math. Soc. \textbf{355} (2003), no.~8,
-  3143--3174 (electronic). {\sf\scriptsize MR1974679 (2004i:13003)}
+  3143--3174.
 
 \bibitem[Her14]{HernandezFPureThresholdOfBinomial}
 {\sc D.~J. Hern\'andez}: \emph{{$F$}-pure thresholds of binomial
@@ -70,16 +79,11 @@
 \bibitem[HTW18]{hernandez+etal.frobenius_powers}
 {\sc D.~J. Hern\'andez, P.~Teixeira, and E.~E. Witt}: \emph{Frobenius powers},
   preprint, \href{https://arxiv.org/abs/1802.02705}{arXiv:1802.02705
-  [math.AC]}.
-
-\bibitem[HSS{\etalchar{+}}]{FThresholdsPackage}
-{\sc D.~Hernandez, K.~Schwede, D.~Smolkin, P.~Teixeira, and E.~Witt}:
-  \emph{{FThresholds: A package for calculations of F-thresholds.
-  Version~2.0}}.
+  [math.AC]}, 2018.
 
 \bibitem[Her12]{HernandezFPurityOfHypersurfaces}
 {\sc D.~J. Hern\'{a}ndez}: \emph{{$F$}-purity of hypersurfaces}, Math. Res.
-  Lett. \textbf{19} (2012), no.~2, 389--401. {\sf\scriptsize 2955770}
+  Lett. \textbf{19} (2012), no.~2, 389--401.
 
 \bibitem[HH90]{HochsterHunekeTC1}
 {\sc M.~Hochster and C.~Huneke}: \emph{Tight closure, invariant theory, and the
@@ -89,48 +93,42 @@
 \bibitem[HR76]{HochsterRobertsFrobeniusLocalCohomology}
 {\sc M.~Hochster and J.~L. Roberts}: \emph{The purity of the {F}robenius and
   local cohomology}, Advances in Math. \textbf{21} (1976), no.~2, 117--172.
-  {\sf\scriptsize MR0417172 (54 \#5230)}
 
 \bibitem[LT]{DmodulesSource}
 {\sc A.~Leykin and H.~Tsai}: \emph{{Dmodules: functions for computations with
-  D-modules. Version~1.4.0.1}}.
+  D-modules. Version~1.4.0.1}}, available at
+  \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}.
 
 \bibitem[MR85]{MehtaRamanathanFrobeniusSplittingAndCohomologyVanishing}
 {\sc V.~B. Mehta and A.~Ramanathan}: \emph{Frobenius splitting and cohomology
   vanishing for {S}chubert varieties}, Ann. of Math. (2) \textbf{122} (1985),
-  no.~1, 27--40. {\sf\scriptsize MR799251 (86k:14038)}
+  no.~1, 27--40.
 
 \bibitem[MTW05]{MustataTakagiWatanabeFThresholdsAndBernsteinSato}
 {\sc M.~Musta{\c{t}}{\v{a}}, S.~Takagi, and K.-i. Watanabe}: \emph{F-thresholds
   and {B}ernstein-{S}ato polynomials}, European Congress of Mathematics, Eur.
-  Math. Soc., Z\"urich, 2005, pp.~341--364. {\sf\scriptsize MR2185754
-  (2007b:13010)}
+  Math. Soc., Z\"urich, 2005, pp.~341--364.
 
 \bibitem[ST14]{SchwedeTuckerTestIdealsOfNonPrincipal}
 {\sc K.~Schwede and K.~Tucker}: \emph{Test ideals of non-principal ideals:
   Computations, jumping numbers, alterations and division theorems}, J. Math.
   Pures Appl. \textbf{102} (2014), no.~5, 891 -- 929.
 
-\bibitem[ST09]{ShibutaTakagiLCThresholds}
-{\sc T.~Shibuta and S.~Takagi}: \emph{Log canonical thresholds of binomial
-  ideals}, Manuscripta Math. \textbf{130} (2009), no.~1, 45--61.
-  {\sf\scriptsize 2533766 (2010j:14031)}
-
 \bibitem[TW04]{TakagiWatanabeFPureThresh}
 {\sc S.~Takagi and K.-i. Watanabe}: \emph{On {F}-pure thresholds}, J. Algebra
-  \textbf{282} (2004), no.~1, 278--297. {\sf\scriptsize MR2097584
-  (2006a:13010)}
+  \textbf{282} (2004), no.~1, 278--297.
+
+\bibitem[Tei15]{MultiplierIdealsArticle}
+{\sc Z.~Teitler}: \emph{Software for multiplier ideals}, J. Softw. Algebra
+  Geom. \textbf{7} (2015), 1--8.
 
 \bibitem[TSR]{MultiplierIdealsPackage}
 {\sc Z.~Teitler, B.~Snapp, and C.~Raicu}: \emph{{MultiplierIdeals: A
-  \emph{Macaulay2} package. Version~1.1}}.
-
-\bibitem[TSR15]{MultiplierIdealsArticle}
-{\sc Z.~Teitler, B.~Snapp, and C.~Raicu}: \emph{{Software for multiplier
-  ideals}}, The Journal of Software for Algebra and Geometry \textbf{7} (2015).
+  \emph{Macaulay2} package. Version~1.1}}, available at
+  \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}.
 
 \bibitem[Zhu17]{ZhuLogCanoincalThresholdsInPositiveChar}
 {\sc Z.~Zhu}: \emph{Log canonical thresholds in positive characteristic}, Math.
-  Z. \textbf{287} (2017), no.~3-4, 1235--1253. {\sf\scriptsize 3719534}
+  Z. \textbf{287} (2017), no.~3-4, 1235--1253.
 
 \end{thebibliography}
