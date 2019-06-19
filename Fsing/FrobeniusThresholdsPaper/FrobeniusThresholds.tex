@@ -820,26 +820,6 @@ o37 : QQ
 As seen in several examples above, when the exact answer is not found, a list containing the endpoints of an interval containing the $F$-pure threshold of $f$ is returned.
 Whether that interval is open, closed, or a mixed interval depends on the options passed (it will be \emph{open} whenever \texttt{Attempts} is set to at least \texttt{3}); if the option \texttt{Verbose} is set to true, the precise interval will be printed.
 
-\pedro[inline]{
-   Maybe the example below could be omitted, to shorten the paper.
-   I think that just telling the reader that the interval is printed when Verbose is activated is enough.
-}
-
-\daniel[inline]{I like the explanation provided by activating Verbose, and so I kind of think that it would be cool to show this off.  However, I also understand if others want to omit it, and I wouldn't object if anyone has a strong preference.}
-
-\daniel[inline]{Should the line 
-\begin{center}
-ν has been computed: ν = ν(3,f) = 17 ...
-\end{center}
-instead be
-\begin{center}
-ν has been computed: ν = nu(3,f) = 17 ...
-\end{center}
-on the 5th line of the Verbose output?  I think this would be consistent with the paper, but whoever wrote this might have had a specific reason for doing it this way.
-}
-\pedro[inline]{I modified the code, to produce the output you suggested.}
-\daniel[inline]{OK.  I will just manually make this change in the verbatim environment below then, in case we decide to keep it here.}
-
 \medskip
 {\small
 \setstretch{.67}
@@ -944,13 +924,6 @@ o38 = false
 }
 \medskip
 
-%             R = ZZ/7[x,y,z];
-%             isSimpleNormalCrossing(x^2-y^2)
-%             isSimpleNormalCrossing(x^2-y*z)
-
-% If \texttt{isSimpleNormalCrossing(f)} outputs true, then the $F$-pure threshold is easily computed, since is just the minimum of the values $1/a_i$, for $1 \leq i \leq n$.
-% Note that the function \texttt{factor} is called whenever \texttt{isSimpleNormalCrossing} is used, which can sometimes make the verification slow.  The user can avoid this when using \texttt{fpt} by setting \texttt{UseSpecialAlgorithms} to \texttt{false}.
-
 The function \texttt{isSimpleNormalCrossing} is exposed to the user, so can be used independent of any $F$-pure threshold calculation.
 If the user sets its option \texttt{AtOrigin} to \texttt{true} (its default value is \texttt{false}), then the function checks whether the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower since Jacobian ideals are computed. Consider the following example illustrating this functionality.
 
@@ -972,24 +945,6 @@ o42 = false
 \end{MyVerbatim}
 }
 \medskip
-
-
-%             R = QQ[x,y,z];
-
-%             f = (y - (x-1)^2)*y^2; --SNC at the origin, but not globally
-
-%             isSimpleNormalCrossing(f)
-
-%             isSimpleNormalCrossing(f, AtOrigin=>false)
-
-%             g = x*y^2*(x+1)^3*(y-1)^4; --SNC everywhere
-
-%             isSimpleNormalCrossing(g)
-
-%             isSimpleNormalCrossing(g, AtOrigin=>false)
-
-
-
 
 \section{Possible Future Directions}
 \label{sec.FutureDirections}
