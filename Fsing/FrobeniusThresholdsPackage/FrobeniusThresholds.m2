@@ -46,11 +46,11 @@ export{
     "GuessStrategy",
     "isFJumpingExponent",
     "isFPT",
+    "isSimpleNormalCrossing",
     "nu",
     "ReturnList",
     "Search",
     "StandardPower",
-    "isSimpleNormalCrossing",
     "UseSpecialAlgorithms"
 }
 

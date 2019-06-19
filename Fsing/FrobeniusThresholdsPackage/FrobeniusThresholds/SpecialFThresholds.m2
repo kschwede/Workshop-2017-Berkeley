@@ -483,7 +483,7 @@ monomialFPT = method( TypicalValue => QQ )
 
 monomialFPT RingElement := QQ => f -> 1/(max first exponents f)
 
----sncFPT computes the FPT of a SNC divisor monomial
+-- sncFPT computes the FPT of a SNC divisor monomial
 
 sncFPT = method( TypicalValue => QQ, Options => { AtOrigin => true } )
 
@@ -493,7 +493,7 @@ sncFPT Product := QQ => o -> ff ->
     myList := toList ff; 
     if o.AtOrigin then 
     (
-        -- need to select factors contained in the homogeneous max ideal
+        -- select factors contained in the homogeneous maximal ideal
         myRing := ring ff#0#0;
         myMax := ideal myRing_*;
         myList = select( myList, z -> sub( z#0, myRing ) % myMax == 0 );
@@ -518,18 +518,21 @@ isSimpleNormalCrossing Product := Boolean => o -> ff ->
 (
     --if an empty product is passed, then it is SNC
     if #ff == 0 then return true;
-    myRing := ring ff#0#0
+    myRing := ring ff#0#0;
     myMax := if o.AtOrigin then ideal myRing_* else ideal 0_myRing;
     d := dim myRing;
-    --set the ring, if an empty product is passed, then it is SNC
     termList := toList apply( ff, t -> sub( t#0, myRing ) ); --strip the powers from the product
-    if o.Verbose then print( "isSimpleNormalCrossing: here are the terms " | toString termList );
-    termList = select( termList, z -> not isUnit z); --strip out units that factor returned
-    if o.AtOrigin then termList = select( termList, z -> z % myMax == 0 );
-    if o.Verbose then print( "isSimpleNormalCrossing: here are the relevant terms " | toString termList );
-    if o.AtOrigin and #termList == d and myMax == ideal apply( termList, t -> t % (myMax^2) ) then 
-        return true;  --if we obviously have a regular sop at the origin
-    if o.Verbose then print "isSimpleNormalCrossing: not obviously a regular sop at the origin";
+    if o.Verbose then print( "isSimpleNormalCrossing: the factors are " | toString termList );
+    termList = select( termList, z -> not isUnit z ); --strip out units that factor returned
+    if o.AtOrigin then termList = select( termList, z -> z % myMax == 0 ); --select factors in the maximal ideal
+    if o.Verbose then print( "isSimpleNormalCrossing: the relevant terms are " | toString termList );
+    if o.AtOrigin and #termList == d and myMax == ideal apply( termList, t -> t % (myMax^2) ) then
+    (
+        if o.Verbose then print "isSimpleNormalCrossing: obviously a regular sop at the origin";
+        return true  
+    )
+    else if o.AtOrigin and o.Verbose then 
+        print "isSimpleNormalCrossing: not obviously a regular sop at the origin";
     strata := subsets termList;
     if instance( myRing, PolynomialRing ) then strata = delete( {}, strata );
     if o.AtOrigin and instance( myRing, PolynomialRing ) then
@@ -538,10 +541,7 @@ isSimpleNormalCrossing Product := Boolean => o -> ff ->
         if o.Verbose then 
             print "isSimpleNormalCrossing: evaluating in the local polynomial ring case (evaluating jacobians at the origin)";
         all( strata, genList -> 
-            ( 
-                if #genList > rank phi( jacobian ideal genList ) then return false; 
-                if d - #genList != dim ideal genList then false else true 
-            )
+            #genList <= rank phi( jacobian ideal genList ) and d - #genList == dim ideal genList 
         )
     )
     else 
@@ -551,9 +551,7 @@ isSimpleNormalCrossing Product := Boolean => o -> ff ->
         all( strata, genList -> 
             ( 
                 newd := dim ideal genList; 
-                if newd < 0 then return true; 
-                if d - #genList != newd then return false; 
-                if dim ideal singularLocus ideal genList >= 0 then false else true 
+                newd < 0 or (d - #genList == newd and dim ideal singularLocus ideal genList < 0)
             )
         )
     )

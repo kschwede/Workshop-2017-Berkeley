@@ -58,7 +58,7 @@ testRoot = ( J, a, I, e ) -> isSubset( frobeniusRoot( e, a, J ), I )
 
 --this does the same check, but globally, ignoring I completely
 --(essentially taking the minimum over all prime I)
-testGlobalRoot = ( J, a, I, e ) -> not isUnitIdeal frobeniusRoot( e, a, J )
+testGlobalRoot = ( J, a, I, e ) -> isProperIdeal frobeniusRoot( e, a, J )
 
 testPower = ( J, a, I, e ) -> isSubset( if (isIdeal J) then J^a else ideal J^a, frobenius( e, I ) )
 
