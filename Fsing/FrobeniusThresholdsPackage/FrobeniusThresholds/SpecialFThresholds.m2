@@ -502,7 +502,7 @@ sncFPT Product := QQ => o -> ff ->
     1/max( last \ myList )
 )
 
-    ---computes whether something is SNC
+---checks whether something is SNC
 isSimpleNormalCrossing = method(
     TypicalValue => Boolean,
     Options => { AtOrigin => true, Verbose => false }
@@ -516,18 +516,16 @@ isSimpleNormalCrossing RingElement := Boolean => o -> ff ->
 
 isSimpleNormalCrossing Product := Boolean => o -> ff -> 
 (
-    local myRing;
-    if #ff > 0 then myRing = ring ff#0#0 else return true;
-    --set the ring, if an empty product is passed, then it is SNC
+    --if an empty product is passed, then it is SNC
+    if #ff == 0 then return true;
+    myRing := ring ff#0#0
+    myMax := if o.AtOrigin then ideal myRing_* else ideal 0_myRing;
     d := dim myRing;
-    local myMax;
-    local newd;
-    myMax = if o.AtOrigin then ideal myRing_* else ideal 0_myRing;
     --set the ring, if an empty product is passed, then it is SNC
     termList := toList apply( ff, t -> sub( t#0, myRing ) ); --strip the powers from the product
     if o.Verbose then print( "isSimpleNormalCrossing: here are the terms " | toString termList );
     termList = select( termList, z -> not isUnit z); --strip out units that factor returned
-    if o.AtOrigin then termList = select( termList, z -> z%myMax == 0 );
+    if o.AtOrigin then termList = select( termList, z -> z % myMax == 0 );
     if o.Verbose then print( "isSimpleNormalCrossing: here are the relevant terms " | toString termList );
     if o.AtOrigin and #termList == d and myMax == ideal apply( termList, t -> t % (myMax^2) ) then 
         return true;  --if we obviously have a regular sop at the origin
@@ -552,7 +550,7 @@ isSimpleNormalCrossing Product := Boolean => o -> ff ->
             print "isSimpleNormalCrossing: evaluating in the non-local or non-polynomial ring case (computing singular loci)";
         all( strata, genList -> 
             ( 
-                newd = dim ideal genList; 
+                newd := dim ideal genList; 
                 if newd < 0 then return true; 
                 if d - #genList != newd then return false; 
                 if dim ideal singularLocus ideal genList >= 0 then false else true 
