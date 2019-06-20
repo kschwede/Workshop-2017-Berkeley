@@ -33,7 +33,7 @@ doc ///
         t:Number
             a rational number to compare to the $F$-pure threshold
         f:RingElement
-            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not a divisor of $p$
+            in a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p>0$, whose index is not divisible by $p$
         AssumeDomain => Boolean
             indicates whether the ambient ring of {\tt f}  is an integral domain
         FrobeniusRootStrategy => Symbol
@@ -48,10 +48,10 @@ doc ///
             toggles verbose output
     Outputs
         :ZZ
-            namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold of {\tt f}.
+            namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold of {\tt f}
     Description
         Text
-            Let $f$ be an element of a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p$, whose index is not a divisor of $p$.
+            Let $f$ be an element of a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p$, whose index is not divisible by $p$.
             Given a rational number $t$, the command {\tt compareFPT(t, f)} returns {\tt -1} if $t$ is less than the $F$-pure threshold of $f$, {\tt 1} if $t$ is greater than the $F$-pure threshold $f$, or {\tt 0} if $t$ equals the $F$-pure threshold.
         Example
             R = ZZ/7[x,y];
