@@ -60,14 +60,14 @@ nu(3, f, AtOrigin => false)
 
 restart
 
-R = ZZ/11[x, y, z]/(x^2 - y*(z - 1));
+R = ZZ/11[x,y,z]/(x^2 - y*(z - 1));
 compareFPT(5/11, z - 1)
 isFPT(1/2, z - 1)
 isFPT(1/2, z - 1, AtOrigin => true)
 
 ------------------------------------------------------------------
 
-R = ZZ/13[x, y];
+R = ZZ/13[x,y];
 f = y*((y + 1) - (x - 1)^2)*(x - 2)*(x + y - 2);
 isFJumpingExponent(3/4, f)
 isFPT(3/4, f)
@@ -98,13 +98,13 @@ fpt({x, y, x + y, x + 3*y}, {2, 6, 9, 10}) == oo
 f = x^2*(x + y)^3*(x + 3*y^2)^5;
 fpt(f, Attempts => 0) -- a bad estimate
 fpt(f, Attempts => 0, DepthOfSearch => 3) -- a better estimate
-fpt(f, Attempts => 1, DepthOfSearch => 3) -- the right-hand endpoint (nu+1)/p^e is the F-pure threshold
+fpt(f, Attempts => 1, DepthOfSearch => 3) -- the right-hand endpoint (ν+1)/p^e is the F-pure threshold
 
 ------------------------------------------------------------------
 
 f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
 fpt(f, Attempts => 1, DepthOfSearch => 3)
-fpt(f, Attempts => 2, DepthOfSearch => 3) -- the left-hand endpoint nu/(p^e-1) is the F-pure threshold
+fpt(f, Attempts => 2, DepthOfSearch => 3) -- the left-hand endpoint ν/(p^e-1) is the F-pure threshold
 
 ------------------------------------------------------------------
 
@@ -139,21 +139,18 @@ fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
 
 R = ZZ/7[x,y];
 f = x*(y - 1)^2 - y*(x - 1)^3;
-fpt(f, AtOrigin => false)
 fpt(f)
+fpt(f, AtOrigin => false)
 
 ------------------------------------------------------------------
 
-R = ZZ/7[x, y, z];
+R = ZZ/7[x,y,z];
 isSimpleNormalCrossing(x^2 - y^2)
 isSimpleNormalCrossing(x^2 - y*z)
 
 ------------------------------------------------------------------
 
-R = QQ[x, y, z];
+R = QQ[x,y,z];
 f = (y - (x - 1)^2)*y^2; --SNC at the origin, but not globally
 isSimpleNormalCrossing(f)
 isSimpleNormalCrossing(f, AtOrigin => false)
-g = x*y^2*(x + 1)^3*(y - 1)^4; --SNC everywhere
-isSimpleNormalCrossing(g)
-isSimpleNormalCrossing(g, AtOrigin => false)
