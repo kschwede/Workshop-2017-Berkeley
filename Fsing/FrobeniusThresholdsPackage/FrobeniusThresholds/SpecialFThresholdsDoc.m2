@@ -39,7 +39,7 @@ doc ///
             f = (y - (x - 1)^2)*y^2; --SNC at the origin, but not globally
             isSimpleNormalCrossing(f)
             isSimpleNormalCrossing(f, AtOrigin => false)
-            g = (y - 1)^2 + (x - 7)^2 --doesn't even pass through the origin
+            g = (y - 1)^2 + (x - 7)^2; --doesn't even pass through the origin
             isSimpleNormalCrossing(g)
             isSimpleNormalCrossing(g, AtOrigin => false)
             h = x*y^2*(x + 1)^3*(y - 1)^4; --SNC everywhere

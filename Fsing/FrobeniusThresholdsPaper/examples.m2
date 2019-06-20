@@ -27,7 +27,7 @@ time nu(10, f, UseSpecialAlgorithms => false)
 R = ZZ/5[x,y,z];
 m = ideal(x, y, z);
 time nu(2, m, m^2) -- uses binary search (default)
-time nu(2, m, m^2, Search => Linear) -- but linear seach gets luckier
+time nu(2, m, m^2, Search => Linear) -- but linear search gets luckier
 
 ------------------------------------------------------------------
 

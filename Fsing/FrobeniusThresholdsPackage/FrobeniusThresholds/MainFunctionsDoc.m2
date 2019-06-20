@@ -265,7 +265,7 @@ doc ///
             fpt(f)
         Text
             In this case, most options enabled by {\tt UseSpecialAlgorithms => true} are ignored except for the check for simple normal crossings.  
-            {\tt FinalCheck => true} is also ignored.  
+            {\tt FinalAttempt => true} is also ignored.  
             Consider a simple normal crossings case.
         Example
             f = x*y^2*(x - 1)^3*(y - 1)^4;
@@ -647,7 +647,7 @@ doc ///
             time nu(5, f, Search => Linear)
             M = ideal(x, y, z);
             time nu(2, M, M^2) -- uses binary search (default)
-            time nu(2, M, M^2, Search => Linear) -- but linear seach gets luckier
+            time nu(2, M, M^2, Search => Linear) -- but linear search gets luckier
         Text
             The option {\tt AtOrigin} (default value {\tt true}) can be turned off to tell {\tt nu} to effectively do the computation over all possible maximal ideals $J$ and take the minimum.
         Example
@@ -656,7 +656,7 @@ doc ///
             nu(1, f)
             nu(1, f, AtOrigin => false)
         Text
-            The option {\tt ReturnList} (default value {\tt false}) can be used to request that the output be not only $\nu_I^J(p^e)$, but a list contaning $\nu_I^J(p^i)$, for $i=0,\ldots,e$.
+            The option {\tt ReturnList} (default value {\tt false}) can be used to request that the output be not only $\nu_I^J(p^e)$, but a list containing $\nu_I^J(p^i)$, for $i=0,\ldots,e$.
         Example
             R = ZZ/5[x,y,z];
             f = x^2*y^4 + y^2*z^7 + z^2*x^8;
