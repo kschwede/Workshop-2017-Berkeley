@@ -58,7 +58,7 @@ testRoot = ( J, a, I, e ) -> isSubset( frobeniusRoot( e, a, J ), I )
 
 --this does the same check, but globally, ignoring I completely
 --(essentially taking the minimum over all prime I)
-testGlobalRoot = ( J, a, I, e ) -> isProperIdeal frobeniusRoot( e, a, J )
+testGlobalRoot = ( J, a, I, e ) -> isProper frobeniusRoot( e, a, J )
 
 testPower = ( J, a, I, e ) -> isSubset( if (isIdeal J) then J^a else ideal J^a, frobenius( e, I ) )
 
@@ -163,7 +163,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- Return list with zeros if f is 0 (per Blickle-Mustata-Smith convention)
     if f == 0 then return if o.ReturnList then toList( (n + 1):0 ) else 0;
     -- Return list with infinities if f is not in the radical of J
-    if o.AtOrigin then 
+    if o.AtOrigin then
     (
         inRadical := if isIdeal f then isSubset( f, radical J ) else isSubset( ideal f, radical J );
         if not inRadical then return if o.ReturnList then toList( (n + 1):infinity ) else infinity
@@ -236,7 +236,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     ----------------------
     -- EVERY OTHER CASE --
     ----------------------
-    N = if isPrincipal or conTest === FrobeniusPower then p 
+    N = if isPrincipal or conTest === FrobeniusPower then p
         else (numgens trim J)*(p-1) + 1;
     scan( 1..n, e ->
         (
@@ -334,7 +334,7 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
         -- if running out of numbers, load up
         if #numList < minNumCandidates + 2 then
             ( costList, numList ) = fptGuess(p, A, B, numExtraCandidates, o.GuessStrategy, numList )
-        else 
+        else
             -- recompute distances and resort
             costList = sort apply( costList, c -> replace( -2, abs( (A+B)/2 - last c ), c ) );
         t = last first costList;
@@ -347,15 +347,15 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     	);
         if comp == 1 then -- t > fpt
         (
-            B = t; 
+            B = t;
             -- will need the first element >= B in numList, and all the preceding ones
             i = position( numList, x -> num x >= B );
             numList = take( numList, i + 1 );
             costList = select( costList, a -> last a < t )
         )
     	else -- t < fpt
-        ( 
-            A = t; 
+        (
+            A = t;
             -- will need the last element <= A in numList, and all the subsequent ones
             i = position( numList, x -> num x > A );
             numList = drop( numList, i - 1 );
@@ -509,7 +509,7 @@ fpt RingElement := o -> f ->
 	strictUB = true;
 	if o.Attempts >= 2 then strictLB = true
     )
-    else if o.Verbose then print "guessFPT not called...";    
+    else if o.Verbose then print "guessFPT not called...";
 
     ---------------------------------------
     -- F-SIGNATURE INTERCEPT COMPUTATION --
@@ -819,7 +819,7 @@ compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
     );
     if o.Verbose or debugLevel > 1 then
         print concatenate("compareFPTPoly: testIdeal(f^(t-epsilon)) = ", toString(computedHSLG ));
-    if isProper (computedHSLG + locMax) then 1 --the fpt we picked is too small 
+    if isProper (computedHSLG + locMax) then 1 --the fpt we picked is too small
     else 0 --it is the FPT!
 )
 
