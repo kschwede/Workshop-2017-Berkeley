@@ -26,7 +26,7 @@ doc ///
         [compareFPT, AtOrigin]
         [compareFPT, Verbose]
     Headline
-        determine whether a given number is less than, greater than, or equal to the F-pure threshold
+        determine whether a number is less than, greater than, or equal to the F-pure threshold
     Usage
         compareFPT(t, f)
     Inputs
@@ -52,7 +52,7 @@ doc ///
     Description
         Text
             Let $f$ be an element of a $\mathbb{Q}$-Gorenstein ring of positive characteristic $p$, whose index is not divisible by $p$.
-            Given a rational number $t$, the command {\tt compareFPT(t, f)} returns {\tt -1} if $t$ is less than the $F$-pure threshold of $f$, {\tt 1} if $t$ is greater than the $F$-pure threshold $f$, or {\tt 0} if $t$ equals the $F$-pure threshold.
+            Given a rational number $t$, the command {\tt compareFPT(t, f)} returns {\tt -1} if $t$ is less than the $F$-pure threshold of $f$, {\tt 1} if $t$ is greater than the $F$-pure threshold, or {\tt 0} if $t$ equals the $F$-pure threshold.
         Example
             R = ZZ/7[x,y];
             f =  x^3 - y^2;
@@ -64,10 +64,9 @@ doc ///
             For instance, in the following example, $x$ defines a Cartier divisor that is twice one of the rulings of the cone.
         Example
              R = ZZ/5[x,y,z]/(x*y - z^2);
-             f = x;
-             compareFPT(1/3, f)
-             compareFPT(1/2, f)
-             compareFPT(13/25, f)
+             compareFPT(1/3, x)
+             compareFPT(1/2, x)
+             compareFPT(13/25, x)
         Text
            Consider a Veronese subring (which is étale in codimension 1),
             so the $F$-pure threshold of the given polynomial (in this case 19/125) should be independent of which ring we are in.
@@ -114,8 +113,9 @@ doc ///
     Description
         Text
             An option for the function @TO nu@ specifying which type of containment test to apply.
-            The valid values are {\tt FrobeniusPower}, {\tt FrobeniusRoot}, {\tt StandardPower}, and {\tt null}.
-            The default value, {\tt null}, is replaced with {\tt FrobeniusRoot} when the second argument passed to @TO nu@ is a ring element, and {\tt StandardPower} when that argument is an ideal.
+            The valid values are {\tt StandardPower}, {\tt FrobeniusRoot}, {\tt GlobalFrobeniusRoot}, {\tt FrobeniusPower}, and {\tt null}.
+            When the option @TO AtOrigin@ is set to {\tt true}, the default value for {\tt ContainmentTest}, {\tt null}, is replaced with {\tt FrobeniusRoot} when the second argument passed to @TO nu@ is a ring element, and {\tt StandardPower} when that argument is an ideal.
+            When @TO AtOrigin@ is set to {\tt false}, the value {\tt GlobalFrobeniusRoot} is used.
 ///
 
 doc ///
@@ -151,7 +151,7 @@ doc ///
         f:RingElement
             a polynomial with coefficients in a finite field
         L:List
-            containing forms in two variables
+            containing linear forms in two variables
         m:List
             containing positive integers
         Attempts => ZZ
@@ -167,9 +167,9 @@ doc ///
         GuessStrategy => List
             specifies weights to be used to rank numbers to be tested
         AtOrigin => Boolean
-            specifies whether to compute the local $F$-pure threshold or the global $F$-pure threshold
+            specifies whether to compute the $F$-pure threshold at the origin or the global $F$-pure threshold
         UseSpecialAlgorithms => Boolean
-            specifies whether to check if {\tt f} is a diagonal polynomial, monomial, binomial, a binary form (i.e., a standard-graded homogeneous polynomial in 2 variables), or a simple normal crossing, and then apply appropriate algorithms
+            specifies whether to check if {\tt f} is a diagonal polynomial, binomial, a standard-graded homogeneous polynomial in two variables, or a product of factors in simple normal crossing, and then apply appropriate algorithms or formulas
         Verbose => Boolean
             requests verbose feedback
     Outputs
@@ -178,7 +178,7 @@ doc ///
        :QQ
            the $F$-pure threshold of {\tt f}
        :InfiniteNumber
-           the $F$-pure threshold of {\tt f}, if {\tt f} does not vanish at the origin (or anywhere if {\tt AtOrigin => false})
+           the $F$-pure threshold of {\tt f}, if {\tt f} does not vanish at the origin (or anywhere, if {\tt AtOrigin => false})
     Description
          Text
              Given a polynomial $f$ with coefficients in a finite field, the function {\tt fpt} attempts to find the exact value for the $F$-pure threshold of $f$ at the origin, and returns that value, if possible.
@@ -188,13 +188,13 @@ doc ///
              fpt(x^3 + y^3 + z^3 + x*y*z)
              fpt(x^5 + y^6 + z^7 + (x*y*z)^3)
         Text
-             If the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), then {\tt fpt} first checks whether $f$ is a diagonal polynomial, a binomial, a form in two variables, or in simple normal crossing,  respectively.
-             If it is either a a diagonal polynomial, a binomial, or a form in two variables, then algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.  
-             If it is in simple normal crossing, the $F$-pure threshold is easily computed.
+             When the option {\tt UseSpecialAlgorithms} is set to {\tt true} (the default value), {\tt fpt} first checks whether $f$ is a diagonal polynomial, a binomial, a form in two variables, or a product of factors in simple normal crossing.
+             If $f$ is either a diagonal polynomial, a binomial, or a form in two variables, then algorithms of Hernández, or Hernández and Teixeira, are executed to compute the $F$-pure threshold of $f$.  
+             If $f$ is a product of factors in simple normal crossing, the $F$-pure threshold is easily computed.
         Example
             fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
             fpt(x^2*y^6*z^10 + x^10*y^5*z^3) -- a binomial
-            fpt((x + y + z)^6*y^7*z^10) -- SNC
+            fpt(x^5*(x + y)^7*(x + y + z)^10) -- SNC
             ZZ/5[x,y];
             fpt(x^2*y^6*(x + y)^9*(x + 3*y)^10) -- a form in two variables
         Text

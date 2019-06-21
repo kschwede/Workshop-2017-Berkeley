@@ -71,16 +71,14 @@ testFrobeniusPower ( Ideal, ZZ, Ideal, ZZ ) := Boolean => ( J, a, I, e ) ->
 testFrobeniusPower ( RingElement, ZZ, Ideal, ZZ ) := Boolean => ( f, a, I, e ) ->
     testRoot( f, a, I, e )
 
-
-
 -- hash table to select test function from option keyword
 test := new HashTable from
-    {
-        FrobeniusPower => testFrobeniusPower,
-        FrobeniusRoot => testRoot,
-        StandardPower => testPower,
-        GlobalFrobeniusRoot => testGlobalRoot
-    }
+{
+    FrobeniusPower => testFrobeniusPower,
+    FrobeniusRoot => testRoot,
+    StandardPower => testPower,
+    GlobalFrobeniusRoot => testGlobalRoot
+}
 
 ---------------------------------------------------------------------------------
 -- SEARCH FUNCTIONS
@@ -114,13 +112,13 @@ linearSearch = ( I, J, e, a, b, testFunction ) ->
 
 -- hash table to select search function from option keyword
 search := new HashTable from
-    {
-	Binary => binarySearch,
-	Linear => linearSearch
-    }
+{
+    Binary => binarySearch,
+    Linear => linearSearch
+}
 
 ---------------------------------------------------------------------------------
--- OPTION PACKAGES
+-- OPTION PACKAGE
 ---------------------------------------------------------------------------------
 
 optNu:=
