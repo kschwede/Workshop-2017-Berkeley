@@ -834,7 +834,7 @@ are ignored, except for the check for simple normal crossings;  \texttt{FinalAtt
 is also ignored.
 
 \subsection{The function \texttt{isSimpleNormalCrossings}} \label{subsec.SNC}
-As mentioned earlier, the function \texttt{isSimpleNormalCrossings} verifies whether a ring element $f$ is a product of factors in simple normal crossing.
+As mentioned earlier, the function \texttt{isSimpleNormalCrossings} verifies whether a polynomial $f$ is a product of factors in simple normal crossing.
 Suppose that $f$ has factorization $f_1^{a_i} f_2^{a_2} \cdots f_n^{a_n}$.  Recall that its factors $f_i$ are said to be in
 \emph{simple normal crossing} at a point if, locally, they form part of a regular system of parameters.  The function \texttt{isSimpleNormalCrossings} determines whether $f$ has simple normal crossings at the origin by computing the Jacobian matrix of each subset of $\{ f_1, \ldots, f_n \}$ (evaluated at the origin), and checking that these matrices have the expected rank, and that these subsets generate ideals of the appropriate height.
 

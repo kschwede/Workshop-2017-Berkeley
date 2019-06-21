@@ -24,7 +24,7 @@ doc ///
             {\tt true} if the factors of {\tt f} are in simple normal crossing, {\tt false} otherwise
     Description
         Text
-            Let $f$ be an element of a {\tt PolynomialRing}, or an object of class {\tt Product} representing a factorization of a  polynomial $f$.
+            Let $f$ be a polynomial or an object of class {\tt Product} representing a factorization of a  polynomial $f$.
             The function {\tt isSimpleNormalCrossing} returns {\tt true} if the distinct factors of $f$ are in simple normal crossing, or in other words, if at each point those factors, locally analytically, form part of a regular system of parameters.
         Example
             R = ZZ/7[x,y,z];
@@ -33,7 +33,7 @@ doc ///
             isSimpleNormalCrossing(x*y*(x - y))
             isSimpleNormalCrossing(x^2 - y*z)
         Text
-            The option {\tt AtOrigin} (default value {\tt true}) is used to specify whether we should work at the origin (when {\tt true}) or globally (when {\tt false}).
+            The option {\tt AtOrigin} (default value {\tt true}) is used to specify whether to work at the origin (when {\tt true}) or globally (when {\tt false}).
         Example
             R = QQ[x,y,z];
             f = (y - (x - 1)^2)*y^2; --SNC at the origin, but not globally
