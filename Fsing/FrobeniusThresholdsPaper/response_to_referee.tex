@@ -1,0 +1,109 @@
+
+\documentclass{amsart}
+\usepackage{calc,amssymb,amsthm,amsmath,amsfonts,setspace,mathtools}
+\RequirePackage[dvipsnames,usenames]{xcolor}
+\usepackage{textgreek}
+\usepackage[utf8x]{inputenc}
+\DeclareUnicodeCharacter{957}{\textnu}
+
+\usepackage{microtype}
+
+\usepackage{hyperref} \hypersetup{ bookmarks, bookmarksdepth=3,
+   bookmarksopen, bookmarksnumbered, pdfstartview=FitH,
+   colorlinks,backref,hyperindex, linkcolor=Sepia,
+   anchorcolor=BurntOrange, citecolor=MidnightBlue,
+   citecolor=OliveGreen, filecolor=BlueViolet, menucolor=Yellow,
+   urlcolor=OliveGreen } \usepackage{xspace}
+\interfootnotelinepenalty=100000
+
+\usepackage{mabliautoref}
+\usepackage{colonequals}
+\frenchspacing
+%\input{kmacros3.sty}
+
+\setlength{\parskip}{0.4em}
+
+\usepackage{verbatim}
+\usepackage{enumerate}
+%\usepackage[normalem]{ulem}
+%\usepackage{marginnote}
+%\newcommand{\fram}{\mathfrak{m}}
+
+\usepackage{fancyvrb}
+\DefineVerbatimEnvironment%
+{MyVerbatim}{Verbatim}
+{formatcom=\color{Violet}}
+
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhead[RO, LE]{\thepage}
+\fancyhead[C]{The \emph{FrobeniusThresholds} package for \emph{Macaulay2}}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+
+\makeatletter
+\def\@settitle{\begin{center}%
+  \baselineskip14\p@\relax
+    \bfseries
+    \normalfont\LARGE%<- NEW
+\@title
+  \end{center}%
+}
+\makeatother
+
+\newcommand{\ft}{\operatorname{c}}
+\newcommand{\idealm}{\mathfrak{m}}
+\DeclareMathOperator{\fpt}{fpt}
+
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\leq}{\leqslant}
+\renewcommand{\ge}{\geqslant}
+\renewcommand{\le}{\leqslant}
+
+%%%%%%%%%%%%%%%%%% To-Do %%%%%%%%%%%%%%%%%%
+\usepackage[textwidth=3.3 cm,textsize=small,shadow
+%disable
+%%option disable removes the notes
+]{todonotes}
+
+\newcommand{\warning}[2][] 
+{\todo[color=red,caption={},#1]{#2}} 
+\newcommand{\postit}[2][] 
+{\todo[linecolor=orange,backgroundcolor=yellow!40, caption={},#1]{#2}} 
+\newcommand{\daniel}[2][] 
+{\todo[linecolor=green,backgroundcolor=green!10,caption={}, #1]{#2}} 
+\newcommand{\pedro}[2][] 
+{\todo[linecolor=blue,backgroundcolor=blue!10,caption={}, #1]{#2}} 
+\newcommand{\emily}[2][] 
+{\todo[linecolor=gray,backgroundcolor=gray!20,caption={}, #1]{#2}} 
+\newcommand{\karl}[2][] 
+{\todo[linecolor=niceblue,backgroundcolor=niceblue!20,caption={}, #1]{#2}} 
+
+
+\begin{document}
+\title{Response to referee's comments}
+\author{Daniel J.\ Hern\'andez,  Karl Schwede, Pedro Teixeira, and Emily E.\ Witt}
+\maketitle
+
+\begin{enumerate}
+\item We have added a footnote pointing out the previous name of \emph{FrobeniusThresholds}.  Before submitting the current paper, we contacted each author to decide who should be an official author/contributor for the current paper and for the \emph{FrobeniusThresholds} package.
+Though the package \emph{FrobeniusThresholds} broke off from the \emph{TestIdeals} package, not all authors of the \emph{TestIdeals} package contributed to \emph{FrobeniusThresholds}.
+Unfortunately, the current \emph{Macaulay2} site for \emph{FThresholds} is outdated, and simply has the list of all \emph{TestIdeals} authors; this will be updated soon. 
+In any case, we now thank all \emph{TestIdeals} authors in the Acknowledgments. 
+\item 
+\item Though we don't particularly like it either, this is standard notation, initiated in [BMS08].
+\item 
+\item 
+\item We updated this based on the referee's suggestion. 
+\item
+\item
+\item
+\item 
+\item We investigated what is going on here, and it appears that the way to avoid the error is to first install the most recent version of the \emph{TestIdeals} package from GitHub first, and then install the current version of \emph{FrobeniusThresholds}. 
+This issue will not exist after the next version of \emph{Macaulay2} is released.
+
+\end{enumerate}
+
+
+\end{document}
