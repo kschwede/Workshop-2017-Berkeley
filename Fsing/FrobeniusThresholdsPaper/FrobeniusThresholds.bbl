@@ -10,7 +10,7 @@
   \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
 }
 \providecommand{\href}[2]{#2}
-\begin{thebibliography}{BHK{\etalchar{+}}18}
+\begin{thebibliography}{BHK{\etalchar{+}}19}
 
 \bibitem[BBB{\etalchar{+}}]{TestIdealsPackage}
 {\sc E.~Bela, A.~F. Boix, J.~Bruce, D.~Ellingson, D.~J. Hern\'andez,
@@ -18,7 +18,7 @@
   M.~Robinson, K.~Schwede, D.~Smolkin, P.~Teixeira, and E.~E. Witt}:
   \emph{{TestIdeals: a package for calculations of singularities in positive
   characteristic. Version~1.01}}, available at
-  \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}.
+  \url{https://github.com/Macaulay2/M2/tree/ba24e16/M2/Macaulay2/packages}.
 
 \bibitem[BMS08]{BlickleMustataSmithDiscretenessAndRationalityOfFThresholds}
 {\sc M.~Blickle, M.~Musta{\c{t}}{\v{a}}, and K.~E. Smith}: \emph{Discreteness
@@ -30,18 +30,17 @@
   the asymptotic behavior of {F}robenius splittings}, Adv. Math. \textbf{231}
   (2012), no.~6, 3232--3258.
 
-\bibitem[BHK{\etalchar{+}}18]{TestIdealsPaper}
+\bibitem[BHK{\etalchar{+}}19]{TestIdealsPaper}
 {\sc A.~F. Boix, D.~J. Hern\'andez, Z.~Kadyrsizova, M.~Katzman, S.~Malec,
   M.~Mastroeni, M.~Mostafazadeh\-fard, M.~Robinson, K.~Schwede, D.~Smolkin,
   P.~Teixeira, and E.~E. Witt}: \emph{{The \emph{TestIdeals} package for
-  \emph{Macaulay2}}}, preprint,
-  \href{https://arxiv.org/abs/1810.02770}{arXiv:1810.02770 [math.AC]}, 2018.
+  \emph{Macaulay2}}}, 2019.
 
 \bibitem[BHS{\etalchar{+}}]{FThresholdsPackage}
 {\sc J.~Bruce, D.~J. Hern\'andez, K.~Schwede, D.~Smolkin, P.~Teixeira, and
   E.~E. Witt}: \emph{{FrobeniusThresholds: a package for computing {$F$}-pure
   thresholds and related invariants. Version~2.0}}, available at
-  \url{https://github.com/Macaulay2/M2/tree/master/M2/Macaulay2/packages}.
+  \url{https://github.com/Macaulay2/M2/tree/5f330a2/M2/Macaulay2/packages}.
 
 \bibitem[Fed83]{FedderFPureRat}
 {\sc R.~Fedder}: \emph{{$F$}-purity and rational singularity}, Trans. Amer.
@@ -93,6 +92,10 @@
 \bibitem[HR76]{HochsterRobertsFrobeniusLocalCohomology}
 {\sc M.~Hochster and J.~L. Roberts}: \emph{The purity of the {F}robenius and
   local cohomology}, Advances in Math. \textbf{21} (1976), no.~2, 117--172.
+
+\bibitem[Kun69]{KunzCharacterizationsOfRegularLocalRings}
+{\sc E.~Kunz}: \emph{Characterizations of regular local rings for
+  characteristic {$p$}}, Amer. J. Math. \textbf{91} (1969), 772--784.
 
 \bibitem[LT]{DmodulesSource}
 {\sc A.~Leykin and H.~Tsai}: \emph{{Dmodules: functions for computations with
