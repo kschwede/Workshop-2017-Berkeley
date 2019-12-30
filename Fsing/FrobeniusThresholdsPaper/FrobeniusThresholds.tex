@@ -444,28 +444,20 @@ i4 : isFPT(1/2, z - 1, AtOrigin => true)
 o4 = false
 \end{MyVerbatim}
 }
+
 \smallskip
 
-\noindent \textcolor{red}{Alternative to the next two paragraphs:}
-
-% \textcolor{blue}{Within the \emph{TestIdeals} package, the functions \texttt{testIdeal} and \texttt{FPureModule} are used to compute the test ideals of $f$ at different parameters.
-% By comparing test ideals of $f$ at different parameters, we can decide  whether $t$ is the $F$-pure threshold of $f$. 
-% Since not only the $F$-pure thresholds, but also the higher $F$-jumping numbers, are determined by containment conditions on test ideals, the functionality is extended to determine whether a given number is an $F$-jumping number.}
-% 
-% \noindent \textcolor{red}{Another possibility:}
-
-\textcolor{blue}{
-   The general method applied calls upon functionality from the \emph{TestIdeals} package.
+The general method applied calls upon functionality from the \emph{TestIdeals} package.
    The test ideals $\tau(f^t)$ of $f$ vary discretely with the parameter $t$; the function \texttt{FPureModule} in \emph{TestIdeals} is used  to compute the ``last'' test ideal of $f$ with parameter in the interval $[0,t)$.
    Comparing this with the test ideal $\tau(f^t)$, computed by the function \texttt{testIdeal}, we can determine whether $t$ is an $F$-jumping number of $f$, or more specifically, the $F$-pure threshold of $f$.
-}
+   
 
-The general method applied calls upon functionality from the \emph{TestIdeals} package.
-The functions \texttt{testIdeal} and \texttt{FPureModule} therein are used to compute the test ideals $\tau(f^t)$ and $\tau(f^{t-\varepsilon})$, for $0<\varepsilon\ll 1$.
-By comparing these test ideals, we can decide whether $t$ is the $F$-pure threshold of $f$.
-For instance, when $R$ is a polynomial ring, $t$ is the $F$-pure threshold of $f$ at the origin if and only if $\tau(f^t)$ is contained in the homogeneous maximal ideal, but $\tau(f^{t-\varepsilon})$ is not.
-
-Since not only the $F$-pure thresholds, but also the higher $F$-jumping numbers, are determined by containment conditions on test ideals, the functionality is extended to determine whether a given number is an $F$-jumping number.
+% The general method applied calls upon functionality from the \emph{TestIdeals} package.
+% The functions \texttt{testIdeal} and \texttt{FPureModule} therein are used to compute the test ideals $\tau(f^t)$ and $\tau(f^{t-\varepsilon})$, for $0<\varepsilon\ll 1$.
+% By comparing these test ideals, we can decide whether $t$ is the $F$-pure threshold of $f$.
+% For instance, when $R$ is a polynomial ring, $t$ is the $F$-pure threshold of $f$ at the origin if and only if $\tau(f^t)$ is contained in the homogeneous maximal ideal, but $\tau(f^{t-\varepsilon})$ is not.
+% 
+% Since not only the $F$-pure thresholds, but also the higher $F$-jumping numbers, are determined by containment conditions on test ideals, the functionality is extended to determine whether a given number is an $F$-jumping number.
 
 \smallskip
 {\small
