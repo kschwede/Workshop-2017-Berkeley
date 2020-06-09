@@ -1,0 +1,175 @@
+190624-Witt-v2 (FrobeniusThresholds)
+
+The package consists of 3600 lines of code and documentation, so it is
+substantial.  It installs and the tests work without error.  The package is in
+pretty good shape.
+
+=============================================================================
+comments on the code
+
+Please remove the redundant top level directory submission-files/ from the zip
+file.
+
+The package TestIdeals has already been published, and there is no need to
+include it in the zip file.
+
+Consider choosing a better name for the function "nu", which is simply the
+English spelling of a random Greek letter, and thus is not descriptive.
+Something with words in it, such as "containmentPower", or even "index".
+
+Consider renaming "fpt" to "pureThreshold" and "isFPT" to "isPureThreshold".
+(The "F" for "Frobenius" can be assumed.)
+
+Consider removing redundant parentheses, as in these lines:
+
+		if (I1 == ideal sub(0, S1)) then (
+
+		while ((i < #genList) and (x == sub(0, S1))) do(
+
+		ideal(x) : (ideal(x) : I1)
+
+		annihilator(coker ddual)
+
+	    	(Hom(Hom(M1, S1^1), S1^1))
+
+		if (o.IsGraded==true) then (
+
+
+If o.IsGraded is always a Boolean value, then instead of 
+
+		if (o.IsGraded==true) then (
+
+write
+
+		if o.IsGraded then (
+
+Similarly, instead of
+
+		if (isWellDefined(h) == false) then
+
+you can write
+
+		if not isWellDefined h then
+
+Fix all such comparisons with "true" and "false".
+
+
+
+The value of an "if" expression is "null" if the predicate is false, so this
+can be omitted:
+
+    else (
+        null
+    )
+
+
+Change "if" to "whether" in
+
+       Verifying if special algorithms apply...
+
+
+The newline characters in verbose messages such as this one
+
+        if o.Verbose then print "\nVerifying if special algorithms apply...";
+
+resulting in double-spaced output, wasting space on the screen and on the pages
+of the article.
+
+
+
+
+=============================================================================
+comments on the documentation
+
+In
+
+	 "Takes on lists consisting of two numbers"
+
+I don't know what "takes on lists" means.  Maybe say "accepts a list"?
+
+
+Change
+
+  	"whether to only consider the behavior at the origin"
+
+to
+
+  	"whether to consider only the behavior at the origin"
+
+
+In
+
+	"toggles verbose output"
+
+you don't mean what you say, since "toggle" replaces false by true and true by
+false.  You mean "whether the output is to be verbose"
+
+
+
+In
+
+	Consider a Veronese subring (which is étale in codimension 1)
+
+the use of "étale" is incorrect -- it should be applied to ring homomorphism,
+not to a ring.
+
+
+
+
+
+=============================================================================
+comments on the article
+
+
+This
+
+	 the condition that the Frobenius morphism splits as a map of rings
+
+is ambiguous.  Do you mean "is a split surjection" or "is a split injection"?
+
+
+It would be better if comments in the displayed example code, such as "uses
+binary search (default)", were in the surrounding text, because then complete
+sentences could be used, and they would be read by the reader in the normal
+sequence.  For this purpose, displays could be split, to allow comments in the
+text between the two parts.
+
+
+The displayed example output seems to be a diffferent color, which is
+disconcerting.
+
+
+The displayed example output would look better if it were indented.
+
+
+
+The use of "in" in
+
+    	      f is a product of factors in simple normal crossing
+
+sounds peculiar, as does speaking of f instead of its zero set.  Perhaps say
+something like
+
+		f defines a simple normal crossing divisor
+
+
+You use "isSimpleNormalCrossings" in the text, but "isSimpleNormalCrossing" in
+the code.
+
+
+It's adverbs that come after verbs, so change
+
+		can be used independent of
+
+to
+
+		can be used independently of
+
+
+
+
+
+
+=============================================================================
+
+

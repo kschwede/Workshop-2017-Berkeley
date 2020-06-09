@@ -27,8 +27,8 @@ document {
     BOLD "Contributors", BR{}, BR{},
     "We sincerely thank the following people, who contributed code to this package.",
        UL {
-        {HREF{"https://www.juniata.edu/academics/departments/mathematics/faculty.php", "Erin Bela"}},
-        {HREF{"https://sst.nu.edu.kz/en/zhibek-kadyrsizova/","Zhibek Kadyrsizova"}},
+        {"Erin Bela"},
+        {HREF{"https://nu.edu.kz/faculty/zhibek-kadyrsizova","Zhibek Kadyrsizova"}},
         {HREF{"http://www.katzman.staff.shef.ac.uk/", "Mordechai Katzman"}},
         {HREF{"https://www.hood.edu/academics/faculty/sara-malec","Sara Malec"}},
         {HREF{"http://www.math.utah.edu/~robinson/", "Marcus Robinson"}}
