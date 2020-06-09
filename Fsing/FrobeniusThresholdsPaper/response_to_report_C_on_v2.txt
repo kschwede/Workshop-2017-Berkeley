@@ -20,20 +20,11 @@ Something with words in it, such as "containmentPower", or even "index".
 Consider renaming "fpt" to "pureThreshold" and "isFPT" to "isPureThreshold".
 (The "F" for "Frobenius" can be assumed.)
 
-Consider removing redundant parentheses, as in these lines:
+Consider removing redundant parentheses...
 
-		if (I1 == ideal sub(0, S1)) then (
-
-		while ((i < #genList) and (x == sub(0, S1))) do(
-
-		ideal(x) : (ideal(x) : I1)
-
-		annihilator(coker ddual)
-
-	    	(Hom(Hom(M1, S1^1), S1^1))
-
-		if (o.IsGraded==true) then (
-
+-----------------------------------------------------------------------------
+In progress...
+*****************************************************************************
 
 If o.IsGraded is always a Boolean value, then instead of 
 
@@ -53,7 +44,9 @@ you can write
 
 Fix all such comparisons with "true" and "false".
 
-
+-----------------------------------------------------------------------------
+Done.
+*****************************************************************************
 
 The value of an "if" expression is "null" if the predicate is false, so this
 can be omitted:
@@ -62,11 +55,17 @@ can be omitted:
         null
     )
 
-
+-----------------------------------------------------------------------------
+We'd rather keep the "else null", to make clear the intention to return null.
+*****************************************************************************
+    
 Change "if" to "whether" in
 
        Verifying if special algorithms apply...
 
+-----------------------------------------------------------------------------
+Done.
+*****************************************************************************
 
 The newline characters in verbose messages such as this one
 
@@ -75,8 +74,9 @@ The newline characters in verbose messages such as this one
 resulting in double-spaced output, wasting space on the screen and on the pages
 of the article.
 
-
-
+-----------------------------------------------------------------------------
+Done.
+*****************************************************************************
 
 =============================================================================
 comments on the documentation

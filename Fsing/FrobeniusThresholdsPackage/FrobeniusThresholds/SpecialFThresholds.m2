@@ -345,7 +345,7 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     if pos != { } then
     (
 	if opt#Verbose then
-	    print( "\nOne of the multiplicities, a_i = " | toString a_pos_0 | ", is >= degree(F)/2, so fpt(F) = 1/a_i.");
+	    print( "One of the multiplicities, a_i = " | toString a_pos_0 | ", is >= degree(F)/2, so fpt(F) = 1/a_i.");
 	return  1/a_pos_0
     );
 
@@ -363,7 +363,7 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
 	    F := product( S#"polylist", a, ( f, i ) -> f^i );
 	    if isFPT( 2/deg, F ) then
 	    (
-		if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
+		if opt#Verbose then print "The fpt is the lct, 2/deg(F).";
 		return 2/deg
 	    )
 	    else mult = infinity
@@ -386,12 +386,12 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     );
     if isProper I and e == mult then
     (
-	if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
+	if opt#Verbose then print "The fpt is the lct, 2/deg(F).";
 	return 2/deg
     )
     else
     (
-	if opt#Verbose then print "\nThe fpt is NOT the lct, 2/deg(F).";
+	if opt#Verbose then print "The fpt is NOT the lct, 2/deg(F).";
     );
     e0 := e - 1;
     S1 := setFTData( ideals_e0, polys );
@@ -406,7 +406,7 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     );
     cp = cp/p^e0 + adicTruncation( p, e0, u ); -- "zoom out"
     if opt#Verbose then
-        print ( "\nThe fpt is determined by the critical point " | toString cp );
+        print ( "The fpt is determined by the critical point " | toString cp );
     max apply( cp, a, ( c, k ) -> c/k )
 )
 
@@ -428,7 +428,7 @@ binaryFormFPT RingElement :=  QQ => opt ->  F ->
     deg := (degree F)_0;
     if isFPT( 2/deg, F ) then
     (
-	if opt#Verbose then print "\nThe fpt is the lct, 2/deg(F).";
+	if opt#Verbose then print "The fpt is the lct, 2/deg(F).";
 	return 2/deg
     );
 

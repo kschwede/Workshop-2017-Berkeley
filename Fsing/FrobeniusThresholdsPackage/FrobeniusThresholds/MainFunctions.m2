@@ -140,7 +140,7 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -----------------
     -- SOME CHECKS --
     -----------------
-    -- Verify if option values are valid
+    -- Verify whether option values are valid
     checkOptions( o,
 	{
 	    ContainmentTest => { StandardPower, FrobeniusRoot, FrobeniusPower, null },
@@ -223,13 +223,13 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     -- choose appropriate containment test, if not specified by user
     if conTest === null then conTest = (if isPrincipal then FrobeniusRoot else StandardPower);
     if not o.AtOrigin then conTest = GlobalFrobeniusRoot;
-    if o.Verbose then print("\nnuInternal: using comparison test " | toString conTest);
+    if o.Verbose then print("nuInternal: using comparison test " | toString conTest);
     testFct := test#(conTest);
     local N;
     local nu;
     nu = if o.AtOrigin then nu1( g, J ) else 0;
     theList := { nu };
-    if o.Verbose then print( "\nν(1) = " | toString nu );
+    if o.Verbose then print( "ν(1) = " | toString nu );
 
     ----------------------
     -- EVERY OTHER CASE --
@@ -301,23 +301,23 @@ attemptsDefault := 3;
 guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => false, AtOrigin => true } >> o -> ( f, a, b ) ->
 (
     maxChecks := o.Attempts;
-    if o.Verbose then print "\nStarting guessFPT ...";
+    if o.Verbose then print "Starting guessFPT ...";
     -- Check if fpt is the upper bound b
     if isFPT( b, f, AtOrigin => o.AtOrigin ) then
     (
-        if o.Verbose then print( "\nfpt is the right-hand endpoint." );
+        if o.Verbose then print( "fpt is the right-hand endpoint." );
         return b
     )
-    else if o.Verbose then print "\nThe right-hand endpoint is not the fpt ...";
+    else if o.Verbose then print "The right-hand endpoint is not the fpt ...";
     -- Check if fpt is the lower bound a
     if maxChecks >= 2 then
         if not isFRegular( a, f, AtOrigin => o.AtOrigin, AssumeDomain => true ) then
 	(
 	    if o.Verbose then
-	        print( "\nfpt is the left-hand endpoint." );
+	        print( "fpt is the left-hand endpoint." );
 	    return a
 	)
-        else if o.Verbose then print "\nThe left-hand endpoint is not the fpt ...";
+        else if o.Verbose then print "The left-hand endpoint is not the fpt ...";
     -- Now proceed with more checks
     counter := 3;
     local t;
@@ -340,7 +340,7 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
         if comp == 0 then  -- found exact FPT! YAY!
         (
 	    if o.Verbose then
-    	        print( "\nguessFPT found the exact value for fpt(f) in try number " | toString counter | "." );
+    	        print( "guessFPT found the exact value for fpt(f) in try number " | toString counter | "." );
     	    return t
     	);
         if comp == 1 then -- t > fpt
@@ -362,7 +362,7 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
         counter = counter + 1
     );
     if o.Verbose and ( A != a or B != b ) then
-        print( "\nguessFPT narrowed the interval down to (" | toString A | "," | toString B | ") ..." );
+        print( "guessFPT narrowed the interval down to (" | toString A | "," | toString B | ") ..." );
     { A, B }
 )
 
@@ -384,7 +384,7 @@ fpt = method(
 
 fpt RingElement := o -> f ->
 (
-    if o.Verbose then print "\nStarting fpt ...";
+    if o.Verbose then print "Starting fpt ...";
 
     ---------------------
     -- RUN SEVERAL CHECKS
@@ -419,7 +419,7 @@ fpt RingElement := o -> f ->
     if isMonomial f then
     (
         if o.Verbose then
-            print "\nPolynomial is a monomial; calling monomialFPT ...";
+            print "Polynomial is a monomial; calling monomialFPT ...";
         return monomialFPT f;
     );
 
@@ -428,45 +428,45 @@ fpt RingElement := o -> f ->
     ----------------------
     if o.AtOrigin and not isSubset( ideal f^(p-1), frobenius M ) then
     (
-        if o.Verbose then print "\nν(1,f) = p-1, so fpt(f) = 1.";
+        if o.Verbose then print "ν(1,f) = p-1, so fpt(f) = 1.";
         return 1
     );
-    if o.Verbose then print "\nfpt is not 1 ...";
+    if o.Verbose then print "fpt is not 1 ...";
 
     ---------------------------------------------
     -- CHECK IF SPECIAL ALGORITHMS CAN BE USED --
     ---------------------------------------------
     if o.UseSpecialAlgorithms then
     (
-        if o.Verbose then print "\nVerifying if special algorithms apply...";
+        if o.Verbose then print "Verifying whether special algorithms apply...";
         if o.AtOrigin and isDiagonal f then
         (
             if o.Verbose then
-                print "\nPolynomial is diagonal; calling diagonalFPT ...";
+                print "Polynomial is diagonal; calling diagonalFPT ...";
                 return diagonalFPT f
                 );
 
         if o.AtOrigin and isBinomial f then
         (
             if o.Verbose then
-	        print "\nPolynomial is a binomial; calling binomialFPT ...";
+	        print "Polynomial is a binomial; calling binomialFPT ...";
             return binomialFPT f
         );
         if o.AtOrigin and isBinaryForm f then
         (
             if o.Verbose then
-	        print "\nPolynomial is a binary form; calling binaryFormFPT ...";
+	        print "Polynomial is a binary form; calling binaryFormFPT ...";
             return binaryFormFPT( f, Verbose => o.Verbose )
         );
         prod := factor f;
         if isSimpleNormalCrossing(prod, AtOrigin => o.AtOrigin) then
         (
             if o.Verbose then
-                print "\nPolynomial is a simple normal crossing; calling sncFPT ...";
+                print "Polynomial is a simple normal crossing; calling sncFPT ...";
             return sncFPT(prod, AtOrigin => o.AtOrigin);
         );
     );
-    if o.Verbose then print "\nSpecial fpt algorithms were not used ...";
+    if o.Verbose then print "Special fpt algorithms were not used ...";
 
     -----------------------------------------------
     -- COMPUTE NU TO FIND UPPER AND LOWER BOUNDS --
@@ -479,19 +479,19 @@ fpt RingElement := o -> f ->
     strictUB := false;
     if o.Verbose then
     (
-         print( "\nν has been computed: ν = nu(" | toString e | ",f) = " | toString n | " ..." );
-         print( "\nfpt lies in the interval [ν/(p^e-1),(ν+1)/p^e] = [" | toString LB | "," | toString UB | "] ..." )
+         print( "ν has been computed: ν = nu(" | toString e | ",f) = " | toString n | " ..." );
+         print( "fpt lies in the interval [ν/(p^e-1),(ν+1)/p^e] = [" | toString LB | "," | toString UB | "] ..." )
     );
     if LB < (o.Bounds)#0 then
     (
         if o.Verbose then
-            print( "\nThe lower bound ν/(p^e-1) = " | toString LB | " was replaced with " | toString( (o.Bounds)#0 ) );
+            print( "The lower bound ν/(p^e-1) = " | toString LB | " was replaced with " | toString( (o.Bounds)#0 ) );
         LB = (o.Bounds)#0
     );
     if UB > (o.Bounds)#1 then
     (
         if o.Verbose then
-            print( "\nThe upper bound (nu+1)/p^e = " | toString UB | " was replaced with " | toString( (o.Bounds)#1 ) );
+            print( "The upper bound (nu+1)/p^e = " | toString UB | " was replaced with " | toString( (o.Bounds)#1 ) );
         UB = (o.Bounds)#1
     );
 
@@ -514,44 +514,44 @@ fpt RingElement := o -> f ->
     ---------------------------------------
     if o.AtOrigin and o.FinalAttempt then
     (
-        if o.Verbose then print "\nBeginning F-signature computation ...";
+        if o.Verbose then print "Beginning F-signature computation ...";
         s1 := fSig( f, n-1, e );
         if o.Verbose then
-	    print( "\nFirst F-signature computed: s(f,(ν-1)/p^e) = " | toString s1 | " ..." );
+	    print( "First F-signature computed: s(f,(ν-1)/p^e) = " | toString s1 | " ..." );
         s2 := fSig( f, n, e );
         if o.Verbose then
-            print( "\nSecond F-signature computed: s(f,ν/p^e) = " | toString s2 | " ..." );
+            print( "Second F-signature computed: s(f,ν/p^e) = " | toString s2 | " ..." );
         -- Compute intercept of line through ((nu-1)/p^2,s1) and (nu/p^e,s2)
         int := xInt( (n-1)/p^e, s1, n/p^e, s2 );
         if o.Verbose then
-            print("\nComputed F-signature secant line intercept: " | toString int | " ...");
+            print("Computed F-signature secant line intercept: " | toString int | " ...");
         -- Now check to see if F-signature line crosses at UB. If so, then that's the fpt
         if UB == int then
         (
 	    if  o.Verbose then
-	        print "\nF-signature secant line crosses at the upper bound, so that is the fpt.";
+	        print "F-signature secant line crosses at the upper bound, so that is the fpt.";
 	    return int
         );
         -- Compare the intercept with the current lower bound
 	if LB < int then
         (
 	    if o.Verbose then
-	        print "\nF-signature intercept is an improved lower bound;\nUsing F-regularity to check if it is the fpt ...";
+	        print "F-signature intercept is an improved lower bound;\nUsing F-regularity to check if it is the fpt ...";
 	    LB = int;
             if not isFRegular( LB, f, AtOrigin => true, AssumeDomain => true ) then
             (
 	       if o.Verbose then
-	           print "\nFinal check successful; fpt is the lower bound.";
+	           print "Final check successful; fpt is the lower bound.";
 	       return LB
       	    )
 	    else
 	    (
-	        if o.Verbose then print "\nThe new lower bound is not the fpt ...";
+	        if o.Verbose then print "The new lower bound is not the fpt ...";
 	        strictLB = true
 	    )
         )
         else if o.Verbose then
-            print "\nF-signature computation failed to find an improved lower bound ...";
+            print "F-signature computation failed to find an improved lower bound ...";
     );
 
     -----------------
@@ -559,9 +559,9 @@ fpt RingElement := o -> f ->
     -----------------
     if o.Verbose then
     (
-	print "\nfpt failed to find the exact answer; try increasing the value of DepthOfSearch or Attempts.";
+	print "fpt failed to find the exact answer; try increasing the value of DepthOfSearch or Attempts.";
         print(
-	    "\nfpt lies in the interval " |
+	    "fpt lies in the interval " |
 	    ( if strictLB then "(" else "[" ) |
 	    toString LB |
 	    "," |
@@ -954,13 +954,11 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
                 computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, sub( computedHSLGInitial, S1 ) );
             );
             if o.Verbose or debugLevel > 1 then print concatenate("isFJumpingExponent: testIdeal(f^(t-epsilon)) = ", toString(sub(computedHSLG, R1)));
-            if not o.AtOrigin then (
-                if (sub(computedHSLG, R1) == computedTau) then return false else return true;
+            if not o.AtOrigin then
+                return not sub( computedHSLG, R1 ) == computedTau
                 --we figured it out, return the value
-            )
-            else (
-                if (saturate(sub(computedHSLG, R1)) == saturate(computedTau)) then return false else return true;
-            )
+            else 
+                return not saturate sub( computedHSLG, R1 ) == saturate computedTau
         )
         else h1 = 0_S1
     );
@@ -1022,13 +1020,10 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
     if o.Verbose or debugLevel > 1 then
         print concatenate("isFJumpingExponent: testIdeal(f^(t-epsilon)) = ", toString(((computedHSLG * R1 ) : newDenom)));
 
-    if not o.AtOrigin then (
-        if ( ((computedHSLG * R1 ) : newDenom) == computedTau) then return false else return true;
-        --we found the answer
-    )
-    else(
-        if ( saturate(((computedHSLG * R1 ) : newDenom)) == saturate(computedTau)) then return false else return true;
-    )
+    if not o.AtOrigin then 
+        return not (computedHSLG * R1 ) : newDenom == computedTau
+    else
+        return not saturate( (computedHSLG * R1 ) : newDenom ) == saturate computedTau
 )
 
 isFJumpingExponentPoly = method( Options => { FrobeniusRootStrategy => Substitution, AtOrigin => false, Verbose => false } )
