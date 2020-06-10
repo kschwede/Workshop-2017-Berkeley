@@ -6,7 +6,7 @@ doc ///
     Description
         Text
             An option for the function @TO fpt@ specifying bounds for the $F$-pure threshold.
-            Takes on lists consisting of two numbers, namely a lower and an upper bound for the $F$-pure threshold being computed.
+            {\tt Bounds} accepts lists consisting of two numbers, namely a lower and an upper bound for the $F$-pure threshold being computed.
             This useful feature allows the user to refine bounds obtained in previous computations, as illustrated below.
         Example
             R = ZZ/5[x,y];
@@ -39,13 +39,13 @@ doc ///
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
         AtOrigin => Boolean
-            tells the function whether to only consider the behavior at the origin
+            tells the function whether to consider only the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
         Verbose => Boolean
-            toggles verbose output
+            whether the output is to be verbose
     Outputs
         :ZZ
             namely {\tt -1}, {\tt 1}, or {\tt 0}, according as {\tt t} is less than, greater than, or equal to the $F$-pure threshold of {\tt f}
@@ -68,7 +68,7 @@ doc ///
              compareFPT(1/2, x)
              compareFPT(13/25, x)
         Text
-           Consider a Veronese subring (which is étale in codimension 1),
+           Consider a Veronese embedding (which is étale in codimension 1),
             so the $F$-pure threshold of the given polynomial (in this case 19/125) should be independent of which ring we are in.
         Example
             T = ZZ/5[a,b];
@@ -390,13 +390,13 @@ doc ///
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
         AtOrigin => Boolean
-            tells the function whether to only consider the behavior at the origin
+            tells the function whether to consider only the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
         Verbose => Boolean
-            toggles verbose output
+            whether the output is to be verbose
     Outputs
         :Boolean
             reporting whether {\tt t} is an $F$-jumping exponent of {\tt f}
@@ -470,13 +470,13 @@ doc ///
         FrobeniusRootStrategy => Symbol
             passed to computations in the @TO TestIdeals@ package
         AtOrigin => Boolean
-            tells the function whether to only consider the behavior at the origin
+            tells the function whether to consider only the behavior at the origin
         MaxCartierIndex => ZZ
             sets the maximum $\mathbb{Q}$-Gorenstein index to search for
         QGorensteinIndex => ZZ
             specifies the $\mathbb{Q}$-Gorenstein index of the ring
         Verbose => Boolean
-            toggles verbose output
+            whether the output is to be verbose
     Outputs
         :Boolean
             reporting whether {\tt t} is the $F$-pure threshold of {\tt f}
