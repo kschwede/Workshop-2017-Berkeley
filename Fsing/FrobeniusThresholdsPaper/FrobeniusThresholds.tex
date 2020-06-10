@@ -29,9 +29,9 @@
 %\newcommand{\fram}{\mathfrak{m}}
 
 \usepackage{fancyvrb}
-\DefineVerbatimEnvironment%
-{MyVerbatim}{Verbatim}
-{formatcom=\color{Violet}}
+% \DefineVerbatimEnvironment%
+% {MyVerbatim}{Verbatim}
+% {formatcom=\color{Violet}}
 
 \usepackage{fancyhdr}
 
@@ -223,7 +223,7 @@ When the third argument is omitted from the function \texttt{nu}, it is assumed 
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i1 : R = ZZ/11[x,y];
 
 i2 : I = ideal(x^2 + y^3, x*y);
@@ -243,7 +243,7 @@ i5 : f = x*y*(x^2 + y^2);
 i6 : nu(2, f, J)
 
 o6 = 120
-\end{MyVerbatim}
+\end{Verbatim}
 }
 
 
@@ -264,7 +264,7 @@ The user can specify how the search is approached through the option \texttt{Sea
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i7 : R = ZZ/5[x,y,z];
 
 i8 : m = ideal(x, y, z);
@@ -280,7 +280,7 @@ i10 : time nu(2, m, m^2, Search => Linear) -- but linear search gets luckier
      -- used 0.597035 seconds
 
 o10 = 97
-\end{MyVerbatim}
+\end{Verbatim}
 }
 %\medskip
 \smallskip
@@ -295,13 +295,13 @@ If the option \texttt{ReturnList} is changed from its default value of \texttt{f
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i11 : nu(5, x^2*y^4 + y^2*z^7 + z^2*x^8, ReturnList => true)
 
 o11 = {0, 1, 8, 44, 224, 1124}
 
 o11 : List
-\end{MyVerbatim}
+\end{Verbatim}
 }
 %\medskip
 \smallskip
@@ -322,7 +322,7 @@ For efficiency reasons, the default value for \texttt{ContainmentTest} is set to
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i12 : R = ZZ/11[x,y,z];
 
 i13 : f = x^3 + y^3 + z^3 + x*y*z;
@@ -336,7 +336,7 @@ i15 : time nu(3, f, ContainmentTest => StandardPower)
      -- used 10.1343 seconds
 
 o15 = 1209
-\end{MyVerbatim}
+\end{Verbatim}
 }
 %\medskip
 
@@ -348,7 +348,7 @@ However, these numbers need not agree in general, as we see below.
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i16 : R = ZZ/3[x,y];
 
 i17 : m = ideal(x, y);
@@ -362,7 +362,7 @@ o18 = 32
 i19 : nu(4, m^5, ContainmentTest => FrobeniusPower)
 
 o19 = 26
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -374,7 +374,7 @@ This feature can be disabled by setting the option \texttt{UseSpecialAlgorithms}
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i20 : R = ZZ/17[x,y,z];
 
 i21 : f = x^3 + y^4 + z^5; -- a diagonal polynomial
@@ -388,7 +388,7 @@ i23 : time nu(10, f, UseSpecialAlgorithms => false)
      -- used 2.06877 seconds
 
 o23 = 1541642394460
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -401,7 +401,7 @@ When the option \texttt{AtOrigin} is set to \texttt{false} (from its default val
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i24 : R = ZZ/7[x,y];
 
 i25 : f = (x - 1)^3 - (y - 2)^2;
@@ -415,7 +415,7 @@ o26 : InfiniteNumber
 i27 : nu(3, f, AtOrigin => false)
 
 o27 = 285
-\end{MyVerbatim}
+\end{Verbatim}
 }
 
 \section{{\tt isFPT}, {\tt compareFPT} and {\tt isFJumpingExponent}}
@@ -428,7 +428,7 @@ Given a parameter $t\in \mathbb{Q}$ and an element $f$ of $R$, the command \text
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i1 : R = ZZ/11[x,y,z]/(x^2 - y*(z - 1));
 
 i2 : compareFPT(5/11, z - 1)
@@ -442,7 +442,7 @@ o3 = true
 i4 : isFPT(1/2, z - 1, AtOrigin => true)
 
 o4 = false
-\end{MyVerbatim}
+\end{Verbatim}
 }
 
 \smallskip
@@ -462,7 +462,7 @@ The general method applied calls upon functionality from the \emph{TestIdeals} p
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i5 : R = ZZ/13[x,y];
 
 i6 : f = y*((y + 1) - (x - 1)^2)*(x - 2)*(x + y - 2);
@@ -474,7 +474,7 @@ o7 = true
 i8 : isFPT(3/4, f)
 
 o8 = false
-\end{MyVerbatim}
+\end{Verbatim}
 }
 
 
@@ -486,7 +486,7 @@ The core function in the package \emph{FrobeniusThresholds} is called \texttt{fp
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i1 : R = ZZ/5[x,y,z];
 
 i2 : fpt(x^3 + y^3 + z^3 + x*y*z)
@@ -504,7 +504,7 @@ o3 = {--, -}
       25  5
 
 o3 : List
-\end{MyVerbatim}
+\end{Verbatim}
 }
 
 
@@ -517,7 +517,7 @@ When $f$ is a diagonal polynomial, a binomial, or a form in two variables, algor
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i4 : fpt(x^17 + y^20 + z^24) -- a diagonal polynomial
 
       94
@@ -543,7 +543,7 @@ o7 = -----
      78125
 
 o7 : QQ
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -554,11 +554,11 @@ However, when a factorization is already known, instead of passing $f$ to \textt
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i8 : fpt({x, y, x + y, x + 3*y}, {2, 6, 9, 10}) == oo
 
 o8 = true
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -587,7 +587,7 @@ With these estimates in hand, the subroutine \texttt{guessFPT} is called to make
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i9 : f = x^2*(x + y)^3*(x + 3*y^2)^5;
 
 i10 : fpt(f, Attempts => 0) -- a bad estimate
@@ -614,7 +614,7 @@ o12 = ---
       125
 
 o12 : QQ
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -623,7 +623,7 @@ If  \texttt{Attempts} is set to at least \texttt{2} and the right-hand endpoint 
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i13 : f = x^6*y^4 + x^4*y^9 + (x^2 + y^3)^3;
 
 i14 : fpt(f, Attempts => 1, DepthOfSearch => 3)
@@ -642,7 +642,7 @@ o15 = --
       62
 
 o15 : QQ
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -653,7 +653,7 @@ Then the function \texttt{compareFPT} is used to test that number. If that ``gue
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i16 : f = x^3*y^11*(x + y)^8*(x^2 + y^3)^8;
 
 i17 : fpt(f, DepthOfSearch => 3, Attempts => 4)
@@ -679,7 +679,7 @@ o19 = --
       19
 
 o19 : QQ
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -689,7 +689,7 @@ The option \texttt{Bounds} allows the user to specify known lower and upper boun
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i20 : f = x^7*y^5*(x + y)^5*(x^2 + y^3)^4;
 
 i21 : fpt(f, DepthOfSearch => 3, Attempts => 5)
@@ -707,7 +707,7 @@ o22 = {---, --}
        589  13
 
 o22 : List
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -718,7 +718,7 @@ If this is not the case, a check is performed to verify if the new lower bound i
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i23 : f = 2*x^10*y^8 + x^4*y^7 - 2*x^3*y^8;
 
 i24 : numeric fpt(f, DepthOfSearch => 3)
@@ -733,7 +733,7 @@ i25 : numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
 o25 = {.142067, .144}
 
 o25 : List
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -743,7 +743,7 @@ It is typically more effective to increase the values of \texttt{Attempts} or \t
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i26 : time numeric fpt(f, DepthOfSearch => 3, FinalAttempt => true)
      -- used 0.72874 seconds
 
@@ -768,7 +768,7 @@ o28 = -
       7
 
 o28 : QQ
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -778,7 +778,7 @@ Whether that interval is open, closed, or a mixed interval depends on the option
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i29 : fpt(f, DepthOfSearch => 3, FinalAttempt => true, Verbose => true)
 
 Starting fpt ...
@@ -824,7 +824,7 @@ o29 = {-----, ---}
        56375  125
 
 o29 : List
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -833,7 +833,7 @@ Finally, we point out that one can set the option \texttt{AtOrigin} from its def
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i30 : R = ZZ/7[x,y];
 
 i31 : f = x*(y - 1)^2 - y*(x - 1)^3;
@@ -849,7 +849,7 @@ o33 = -
       6
 
 o33 : QQ
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
@@ -857,15 +857,15 @@ o33 : QQ
 are ignored, except for the check for simple normal crossings;  \texttt{FinalAttempt => true}
 is also ignored.
 
-\subsection{The function \texttt{isSimpleNormalCrossings}} \label{subsec.SNC}
-As mentioned earlier, the function \texttt{isSimpleNormalCrossings} verifies whether a polynomial $f$ is a product of factors in simple normal crossing.
+\subsection{The function \texttt{isSimpleNormalCrossing}} \label{subsec.SNC}
+As mentioned earlier, the function \texttt{isSimpleNormalCrossing} verifies whether a polynomial $f$ defines a simple normal crossing divisor.
 Suppose that $f$ has factorization $f_1^{a_i} f_2^{a_2} \cdots f_n^{a_n}$.  Recall that its factors $f_i$ are said to be in
-\emph{simple normal crossing} at a point if, locally, they form part of a regular system of parameters.  The function \texttt{isSimpleNormalCrossings} determines whether $f$ has simple normal crossings at the origin by computing the Jacobian matrix of each subset of $\{ f_1, \ldots, f_n \}$ (evaluated at the origin), and checking that these matrices have the expected rank, and that these subsets generate ideals of the appropriate height.
+\emph{simple normal crossing} at a point if, locally, they form part of a regular system of parameters.  The function \texttt{isSimpleNormalCrossing} determines whether $f$ has simple normal crossings at the origin by computing the Jacobian matrix of each subset of $\{ f_1, \ldots, f_n \}$ (evaluated at the origin), and checking that these matrices have the expected rank, and that these subsets generate ideals of the appropriate height.
 
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i34 : R = ZZ/7[x,y,z];
 
 i35 : isSimpleNormalCrossing(x^2 - y^2)
@@ -875,17 +875,17 @@ o35 = true
 i36 : isSimpleNormalCrossing(x^2 - y*z)
 
 o36 = false
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 
-The function \texttt{isSimpleNormalCrossing} is exposed to the user, so can be used independent of any $F$-pure threshold calculation.
+The function \texttt{isSimpleNormalCrossing} is exposed to the user, so can be used independently of any $F$-pure threshold calculation.
 If the user sets its option \texttt{AtOrigin} to \texttt{false} (its default value is \texttt{true}), then the function checks whether the $f_i$ are in simple normal crossing \emph{everywhere}, which can be much slower, since Jacobian ideals are computed.
 
 \smallskip
 {\small
 \setstretch{.67}
-\begin{MyVerbatim}
+\begin{Verbatim}
 i37 : R = QQ[x,y,z];
 
 i38 : f = (y - (x - 1)^2)*y^2; --SNC at the origin, but not globally
@@ -897,7 +897,7 @@ o39 = true
 i40 : isSimpleNormalCrossing(f, AtOrigin => false)
 
 o40 = false
-\end{MyVerbatim}
+\end{Verbatim}
 }
 \smallskip
 

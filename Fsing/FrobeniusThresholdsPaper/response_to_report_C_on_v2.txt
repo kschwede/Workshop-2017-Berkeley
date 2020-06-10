@@ -26,6 +26,8 @@ Consider removing redundant parentheses...
 
 -----------------------------------------------------------------------------
 In progress...
+-----------------------------------------------------------------------------
+
 *****************************************************************************
 
 If o.IsGraded is always a Boolean value, then instead of 
@@ -48,6 +50,8 @@ Fix all such comparisons with "true" and "false".
 
 -----------------------------------------------------------------------------
 Done.
+-----------------------------------------------------------------------------
+
 *****************************************************************************
 
 The value of an "if" expression is "null" if the predicate is false, so this
@@ -59,6 +63,8 @@ can be omitted:
 
 -----------------------------------------------------------------------------
 We'd rather keep the "else null", to make clear the intention to return null.
+-----------------------------------------------------------------------------
+
 *****************************************************************************
     
 Change "if" to "whether" in
@@ -67,6 +73,8 @@ Change "if" to "whether" in
 
 -----------------------------------------------------------------------------
 Done.
+-----------------------------------------------------------------------------
+
 *****************************************************************************
 
 The newline characters in verbose messages such as this one
@@ -78,7 +86,7 @@ of the article.
 
 -----------------------------------------------------------------------------
 Those were removed.
-*****************************************************************************
+-----------------------------------------------------------------------------
 
 =============================================================================
 comments on the documentation
@@ -107,7 +115,6 @@ you don't mean what you say, since "toggle" replaces false by true and true by
 false.  You mean "whether the output is to be verbose"
 
 
-
 In
 
 	Consider a Veronese subring (which is étale in codimension 1)
@@ -117,8 +124,7 @@ not to a ring.
 
 -----------------------------------------------------------------------------
 All of the above were fixed.
-*****************************************************************************
-
+-----------------------------------------------------------------------------
 
 =============================================================================
 comments on the article
@@ -130,6 +136,7 @@ This
 
 is ambiguous.  Do you mean "is a split surjection" or "is a split injection"?
 
+*****************************************************************************
 
 It would be better if comments in the displayed example code, such as "uses
 binary search (default)", were in the surrounding text, because then complete
@@ -137,14 +144,20 @@ sentences could be used, and they would be read by the reader in the normal
 sequence.  For this purpose, displays could be split, to allow comments in the
 text between the two parts.
 
+*****************************************************************************
 
 The displayed example output seems to be a diffferent color, which is
 disconcerting.
 
+-----------------------------------------------------------------------------
+The displayed examples are now shown in black.
+-----------------------------------------------------------------------------
+
+*****************************************************************************
 
 The displayed example output would look better if it were indented.
 
-
+*****************************************************************************
 
 The use of "in" in
 
@@ -159,7 +172,6 @@ something like
 You use "isSimpleNormalCrossings" in the text, but "isSimpleNormalCrossing" in
 the code.
 
-
 It's adverbs that come after verbs, so change
 
 		can be used independent of
@@ -168,10 +180,9 @@ to
 
 		can be used independently of
 
-
-
-
-
+-----------------------------------------------------------------------------
+All of the above were fixed.
+-----------------------------------------------------------------------------
 
 =============================================================================
 

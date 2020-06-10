@@ -60,7 +60,7 @@ testRoot = ( J, a, I, e ) -> isSubset( frobeniusRoot( e, a, J ), I )
 --(essentially taking the minimum over all prime I)
 testGlobalRoot = ( J, a, I, e ) -> isProper frobeniusRoot( e, a, J )
 
-testPower = ( J, a, I, e ) -> isSubset( if (isIdeal J) then J^a else ideal J^a, frobenius( e, I ) )
+testPower = ( J, a, I, e ) -> isSubset( if isIdeal J then J^a else ideal J^a, frobenius( e, I ) )
 
 -- testFrobeniusPower(J,a,I,e) checks whether J^[a] is a subset of I^[p^e]
 testFrobeniusPower = method( TypicalValue => Boolean )
@@ -177,8 +177,8 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
     (
         if numgens( g = trim g ) == 1 then
         (
-	        isPrincipal = true;
-	        g = g_*_0
+	    isPrincipal = true;
+	    g = g_*_0
         )
     )
     else isPrincipal = true;
@@ -281,9 +281,9 @@ nu ( ZZ, RingElement ) := o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
 ---	returns value of the F-signature of the pair (R, f^{a/p^e})
 fSig := ( f, a, e ) ->
 (
-     R := ring f;
-     p := char R;
-     1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal f^a )
+    R := ring f;
+    p := char R;
+    1 - p^( -e * dim( R ) ) * degree( frobenius( e, maxIdeal R ) + ideal f^a )
 )
 
 -- some constants associated with guessFPT
@@ -305,7 +305,7 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     -- Check if fpt is the upper bound b
     if isFPT( b, f, AtOrigin => o.AtOrigin ) then
     (
-        if o.Verbose then print( "fpt is the right-hand endpoint." );
+        if o.Verbose then print "fpt is the right-hand endpoint.";
         return b
     )
     else if o.Verbose then print "The right-hand endpoint is not the fpt ...";
@@ -314,7 +314,7 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
         if not isFRegular( a, f, AtOrigin => o.AtOrigin, AssumeDomain => true ) then
 	(
 	    if o.Verbose then
-	        print( "fpt is the left-hand endpoint." );
+	        print "fpt is the left-hand endpoint.";
 	    return a
 	)
         else if o.Verbose then print "The left-hand endpoint is not the fpt ...";
@@ -331,7 +331,7 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
     (
         -- if running out of numbers, load up
         if #numList < minNumCandidates + 2 then
-            ( costList, numList ) = fptGuess(p, A, B, numExtraCandidates, o.GuessStrategy, numList )
+            ( costList, numList ) = fptGuess( p, A, B, numExtraCandidates, o.GuessStrategy, numList )
         else
             -- recompute distances and resort
             costList = sort apply( costList, c -> replace( -2, abs( (A+B)/2 - last c ), c ) );
@@ -371,14 +371,14 @@ guessFPT := { Attempts => attemptsDefault, GuessStrategy => null, Verbose => fal
 fpt = method(
     Options =>
         {
-        Attempts => attemptsDefault,
-        Bounds => { 0, 1 },
-        DepthOfSearch => 1,
-        FinalAttempt => false,
-        GuessStrategy => null,
-        UseSpecialAlgorithms => true,
-        Verbose => false,
-        AtOrigin => true
+            Attempts => attemptsDefault,
+            Bounds => { 0, 1 },
+            DepthOfSearch => 1,
+            FinalAttempt => false,
+            GuessStrategy => null,
+            UseSpecialAlgorithms => true,
+            Verbose => false,
+            AtOrigin => true
 	}
 )
 
@@ -408,9 +408,7 @@ fpt RingElement := o -> f ->
     -- Check if polynomial is in the homogeneous maximal ideal
     M := maxIdeal f;   -- The maximal ideal we are computing the fpt at
     p := char ring f;
-    if (o.AtOrigin and not isSubset( ideal f, M )) or (not o.AtOrigin and isUnit(f))  then (
-        return infinity;
-        );
+    if (o.AtOrigin and not isSubset( ideal f, M )) or (not o.AtOrigin and isUnit f)  then return infinity;
 
     ----------------------------------
     -- DEAL WITH SOME TRIVIAL CASES --
@@ -420,7 +418,7 @@ fpt RingElement := o -> f ->
     (
         if o.Verbose then
             print "Polynomial is a monomial; calling monomialFPT ...";
-        return monomialFPT f;
+        return monomialFPT f
     );
 
     ----------------------
@@ -443,8 +441,8 @@ fpt RingElement := o -> f ->
         (
             if o.Verbose then
                 print "Polynomial is diagonal; calling diagonalFPT ...";
-                return diagonalFPT f
-                );
+            return diagonalFPT f
+        );
 
         if o.AtOrigin and isBinomial f then
         (
@@ -463,8 +461,8 @@ fpt RingElement := o -> f ->
         (
             if o.Verbose then
                 print "Polynomial is a simple normal crossing; calling sncFPT ...";
-            return sncFPT(prod, AtOrigin => o.AtOrigin);
-        );
+            return sncFPT(prod, AtOrigin => o.AtOrigin)
+        )
     );
     if o.Verbose then print "Special fpt algorithms were not used ...";
 
@@ -593,8 +591,8 @@ compareFPT = method(
 	FrobeniusRootStrategy => Substitution,
 	AssumeDomain => true,
 	QGorensteinIndex => 0,
-    AtOrigin => false,
-    Verbose => false
+        AtOrigin => false,
+        Verbose => false
     },
     TypicalValue => ZZ
 )
@@ -645,8 +643,8 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
 	    FrobeniusRootStrategy => { Substitution, MonomialBasis },
 	    AssumeDomain => Boolean,
 	    QGorensteinIndex => ZZ,
-        AtOrigin => Boolean,
-        Verbose => Boolean
+            AtOrigin => Boolean,
+            Verbose => Boolean
 	}
     );
     --first we gather background info on the ring (QGorenstein generators, etc.)
@@ -667,7 +665,7 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
     local a1quot;
     local a1rem;
     local locMax;
-    if o.AtOrigin then (locMax = sub(maxIdeal(S1), R1) ) else (locMax = ideal(0_R1));
+    if o.AtOrigin then locMax = sub( maxIdeal S1, R1) else locMax = ideal 0_R1;
 
     ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
 
@@ -684,12 +682,12 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         (
             if o.Verbose or debugLevel > 1 then print "compareFPT: we found a single generating map.";
             computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, passOptions( o, { AssumeDomain, FrobeniusRootStrategy } ) );
-            if o.Verbose or debugLevel > 1 then print concatenate("compareFPT: testIdeal(f^t) = ", toString(computedTau));
+            if o.Verbose or debugLevel > 1 then print concatenate( "compareFPT: testIdeal(f^t) = ", toString computedTau );
             if isUnitIdeal ( computedTau + locMax ) then return -1;
             --at this point we know that this is not the FPT
             --now we have to run the sigma computation
             baseTau = first testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, passOptions( o, { AssumeDomain, FrobeniusRootStrategy } ) );
-            if o.Verbose or debugLevel > 1 then print concatenate("compareFPT: testIdeal(R) = ", toString(baseTau));
+            if o.Verbose or debugLevel > 1 then print concatenate( "compareFPT: testIdeal(R) = ", toString baseTau );
             if isProper (baseTau + locMax) then
                 error "compareFPT: The ambient ring must be F-regular";
             --the ambient isn't even F-regular
@@ -700,21 +698,23 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
                 computedHSLGInitial = first FPureModule( { a1rem/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => baseTau, GeneratorList => { h1 } );
                 computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1quot }, { h1, sub( f, S1 ) }, sub( computedHSLGInitial, S1 ) );
             )
-            else (
+            else 
+            (
                 computedHSLGInitial = first FPureModule( { a1/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => baseTau, GeneratorList => { h1 } );
                 --the e is assumed to be 1 here since we are implicitly doing stuff
                 computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, sub( computedHSLGInitial, S1 ) );
             );
-            if o.Verbose or debugLevel > 1 then print concatenate("compareFPT: testIdeal(f^(t-epsilon)) = ", toString(computedHSLG));
-            if o.AtOrigin then (locMax = maxIdeal(S1)) else (locMax = ideal(0_S1));
+            if o.Verbose or debugLevel > 1 then 
+                print concatenate( "compareFPT: testIdeal(f^(t-epsilon)) = ", toString computedHSLG );
+            if o.AtOrigin then locMax = maxIdeal S1 else locMax = ideal 0_S1;
             if isProper( computedHSLG + I1 + locMax ) then return 1;
             --the fpt we picked is too big
-            return 0; --we found the FPT!
+            return 0 --we found the FPT!
         )
         else h1 = 0_S1
     );
     --now compute the test ideal in the general way (if the index does not divide...)
-    if (cartIndex % pp == 0) then error "compareFPT: This function requires that the Q-Gorenstein index is not divisible by p.";
+    if cartIndex % pp == 0 then error "compareFPT: This function requires that the Q-Gorenstein index is not divisible by p.";
     gg := first (trim canIdeal)_*;
     dualCanIdeal :=  ideal gg : canIdeal;
     nMinusKX := reflexivePower( cartIndex, dualCanIdeal );
@@ -738,25 +738,23 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
     newDenom := reflexify( canIdeal * dualCanIdeal );
     computedTau = ( runningIdeal * R1 ) : newDenom;
     if o.Verbose or debugLevel > 1 then
-        print concatenate("compareFPT: testIdeal(f^t) = ", toString(computedTau));
+        print concatenate( "compareFPT: testIdeal(f^t) = ", toString computedTau );
     if isUnitIdeal (computedTau + locMax) then return -1;
     --at this point we know that this is not the FPT
 
     --now we compute the base tau
     runningIdeal = ideal 0_S1;
     for x in gensList do
-    (
-        runningIdeal = runningIdeal + first testModule( {1/cartIndex}, {x}, CanonicalIdeal => canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain )
-    );
+        runningIdeal = runningIdeal + first testModule( {1/cartIndex}, {x}, CanonicalIdeal => canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
     baseTau = ( runningIdeal * R1 ) : newDenom;
     if o.Verbose or debugLevel > 1 then
-        print concatenate("compareFPT: testIdeal(R) = ", toString(baseTau));
+        print concatenate( "compareFPT: testIdeal(R) = ", toString baseTau );
     if isProper baseTau then error "compareFPT: The ambient ring must be F-regular";
 
     ( a1x, b1x, c1x ) := decomposeFraction( pp, 1/cartIndex, NoZeroC => true );
-    c2 := lcm(c1, c1x);
-    b2 := ceiling(b1/c1x)*c1x; -- this is how many times to apply our version of trace
-    scale := pp^(b2-b1);
+    c2 := lcm( c1, c1x );
+    b2 := ceiling( b1/c1x )*c1x; -- this is how many times to apply our version of trace
+    scale := pp^( b2 - b1 );
     if a1 > pp^c1 - 1 then
     (
         a1quot = floor( ( a1 - 1 )/( pp^c1 - 1 ) );
@@ -764,20 +762,21 @@ compareFPT ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         computedHSLGInitial = sum apply(gensList, x -> first FPureModule( { a1rem/( pp^c1 - 1 ), 1/cartIndex }, { f, x }, CanonicalIdeal => runningIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy ));
         computedHSLG = sum apply(gensList2, x -> sum( apply(u1, h1 -> frobeniusRoot( b2, { scale*ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), scale*a1quot, a1x*ceiling((pp^b2 - 1)/(pp^c1x - 1)) }, { h1, sub( f, S1 ), x }, sub( computedHSLGInitial, S1 ), FrobeniusRootStrategy => o.FrobeniusRootStrategy ) )));
     )
-    else (
+    else 
+    (
         computedHSLGInitial = sum apply(gensList, x -> first FPureModule( { a1/( pp^c1 - 1 ), 1/cartIndex }, { f, x }, CanonicalIdeal => baseTau, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy ));
         --the e is assumed to be 1 here since we are implicitly doing stuff
         computedHSLG = sum apply(gensList2, x-> sum( apply(u1, h1->frobeniusRoot( b2, {scale*ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1x*ceiling((pp^b2 - 1)/(pp^c1x - 1))}, {h1, x}, sub( computedHSLGInitial, S1 ) ) )));
     );
     if o.Verbose or debugLevel > 1 then
-        print concatenate("compareFPT: testIdeal(f^(t-epsilon)) = ", toString( (computedHSLG* R1 ) : newDenom ));
+        print concatenate( "compareFPT: testIdeal(f^(t-epsilon)) = ", toString( (computedHSLG* R1 ) : newDenom ));
     if isProper( ((computedHSLG * R1 ) : newDenom ) + locMax) then 1 --the fpt we picked is too big
     else 0 --it is the FPT!
 )
 
 compareFPTPoly = method( Options => { AtOrigin => false, FrobeniusRootStrategy => Substitution, Verbose => false } )
 
-compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
+compareFPTPoly ( Number, RingElement ) := o -> ( t, f ) ->
 (
     if o.Verbose or debugLevel > 1 then print "compareFPTPoly: starting";
     --first we gather background info on the ring (QGorenstein generators, etc.)
@@ -790,13 +789,13 @@ compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
     local computedHSLG;
     local computedHSLGInitial;
     local locMax;
-    if o.AtOrigin then (locMax = maxIdeal(S1)) else (locMax = ideal(0_S1));
+    if o.AtOrigin then locMax = maxIdeal S1 else locMax = ideal 0_S1;
 
     h1 := 1_S1;
     --first we do a quick check to see if the test ideal is easy to compute
     computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => true );
     if o.Verbose or debugLevel > 1 then
-        print concatenate("compareFPTPoly: testIdeal(f^t) = ", toString(computedTau));
+        print concatenate( "compareFPTPoly: testIdeal(f^t) = ", toString computedTau );
     if isUnitIdeal (computedTau + locMax) then return -1;
     --at this point we know that this is not the FPT
 
@@ -807,16 +806,16 @@ compareFPTPoly(Number, RingElement) := o -> ( t, f ) ->
         a1quot := floor( ( a1 - 1 )/( pp^c1 - 1 ) );
         a1rem := a1 - ( pp^c1 - 1 )*a1quot;
         computedHSLGInitial = first FPureModule( { a1rem/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 } );
-        computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1quot }, { h1, f }, computedHSLGInitial );
+        computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1quot }, { h1, f }, computedHSLGInitial )
     )
     else
     (
         computedHSLGInitial = first FPureModule( { a1/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 } );
 	--the e is assumed to be 1 here since we are implicitly doing stuff
-        computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, computedHSLGInitial );
+        computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, computedHSLGInitial )
     );
     if o.Verbose or debugLevel > 1 then
-        print concatenate("compareFPTPoly: testIdeal(f^(t-epsilon)) = ", toString(computedHSLG ));
+        print concatenate( "compareFPTPoly: testIdeal(f^(t-epsilon)) = ", toString computedHSLG );
     if isProper (computedHSLG + locMax) then 1 --the fpt we picked is too small
     else 0 --it is the FPT!
 )
@@ -856,13 +855,12 @@ isFPT = method(
 	FrobeniusRootStrategy => Substitution,
 	AssumeDomain => true,
 	QGorensteinIndex => 0,
-    AtOrigin => false,
-    Verbose => false
+        AtOrigin => false,
+        Verbose => false
     },
     TypicalValue => Boolean
 )
 
--- Dan: We should use the "Origin" option somehow...
 isFPT ( Number, RingElement ) := Boolean => o -> ( t, f ) ->
 (
     if o.Verbose or debugLevel > 1 then print "isFPT: starting.";
@@ -879,8 +877,8 @@ isFJumpingExponent = method(
 	FrobeniusRootStrategy => Substitution,
 	AssumeDomain => true,
 	QGorensteinIndex => 0,
-    AtOrigin => false,
-    Verbose => false
+        AtOrigin => false,
+        Verbose => false
     },
     TypicalValue => Boolean
 )
@@ -895,8 +893,8 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
 	    FrobeniusRootStrategy => { Substitution, MonomialBasis },
 	    AssumeDomain => Boolean,
 	    QGorensteinIndex => ZZ,
-        AtOrigin => Boolean,
-        Verbose => Boolean
+            AtOrigin => Boolean,
+            Verbose => Boolean
         }
     );
 
@@ -934,26 +932,30 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         (
             if o.Verbose or debugLevel > 1 then print "isFJumpingExponent: we found a single generating map.";
             computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
-            if o.Verbose or debugLevel > 1 then print concatenate("isFJumpingExponent: testIdeal(f^t) = ", toString(computedTau));
-            if isUnitIdeal(computedTau + locMax) then return false;
+            if o.Verbose or debugLevel > 1 then 
+                print concatenate( "isFJumpingExponent: testIdeal(f^t) = ", toString computedTau );
+            if isUnitIdeal( computedTau + locMax ) then return false;
             --at this point we know that it can't be an F-jumping exponent
             --now we have to run the sigma computation
             baseTau = first testModule( 0/1, 1_R1, CanonicalIdeal => ideal 1_R1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
-            if o.Verbose or debugLevel > 1 then print concatenate("isFJumpingExponent: testIdeal(R) = ", toString(baseTau));
+            if o.Verbose or debugLevel > 1 then 
+                print concatenate( "isFJumpingExponent: testIdeal(R) = ", toString baseTau );
             --the ambient isn't even F-regular
             if a1 > pp^c1 - 1 then
             (
                 a1quot = floor( ( a1 - 1 )/( pp^c1 - 1 ) );
                 a1rem = a1 - ( pp^c1 - 1 )*a1quot;
                 computedHSLGInitial = first FPureModule( { a1rem/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => baseTau, GeneratorList => { h1 } );
-                computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1quot }, { h1, sub( f, S1 ) }, sub( computedHSLGInitial, S1 ) );
+                computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1quot }, { h1, sub( f, S1 ) }, sub( computedHSLGInitial, S1 ) )
             )
-            else (
+            else 
+            (
                 computedHSLGInitial = first FPureModule( { a1/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => baseTau, GeneratorList => { h1 } );
                 --the e is assumed to be 1 here since we are implicitly doing stuff
-                computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, sub( computedHSLGInitial, S1 ) );
+                computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, sub( computedHSLGInitial, S1 ) )
             );
-            if o.Verbose or debugLevel > 1 then print concatenate("isFJumpingExponent: testIdeal(f^(t-epsilon)) = ", toString(sub(computedHSLG, R1)));
+            if o.Verbose or debugLevel > 1 then 
+                print concatenate( "isFJumpingExponent: testIdeal(f^(t-epsilon)) = ", toString sub( computedHSLG, R1 ) );
             if not o.AtOrigin then
                 return not sub( computedHSLG, R1 ) == computedTau
                 --we figured it out, return the value
@@ -963,12 +965,13 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         else h1 = 0_S1
     );
     --now compute the test ideal in the general way (at least if the index does not divide...)
-    if (cartIndex % pp == 0) then error "isFJumpingExponent: This function requires that the Q-Gorenstein index is not divisible by p.";
+    if cartIndex % pp == 0 then 
+        error "isFJumpingExponent: This function requires that the Q-Gorenstein index is not divisible by p.";
     gg := first (trim canIdeal)_*;
     dualCanIdeal :=  ideal gg : canIdeal;
     nMinusKX := reflexivePower( cartIndex, dualCanIdeal );
     gensList := (trim nMinusKX)_*;
-    gensList2 := apply(gensList, x -> sub(x, S1));
+    gensList2 := apply( gensList, x -> sub( x, S1 ) );
 
     omegaAmb := sub( canIdeal, S1 ) + ideal R1;
     u1 := frobeniusTraceOnCanonicalModule( I1, omegaAmb );
@@ -987,24 +990,22 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
     newDenom := reflexify( canIdeal * dualCanIdeal );
     computedTau = ( runningIdeal * R1 ) : newDenom;
     if o.Verbose or debugLevel > 1 then
-        print concatenate("isFJumpingExponent: testIdeal(f^t) = ", toString(computedTau));
-    if isUnitIdeal(computedTau + locMax) then return false;
+        print concatenate( "isFJumpingExponent: testIdeal(f^t) = ", toString computedTau );
+    if isUnitIdeal( computedTau + locMax ) then return false;
     --at this point we know that this is not a jumping number
 
     --now we compute the base tau
     runningIdeal = ideal 0_S1;
     for x in gensList do
-    (
-        runningIdeal = runningIdeal + first testModule( {1/cartIndex}, {x}, CanonicalIdeal => canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain )
-    );
+        runningIdeal = runningIdeal + first testModule( {1/cartIndex}, {x}, CanonicalIdeal => canIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => o.AssumeDomain );
     baseTau = ( runningIdeal * R1 ) : newDenom;
     if o.Verbose or debugLevel > 1 then
-        print concatenate("isFJumpingExponent: testIdeal(R) = ", toString(baseTau));
+        print concatenate( "isFJumpingExponent: testIdeal(R) = ", toString baseTau );
 
     ( a1x, b1x, c1x ) := decomposeFraction( pp, 1/cartIndex, NoZeroC => true );
     c2 := lcm(c1, c1x);
-    b2 := ceiling(b1/c1x)*c1x; -- this is how many times to apply our version of trace
-    scale := pp^(b2-b1);
+    b2 := ceiling( b1/c1x )*c1x; -- this is how many times to apply our version of trace
+    scale := pp^( b2 - b1 );
     if a1 > pp^c1 - 1 then
     (
         a1quot = floor( ( a1 - 1 )/( pp^c1 - 1 ) );
@@ -1012,18 +1013,17 @@ isFJumpingExponent ( Number, RingElement ) := ZZ => o -> ( t, f ) ->
         computedHSLGInitial = sum apply(gensList, x -> first FPureModule( { a1rem/( pp^c1 - 1 ), 1/cartIndex }, { f, x }, CanonicalIdeal => runningIdeal, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy ));
         computedHSLG = sum apply(gensList2, x -> sum( apply(u1, h1 -> frobeniusRoot( b2, { scale*ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), scale*a1quot, a1x*ceiling((pp^b2 - 1)/(pp^c1x - 1)) }, { h1, sub( f, S1 ), x }, sub( computedHSLGInitial, S1 ), FrobeniusRootStrategy => o.FrobeniusRootStrategy ) )));
     )
-    else (
+    else 
+    (
         computedHSLGInitial = sum apply(gensList, x -> first FPureModule( { a1/( pp^c1 - 1 ), 1/cartIndex }, { f, x }, CanonicalIdeal => baseTau, GeneratorList => u1, FrobeniusRootStrategy => o.FrobeniusRootStrategy ));
         --the e is assumed to be 1 here since we are implicitly doing stuff
         computedHSLG = sum apply(gensList2, x-> sum( apply(u1, h1->frobeniusRoot( b2, {scale*ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1x*ceiling((pp^b2 - 1)/(pp^c1x - 1))}, {h1, x}, sub( computedHSLGInitial, S1 ) ) )));
     );
     if o.Verbose or debugLevel > 1 then
-        print concatenate("isFJumpingExponent: testIdeal(f^(t-epsilon)) = ", toString(((computedHSLG * R1 ) : newDenom)));
+        print concatenate( "isFJumpingExponent: testIdeal(f^(t-epsilon)) = ", toString( ( computedHSLG * R1 ) : newDenom ) );
 
-    if not o.AtOrigin then 
-        return not (computedHSLG * R1 ) : newDenom == computedTau
-    else
-        return not saturate( (computedHSLG * R1 ) : newDenom ) == saturate computedTau
+    if not o.AtOrigin then not (computedHSLG * R1 ) : newDenom == computedTau
+    else not saturate( (computedHSLG * R1 ) : newDenom ) == saturate computedTau
 )
 
 isFJumpingExponentPoly = method( Options => { FrobeniusRootStrategy => Substitution, AtOrigin => false, Verbose => false } )
@@ -1040,35 +1040,31 @@ isFJumpingExponentPoly ( Number, RingElement ) := o -> ( t, f ) ->
     computedHSLG := null;
     computedHSLGInitial := null;
     local locMax;
-    if o.AtOrigin then (locMax = maxIdeal(S1)) else (locMax = ideal(0_S1));
+    if o.AtOrigin then locMax = maxIdeal S1 else locMax = ideal 0_S1;
 
-
-    h1 := sub( 1, S1 );
+    h1 := 1_S1;
     --first we do a quick check to see if the test ideal is easy to compute
     computedTau = first testModule( tList, fList, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 }, FrobeniusRootStrategy => o.FrobeniusRootStrategy, AssumeDomain => true );
     if o.Verbose or debugLevel > 1 then
-        print concatenate("isFJumpingExponentPoly: testIdeal(f^t) = ", toString(computedTau));
-    if isUnitIdeal(computedTau + locMax) then return false;
+        print concatenate( "isFJumpingExponentPoly: testIdeal(f^t) = ", toString computedTau );
+    if isUnitIdeal( computedTau + locMax ) then return false;
 
     --now we have to run the sigma computation
     ( a1, b1, c1 ) := decomposeFraction( pp, t, NoZeroC => true );
     if a1 > pp^c1 - 1 then
     (
-        a1quot := floor( ( a1-1 )/( pp^c1 - 1 ) );
-        a1rem := a1 - ( pp^c1-1 )*a1quot;
+        a1quot := floor( ( a1 - 1 )/( pp^c1 - 1 ) );
+        a1rem := a1 - ( pp^c1 - 1 )*a1quot;
         computedHSLGInitial = first FPureModule( { a1rem/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 } );
         computedHSLG = frobeniusRoot( b1, { ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), a1quot }, { h1, f }, computedHSLGInitial );
     )
-    else (
+    else 
+    (
         computedHSLGInitial = first FPureModule( { a1/( pp^c1 - 1 ) }, { f }, CanonicalIdeal => ideal 1_S1, GeneratorList => { h1 } ); --the e is assumed to be 1 here since we are implicitly doing stuff
         computedHSLG = frobeniusRoot( b1, ceiling( ( pp^b1 - 1 )/( pp - 1 ) ), h1, computedHSLGInitial );
     );
     if o.Verbose or debugLevel > 1 then
-        print concatenate("isFJumpingExponentPoly: testIdeal(f^(t-epsilon)) = ", toString(computedTau));
-    if not o.AtOrigin then (
-        not isSubset( computedHSLG, computedTau )
-    )
-    else(
-        not isSubset( saturate(computedHSLG), saturate(computedTau) )
-    )
+        print concatenate( "isFJumpingExponentPoly: testIdeal(f^(t-epsilon)) = ", toString computedTau );
+    if not o.AtOrigin then not isSubset( computedHSLG, computedTau )
+    else not isSubset( saturate computedHSLG, saturate computedTau )
 )
