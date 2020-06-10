@@ -68,7 +68,7 @@ doc ///
              compareFPT(1/2, x)
              compareFPT(13/25, x)
         Text
-           Consider a Veronese embedding (which is étale in codimension 1),
+           Consider a Veronese subring (whose inclusion in the ambient polynomial ring is étale in codimension 1),
             so the $F$-pure threshold of the given polynomial (in this case 19/125) should be independent of which ring we are in.
         Example
             T = ZZ/5[a,b];
