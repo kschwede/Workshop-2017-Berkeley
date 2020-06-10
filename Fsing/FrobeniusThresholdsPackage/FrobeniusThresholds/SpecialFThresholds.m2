@@ -58,7 +58,7 @@ diagonalFPT = method( TypicalValue => QQ )
 diagonalFPT RingElement := QQ => f ->
 (
     p := char ring f;
-    w := apply( exponents f, i -> 1/(sum i));
+    w := apply( exponents f, i -> 1/(sum i) );
     -- w = list of reciprocals of the powers of the variables appearing in f
     fc := firstCarry( p, w );
     if fc == -1 then sum w
@@ -143,10 +143,10 @@ calculateEpsilon = ( P1, P2, v, w ) ->
     Y := 0;
     if isInInteriorPolytope( P1, v, w ) then
     	-- find how far we can move from P1 in the x direction
-        X = min apply( nonzeroPositions v, i -> (1 - (v#i)*(P1#0) - (w#i)*(P1#1))/(v#i) );
+        X = min apply( nonzeroPositions v, i -> ( 1 - v#i * P1#0 - w#i * P1#1 )/v#i );
     if isInInteriorPolytope( P2, v, w ) then
     	-- find how far we can move from P2 in the y direction
-	Y = min apply( nonzeroPositions w, i -> (1 - (v#i)*(P2#0) - (w#i)*(P2#1))/(w#i) );
+	Y = min apply( nonzeroPositions w, i -> ( 1 - v#i * P2#0 - w#i * P2#1 )/w#i );
     max( X, Y )
 )
 
@@ -345,7 +345,7 @@ binaryFormFPTInternal ( List, FTData ) := QQ => opt -> ( a, S ) ->
     if pos != { } then
     (
 	if opt#Verbose then
-	    print( "One of the multiplicities, a_i = " | toString a_pos_0 | ", is >= degree(F)/2, so fpt(F) = 1/a_i.");
+	    print( "One of the multiplicities, a_i = " | toString a_pos_0 | ", is >= degree(F)/2, so fpt(F) = 1/a_i." );
 	return  1/a_pos_0
     );
 
@@ -526,7 +526,7 @@ isSimpleNormalCrossing Product := Boolean => o -> ff ->
     termList = select( termList, z -> not isUnit z ); --strip out units that factor returned
     if o.AtOrigin then termList = select( termList, z -> z % myMax == 0 ); --select factors in the maximal ideal
     if o.Verbose then print( "isSimpleNormalCrossing: the relevant terms are " | toString termList );
-    if o.AtOrigin and #termList == d and myMax == ideal apply( termList, t -> t % (myMax^2) ) then
+    if o.AtOrigin and #termList == d and myMax == ideal apply( termList, t -> t % myMax^2 ) then
     (
         if o.Verbose then print "isSimpleNormalCrossing: obviously a regular sop at the origin";
         return true  

@@ -25,7 +25,7 @@ Consider renaming "fpt" to "pureThreshold" and "isFPT" to "isPureThreshold".
 Consider removing redundant parentheses...
 
 -----------------------------------------------------------------------------
-In progress...
+We believe we have now removed the vast majority of redundant parentheses.
 -----------------------------------------------------------------------------
 
 *****************************************************************************
