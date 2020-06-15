@@ -296,7 +296,6 @@ neighborInUpperRegion ( List, ZZ, FTData ) := Sequence => ( a, q, S ) ->
 	-- candidate = a - e_i
        if isInUpperRegion( candidate, q, S ) then return candidate/q
     );
-    null
 )
 
 neighborInUpperRegion ( List, FTData ) := List => ( u, S ) ->
