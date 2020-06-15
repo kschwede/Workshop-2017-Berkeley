@@ -290,6 +290,7 @@ getNonzeroGenerator := I2 ->
         i = i + 1
     );
     if found then genList#(i-1)
+    else null
 )
 
 isLocallyPrincipalIdeal = method()
