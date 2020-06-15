@@ -136,6 +136,10 @@ This
 
 is ambiguous.  Do you mean "is a split surjection" or "is a split injection"?
 
+-----------------------------------------------------------------------------
+We removed the ambiguity, saying it is a split injection. 
+-----------------------------------------------------------------------------
+
 *****************************************************************************
 
 It would be better if comments in the displayed example code, such as "uses
@@ -143,6 +147,10 @@ binary search (default)", were in the surrounding text, because then complete
 sentences could be used, and they would be read by the reader in the normal
 sequence.  For this purpose, displays could be split, to allow comments in the
 text between the two parts.
+
+-----------------------------------------------------------------------------
+Those comments were removed and incorporated in surrounding text. 
+-----------------------------------------------------------------------------
 
 *****************************************************************************
 
@@ -156,6 +164,10 @@ The displayed examples are now shown in black.
 *****************************************************************************
 
 The displayed example output would look better if it were indented.
+
+-----------------------------------------------------------------------------
+They are now indented.
+-----------------------------------------------------------------------------
 
 *****************************************************************************
 

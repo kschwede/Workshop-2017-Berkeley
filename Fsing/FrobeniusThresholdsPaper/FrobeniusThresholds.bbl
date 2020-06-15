@@ -34,7 +34,8 @@
 {\sc A.~F. Boix, D.~J. Hern\'andez, Z.~Kadyrsizova, M.~Katzman, S.~Malec,
   M.~Mastroeni, M.~Mostafazadeh\-fard, M.~Robinson, K.~Schwede, D.~Smolkin,
   P.~Teixeira, and E.~E. Witt}: \emph{{The \emph{TestIdeals} package for
-  \emph{Macaulay2}}}, 2019.
+  \emph{Macaulay2}}}, J. Softw. Algebra Geom. \textbf{9} (2019), no.~2,
+  89--110.
 
 \bibitem[BHS{\etalchar{+}}]{FThresholdsPackage}
 {\sc J.~Bruce, D.~J. Hern\'andez, K.~Schwede, D.~Smolkin, P.~Teixeira, and
@@ -75,10 +76,9 @@
   functions\textup: {S}yzygy gap fractals and the two-variable homogeneous
   case}, J.\ Symbolic Comput. \textbf{80} (2017), 451--483.
 
-\bibitem[HTW18]{hernandez+etal.frobenius_powers}
+\bibitem[HTW19]{hernandez+etal.frobenius_powers}
 {\sc D.~J. Hern\'andez, P.~Teixeira, and E.~E. Witt}: \emph{Frobenius powers},
-  preprint, \href{https://arxiv.org/abs/1802.02705}{arXiv:1802.02705
-  [math.AC]}, 2018.
+  Math.\ Z. (2019), 1--32.
 
 \bibitem[Her12]{HernandezFPurityOfHypersurfaces}
 {\sc D.~J. Hern\'{a}ndez}: \emph{{$F$}-purity of hypersurfaces}, Math. Res.
