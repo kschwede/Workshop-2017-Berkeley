@@ -47,7 +47,7 @@ export{
     "isFJumpingExponent",
     "isFPT",
     "isSimpleNormalCrossing",
-    "nu",
+    "frobeniusNu",
     "ReturnList",
     "Search",
     "StandardPower",

@@ -12,12 +12,30 @@ file.
 The package TestIdeals has already been published, and there is no need to
 include it in the zip file.
 
+-----------------------------------------------------------------------------
+Done.
+-----------------------------------------------------------------------------
+
+*****************************************************************************
+
 Consider choosing a better name for the function "nu", which is simply the
 English spelling of a random Greek letter, and thus is not descriptive.
 Something with words in it, such as "containmentPower", or even "index".
 
+-----------------------------------------------------------------------------
+We replaced "nu" with "frobeniusNu", which, although still not descriptive,
+at least establishes a context. Having "Nu" as part of the name allows the
+user to relate this to the terminology/notation used in the literature.
+-----------------------------------------------------------------------------
+
+*****************************************************************************
+
 Consider renaming "fpt" to "pureThreshold" and "isFPT" to "isPureThreshold".
 (The "F" for "Frobenius" can be assumed.)
+
+-----------------------------------------------------------------------------
+We chose to leave it unchanged, as "fpt" is a very standard abbreviation.
+-----------------------------------------------------------------------------
 
 *****************************************************************************
 

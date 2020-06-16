@@ -16,7 +16,7 @@ document {
       {TO "fpt", " computes (or estimates) the ", TEX ///$F$///, "-pure threshold."},
       {TO "isFJumpingExponent", " checks whether a given number is an ", TEX ///$F$///, "-jumping exponent."},
       {TO "compareFPT", " determines whether the given number is greater than, less than, or equal to the ", TEX ///$F$///, "-pure threshold."},
-      {TO "nu", " is a function whose normalized value provides a canonical estimate for the ", TEX ///$F$///, "-pure threshold, ", TEX ///$F$///, "-thresholds, and more."}
+      {TO "frobeniusNu", " is a function whose normalized value provides a canonical estimate for the ", TEX ///$F$///, "-pure threshold, ", TEX ///$F$///, "-thresholds, and more."}
 	},
 	"The following example demonstrates some of the functionality of this package.",
  BR{},BR{},

@@ -7,7 +7,7 @@
 ---------------------------------------------------------------------------------
 -- Nu computations
 
--- Main function: nu
+-- Main function: frobeniusNu
 
 -- Auxiliary Functions: nu1, binarySearch, binarySearchRecursive, linearSearch,
 --     testPower, testRoot, testFrobeniusPower, nuInternal
@@ -251,15 +251,15 @@ nuInternal = optNu >> o -> ( n, f, J ) ->
 -- EXPORTED METHODS
 ---------------------------------------------------------------------------------
 
-nu = method( Options => optNu )
+frobeniusNu = method( Options => optNu )
 
-nu ( ZZ, Ideal, Ideal ) := o -> ( e, I, J ) -> nuInternal( e, I, J, o )
+frobeniusNu ( ZZ, Ideal, Ideal ) := o -> ( e, I, J ) -> nuInternal( e, I, J, o )
 
-nu ( ZZ, RingElement, Ideal ) := o -> ( e, f, J ) -> nuInternal( e, f, J, o )
+frobeniusNu ( ZZ, RingElement, Ideal ) := o -> ( e, f, J ) -> nuInternal( e, f, J, o )
 
-nu ( ZZ, Ideal ) := o -> ( e, I ) -> nu( e, I, maxIdeal I, o )
+frobeniusNu ( ZZ, Ideal ) := o -> ( e, I ) -> frobeniusNu( e, I, maxIdeal I, o )
 
-nu ( ZZ, RingElement ) := o -> ( e, f ) -> nu( e, f, maxIdeal f, o )
+frobeniusNu ( ZZ, RingElement ) := o -> ( e, f ) -> frobeniusNu( e, f, maxIdeal f, o )
 
 --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ---------------------------------------------------------------------------------
@@ -470,14 +470,14 @@ fpt RingElement := o -> f ->
     -- COMPUTE NU TO FIND UPPER AND LOWER BOUNDS --
     -----------------------------------------------
     e := o.DepthOfSearch;
-    n := nu( e, f, AtOrigin => o.AtOrigin, UseSpecialAlgorithms => false );
+    n := frobeniusNu( e, f, AtOrigin => o.AtOrigin, UseSpecialAlgorithms => false );
     LB := n/(p^e - 1); -- lower bound (because of forbidden intervals)
     UB := (n + 1)/p^e; -- upper bound
     strictLB := false; -- at this point, LB and UB *could* be the fpt
     strictUB := false;
     if o.Verbose then
     (
-         print( "ν has been computed: ν = nu(" | toString e | ",f) = " | toString n | " ..." );
+         print( "ν has been computed: ν = frobeniusNu(" | toString e | ",f) = " | toString n | " ..." );
          print( "fpt lies in the interval [ν/(p^e-1),(ν+1)/p^e] = [" | toString LB | "," | toString UB | "] ..." )
     );
     if LB < (o.Bounds)#0 then
@@ -489,7 +489,7 @@ fpt RingElement := o -> f ->
     if UB > (o.Bounds)#1 then
     (
         if o.Verbose then
-            print( "The upper bound (nu+1)/p^e = " | toString UB | " was replaced with " | toString( (o.Bounds)#1 ) );
+            print( "The upper bound (ν+1)/p^e = " | toString UB | " was replaced with " | toString( (o.Bounds)#1 ) );
         UB = (o.Bounds)#1
     );
 

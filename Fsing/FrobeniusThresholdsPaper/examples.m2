@@ -11,48 +11,48 @@ restart
 R = ZZ/11[x,y];
 I = ideal(x^2 + y^3, x*y);
 J = ideal(x^2, y^3);
-nu(2, I, J)
+frobeniusNu(2, I, J)
 f = x*y*(x^2 + y^2);
-nu(2, f, J)
+frobeniusNu(2, f, J)
 
 ------------------------------------------------------------------
 
 R = ZZ/17[x,y,z];
 f = x^3 + y^4 + z^5; -- a diagonal polynomial
-time nu(10, f)
-time nu(10, f, UseSpecialAlgorithms => false)
+time frobeniusNu(10, f)
+time frobeniusNu(10, f, UseSpecialAlgorithms => false)
 
 ------------------------------------------------------------------
 
 R = ZZ/5[x,y,z];
 m = ideal(x, y, z);
-time nu(2, m, m^2) -- uses binary search (default)
-time nu(2, m, m^2, Search => Linear) -- but linear search gets luckier
+time frobeniusNu(2, m, m^2) -- uses binary search (default)
+time frobeniusNu(2, m, m^2, Search => Linear) -- but linear search gets luckier
 
 ------------------------------------------------------------------
 
-nu(5, x^2*y^4 + y^2*z^7 + z^2*x^8, ReturnList => true)
+frobeniusNu(5, x^2*y^4 + y^2*z^7 + z^2*x^8, ReturnList => true)
 
 ------------------------------------------------------------------
 
 R = ZZ/11[x,y,z];
 f = x^3 + y^3 + z^3 + x*y*z;
-time nu(3, f) -- ContainmentTest is set to FrobeniusRoot, by default
-time nu(3, f, ContainmentTest => StandardPower)
+time frobeniusNu(3, f) -- ContainmentTest is set to FrobeniusRoot, by default
+time frobeniusNu(3, f, ContainmentTest => StandardPower)
 
 ------------------------------------------------------------------
 
 R = ZZ/3[x,y];
 m = ideal(x, y);
-nu(4, m^5)
-nu(4, m^5, ContainmentTest => FrobeniusPower)
+frobeniusNu(4, m^5)
+frobeniusNu(4, m^5, ContainmentTest => FrobeniusPower)
 
 ------------------------------------------------------------------
 
 R = ZZ/7[x,y];
 f = (x - 1)^3 - (y - 2)^2;
-nu(3, f)
-nu(3, f, AtOrigin => false)
+frobeniusNu(3, f)
+frobeniusNu(3, f, AtOrigin => false)
 
 ------------------------------------------------------------------
 -- COMPARISONS
